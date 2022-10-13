@@ -37,7 +37,7 @@ a <-reticulate::conda_create(
   envname = conda_env 
 )
 
-reticulate::use_conda(conda_env)
+reticulate::use_condaenv(conda_env)
 
 reticulate::conda_install(conda_env,
                        c("pandas"))
