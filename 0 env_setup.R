@@ -1,0 +1,64 @@
+# renv::init(bare=TRUE)
+# .rs.restartR()
+options(repos = c(
+  CRAN = "https://cloud.r-project.org",
+  carlos="https://carlosyanez.r-universe.dev"
+))
+
+install.packages("just.install", repos ="https://carlosyanez.r-universe.dev")
+install.packages("remotes")
+install.packages("tidyverse")
+
+packages_to_install <- tibble::tribble(
+  ~package, ~source, ~url,
+  "here", "CRAN", "",
+  "fs", "CRAN", "",
+  "gitignore", "CRAN", "",
+  "usethis", "CRAN", "",
+  "box","CRAN","",
+  "reticulate", "CRAN", "",
+  "customthemes", "Github", "carlosyanez/customthemes", # custom theme package
+  "uofgdataanalyticsreport", "Github", "carlosyanez/uofgdataanalyticsreport", # this template
+  "ggspatial","CRAN","",
+  "sf","CRAN","",
+  "patchwork","CRAN","",
+  "yaml", "CRAN","",
+  "rmarkdown","CRAN","",
+  "ganttrify","Github","giocomai/ganttrify"
+)
+
+just.install::justinstall(packages_to_install)
+
+
+# set up python environment
+conda_env <- "msc_project"
+
+a <-reticulate::conda_create(
+  envname = conda_env 
+)
+
+reticulate::use_conda(conda_env)
+
+reticulate::conda_install(conda_env,
+                       c("pandas"))
+
+
+
+
+
+## CREATE SNAPSHOT
+renv::snapshot(prompt = FALSE)
+#remove prefix from environment.yml (removing local reference, which is not needed)
+env_yml <- readLines("environment.yml")
+env_yml <- env_yml[1:(length(env_yml)-1)]
+write(env_yml,"environment.yml")
+
+gitignore.file <- here::here(".gitignore")
+new_lines <- gitignore::gi_fetch_templates("r")
+gitignore::gi_write_gitignore(fetched_template = new_lines, gitignore_file = gitignore.file)
+usethis::git_vaccinate()
+
+
+rm(list = ls())
+
+
