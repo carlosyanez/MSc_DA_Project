@@ -23,6 +23,8 @@ output:
 
 ```{r setup, include = FALSE}
 library(tidyverse)
+library(uofgdataanalyticsreport)
+library(ganttrify)
 
 ```
 
@@ -32,3 +34,6 @@ cd_page_title()     #title page
 
 #to customise, run ?function to see the relevant parameters
 ```
+
+
+

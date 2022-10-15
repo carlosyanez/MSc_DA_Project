@@ -32,7 +32,8 @@ packages_to_install <- tibble::tribble(
 ### 
 ##  "bomrang","Github","ropensci/bomrang",   # get data from BOM # bomrang is not working anymore, due to changes on bom's website
  "cropgrowdays","CRAN","",
- "readabs","CRAN",""
+ "readabs","CRAN","",
+"Census2021.DataPack","local","../Census2021.DataPack" #too large to install from github, cloned first https://github.com/carlosyanez/Census2021.DataPack
 ##
 )
 

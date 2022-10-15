@@ -26,6 +26,15 @@ write_csv(sample_historical_melb,path(this_dir,"sample_bom_mel.csv"))
 
 ### Census Data ----
 
+#Census 2021
+write_csv(Census2021.DataPack::CED__Ancestry,path(this_dir,"census_ancestry.csv"))
+write_csv(Census2021.DataPack::CED__medianTotalHouseholdIncome,path(this_dir,"household_income.csv"))
+write_csv(Census2021.DataPack::CED__Age.min_Sex,path(this_dir,"census_age.csv"))
+write_csv(Census2021.DataPack::CED__Religion_Denomination_Sex,path(this_dir,"census_religion.csv"))
+write_csv(Census2021.DataPack::CED__OnlyEnglishSpokenHome,path(this_dir,"census_english.csv"))
+
+
+
 
 
 ### ABS Data ----

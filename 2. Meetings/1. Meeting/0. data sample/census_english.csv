@@ -1,0 +1,339 @@
+CED_NAME21,OnlyEnglishSpokenHome,persons
+Banks,FALSE,75423
+Banks,TRUE,79993
+Barton,FALSE,103562
+Barton,TRUE,67338
+Bennelong,FALSE,100168
+Bennelong,TRUE,83398
+Berowra,FALSE,46439
+Berowra,TRUE,102018
+Blaxland,FALSE,126652
+Blaxland,TRUE,45785
+Bradfield,FALSE,65166
+Bradfield,TRUE,99107
+Calare,FALSE,8186
+Calare,TRUE,148123
+Chifley,FALSE,94772
+Chifley,TRUE,92904
+Cook,FALSE,32629
+Cook,TRUE,110423
+Cowper,FALSE,9390
+Cowper,TRUE,149279
+Cunningham,FALSE,26909
+Cunningham,TRUE,127483
+Dobell,FALSE,10654
+Dobell,TRUE,143308
+Eden-Monaro,FALSE,12747
+Eden-Monaro,TRUE,138683
+Farrer,FALSE,14907
+Farrer,TRUE,144778
+Fowler,FALSE,117459
+Fowler,TRUE,43208
+Gilmore,FALSE,7647
+Gilmore,TRUE,145381
+Grayndler,FALSE,35890
+Grayndler,TRUE,108065
+Greenway,FALSE,95478
+Greenway,TRUE,95650
+Hughes,FALSE,26315
+Hughes,TRUE,119048
+Hume,FALSE,13200
+Hume,TRUE,150163
+Hunter,FALSE,7486
+Hunter,TRUE,156851
+Kingsford Smith,FALSE,62272
+Kingsford Smith,TRUE,108550
+Lindsay,FALSE,35601
+Lindsay,TRUE,140101
+Lyne,FALSE,4348
+Lyne,TRUE,143609
+Macarthur,FALSE,67186
+Macarthur,TRUE,126911
+Mackellar,FALSE,22912
+Mackellar,TRUE,126909
+Macquarie,FALSE,9827
+Macquarie,TRUE,129796
+McMahon,FALSE,94350
+McMahon,TRUE,68913
+Mitchell,FALSE,75950
+Mitchell,TRUE,107097
+New England,FALSE,8717
+New England,TRUE,136639
+Newcastle,FALSE,17670
+Newcastle,TRUE,140700
+North Sydney,FALSE,50150
+North Sydney,TRUE,110241
+Page,FALSE,7771
+Page,TRUE,148134
+Parkes,FALSE,7218
+Parkes,TRUE,129567
+Parramatta,FALSE,124462
+Parramatta,TRUE,64772
+Paterson,FALSE,8412
+Paterson,TRUE,159215
+Reid,FALSE,109040
+Reid,TRUE,81637
+Richmond,FALSE,10026
+Richmond,TRUE,145033
+Riverina,FALSE,9410
+Riverina,TRUE,140614
+Robertson,FALSE,13046
+Robertson,TRUE,131452
+Shortland,FALSE,7216
+Shortland,TRUE,138593
+Sydney,FALSE,72381
+Sydney,TRUE,117313
+Warringah,FALSE,25534
+Warringah,TRUE,120160
+Watson,FALSE,115098
+Watson,TRUE,54984
+Wentworth,FALSE,26271
+Wentworth,TRUE,111590
+Werriwa,FALSE,111483
+Werriwa,TRUE,74934
+Whitlam,FALSE,17493
+Whitlam,TRUE,143112
+No usual address (NSW),FALSE,1150
+No usual address (NSW),TRUE,6417
+Migratory - Offshore - Shipping (NSW),FALSE,0
+Migratory - Offshore - Shipping (NSW),TRUE,0
+Aston,FALSE,45732
+Aston,TRUE,108159
+Ballarat,FALSE,9407
+Ballarat,TRUE,134667
+Bendigo,FALSE,9085
+Bendigo,TRUE,133894
+Bruce,FALSE,83669
+Bruce,TRUE,84612
+Calwell,FALSE,109831
+Calwell,TRUE,66341
+Casey,FALSE,12500
+Casey,TRUE,139114
+Chisholm,FALSE,92059
+Chisholm,TRUE,84386
+Cooper,FALSE,49861
+Cooper,TRUE,99594
+Corangamite,FALSE,10675
+Corangamite,TRUE,135313
+Corio,FALSE,22788
+Corio,TRUE,127478
+Deakin,FALSE,42387
+Deakin,TRUE,118998
+Dunkley,FALSE,16921
+Dunkley,TRUE,133390
+Flinders,FALSE,8011
+Flinders,TRUE,133808
+Fraser,FALSE,93895
+Fraser,TRUE,70818
+Gellibrand,FALSE,77173
+Gellibrand,TRUE,102615
+Gippsland,FALSE,7887
+Gippsland,TRUE,134378
+Goldstein,FALSE,31584
+Goldstein,TRUE,117819
+Gorton,FALSE,88841
+Gorton,TRUE,78373
+Hawke,FALSE,35100
+Hawke,TRUE,121179
+Higgins,FALSE,38194
+Higgins,TRUE,110412
+Holt,FALSE,78879
+Holt,TRUE,98187
+Hotham,FALSE,110949
+Hotham,TRUE,75459
+Indi,FALSE,7822
+Indi,TRUE,138386
+Isaacs,FALSE,43368
+Isaacs,TRUE,111369
+Jagajaga,FALSE,31331
+Jagajaga,TRUE,122659
+Kooyong,FALSE,48247
+Kooyong,TRUE,110140
+La Trobe,FALSE,42571
+La Trobe,TRUE,118865
+Lalor,FALSE,94570
+Lalor,TRUE,94342
+Macnamara,FALSE,43454
+Macnamara,TRUE,114513
+Mallee,FALSE,13953
+Mallee,TRUE,140635
+Maribyrnong,FALSE,43935
+Maribyrnong,TRUE,103430
+McEwen,FALSE,25340
+McEwen,TRUE,127556
+Melbourne,FALSE,72018
+Melbourne,TRUE,114188
+Menzies,FALSE,76877
+Menzies,TRUE,90405
+Monash,FALSE,7095
+Monash,TRUE,129986
+Nicholls,FALSE,16208
+Nicholls,TRUE,131544
+Scullin,FALSE,86788
+Scullin,TRUE,75286
+Wannon,FALSE,6161
+Wannon,TRUE,137470
+Wills,FALSE,55638
+Wills,TRUE,95531
+No usual address (Vic.),FALSE,977
+No usual address (Vic.),TRUE,4485
+Migratory - Offshore - Shipping (Vic.),FALSE,5
+Migratory - Offshore - Shipping (Vic.),TRUE,13
+Blair,FALSE,18069
+Blair,TRUE,160014
+Bonner,FALSE,35899
+Bonner,TRUE,121271
+Bowman,FALSE,11835
+Bowman,TRUE,141607
+Brisbane,FALSE,33591
+Brisbane,TRUE,140323
+Capricornia,FALSE,8144
+Capricornia,TRUE,135107
+Dawson,FALSE,11728
+Dawson,TRUE,135094
+Dickson,FALSE,14003
+Dickson,TRUE,140402
+Fadden,FALSE,27325
+Fadden,TRUE,155747
+Fairfax,FALSE,10412
+Fairfax,TRUE,150378
+Fisher,FALSE,10537
+Fisher,TRUE,152874
+Flynn,FALSE,7697
+Flynn,TRUE,136827
+Forde,FALSE,26920
+Forde,TRUE,154134
+Griffith,FALSE,34803
+Griffith,TRUE,133983
+Groom,FALSE,15178
+Groom,TRUE,137383
+Herbert,FALSE,13748
+Herbert,TRUE,137454
+Hinkler,FALSE,7976
+Hinkler,TRUE,139368
+Kennedy,FALSE,15147
+Kennedy,TRUE,138101
+Leichhardt,FALSE,32482
+Leichhardt,TRUE,125859
+Lilley,FALSE,25196
+Lilley,TRUE,129719
+Longman,FALSE,11554
+Longman,TRUE,163809
+Maranoa,FALSE,5725
+Maranoa,TRUE,131789
+McPherson,FALSE,18049
+McPherson,TRUE,137166
+Moncrieff,FALSE,32419
+Moncrieff,TRUE,136093
+Moreton,FALSE,60842
+Moreton,TRUE,100457
+Oxley,FALSE,57825
+Oxley,TRUE,116176
+Petrie,FALSE,27197
+Petrie,TRUE,149896
+Rankin,FALSE,59615
+Rankin,TRUE,115039
+Ryan,FALSE,28920
+Ryan,TRUE,130004
+Wide Bay,FALSE,5767
+Wide Bay,TRUE,136092
+Wright,FALSE,12069
+Wright,TRUE,159046
+No usual address (Qld),FALSE,1184
+No usual address (Qld),TRUE,9972
+Migratory - Offshore - Shipping (Qld),FALSE,22
+Migratory - Offshore - Shipping (Qld),TRUE,32
+Adelaide,FALSE,70728
+Adelaide,TRUE,118480
+Barker,FALSE,10033
+Barker,TRUE,149959
+Boothby,FALSE,31529
+Boothby,TRUE,138771
+Grey,FALSE,9597
+Grey,TRUE,148871
+Hindmarsh,FALSE,39957
+Hindmarsh,TRUE,126449
+Kingston,FALSE,14170
+Kingston,TRUE,146082
+Makin,FALSE,40772
+Makin,TRUE,126383
+Mayo,FALSE,7369
+Mayo,TRUE,158912
+Spence,FALSE,35418
+Spence,TRUE,142501
+Sturt,FALSE,57405
+Sturt,TRUE,124276
+No usual address (SA),FALSE,314
+No usual address (SA),TRUE,2261
+Migratory - Offshore - Shipping (SA),FALSE,8
+Migratory - Offshore - Shipping (SA),TRUE,0
+Brand,FALSE,20865
+Brand,TRUE,149187
+Burt,FALSE,55709
+Burt,TRUE,116105
+Canning,FALSE,11547
+Canning,TRUE,138997
+Cowan,FALSE,62443
+Cowan,TRUE,108238
+Curtin,FALSE,28698
+Curtin,TRUE,136913
+Durack,FALSE,21894
+Durack,TRUE,151157
+Forrest,FALSE,11256
+Forrest,TRUE,136986
+Fremantle,FALSE,31209
+Fremantle,TRUE,127670
+Hasluck,FALSE,29311
+Hasluck,TRUE,135282
+Moore,FALSE,17418
+Moore,TRUE,141710
+O'Connor,FALSE,13141
+O'Connor,TRUE,145037
+Pearce,FALSE,31434
+Pearce,TRUE,138285
+Perth,FALSE,45189
+Perth,TRUE,126392
+Swan,FALSE,53251
+Swan,TRUE,124871
+Tangney,FALSE,55133
+Tangney,TRUE,121643
+No usual address (WA),FALSE,486
+No usual address (WA),TRUE,4079
+Migratory - Offshore - Shipping (WA),FALSE,66
+Migratory - Offshore - Shipping (WA),TRUE,232
+Bass,FALSE,9380
+Bass,TRUE,94958
+Braddon,FALSE,4341
+Braddon,TRUE,99113
+Clark,FALSE,21543
+Clark,TRUE,85174
+Franklin,FALSE,9535
+Franklin,TRUE,97140
+Lyons,FALSE,3808
+Lyons,TRUE,102497
+No usual address (Tas.),FALSE,74
+No usual address (Tas.),TRUE,978
+Migratory - Offshore - Shipping (Tas.),FALSE,0
+Migratory - Offshore - Shipping (Tas.),TRUE,11
+Lingiari,FALSE,46293
+Lingiari,TRUE,61412
+Solomon,FALSE,29619
+Solomon,TRUE,70784
+No usual address (NT),FALSE,551
+No usual address (NT),TRUE,1605
+Migratory - Offshore - Shipping (NT),FALSE,11
+Migratory - Offshore - Shipping (NT),TRUE,63
+Bean,FALSE,30360
+Bean,TRUE,116516
+Canberra,FALSE,32031
+Canberra,TRUE,105717
+Fenner,FALSE,49988
+Fenner,TRUE,102568
+No usual address (ACT),FALSE,81
+No usual address (ACT),TRUE,400
+Migratory - Offshore - Shipping (ACT),FALSE,0
+Migratory - Offshore - Shipping (ACT),TRUE,0
+No usual address (OT),FALSE,5
+No usual address (OT),TRUE,5
+Migratory - Offshore - Shipping (OT),FALSE,0
+Migratory - Offshore - Shipping (OT),TRUE,0
