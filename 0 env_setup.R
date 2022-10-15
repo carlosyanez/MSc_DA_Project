@@ -26,6 +26,7 @@ packages_to_install <- tibble::tribble(
   "yaml", "CRAN","",
   "rmarkdown","CRAN","",
   "openxlsx","CRAN","",
+  "flextable","CRAN","",
 ### used for this project
   "ganttrify","Github","giocomai/ganttrify", # gantt charts
 ### 
