@@ -1,0 +1,34 @@
+---
+title           : "Data Exploration"
+programme       : "Data Analytics MSc (ODL)"
+subject         : "Project"
+author          : "Carlos Yanez Santibanez"
+date            : "15 October 2022"
+
+documentclass   : article   # article (default) report
+fontsize        : 11pt      # 10pt 11pt (default) 12pt
+lang            : en-GB
+
+output:
+  bookdown::pdf_book:
+    base_format: uofgdataanalyticsreport::uofgdataanalyticsreport
+    pandoc_args: --listings
+    fig_caption: yes
+    number_sections: yes
+    toc: no
+    md_extensions: +yaml_metadata_block
+
+---
+
+
+```{r setup, include = FALSE}
+library(tidyverse)
+
+```
+
+```{r title_page, echo=FALSE,include=TRUE}
+cd_header_footer()  #adds header and footer
+cd_page_title()     #title page
+
+#to customise, run ?function to see the relevant parameters
+```

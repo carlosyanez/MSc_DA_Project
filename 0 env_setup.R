@@ -25,11 +25,13 @@ packages_to_install <- tibble::tribble(
   "patchwork","CRAN","",
   "yaml", "CRAN","",
   "rmarkdown","CRAN","",
+  "openxlsx","CRAN","",
 ### used for this project
   "ganttrify","Github","giocomai/ganttrify", # gantt charts
 ### 
 ##  "bomrang","Github","ropensci/bomrang",   # get data from BOM # bomrang is not working anymore, due to changes on bom's website
  "cropgrowdays","CRAN","",
+ "readabs","CRAN",""
 ##
 )
 
