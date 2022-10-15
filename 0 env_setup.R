@@ -11,6 +11,7 @@ install.packages("tidyverse")
 
 packages_to_install <- tibble::tribble(
   ~package, ~source, ~url,
+### general packages
   "here", "CRAN", "",
   "fs", "CRAN", "",
   "gitignore", "CRAN", "",
@@ -24,23 +25,28 @@ packages_to_install <- tibble::tribble(
   "patchwork","CRAN","",
   "yaml", "CRAN","",
   "rmarkdown","CRAN","",
-  "ganttrify","Github","giocomai/ganttrify"
+### used for this project
+  "ganttrify","Github","giocomai/ganttrify", # gantt charts
+### 
+##  "bomrang","Github","ropensci/bomrang",   # get data from BOM # bomrang is not working anymore, due to changes on bom's website
+ "cropgrowdays","CRAN","",
+##
 )
 
 just.install::justinstall(packages_to_install)
 
 
 # set up python environment
-conda_env <- "msc_project"
+#conda_env <- "msc_project"
 
-a <-reticulate::conda_create(
-  envname = conda_env 
-)
+#a <-reticulate::conda_create(
+#  envname = conda_env 
+#)
 
-reticulate::use_condaenv(conda_env)
+#reticulate::use_condaenv(conda_env)
 
-reticulate::conda_install(conda_env,
-                       c("pandas"))
+#reticulate::conda_install(conda_env,
+#                       c("pandas"))
 
 
 
@@ -49,9 +55,9 @@ reticulate::conda_install(conda_env,
 ## CREATE SNAPSHOT
 renv::snapshot(prompt = FALSE)
 #remove prefix from environment.yml (removing local reference, which is not needed)
-env_yml <- readLines("environment.yml")
-env_yml <- env_yml[1:(length(env_yml)-1)]
-write(env_yml,"environment.yml")
+#env_yml <- readLines("environment.yml")
+#env_yml <- env_yml[1:(length(env_yml)-1)]
+#write(env_yml,"environment.yml")
 
 gitignore.file <- here::here(".gitignore")
 new_lines <- gitignore::gi_fetch_templates("r")
