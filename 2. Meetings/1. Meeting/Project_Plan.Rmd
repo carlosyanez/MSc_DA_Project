@@ -17,9 +17,12 @@ output:
     number_sections: yes
     toc: no
     md_extensions: +yaml_metadata_block
+header-includes: 
+- \usepackage{pdflscape}
+- \newcommand{\blandscape}{\begin{landscape}}
+- \newcommand{\elandscape}{\end{landscape}}
 
 ---
-
 
 ```{r setup, include = FALSE}
 library(tidyverse)
@@ -33,6 +36,20 @@ library(sysfonts)
 sysfonts::font_add_google("Roboto","Roboto")
 showtext::showtext_auto()
 
+
+knitr::opts_chunk$set(
+ # fig.width=9, fig.height=3.5, fig.retina=3,
+  out.width = "100%",
+  cache = FALSE,
+  echo = FALSE,
+  eval = TRUE,
+  include=TRUE,
+  message = FALSE, 
+  warning = FALSE,
+  fig.show = TRUE,
+  hiline = TRUE
+)
+
 ```
 
 ```{r title_page, echo=FALSE,include=TRUE}
@@ -41,15 +58,11 @@ cd_page_title()     #title page
 
 #to customise, run ?function to see the relevant parameters
 ```
-
-
-```{r}
+\blandscape
+# Project Plan
+## Gantt Chart
+```{r project plan}
 project_start_date <- parse_date("2022-10-10")
-```
-
-
-
-```{r tasks}
 
 tasks <- tribble(~wp,              ~activity,                               ~start_date, ~end_date,
                  "1. Kick-off",        "1.1 Create Literature List",            1,           2,
@@ -72,68 +85,91 @@ tasks <- tribble(~wp,              ~activity,                               ~sta
                  "4. Conclude",        "4.2 Conclusions",                      17,          21,
                  "5. Revisions",       "5.1 Finish Document",                  22,          28,
                  "5. Revisions",       "5.2 Create Presentation",              22,          28,
-                 "6. Summit and Present","6.1 Submit and Present",             29,          31,
+                 "6. Submit and Present","6.1 Submit and Present",             29,          31,
                  ) %>%
           mutate(start_date = project_start_date + dweeks(start_date-1),
                  end_date   = project_start_date + 4 + dweeks(end_date-1))
-
-```
-
-
-
-
-```{r milestones}
 
 milestones <- tasks %>%
               group_by(wp) %>%
               summarise(spot_date=max(end_date),.groups = "drop") %>%
               arrange(spot_date) %>%
               mutate(spot_type=str_c("M",row_number())) %>%
-              rename("activity"="wp") %>%
-  filter(!str_detect(activity,"6. Summit and Present")) %>%
+              rename("activity"="wp")  %>%
+  filter(!str_detect(activity,"6. Submit and Present"))  %>%
   bind_rows(tribble(~activity, ~spot_date, ~spot_type,
-                    "6. Summit and Present",parse_date("2023-04-24"),"D",
-                    "6. Summit and Present",parse_date("2023-05-12"),"F",
+                    "6. Submit and Present",parse_date("2023-04-24"),"D",
+                    "6. Submit and Present",parse_date("2023-05-12"),"F",
                     ))
 
 ```
 
-# Project Plan
-
-## Gantt Chart
-
-```{r}
+```{r gantt}
 
 gantt <- ganttrify(project = tasks,
           spots = milestones,
           by_date = TRUE,
           exact_date = TRUE,
+          colour_palette = ochRe::ochre_palettes[["parliament"]],
+          line_end   ="butt",
+          alpha_wp = 1,
+          alpha_activity = 0.8,
           font_family = "Roboto")
 
-gantt
+gantt  + geom_vline(xintercept = today(),
+                    colour="red", linetype="dotted",
+                    size=1.2)
 ```
 
+\elandscape
 ## Tasks
 
-```{r}
+```{r tasks}
 tasks %>%
   rename("Group"="wp","Activity"="activity","Start"="start_date","End"="end_date") %>%
   mutate(across(where(is.Date),~ str_c(day(.x)," ",month(.x,label=TRUE)))) %>%
   flextable() %>%
   merge_v(j = "Group",target = c("Group")) %>%
-  autofit()
+  autofit() %>%
+  theme_zebra(
+  odd_header = "#CFCFCF",
+  odd_body = "#EFEFEF",
+  even_header = "transparent",
+  even_body = "transparent") %>%
+  height(height = 0.05) %>%
+  bg(j=1,bg="transparent") %>%
+  hline(j=1,border=officer::fp_border(color="#EFEFEF",width=2)) %>%
+  plot()
 ```
 
 
 ## Milestones
 
-```{r}
+```{r milestones}
 milestones %>%
-  select(Milestone=spot_type,Date=spot_date) %>%
+  select(Legend=spot_type,Date=spot_date) %>%
+  mutate(Milestone = case_when(
+                          str_detect(Legend,"M") ~ str_replace(Legend,"M","Meeting "),
+                          Legend=="D"            ~ "Submission Deadline",
+                          Legend=="F"            ~ "Last day for presentation"
+                          ),
+         .after=1)                                                           %>%
   mutate(across(where(is.Date),~ str_c(day(.x)," ",month(.x,label=TRUE)))) %>%
   flextable() %>%
-  autofit()
+  autofit() %>%
+  theme_zebra(
+    odd_header = "#CFCFCF",
+    odd_body = "#EFEFEF",
+    even_header = "transparent",
+    even_body = "transparent") %>%
+  height(height = 0.05) %>%
+  plot()
   
 ```
 
-# Nottes
+## Notes
+
+* Project summary will be witten as project progresses, so no exclusive time has been allocated to this.
+* Package to develop will download all Census information from the website of the Australian Bureau of Statistics (ABS) and present it in a tidy format for analysis.
+
+

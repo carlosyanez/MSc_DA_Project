@@ -10,30 +10,31 @@ install.packages("remotes")
 install.packages("tidyverse")
 
 packages_to_install <- tibble::tribble(
-  ~package, ~source, ~url,
+  ~package,            ~source,      ~url,
 ### general packages
-  "here", "CRAN", "",
-  "fs", "CRAN", "",
-  "gitignore", "CRAN", "",
-  "usethis", "CRAN", "",
-  "box","CRAN","",
-  "reticulate", "CRAN", "",
-  "customthemes", "Github", "carlosyanez/customthemes", # custom theme package
-  "uofgdataanalyticsreport", "Github", "carlosyanez/uofgdataanalyticsreport", # this template
-  "ggspatial","CRAN","",
-  "sf","CRAN","",
-  "patchwork","CRAN","",
-  "yaml", "CRAN","",
-  "rmarkdown","CRAN","",
-  "openxlsx","CRAN","",
-  "flextable","CRAN","",
+  "here",                    "CRAN",        "",
+  "fs",                      "CRAN",        "",
+  "gitignore",               "CRAN",        "",
+  "usethis",                 "CRAN",        "",
+  "box",                     "CRAN",        "",
+  "reticulate",              "CRAN",        "",
+  "customthemes",            "Github",      "carlosyanez/customthemes", # custom theme package
+  "uofgdataanalyticsreport", "Github",      "carlosyanez/uofgdataanalyticsreport", # this template
+  "ggspatial",               "CRAN",        "",
+  "sf",                      "CRAN",        "",
+  "patchwork",               "CRAN",        "",
+  "yaml",                    "CRAN",        "",
+  "rmarkdown",               "CRAN",        "",
+  "openxlsx",                "CRAN",        "",
+  "flextable",               "CRAN",        "",
 ### used for this project
-  "ganttrify","Github","giocomai/ganttrify", # gantt charts
+  "ganttrify",               "Github",     "giocomai/ganttrify", # gantt charts
+  "ochRe",                   "Github",       "ropenscilabs/ochRe",
 ### 
 ##  "bomrang","Github","ropensci/bomrang",   # get data from BOM # bomrang is not working anymore, due to changes on bom's website
- "cropgrowdays","CRAN","",
- "readabs","CRAN","",
-"Census2021.DataPack","local","../Census2021.DataPack" #too large to install from github, cloned first https://github.com/carlosyanez/Census2021.DataPack
+ "cropgrowdays",              "CRAN",        "",  #Weather data from SiLO
+ "readabs",                   "CRAN",        "",  #read ABS time series and data cubes
+  "Census2021.DataPack",      "local",       "../Census2021.DataPack" #too large to install from github, cloned first https://github.com/carlosyanez/Census2021.DataPack
 ##
 )
 
