@@ -1,0 +1,219 @@
+---
+title           : "Data Summary"
+programme       : "Data Analytics MSc (ODL)"
+subject         : "Project"
+author          : "Carlos Yanez Santibanez"
+date            : "15 October 2022"
+
+documentclass   : article   # article (default) report
+fontsize        : 11pt      # 10pt 11pt (default) 12pt
+lang            : en-GB
+output:
+  bookdown::pdf_book:
+    base_format: uofgdataanalyticsreport::uofgdataanalyticsreport
+    pandoc_args: --listings
+    fig_caption: yes
+    number_sections: yes
+    toc: no
+    md_extensions: +yaml_metadata_block
+---
+
+```{r setup, include = FALSE}
+
+library(tidyverse)
+library(here)
+library(fs)
+library(uofgdataanalyticsreport)
+library(lubridate)
+library(showtext)
+library(sysfonts)
+library(sf)
+library(knitr)
+library(kableExtra)
+
+sysfonts::font_add_google("Roboto","Roboto")
+showtext::showtext_auto()
+
+knitr::opts_chunk$set(
+ # fig.width=9, fig.height=3.5, fig.retina=3,
+  out.width = "100%",
+  cache = FALSE,
+  echo = FALSE,
+  eval = TRUE,
+  include=TRUE,
+  message = FALSE, 
+  warning = FALSE,
+  fig.show = TRUE,
+  hiline = TRUE
+)
+
+
+knitr::knit_hooks$set(inline = function(x) { if(!is.numeric(x)){ x }else{ digits_formatter(x,sig_digits = 3) } })
+
+#vic_hex <- st_read(path(here(),"2. Meetings","1. Meeting","vic_hex.geojson"))
+vic_hex <- st_read(path(here(),"2. Meetings","1. Meeting","vic-july-2021-esri","E_VIC21_region.shp")) %>%
+                   st_zm()
+
+```
+
+```{r title_page, echo=FALSE,include=TRUE}
+cd_header_footer()  #adds header and footer
+cd_page_title()     #title page
+
+#to customise, run ?function to see the relevant parameters
+```
+
+```{r load_data}
+
+files_dir <- path(here(),"2. Meetings","1. Meeting","0. data sample")
+files <-dir_ls(files_dir,regexp = "[.]csv$")
+
+data <- list()
+for(i in 1:length(files)){
+  data[[i]] <- read_csv(files[i])
+}
+
+files <- str_remove_all(files,files_dir) %>% 
+         str_remove_all(.,"[/]")         %>%
+         str_remove_all(., "[.]csv")
+  
+names(data) <- files
+rm(files_dir,files)
+
+```
+
+# Data Summary
+
+The data here presented contains:
+
+-   Electoral results for the Australian 2022 Federal Election.
+-   Census 2021 Results
+-   Other Statistical Information, retrieved by the {readabs} package.
+-   Sample meteorological data, collected by the {cropgrowdays} package.
+
+# Electoral Results
+
+Electoral results are available on the Australian Electoral Commission's (AEC) Tally Room website (<https://results.aec.gov.au/27966/Website/HouseDefault-27966.htm>).
+
+Data available shows the primary vote for every candidate in each polling station. As an example, table \@ref(tab:tab1) presents the results for two polling stations in the federal electoral division (electorates, divisions) of Macnamara (in Melbourne). Table \@ref(tab:tab2) shows an aggregate per party for the same electorate.
+
+```{r tab1}
+data$sample_fed_elections_vic_2022 %>% 
+  filter(DivisionNm=="Macnamara") %>%
+  filter(PollingPlace %in% c("Albert Park","Alfred Square")) %>%
+  kable(caption="Milestones",booktabs = T) %>%
+  kable_styling(latex_options = c("HOLD_position","scale_down"),
+                full_width = FALSE,
+                position = "center") %>%
+  row_spec(0,bold=TRUE)
+
+```
+
+```{r tab2}
+
+votes_per_electorate <- data$sample_fed_elections_vic_2022 %>%
+                        group_by(DivisionNm) %>%
+                        summarise(total_votes = sum(OrdinaryVotes,na.rm=TRUE),.groups="drop")
+
+primary_vote <- data$sample_fed_elections_vic_2022 %>%
+                group_by(DivisionNm,PartyNm) %>%
+                summarise(primary_vote = sum(OrdinaryVotes,na.rm=TRUE),.groups="drop") %>%
+                left_join(votes_per_electorate,by="DivisionNm") %>%
+                mutate(primary_perc = primary_vote/total_votes) %>%
+                select(-total_votes)
+  
+
+primary_vote %>% 
+    filter(DivisionNm=="Macnamara") %>%
+    arrange(desc(primary_perc))     %>%
+    kable(caption="Milestones",booktabs = T) %>%
+    kable_styling(latex_options = c("HOLD_position","striped"),
+                full_width = FALSE,
+                position = "center") %>%
+    row_spec(0,bold=TRUE)
+
+
+```
+
+This data is available for all electorates. Figure \@ref(fig:fig1) show primary voting for the Australian Labor Party (ALP) in Victoria.
+
+```{r fig1}
+
+
+primary_vote %>% 
+    rename("Percentage"="primary_perc") %>%
+    filter(PartyNm == "Australian Labor Party") %>%
+    left_join(vic_hex,by=c("DivisionNm"="Elect_div")) %>%
+    ggplot(aes(geometry=geometry,fill=Percentage,label=DivisionNm)) +
+    geom_sf(colour=NA) +
+    customthemes::custom_map_theme() +
+    scale_fill_gradient(low="#FFFFFF",high="#E13940") +
+    labs(title="Vote in Victoria - Labor Party")
+  
+  
+
+```
+
+# Census 2021 Results
+
+The Australian Bureau of Statistics (ABS) publishes data packs with the Census data (<https://www.abs.gov.au/census/find-census-data/datapacks>). The ABS provides these data packs in a range of geographical aggregations, including federal electorates.
+
+Data for this presentation has been retrieved using the {Census2021.DataPack} package (<https://github.com/HughParsonage/Census2021.DataPack>), but there is scope to improve the retrieval method.
+
+Table \@ref(tab:tab3) shows a summary of all the data collated by the census. Table \@ref(tab:tab4) and figure \@ref(fig:fig2) show a sample of median income per household in Victorian electorates.
+
+```{r tab3}
+data$census_tables  %>%
+  kable(caption="Census tables",booktabs = T) %>%
+  kable_styling(latex_options = c("HOLD_position","scale_down", "striped"),
+                full_width = FALSE,
+                position = "center") %>%
+  row_spec(0,bold=TRUE)
+
+```
+
+```{r tab4}
+data$household_income %>%
+  head() %>%
+  kable(caption="Median House Income - Sample",booktabs = T) %>%
+  kable_styling(latex_options = c("HOLD_position","stried"),
+                full_width = FALSE,
+                position = "center") %>%
+  row_spec(0,bold=TRUE)
+
+```
+
+```{r fig2}
+data$household_income %>% 
+  rename("Median Income"="medianTotalHouseholdIncome") %>%
+  right_join(vic_hex,by=c("CED_NAME21"="Elect_div")) %>%
+   ggplot(aes(geometry=geometry,fill=`Median Income`)) +
+    geom_sf(colour=NA) +
+    customthemes::custom_map_theme() +
+    scale_fill_gradient(low="purple",high="green") +
+    labs(title="Median House Income in Victoria- 2021 Census")
+  
+```
+
+# Other statistical data
+
+The ABS also provide a range of other statistical data, through their Time Series and Data Cubes products. This data is not aggregated by electorate - it could be presented by Local Government Area (LGA), State or other.
+
+For this type of data, the package {readabs} provide a good interface. This data can be used to supplement Census data if necessary.
+
+# Weather Data
+
+The Bureau of Meteorology (BoM) provides historical data since the start of the 20th century. This data is not directly available for programmatic download from the BoM's website - however the package {cropgrowdays} (<https://gitlab.com/petebaker/cropgrowdays/>) provides a way to retrieve national data from Queensland's government Longpaddock service (<https://www.longpaddock.qld.gov.au/>).
+
+A sample for Melbourne is presented in table \@ref(tab:tab5).
+
+```{r tab5}
+data$sample_bom_mel %>%
+  head() %>%
+  kable(caption="Milestones",booktabs = T) %>%
+  kable_styling(latex_options = c("HOLD_position"),
+                full_width = FALSE,
+                position = "center") %>%
+  row_spec(0,bold=TRUE)
+
+```

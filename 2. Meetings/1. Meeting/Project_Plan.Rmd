@@ -29,9 +29,11 @@ library(tidyverse)
 library(uofgdataanalyticsreport)
 library(lubridate)
 library(ganttrify)
-library(flextable)
 library(showtext)
 library(sysfonts)
+library(knitr)
+library(kableExtra)
+
 
 sysfonts::font_add_google("Roboto","Roboto")
 showtext::showtext_auto()
@@ -50,6 +52,9 @@ knitr::opts_chunk$set(
   hiline = TRUE
 )
 
+knitr::knit_hooks$set(inline = function(x) { if(!is.numeric(x)){ x }else{ digits_formatter(x,sig_digits = 3) } })
+
+
 ```
 
 ```{r title_page, echo=FALSE,include=TRUE}
@@ -58,8 +63,25 @@ cd_page_title()     #title page
 
 #to customise, run ?function to see the relevant parameters
 ```
-\blandscape
+
 # Project Plan
+
+The project outline has been organised in "sprints" to approximately match the meeting schedule, with the aim to make the most of the supervisor's input. Each sprint will aim to :
+
+* **Phase 1 - Kick-off** (*this meeting*): Present and discuss project plan, approach, existing data and literature review plan.
+* **Phase 2 - Data and Theory**: Conduct detailed data review, creating code/packages to retrieve tidy data where needed (.e.g. Census). Conduct detailed literature review, formulate initial hypotheses (which data are important, possible modelling approach).
+* **Phase 3 - Modelling** : Conduct core analytical work. Validate/ tune initial hypotheses: compare models and variables of significance. Analyse results against literature. Iterate over initial assumptions.
+* **Phase 4 - Conclude** :  Implement any model corrections and complete draft for revision.
+* **Phase 5 - Revision** :  Finish documentation and code, prepare presentation.
+* **Phase 6 - Submit and Present**: Submit work, present.
+
+This plan has been made under the below assumptions:
+
+* This plan is targeted to meet the April 2023 submission deadline. To achieve this objective, sufficient analytical progress needs to be made by the of the year (halfway phase 3). If that's not the case the plan needs to be adjusted to reflect a June submission.
+* Taken the above into consideration, phases 4,5 and 6 have a general plan at this stage, which needs to be updated by EOY.
+* This plan assumes that all documentation/deliverables will be continuously generated - thus there is no explicitly separate allocation of time to this.
+
+\blandscape
 ## Gantt Chart
 ```{r project plan}
 project_start_date <- parse_date("2022-10-10")
@@ -128,48 +150,13 @@ gantt  + geom_vline(xintercept = today(),
 tasks %>%
   rename("Group"="wp","Activity"="activity","Start"="start_date","End"="end_date") %>%
   mutate(across(where(is.Date),~ str_c(day(.x)," ",month(.x,label=TRUE)))) %>%
-  flextable() %>%
-  merge_v(j = "Group",target = c("Group")) %>%
-  autofit() %>%
-  theme_zebra(
-  odd_header = "#CFCFCF",
-  odd_body = "#EFEFEF",
-  even_header = "transparent",
-  even_body = "transparent") %>%
-  height(height = 0.05) %>%
-  bg(j=1,bg="transparent") %>%
-  hline(j=1,border=officer::fp_border(color="#EFEFEF",width=2)) %>%
-  plot()
+  kable(caption="Milestones",booktabs = T) %>%
+  kable_styling(latex_options = c("HOLD_position","scale_down","striped"),
+                font_size = 10,
+                full_width = FALSE,
+                position = "center") %>%
+  row_spec(0,bold=TRUE)
+
+
 ```
-
-
-## Milestones
-
-```{r milestones}
-milestones %>%
-  select(Legend=spot_type,Date=spot_date) %>%
-  mutate(Milestone = case_when(
-                          str_detect(Legend,"M") ~ str_replace(Legend,"M","Meeting "),
-                          Legend=="D"            ~ "Submission Deadline",
-                          Legend=="F"            ~ "Last day for presentation"
-                          ),
-         .after=1)                                                           %>%
-  mutate(across(where(is.Date),~ str_c(day(.x)," ",month(.x,label=TRUE)))) %>%
-  flextable() %>%
-  autofit() %>%
-  theme_zebra(
-    odd_header = "#CFCFCF",
-    odd_body = "#EFEFEF",
-    even_header = "transparent",
-    even_body = "transparent") %>%
-  height(height = 0.05) %>%
-  plot()
-  
-```
-
-## Notes
-
-* Project summary will be witten as project progresses, so no exclusive time has been allocated to this.
-* Package to develop will download all Census information from the website of the Australian Bureau of Statistics (ABS) and present it in a tidy format for analysis.
-
 
