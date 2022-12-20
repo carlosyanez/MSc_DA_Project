@@ -35,8 +35,11 @@ packages_to_install <- tibble::tribble(
 ##  "bomrang","Github","ropensci/bomrang",   # get data from BOM # bomrang is not working anymore, due to changes on bom's website
  "cropgrowdays",              "CRAN",        "",  #Weather data from SiLO
  "readabs",                   "CRAN",        "",  #read ABS time series and data cubes
-  "Census2021.DataPack",      "local",       "../Census2021.DataPack" #too large to install from github, cloned first https://github.com/carlosyanez/Census2021.DataPack
+"auspol",                     "Github",       "carlosyanez/auspol",
+"auscensus",                  "Github",       "carlosyanez/auscensus",
+"aussiemaps",                 "Github",       "carlosyanez/aussiemaps", 
 ##
+
 )
 
 just.install::justinstall(packages_to_install)

@@ -1,0 +1,29 @@
+---
+title: "Data Exploration"
+format: html
+---
+
+```{r}
+library(tidyverse)
+library(auspol)
+library(auscensus)
+```
+
+
+This notebook looks at what sort of variables are available for to use.Variables documented here are used in the script that generates the analysis dataset. 
+
+## Response Variables : Primary voting
+
+
+
+```{r}
+1 + 1
+```
+
+
+## Predictive variables
+
+## Census Data
+
+
+## Climate Data
