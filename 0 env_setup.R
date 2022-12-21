@@ -28,6 +28,7 @@ packages_to_install <- tibble::tribble(
   "openxlsx",                "CRAN",        "",
   "flextable",               "CRAN",        "",
   "kableExtra",              "CRAN",        "",
+  "rhandsontable",              "CRAN",        "",
 ### used for this project
   "ganttrify",               "Github",     "giocomai/ganttrify", # gantt charts
   "ochRe",                   "Github",       "ropenscilabs/ochRe",
@@ -38,8 +39,7 @@ packages_to_install <- tibble::tribble(
 "auspol",                     "Github",       "carlosyanez/auspol",
 "auscensus",                  "Github",       "carlosyanez/auscensus",
 "aussiemaps",                 "Github",       "carlosyanez/aussiemaps", 
-##
-
+"ggbeeswarm",                 "CRAN"
 )
 
 just.install::justinstall(packages_to_install)

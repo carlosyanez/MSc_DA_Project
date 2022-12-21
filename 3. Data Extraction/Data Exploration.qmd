@@ -1,12 +1,41 @@
 ---
 title: "Data Exploration"
 format: html
+
 ---
 
 ```{r}
 library(tidyverse)
 library(auspol)
 library(auscensus)
+library(aussiemaps)
+library(cropgrowdays)
+library(rhandsontable)
+library(here)
+
+
+state_acronyms <- c("NSW","QLD","NT","WA","SA","VIC","TAS","ACT")
+election_years <- as.character(c(2007,2010,2016,2022))
+census_years <-c(2006,2011,2016,2021)
+
+
+base_theme <- customthemes::custom_plot_theme_md(google_font = "Roboto",background_colour = "white", 
+                              legend_pos = "botom",legend_dir = "horizontal") +
+            theme(legend.title = ggtext::element_markdown(size=6),
+                  plot.title = ggtext::element_markdown(size=8),
+                  legend.text = ggtext::element_markdown(size=6))
+
+map_theme <- base_theme +
+             theme(axis.title = element_blank(),
+                   axis.ticks = element_line(colour="grey"))
+
+#default theming for plots ####
+theme_set(base_theme) 
+
+customthemes::set_plot_colours(line_colour ="#0085c7",
+                               fill_colour = tinter::lighten("#0085c7",0.5),
+                               HVline_colour ="grey90")
+
 ```
 
 
@@ -15,15 +44,242 @@ This notebook looks at what sort of variables are available for to use.Variables
 ## Response Variables : Primary voting
 
 
+Available election years
+
 
 ```{r}
-1 + 1
+
+auspol::list_years()
+
+```
+
+Get parties, coalesce coalition, greens
+
+```{r}
+
+
+
+parties <- auspol::list_parties() |>
+  select(any_of(c(election_years,"PartyAb","PartyNm"))) |>
+  pivot_longer(election_years,names_to = "Year",values_to="Value") |>
+  filter(Value) |>
+  distinct(PartyAb,PartyNm) 
+  
+  
+parties |>
+   rhandsontable(readOnly = TRUE) |>
+    hot_cols(columnSorting = TRUE)
+
+write_csv(parties,here("3. Data Extraction","parties.csv"))
+
 ```
 
 
-## Predictive variables
+```{r}
+parties <- read_csv(here("3. Data Extraction","parties_edited.csv"))
 
-## Census Data
+parties <-parties |> select(Grouping,PartyAb) |> 
+  group_by(Grouping) |> summarize(Parties=list(unique(PartyAb)))
+
+parties_merge <-list()
+
+for(i in 1:nrow(parties)){
+  parties_merge[length(parties_merge)+1] <- parties[i,]$Parties 
+}
+names(parties_merge) <- parties$Grouping
+
+primary_vote <- auspol::house_primary_vote_summary(state= state_acronyms, 
+                                   parties=names(parties_merge),
+                                   merge_parties = parties_merge,
+                                   include_names=FALSE,
+                                   year=election_years) |>
+  select(Year,StateAb,DivisionNm,PartyAb,OrdinaryVotes,Percentage)
+
+
+primary_vote |> 
+  rhandsontable(readOnly = TRUE) |>
+    hot_cols(columnSorting = TRUE)
+```
+
+```{r}
+
+party_palette <- auspol::manage_colours(extra_values = unique(primary_vote$PartyAb))
+
+primary_vote |>
+  ggplot(aes(x=PartyAb,y=Percentage,colour=PartyAb,fill=PartyAb)) +
+  ggbeeswarm::geom_beeswarm(alpha=0.5) +
+  facet_grid(Year ~ StateAb) +
+  scale_color_manual(values=party_palette)+
+  scale_fill_manual(values=party_palette) +
+  theme(axis.text.x = element_text(angle=90,hjust=1))
+  
+```
+
+
+## Explanatory variables
+
+
+### Census Data
+
+Type of data - census questions
+
+```{r}
+
+census_tables <- auscensus::list_census_tables() |>
+  as.data.frame()
+
+
+census_tables|>
+   flextable::flextable()
+
+```
+Interesting tables:
+
+* 04	Age by Sex
+* 09	Country of Birth of Person by Age by Sex
+* 08	Ancestry by Birthplace of Parents
+
+
+*13 Language Used at Home by Proficiency in Spoken English by Sex
+*12 Language Spoken at Home by Sex
+*13 Language Spoken at Home by Sex
+*13 Language Spoken at Home by Proficiency in Spoken English
+
+* 16	Gross Individual Income (Weekly) by Age by Sex	- changed from previous census
+* 17	Total Personal Income (Weekly) by Age by Sex
+
+
+* 39 Non-School Qualification: Level of Education by Age by Sex
+* 40 Non-School Qualification:  Level of Education by Age by Sex
+* 46 Non-School Qualification:  Level of Education by Age by Sex
+* 49 Highest Non-School Qualification:  Level of Education by Ag
+
+* 18 Voluntary Work for an Organisation or Group by Age by Sex
+* 19 Voluntary Work for an Organisation or Group by Age by Sex
+* 23 Voluntary Work for an Organisation or Group by Age by Sex
+
+
+Extract values per electorate and then ask about differences within electorates
+
+
+### Age by Sex
+
+```{r}
+
+# Form list get groups of variables, chunked by generation
+var04 <- list_census_attributes("04")
+
+var04 <- var04 |>
+  filter(str_detect(Attribute,"\\d{1,3}_\\d{1,3}_",TRUE)) |>
+  filter(str_detect(Attribute,"\\d{1,3}-\\d{1,3}",TRUE))  |>
+  filter(str_detect(Attribute,"\\d{1,3}_persons$",TRUE))  |>
+   filter(str_detect(Attribute,"[Oo]ver",TRUE))  |>
+   filter(str_detect(Attribute,"[Tt]otal.*[Mm]ales",TRUE)) |>
+  pivot_longer(c(-Table,-Attribute), names_to="Year",values_to = "Value") |>
+  mutate(Year=as.numeric(Year)) |>
+  filter(!is.na(Value)) |>
+  mutate(Age_at_census=str_extract(Attribute,"\\d{1,2}") |> as.numeric(),
+         YOB = Year-Age_at_census,
+         Gender=case_when(
+           str_detect(Attribute, "_[Mm]ales$") ~ "Males",
+           str_detect(Attribute, "_[Ff]emales$") ~ "Females",
+           TRUE ~"-"))
+
+# 80 means 80 and over!
+generations <- bind_rows(tibble(YOB=1883:1900,Group="Lost Gen"),
+                         tibble(YOB=1901:1927,Group="Greatest Gen"),
+                         tibble(YOB=1928:1945,Group="Silent Gen"),
+                         tibble(YOB=1946:1964,Group="Baby Boomers"),
+                         tibble(YOB=1965:1980,Group="Gen X"),
+                         tibble(YOB=1981:1996,Group="Gen Y"),
+                         tibble(YOB=1997:2012,Group="Gen Z"),
+                         tibble(YOB=2013:2030,Group="Gen Alpha"))
+
+var04 <- var04 |>
+        left_join(generations,by="YOB")
+
+generations_list <- unique(generations$Group)
+attributes_list <- list()
+i<-1
+
+for(year in census_years){
+  attributes_i <- list()
+  j <- 1
+
+for(gen in generations_list){
+
+  for(gender in c("Females","Males")){
+    
+  grouping <- var04 |> 
+    filter(Group==gen & Year==year & Gender==gender) |>
+    distinct(Attribute) |>
+    pull()
+
+  naming <- str_c(gen," - ",gender)
+  
+  if(length(grouping>0)){
+     attributes_i[[j]] <- grouping
+     names(attributes_i)[j] <- naming
+     j <- j + 1
+    
+  }  
+  }
+}
+  
+  attributes_list[[i]] <- attributes_i
+  names(attributes_list)[i] <- year
+  i <- 1+i
+  
+}  
+rm(grouping,naming,attributes_i,i,j,gen,year,generations_list)
+
+#totals for percentage calculations
+
+totals <- var04   |> 
+          filter(is.na(Age_at_census)) |>
+          distinct(Attribute) |>
+          pull()
+totals <- list("Total"=as.vector(totals))
+
+
+# get the census data
+
+census1 <- tibble()
+
+for(x in c("2011","2016","2021")){
+censusx <-
+   get_census_summary(table_number = "04",
+                      geo_structure = "CED",
+                      selected_years = as.character(x),
+                      attributes = attributes_list[which(names(attributes_list)==x)],
+                      reference_total = totals) |>
+        filter(str_detect(Unit,"Shipping",TRUE))|>
+        filter(str_detect(Unit,"Usual",TRUE))
+
+census1 <- bind_rows(census1,censusx)
+
+}
+
+get_census_data(list_census_tables("04"),
+                geo_structure = "CED")
+
+
+```
+
+
+```{r}
+(census1 |>
+  mutate(Electorate=str_c(Unit,"-",Year)) |>
+  ggplot(aes(x=as.character(Year),y=Percentage,label=Electorate)) +
+  ggbeeswarm::geom_beeswarm() + 
+  facet_wrap(Attribute ~., ncol = 2 ) +
+  #scale_color_manual(values=party_palette)+
+  #scale_fill_manual(values=party_palette) +
+  theme(axis.text.x = element_text(angle=90,hjust=1)) 
+) |> plotly::ggplotly()
+```
+
+
 
 
 ## Climate Data
