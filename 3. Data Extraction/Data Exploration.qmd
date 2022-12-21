@@ -12,11 +12,14 @@ library(aussiemaps)
 library(cropgrowdays)
 library(rhandsontable)
 library(here)
+library(patchwork)
 
 
 state_acronyms <- c("NSW","QLD","NT","WA","SA","VIC","TAS","ACT")
 election_years <- as.character(c(2007,2010,2016,2022))
 census_years <-c(2006,2011,2016,2021)
+
+year_equivalency <- tibble(election_years=election_years,census_years=census_years)
 
 
 base_theme <- customthemes::custom_plot_theme_md(google_font = "Roboto",background_colour = "white", 
@@ -103,7 +106,8 @@ primary_vote |>
 
 ```{r}
 
-party_palette <- auspol::manage_colours(extra_values = unique(primary_vote$PartyAb))
+party_palette <- auspol::manage_colours(extra_values = unique(primary_vote$PartyAb),
+                                        palette =ochRe::ochre_palettes[["tasmania"]])
 
 primary_vote |>
   ggplot(aes(x=PartyAb,y=Percentage,colour=PartyAb,fill=PartyAb)) +
@@ -111,8 +115,8 @@ primary_vote |>
   facet_grid(Year ~ StateAb) +
   scale_color_manual(values=party_palette)+
   scale_fill_manual(values=party_palette) +
-  theme(axis.text.x = element_text(angle=90,hjust=1))
-  
+  theme(axis.text.x = element_text(angle=90,hjust=1)) 
+
 ```
 
 
@@ -139,6 +143,11 @@ Interesting tables:
 * 09	Country of Birth of Person by Age by Sex
 * 08	Ancestry by Birthplace of Parents
 
+* 39 Non-School Qualification: Level of Education by Age by Sex
+* 40 Non-School Qualification:  Level of Education by Age by Sex
+* 46 Non-School Qualification:  Level of Education by Age by Sex
+* 49 Highest Non-School Qualification:  Level of Education by Ag
+
 
 *13 Language Used at Home by Proficiency in Spoken English by Sex
 *12 Language Spoken at Home by Sex
@@ -149,10 +158,7 @@ Interesting tables:
 * 17	Total Personal Income (Weekly) by Age by Sex
 
 
-* 39 Non-School Qualification: Level of Education by Age by Sex
-* 40 Non-School Qualification:  Level of Education by Age by Sex
-* 46 Non-School Qualification:  Level of Education by Age by Sex
-* 49 Highest Non-School Qualification:  Level of Education by Ag
+
 
 * 18 Voluntary Work for an Organisation or Group by Age by Sex
 * 19 Voluntary Work for an Organisation or Group by Age by Sex
@@ -162,7 +168,7 @@ Interesting tables:
 Extract values per electorate and then ask about differences within electorates
 
 
-### Age by Sex
+### 04 Age by Sex
 
 ```{r}
 
@@ -244,7 +250,7 @@ totals <- list("Total"=as.vector(totals))
 
 # get the census data
 
-census1 <- tibble()
+age_and_sex <- tibble()
 
 for(x in census_years){
 
@@ -260,13 +266,16 @@ censusx <- get_census_summary(table_number = "04",
                       attribute = attributes_list[[which(names(attributes_list)==x)]],
                       reference_total = totals) |>
         filter(str_detect(Unit,"Shipping",TRUE))|>
-        filter(str_detect(Unit,"Usual",TRUE))
+        filter(str_detect(Unit,"Usual",TRUE))   |>
+        filter(str_detect(Unit,"Not Applicable",TRUE)) 
+  
 
-census1 <- bind_rows(census1,censusx)
+
+age_and_sex <- bind_rows(age_and_sex,censusx)
 
 }
 
-rm(censusx)
+rm(censusx,x,var04,totals)
 
 
 
@@ -274,17 +283,151 @@ rm(censusx)
 
 
 ```{r}
-census1 |>
-  mutate(Electorate=str_c(Unit,"-",Year)) |>
-  ggplot(aes(x=as.character(Year),y=Percentage,label=Electorate)) +
-  ggbeeswarm::geom_beeswarm() + 
-  facet_wrap(Attribute ~., ncol = 2 ) +
-  #scale_color_manual(values=party_palette)+
-  #scale_fill_manual(values=party_palette) +
-  theme(axis.text.x = element_text(angle=90,hjust=1)) 
+plots <- list()
+for(i in 1:length(census_years)){
+  
+  plots[[i]] <- age_and_sex |>
+                filter(Year==census_years[i])           |>
+                mutate(Electorate=str_c(Unit,"-",Year)) |>
+                ggplot(aes(x=as.character(Year),y=Percentage,label=Electorate)) +
+                ggbeeswarm::geom_beeswarm() + 
+                facet_wrap(Attribute ~., ncol = 2 ) 
+}
+
+patchwork::wrap_plots(plots,nrow=1)
+
+
+```
+
+```{r}
+
+primary_vote <- primary_vote |>
+                select(-OrdinaryVotes)|>
+                pivot_wider(names_from = "PartyAb",values_from = "Percentage") |>
+                mutate(across(where(is.numeric), ~ if_else(is.na(.x),0,.x)))   
+
+age_and_sex <- age_and_sex |>
+                select(Unit,Year,Attribute,Percentage) |>
+                pivot_wider(names_from = "Attribute",values_from = Percentage)|>  
+                left_join(year_equivalency,by=c("Year"="census_years")) |>
+                mutate(Year=as.numeric(election_years))
+
+ 
+
+```
+
+```{r}
+primary_vote |>
+  left_join(age_and_sex, by=c("DivisionNm"="Unit","Year"="Year")) |>
+  select(-election_years) |>
+  mutate(across(where(is.numeric), ~ if_else(is.na(.x),0,.x)))  |> 
+  pivot_longer(-c(Year,StateAb,DivisionNm,ALP,COAL,GRN,`Other Left`,`Other Right`,Other),
+               names_to="Population Group",
+               values_to="Pop Percentage")|>
+  pivot_longer(c(ALP,COAL,GRN,Other,`Other Left`,`Other Right`),
+               names_to = "Party",
+               values_to = "Party Percentage") |>
+  ggplot(aes(x=`Pop Percentage`,y=`Party Percentage`)) +
+  geom_point(alpha=0.5) +
+  facet_grid(Party ~`Population Group`)
 ```
 
 
 
+
+### Non School Qualification 
+
+```{r}
+census_tables <- list_census_tables() |>
+                 filter(Number %in% c("39","40","46","49")) |>
+                 filter(str_detect(`Table Name`,"Non-School")) |>             
+                 filter(str_detect(`Table Name`,"Level of Education by Age by Sex"))
+
+
+tables_summary <- census_tables |>
+                  select(-contains("Table")) |>
+                  pivot_longer(-Number, names_to="Year",values_to = "Value") |>
+                  filter(!is.na(Value)) |>
+                  select(-Value)
+
+school_attributes <- tibble()
+
+for(i in 1:nrow(tables_summary)){
+  
+  table_i <- tables_summary[i,]$Number
+  year_i  <- tables_summary[i,]$Year
+  
+  attr_i <- list_census_attributes(table_i) |> 
+             pivot_longer(-c(Table,Attribute),
+                           names_to="Year",values_to = "Value") |>
+              filter(Year==year_i) |>
+              filter(!is.na(Value)) |>
+              select(-Value)
+  
+  school_attributes <- bind_rows(attr_i,school_attributes)
+  
+}
+
+  school_attributes <- school_attributes   |> 
+                       distinct(Attribute) |>
+                      filter(str_detect(Attribute,"[Pp]erson")) |>
+                      filter(str_detect(Attribute,"[Aa]ge",TRUE)) |>
+                      filter(str_detect(Attribute,"[Yy]ear",TRUE))
+school_attributes |> 
+  rhandsontable(readOnly = TRUE) |>
+  hot_cols(columnSorting = TRUE)
+
+write_csv(school_attributes,"ed_levels.csv")
+  
+```
+
+```{r}
+school_attributes <- read_csv("ed_levels_edited.csv")
+
+totals <- list(Total = school_attributes |> filter(Attr_New=="Total") |> pull(Attribute))
+
+school_levels <- school_attributes |> filter(Attr_New!="Total") |> distinct(Attr_New) |> pull()
+
+levels <- list()
+i <-1
+for(level in school_levels){
+  
+  levels[[i]]      <-  school_attributes |> filter(Attr_New==level)  |> pull(Attribute)
+  names(levels)[i] <-  level
+  i <- i +1
+  
+  
+} 
+
+school_level <- tibble()
+
+for(year in census_years){
+  
+  if(year=="2006"){
+    geo_structure_x <- "CED_2007"
+  } else{
+    geo_structure_x <- "CED"
+  }
+  
+  table_number <- tables_summary |> filter(Year==year) |> pull(Number)
+  
+  school_level_i <- get_census_summary(census_table = census_tables,
+                                       selected_years = year,
+                                       geo_structure=geo_structure_x,
+                                       attribute = levels,
+                                       reference_total = totals) |>
+  filter(str_detect(Unit,"Shipping",TRUE))|>
+  filter(str_detect(Unit,"Usual",TRUE))   |>
+  filter(str_detect(Unit,"Not Applicable",TRUE)) 
+  
+  school_level <- bind_rows(school_level,school_level_i)
+  
+}
+b<-get_census_data(census_tables,"CED")
+
+
+
+```
+Table does not exist for CED in 2011 - we need to aggreate from SA1s
 
 ## Climate Data
