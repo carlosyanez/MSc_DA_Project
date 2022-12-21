@@ -167,7 +167,7 @@ Extract values per electorate and then ask about differences within electorates
 ```{r}
 
 # Form list get groups of variables, chunked by generation
-var04 <- list_census_attributes("04")
+var04 <- list_census_attributes(number="04")
 
 var04 <- var04 |>
   filter(str_detect(Attribute,"\\d{1,3}_\\d{1,3}_",TRUE)) |>
@@ -246,12 +246,18 @@ totals <- list("Total"=as.vector(totals))
 
 census1 <- tibble()
 
-for(x in c("2011","2016","2021")){
-censusx <-
-   get_census_summary(table_number = "04",
-                      geo_structure = "CED",
+for(x in census_years){
+
+  if(x=="2006"){
+    geo_structure_x <- "CED_2007"
+  } else{
+    geo_structure_x <- "CED"
+  }
+  
+censusx <- get_census_summary(table_number = "04",
+                      geo_structure = geo_structure_x,
                       selected_years = as.character(x),
-                      attributes = attributes_list[which(names(attributes_list)==x)],
+                      attribute = attributes_list[[which(names(attributes_list)==x)]],
                       reference_total = totals) |>
         filter(str_detect(Unit,"Shipping",TRUE))|>
         filter(str_detect(Unit,"Usual",TRUE))
@@ -260,15 +266,15 @@ census1 <- bind_rows(census1,censusx)
 
 }
 
-get_census_data(list_census_tables("04"),
-                geo_structure = "CED")
+rm(censusx)
+
 
 
 ```
 
 
 ```{r}
-(census1 |>
+census1 |>
   mutate(Electorate=str_c(Unit,"-",Year)) |>
   ggplot(aes(x=as.character(Year),y=Percentage,label=Electorate)) +
   ggbeeswarm::geom_beeswarm() + 
@@ -276,7 +282,6 @@ get_census_data(list_census_tables("04"),
   #scale_color_manual(values=party_palette)+
   #scale_fill_manual(values=party_palette) +
   theme(axis.text.x = element_text(angle=90,hjust=1)) 
-) |> plotly::ggplotly()
 ```
 
 

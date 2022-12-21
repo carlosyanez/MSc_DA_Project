@@ -39,7 +39,7 @@ packages_to_install <- tibble::tribble(
 "auspol",                     "Github",       "carlosyanez/auspol",
 "auscensus",                  "Github",       "carlosyanez/auscensus",
 "aussiemaps",                 "Github",       "carlosyanez/aussiemaps", 
-"ggbeeswarm",                 "CRAN"
+"ggbeeswarm",                 "CRAN",        "",
 )
 
 just.install::justinstall(packages_to_install)
