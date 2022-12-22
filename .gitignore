@@ -54,3 +54,8 @@ rsconnect/
 2. Meetings/1. Meeting/vic-july-2021-esri/E_VIC21_region.prj
 2. Meetings/1. Meeting/vic-july-2021-esri/E_VIC21_region.dbf
 2. Meetings/1. Meeting/Data_Exploration_files/figure-latex/unnamed-chunk-1-1.pdf
+#Data
+0. Data/*
+data.zip
+4. Data/consolidated_data.duckdb
+4. Data/consolidated_data.duckdb.wal

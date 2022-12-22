@@ -42,7 +42,9 @@ packages_to_install <- tibble::tribble(
 "ggbeeswarm",                 "CRAN",        "",
 "plotly",                     "CRAN",        "",
 "tinter",                     "CRAN",        "",
-"patchwork",                  "CRAN",        ""
+"patchwork",                  "CRAN",        "",
+"DBI",                        "CRAN",        "",
+"duckdb",                     "CRAN",        "",
 )
 
 just.install::justinstall(packages_to_install)
