@@ -688,6 +688,13 @@ geo_equiv <- list()
               mutate(Percentage = Value/Total)      |>
               select(-Value,-Total)                 |>
               pivot_wider(names_from = Attribute,values_from = Percentage)
+   
+   
+calculate_percentage <- function(data_frame,key_cols,name_col,total_name="Total"){
+  
+  
+  
+}
 
 
 income_level <- income_level 
