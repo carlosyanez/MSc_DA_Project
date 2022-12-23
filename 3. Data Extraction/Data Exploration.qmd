@@ -97,8 +97,6 @@ Get parties, coalesce coalition, greens
 
 ```{r}
 
-
-
 parties <- auspol::list_parties() |>
   select(any_of(c(election_years,"PartyAb","PartyNm"))) |>
   pivot_longer(election_years,names_to = "Year",values_to="Value") |>
@@ -655,39 +653,30 @@ rm(income_level)
 codes <- c("CD_CODE_2006","SA1_7DIGITCODE_2011","SA1_7DIGITCODE_2016","SA1_CODE_2021")
 ceds  <- c("CED_NAME_2006","CED_NAME_2011","CED_NAME_2016","CED_NAME_2021")
 
-
 income_level <- tibble()
 geo_equiv <- list()
  for(i in 1:length(census_years)){
    
-   g_i <- aussiemaps::list_structure(year=census_years[i]) |>
-          select(any_of(c("id",codes[i],ceds[i]))) |>
-          rename("Census_Code" = codes[i])
-    
-   prop_i <- aussiemaps::list_proportions(codes[i]) |> 
-             collect()  |>
-             select("id","geo_col","prop") |>
-             rename("Census_Code" = "geo_col") 
-   
 
-   g_i <- g_i |> 
-          str_squish("id,")
-          left_join(prop_i,by=c("id","Census_Code")) |>
-          group_by(across(c("Census_Code",ceds[i]))) |>
-          summarise(prop=sum(prop,na.rm=TRUE),.groups = "drop")
-     
-  
-   year_num <- as.double(census_years[i])
-   
    value_i <- tbl(mydb,"income_level_granular") |> 
-     filter(Year==year_num)          |>
-     collect()                       |>
-     left_join(g_i,by="Census_Code") |>
-     select(-Census_Code,-Unit)      |>
-     rename("Unit"=ceds[i])          |>
-     group_by(Year,Unit,Attribute)   |>
-     summarise(Value=sum(Value*prop,na.rm = TRUE),.groups = "drop")
+                  filter(Year==year_num)          |>
+                  select(-Year,-Unit)               |>
+                  collect()                         |>
+                  rename(!!original_geo:="Census_Code") |>
+                  aussiemaps::geo_aggregate(grouping_col=
+                              values_col="Value",
+                              original_geo=codes[i],
+                              new_geo=ceds[i],
+                              year=census_years[i]) |>
+              filter(str_detect(Unit,"Shipping",TRUE))|>
+              filter(str_detect(Unit,"Usual",TRUE))   |>
+              filter(str_detect(Unit,"Not Applicable",TRUE)) 
    
+   income_level <- bind_rows(income_level,value_i)
+   
+ }
+
+
    totals <- value_i |>
             filter(Attribute=="Total") |>
             select(-Attribute) |>
@@ -699,15 +688,9 @@ geo_equiv <- list()
               mutate(Percentage = Value/Total)      |>
               select(-Value,-Total)                 |>
               pivot_wider(names_from = Attribute,values_from = Percentage)
-   
-   income_level <- bind_rows(income_level,value_i)
-   
- }
 
-income_level <- income_level |>
-  filter(str_detect(Unit,"Shipping",TRUE))|>
-  filter(str_detect(Unit,"Usual",TRUE))   |>
-  filter(str_detect(Unit,"Not Applicable",TRUE)) 
+
+income_level <- income_level 
 
 dbWriteTable(mydb, "income_level", income_level,overwrite=TRUE)
 
