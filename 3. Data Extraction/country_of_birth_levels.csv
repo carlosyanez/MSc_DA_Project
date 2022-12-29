@@ -1,0 +1,108 @@
+Attribute,2006,2011,2016,2021
+Australia_persons,TRUE,TRUE,NA,NA
+Canada_persons,TRUE,TRUE,NA,NA
+Croatia_persons,TRUE,TRUE,NA,NA
+Egypt_persons,TRUE,TRUE,NA,NA
+Fiji_persons,TRUE,TRUE,NA,NA
+Germany_persons,TRUE,TRUE,NA,NA
+Greece_persons,TRUE,TRUE,NA,NA
+India_persons,TRUE,TRUE,NA,NA
+Indonesia_persons,TRUE,TRUE,NA,NA
+Iraq_persons,TRUE,TRUE,NA,NA
+Ireland_persons,TRUE,TRUE,NA,NA
+Italy_persons,TRUE,TRUE,NA,NA
+Lebanon_persons,TRUE,TRUE,NA,NA
+Malaysia_persons,TRUE,TRUE,NA,NA
+Malta_persons,TRUE,TRUE,NA,NA
+Netherlands_persons,TRUE,TRUE,NA,NA
+Philippines_persons,TRUE,TRUE,NA,NA
+Poland_persons,TRUE,TRUE,NA,NA
+Singapore_persons,TRUE,TRUE,NA,NA
+Thailand_persons,TRUE,TRUE,NA,NA
+Turkey_persons,TRUE,TRUE,NA,NA
+Total_persons,TRUE,TRUE,NA,NA
+Bosnia And Herzegovina_persons,TRUE,NA,NA,NA
+China (Excl. Sars And Taiwan Province)_Persons,TRUE,NA,NA,NA
+Former Yugoslav Republic Of Macedonia (Fyrom)_Person,TRUE,NA,NA,NA
+Hong Kong (Sar Of China)_Persons,TRUE,NA,NA,NA
+Korea_ Republic Of (South)_Persons,TRUE,NA,NA,NA
+New Zealand_persons,TRUE,NA,NA,NA
+Papua New Guinea_persons,TRUE,NA,NA,NA
+South Africa_persons,TRUE,NA,NA,NA
+South Eastern Europe_ Nfd_persons,TRUE,NA,NA,NA
+Sri Lanka_persons,TRUE,NA,NA,NA
+United Kingdom_persons,TRUE,NA,NA,NA
+United States Of America_persons,TRUE,NA,NA,NA
+Viet Nam_persons,TRUE,NA,NA,NA
+Born Elsewhere_persons,TRUE,NA,NA,NA
+Country Of Birth Not Stated_persons,TRUE,NA,NA,NA
+Bosnia_and_herzegovina_persons,NA,TRUE,NA,NA
+Cambodia_persons,NA,TRUE,NA,NA
+China_excl_sars_and_taiwan_persons,NA,TRUE,NA,NA
+Former_yugoslav_republic_of_macedonia_fyrom_person,NA,TRUE,NA,NA
+Hong_kong_sar_of_china_persons,NA,TRUE,NA,NA
+Korea_republic_of_south_persons,NA,TRUE,NA,NA
+New_zealand_persons,NA,TRUE,NA,NA
+South_africa_persons,NA,TRUE,NA,NA
+South_eastern_europe_nfd_persons,NA,TRUE,NA,NA
+Sri_lanka_persons,NA,TRUE,NA,NA
+United_kingdom_channel_islands_and_isle_of_man_persons,NA,TRUE,NA,NA
+United_states_of_america_persons,NA,TRUE,NA,NA
+Vietnam_persons,NA,TRUE,NA,NA
+Born_elsewhere_persons,NA,TRUE,NA,NA
+Country_of_birth_not_stated_persons,NA,TRUE,NA,NA
+Persons_australia_total,NA,NA,TRUE,TRUE
+Persons_bangladesh_total,NA,NA,TRUE,TRUE
+Persons_bosnia_and_herzegovina_total,NA,NA,TRUE,TRUE
+Persons_cambodia_total,NA,NA,TRUE,TRUE
+Persons_canada_total,NA,NA,TRUE,TRUE
+Persons_chile_total,NA,NA,TRUE,TRUE
+Persons_china_excludes_sars_and_taiwan_total,NA,NA,TRUE,TRUE
+Persons_croatia_total,NA,NA,TRUE,TRUE
+Persons_egypt_total,NA,NA,TRUE,TRUE
+Persons_england_total,NA,NA,TRUE,TRUE
+Persons_fiji_total,NA,NA,TRUE,TRUE
+Persons_france_total,NA,NA,TRUE,TRUE
+Persons_germany_total,NA,NA,TRUE,TRUE
+Persons_greece_total,NA,NA,TRUE,TRUE
+Persons_hong_kong_sar_of_china_total,NA,NA,TRUE,TRUE
+Persons_india_total,NA,NA,TRUE,TRUE
+Persons_indonesia_total,NA,NA,TRUE,TRUE
+Persons_iran_total,NA,NA,TRUE,TRUE
+Persons_iraq_total,NA,NA,TRUE,TRUE
+Persons_ireland_total,NA,NA,TRUE,TRUE
+Persons_italy_total,NA,NA,TRUE,TRUE
+Persons_japan_total,NA,NA,TRUE,TRUE
+Persons_korea_republic_of_south_total,NA,NA,TRUE,TRUE
+Persons_lebanon_total,NA,NA,TRUE,TRUE
+Persons_malaysia_total,NA,NA,TRUE,TRUE
+Persons_malta_total,NA,NA,TRUE,TRUE
+Persons_mauritius_total,NA,NA,TRUE,TRUE
+Persons_myanmar_total,NA,NA,TRUE,TRUE
+Persons_nepal_total,NA,NA,TRUE,TRUE
+Persons_netherlands_total,NA,NA,TRUE,TRUE
+Persons_new_zealand_total,NA,NA,TRUE,TRUE
+Persons_pakistan_total,NA,NA,TRUE,TRUE
+Persons_papua_new_guinea_total,NA,NA,TRUE,TRUE
+Persons_philippines_total,NA,NA,TRUE,TRUE
+Persons_poland_total,NA,NA,TRUE,TRUE
+Persons_scotland_total,NA,NA,TRUE,TRUE
+Persons_singapore_total,NA,NA,TRUE,TRUE
+Persons_south_africa_total,NA,NA,TRUE,TRUE
+Persons_sri_lanka_total,NA,NA,TRUE,TRUE
+Persons_taiwan_total,NA,NA,TRUE,TRUE
+Persons_thailand_total,NA,NA,TRUE,TRUE
+Persons_turkey_total,NA,NA,TRUE,TRUE
+Persons_united_states_of_america_total,NA,NA,TRUE,TRUE
+Persons_vietnam_total,NA,NA,TRUE,TRUE
+Persons_wales_total,NA,NA,TRUE,TRUE
+Persons_zimbabwe_total,NA,NA,TRUE,TRUE
+Persons_born_elsewhere_total,NA,NA,TRUE,TRUE
+Persons_country_of_birth_not_stated_total,NA,NA,TRUE,TRUE
+Persons_total_total,NA,NA,TRUE,TRUE
+Persons_northern_ireland_total,NA,NA,TRUE,NA
+Persons_south_eastern_europe_nfd_total,NA,NA,TRUE,NA
+Persons_the_former_yugoslav_republic_of_macedonia_total,NA,NA,TRUE,NA
+Persons_brazil_total,NA,NA,NA,TRUE
+Persons_north_macedonia_total,NA,NA,NA,TRUE
+Persons_samoa_total,NA,NA,NA,TRUE

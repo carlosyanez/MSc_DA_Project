@@ -1,0 +1,108 @@
+Attribute,new,2006,2011,2016,2021
+Australia_persons,COB - Australia,TRUE,TRUE,NA,NA
+Canada_persons,COB - Elsewhere,TRUE,TRUE,NA,NA
+Croatia_persons,COB - Elsewhere,TRUE,TRUE,NA,NA
+Egypt_persons,COB - Elsewhere,TRUE,TRUE,NA,NA
+Fiji_persons,COB - Elsewhere,TRUE,TRUE,NA,NA
+Germany_persons,COB - Elsewhere,TRUE,TRUE,NA,NA
+Greece_persons,COB - Greece,TRUE,TRUE,NA,NA
+India_persons,COB - India,TRUE,TRUE,NA,NA
+Indonesia_persons,COB - Elsewhere,TRUE,TRUE,NA,NA
+Iraq_persons,COB - Elsewhere,TRUE,TRUE,NA,NA
+Ireland_persons,COB - Elsewhere,TRUE,TRUE,NA,NA
+Italy_persons,COB - Italy,TRUE,TRUE,NA,NA
+Lebanon_persons,COB - Elsewhere,TRUE,TRUE,NA,NA
+Malaysia_persons,COB - Elsewhere,TRUE,TRUE,NA,NA
+Malta_persons,COB - Elsewhere,TRUE,TRUE,NA,NA
+Netherlands_persons,COB - Elsewhere,TRUE,TRUE,NA,NA
+Philippines_persons,COB - Philippines,TRUE,TRUE,NA,NA
+Poland_persons,COB - Elsewhere,TRUE,TRUE,NA,NA
+Singapore_persons,COB - Elsewhere,TRUE,TRUE,NA,NA
+Thailand_persons,COB - Elsewhere,TRUE,TRUE,NA,NA
+Turkey_persons,COB - Elsewhere,TRUE,TRUE,NA,NA
+Total_persons,COB - Total,TRUE,TRUE,NA,NA
+Bosnia And Herzegovina_persons,COB - Elsewhere,TRUE,NA,NA,NA
+China (Excl. Sars And Taiwan Province)_Persons,COB - China,TRUE,NA,NA,NA
+Former Yugoslav Republic Of Macedonia (Fyrom)_Person,COB - Elsewhere,TRUE,NA,NA,NA
+Hong Kong (Sar Of China)_Persons,COB - Hong Kong,TRUE,NA,NA,NA
+Korea_ Republic Of (South)_Persons,COB - Elsewhere,TRUE,NA,NA,NA
+New Zealand_persons,COB - NZ,TRUE,NA,NA,NA
+Papua New Guinea_persons,COB - Elsewhere,TRUE,NA,NA,NA
+South Africa_persons,COB - Elsewhere,TRUE,NA,NA,NA
+South Eastern Europe_ Nfd_persons,COB - Elsewhere,TRUE,NA,NA,NA
+Sri Lanka_persons,COB - Elsewhere,TRUE,NA,NA,NA
+United Kingdom_persons,COB - UK,TRUE,NA,NA,NA
+United States Of America_persons,COB - Elsewhere,TRUE,NA,NA,NA
+Viet Nam_persons,COB - Vietnam,TRUE,NA,NA,NA
+Born Elsewhere_persons,COB - Elsewhere,TRUE,NA,NA,NA
+Country Of Birth Not Stated_persons,COB - Elsewhere,TRUE,NA,NA,NA
+Bosnia_and_herzegovina_persons,COB - Elsewhere,NA,TRUE,NA,NA
+Cambodia_persons,COB - Elsewhere,NA,TRUE,NA,NA
+China_excl_sars_and_taiwan_persons,COB - China,NA,TRUE,NA,NA
+Former_yugoslav_republic_of_macedonia_fyrom_person,COB - Elsewhere,NA,TRUE,NA,NA
+Hong_kong_sar_of_china_persons,COB - Hong Kong,NA,TRUE,NA,NA
+Korea_republic_of_south_persons,COB - Elsewhere,NA,TRUE,NA,NA
+New_zealand_persons,COB - NZ,NA,TRUE,NA,NA
+South_africa_persons,COB - Elsewhere,NA,TRUE,NA,NA
+South_eastern_europe_nfd_persons,COB - Elsewhere,NA,TRUE,NA,NA
+Sri_lanka_persons,COB - Elsewhere,NA,TRUE,NA,NA
+United_kingdom_channel_islands_and_isle_of_man_persons,COB - UK,NA,TRUE,NA,NA
+United_states_of_america_persons,COB - Elsewhere,NA,TRUE,NA,NA
+Vietnam_persons,COB - Vietnam,NA,TRUE,NA,NA
+Born_elsewhere_persons,COB - Elsewhere,NA,TRUE,NA,NA
+Country_of_birth_not_stated_persons,COB - Elsewhere,NA,TRUE,NA,NA
+Persons_australia_total,COB - Australia,NA,NA,TRUE,TRUE
+Persons_bangladesh_total,COB - Elsewhere,NA,NA,TRUE,TRUE
+Persons_bosnia_and_herzegovina_total,COB - Elsewhere,NA,NA,TRUE,TRUE
+Persons_cambodia_total,COB - Elsewhere,NA,NA,TRUE,TRUE
+Persons_canada_total,COB - Elsewhere,NA,NA,TRUE,TRUE
+Persons_chile_total,COB - Elsewhere,NA,NA,TRUE,TRUE
+Persons_china_excludes_sars_and_taiwan_total,COB - China,NA,NA,TRUE,TRUE
+Persons_croatia_total,COB - Elsewhere,NA,NA,TRUE,TRUE
+Persons_egypt_total,COB - Elsewhere,NA,NA,TRUE,TRUE
+Persons_england_total,COB - UK,NA,NA,TRUE,TRUE
+Persons_fiji_total,COB - Elsewhere,NA,NA,TRUE,TRUE
+Persons_france_total,COB - Elsewhere,NA,NA,TRUE,TRUE
+Persons_germany_total,COB - Elsewhere,NA,NA,TRUE,TRUE
+Persons_greece_total,COB - Greece,NA,NA,TRUE,TRUE
+Persons_hong_kong_sar_of_china_total,COB - Hong Kong,NA,NA,TRUE,TRUE
+Persons_india_total,COB - India,NA,NA,TRUE,TRUE
+Persons_indonesia_total,COB - Elsewhere,NA,NA,TRUE,TRUE
+Persons_iran_total,COB - Elsewhere,NA,NA,TRUE,TRUE
+Persons_iraq_total,COB - Elsewhere,NA,NA,TRUE,TRUE
+Persons_ireland_total,COB - Elsewhere,NA,NA,TRUE,TRUE
+Persons_italy_total,COB - Italy,NA,NA,TRUE,TRUE
+Persons_japan_total,COB - Elsewhere,NA,NA,TRUE,TRUE
+Persons_korea_republic_of_south_total,COB - Elsewhere,NA,NA,TRUE,TRUE
+Persons_lebanon_total,COB - Elsewhere,NA,NA,TRUE,TRUE
+Persons_malaysia_total,COB - Elsewhere,NA,NA,TRUE,TRUE
+Persons_malta_total,COB - Elsewhere,NA,NA,TRUE,TRUE
+Persons_mauritius_total,COB - Elsewhere,NA,NA,TRUE,TRUE
+Persons_myanmar_total,COB - Elsewhere,NA,NA,TRUE,TRUE
+Persons_nepal_total,COB - Elsewhere,NA,NA,TRUE,TRUE
+Persons_netherlands_total,COB - Elsewhere,NA,NA,TRUE,TRUE
+Persons_new_zealand_total,COB - NZ,NA,NA,TRUE,TRUE
+Persons_pakistan_total,COB - Elsewhere,NA,NA,TRUE,TRUE
+Persons_papua_new_guinea_total,COB - Elsewhere,NA,NA,TRUE,TRUE
+Persons_philippines_total,COB - Philippines,NA,NA,TRUE,TRUE
+Persons_poland_total,COB - Elsewhere,NA,NA,TRUE,TRUE
+Persons_scotland_total,COB - UK,NA,NA,TRUE,TRUE
+Persons_singapore_total,COB - Elsewhere,NA,NA,TRUE,TRUE
+Persons_south_africa_total,COB - Elsewhere,NA,NA,TRUE,TRUE
+Persons_sri_lanka_total,COB - Elsewhere,NA,NA,TRUE,TRUE
+Persons_taiwan_total,COB - Elsewhere,NA,NA,TRUE,TRUE
+Persons_thailand_total,COB - Elsewhere,NA,NA,TRUE,TRUE
+Persons_turkey_total,COB - Elsewhere,NA,NA,TRUE,TRUE
+Persons_united_states_of_america_total,COB - Elsewhere,NA,NA,TRUE,TRUE
+Persons_vietnam_total,COB - Vietnam,NA,NA,TRUE,TRUE
+Persons_wales_total,COB - UK,NA,NA,TRUE,TRUE
+Persons_zimbabwe_total,COB - Elsewhere,NA,NA,TRUE,TRUE
+Persons_born_elsewhere_total,COB - Elsewhere,NA,NA,TRUE,TRUE
+Persons_country_of_birth_not_stated_total,COB - Elsewhere,NA,NA,TRUE,TRUE
+Persons_total_total,COB - Total,NA,NA,TRUE,TRUE
+Persons_northern_ireland_total,COB - UK,NA,NA,TRUE,NA
+Persons_south_eastern_europe_nfd_total,COB - Elsewhere,NA,NA,TRUE,NA
+Persons_the_former_yugoslav_republic_of_macedonia_total,COB - Elsewhere,NA,NA,TRUE,NA
+Persons_brazil_total,COB - Elsewhere,NA,NA,NA,TRUE
+Persons_north_macedonia_total,COB - Elsewhere,NA,NA,NA,TRUE
+Persons_samoa_total,COB - Elsewhere,NA,NA,NA,TRUE
