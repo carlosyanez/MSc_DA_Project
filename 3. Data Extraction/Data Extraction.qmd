@@ -825,15 +825,16 @@ dbWriteTable(mydb, "country_of_birth", country_of_birth,overwrite=TRUE)
 
 ```
 
-
-### Language used at home ----
+###Religion ----
 
 ```{r}
+
 #| eval: true
+
 census_tables <- list_census_tables() |>
-                 filter(Number %in% c("12","13")) |>
-                 filter(str_detect(`Table Name`,"Children",TRUE)) |>
-                 filter(str_detect(`Table Name`,"Religious",TRUE))
+                 filter(Number %in% c("13","14")) |>
+                 filter(str_detect(`Table Name`,"Religious"))
+
 
 tables_summary <- census_tables |>
                   select(-contains("Table")) |>
@@ -845,11 +846,13 @@ tables_summary <- census_tables |>
 list_census_geo_tables(year = tables_summary$Year,geo="CED|CED_2007|CED_2004",table_number = tables_summary$Number) |>
   mutate(Year=as.character(Year)) |>
   right_join(tables_summary, by=c("table_number"="Number","Year"="Year"))
+
 ```
 
 Not aggregated for all years
 
 ```{r}
+
 #| eval: true
 
 list_census_geo_tables(year = tables_summary$Year,geo=c("SA1|CD"),table_number = tables_summary$Number) |>
@@ -861,80 +864,95 @@ list_census_geo_tables(year = tables_summary$Year,geo=c("SA1|CD"),table_number =
 
 ```{r}
 
-language_attributes <- tibble()
+
+religion_attributes <- tibble()
+
+
 
 for(i in 1:nrow(tables_summary)){
-  
+
   table_i <- tables_summary[i,]$Number
   year_i  <- tables_summary[i,]$Year
-  
+
   attr_i <- list_census_attributes(table_i) |> 
              pivot_longer(-c(Table,Attribute),
                            names_to="Year",values_to = "Value") |>
               filter(Year==year_i) |>
               filter(!is.na(Value)) |>
               select(-Value)
-  
-  language_attributes <- bind_rows(attr_i,language_attributes)
-  
+
+  religion_attributes <- bind_rows(attr_i,religion_attributes)
+
 }
 
-  language_attributes <- language_attributes   |> 
+
+  religion_attributes <- religion_attributes   |> 
                        distinct(Attribute,Year) |>
                       filter(str_detect(Attribute,"[Pp]erson")) |>
-                      filter(str_detect(Attribute,"[Ee]nglish"))
                       mutate(dummy=TRUE) |>
                       pivot_wider(names_from = Year, values_from = dummy)                  
+
     
-language_attributes |> 
+
+religion_attributes |> 
   rhandsontable(readOnly = TRUE) |>
   hot_cols(columnSorting = TRUE)
 
-write_csv(language_attributes,"language_levels.csv")
+write_csv(religion_attributes,"religion_levels.csv")
+
   
+
 ```
 
-
 ```{r}
-language_attributes <- read_csv("language_levels_edited.csv")
 
-levels <- attribute_tibble_to_list(language_attributes)
+religion_attributes <- read_csv("religion_levels_edited.csv")
 
-language <- tibble()
+levels <- attribute_tibble_to_list(religion_attributes)
+
+religion <- tibble()
+
+
 
 for(year in census_years){
-  
+
   if(year=="2006"){
     geo_structure_x <- "CD"
   } else{
     geo_structure_x <- "SA1"
   }
-  
-  language_i <- get_census_summary(census_table = census_tables,
-                                       selected_years = year,
-                                       geo_structure=geo_structure_x,
-                                       attribute = levels) 
-  
-  language <- bind_rows(language,language_i)
-  
+
+  religion_i <- get_census_summary(census_table = census_tables,
+                                   selected_years = year,
+                                   geo_structure=geo_structure_x,
+                                   attribute = levels) 
+
+
+  religion <- bind_rows(religion,religion_i)
+
+
 }
-rm(language_i,geo_structure_x,levels,language_attributes)
+
+rm(religion_i,geo_structure_x,levels,religion_attributes)
+
 
 #save 
-dbWriteTable(mydb, "language_granular", language,overwrite=TRUE)
 
-rm(language)
+dbWriteTable(mydb, "religion_granular", religion,overwrite=TRUE)
+
+rm(religion)
 
 ```
 
 ```{r}
-language <- tibble()
+
+religion <- tibble()
+
  for(i in 1:length(census_years)){
-   
 
    year <- as.double(census_years[i])
-   
-   value_i <- tbl(mydb,"language_granular") |> 
+
+   value_i <- tbl(mydb,"religion_granular") |> 
                   filter(Year==year)     |>
                   select(-Unit)                    |>
                   rename(!!codes[i]:="Census_Code") |>
@@ -947,43 +965,365 @@ language <- tibble()
                               year=census_years[i]) |>
               rename("Unit"=ceds[i])  |>
               filter(!is.na(Unit))    |>
-              filter(str_detect(Unit,"Shipping",TRUE))|>
-              filter(str_detect(Unit,"Usual",TRUE))   |>
+              filter(str_detect(Unit,"[Ss]hipping",TRUE))|>
+              filter(str_detect(Unit,"[Uu]sual",TRUE))   |>
               filter(str_detect(Unit,"[Aa]pplicable",TRUE)) 
-   
+
+
     value_i <- value_i  |> 
                auscensus::calculate_percentage(key_col = "Attribute",
                                                 value_col = "Value",
-                                                key_value = "COB - Total",
+                                                key_value = "Religion - Total",
                                                 percentage_scale = 100)
 
-   language <- bind_rows(language,value_i)
-   
+   religion <- bind_rows(religion,value_i)
+
+
  }
 
 
-
-             
-language <- language |>
+religion <- religion |>
                 select(-Total,-Value) |>
                 pivot_wider(names_from = "Attribute",values_from = "Percentage")
 
-   
-   
-dbWriteTable(mydb, "language", language,overwrite=TRUE)
+
+dbWriteTable(mydb, "religion", religion,overwrite=TRUE)
 
 ```
 
 
+###Citizenship ----
+
+```{r}
+
+#| eval: true
+
+census_tables <- list_census_tables() |>
+                 filter(Number %in% c("01")) 
+
+tables_summary <- census_tables |>
+                  select(-contains("Table")) |>
+                  pivot_longer(-Number, names_to="Year",values_to = "Value") |>
+                  filter(!is.na(Value)) |>
+                  select(-Value)
+
+
+list_census_geo_tables(year = tables_summary$Year,geo="CED|CED_2007|CED_2004",table_number = tables_summary$Number) |>
+  mutate(Year=as.character(Year)) |>
+  right_join(tables_summary, by=c("table_number"="Number","Year"="Year"))
+
+```
+
+Not aggregated for all years
+
+```{r}
+
+#| eval: true
+
+list_census_geo_tables(year = tables_summary$Year,geo=c("SA1|CD"),table_number = tables_summary$Number) |>
+   mutate(Year=as.character(Year)) |>
+  right_join(tables_summary, by=c("table_number"="Number","Year"="Year"))
+
+
+```
+
+```{r}
+
+citizenship_attributes <- tibble()
+
+for(i in 1:nrow(tables_summary)){
+
+  table_i <- tables_summary[i,]$Number
+  year_i  <- tables_summary[i,]$Year
+
+  attr_i <- list_census_attributes(table_i) |> 
+             pivot_longer(-c(Table,Attribute),
+                           names_to="Year",values_to = "Value") |>
+              filter(Year==year_i) |>
+              filter(!is.na(Value)) |>
+              select(-Value)
+
+  citizenship_attributes <- bind_rows(attr_i,citizenship_attributes)
+
+}
+
+
+  citizenship_attributes <- citizenship_attributes   |> 
+                       distinct(Attribute,Year) |>
+                      filter(str_detect(Attribute,"[Aa]ustralian")) |>
+                      filter(str_detect(Attribute,"[Pp]erson")) |>
+                      mutate(dummy=TRUE) |>
+                      pivot_wider(names_from = Year, values_from = dummy)  |>
+                      bind_rows(
+                         citizenship_attributes   |> 
+                       distinct(Attribute,Year) |>
+                      filter(str_detect(Attribute,"^[Tt]otal")) |>
+                      filter(str_detect(Attribute,"[Pp]ersons$")) |>
+                      mutate(dummy=TRUE) |>
+                      pivot_wider(names_from = Year, values_from = dummy)
+                      )
+
+    
+
+citizenship_attributes |> 
+  rhandsontable(readOnly = TRUE) |>
+  hot_cols(columnSorting = TRUE)
+
+```
+
+```{r}
+
+citizenship_attributes <- citizenship_attributes |>
+                          select(Attribute)      |>
+                          mutate(AttrNew = case_when(
+                            str_detect(Attribute,"Australian") ~ "Australian Citizens",
+                            str_detect(Attribute,"Total")      ~ "Total"
+                          ))
+
+levels <- attribute_tibble_to_list(citizenship_attributes)
+
+citizenship <- tibble()
+
+
+
+for(year in census_years){
+
+  if(year=="2006"){
+    geo_structure_x <- "CD"
+  } else{
+    geo_structure_x <- "SA1"
+  }
+
+  citizenship_i <- get_census_summary(census_table = census_tables,
+                                   selected_years = year,
+                                   geo_structure=geo_structure_x,
+                                   attribute = levels) 
+
+
+  citizenship <- bind_rows(citizenship,citizenship_i)
+
+
+}
+
+rm(citizenship_i,geo_structure_x,levels,citizenship_attributes)
+
+
+#save 
+
+dbWriteTable(mydb, "citizenship_granular", citizenship,overwrite=TRUE)
+
+rm(citizenship)
+
+```
+
+```{r}
+
+citizenship <- tibble()
+
+ for(i in 1:length(census_years)){
+
+   year <- as.double(census_years[i])
+
+   value_i <- tbl(mydb,"citizenship_granular") |> 
+                  filter(Year==year)     |>
+                  select(-Unit)                    |>
+                  rename(!!codes[i]:="Census_Code") |>
+                  collect() |>
+                  aussiemaps::geo_aggregate(
+                              values_col="Value",
+                              original_geo=codes[i],
+                              new_geo=ceds[i],
+                              grouping_col = c("Year","Attribute"),
+                              year=census_years[i]) |>
+              rename("Unit"=ceds[i])  |>
+              filter(!is.na(Unit))    |>
+              filter(str_detect(Unit,"[Ss]hipping",TRUE))|>
+              filter(str_detect(Unit,"[Uu]sual",TRUE))   |>
+              filter(str_detect(Unit,"[Aa]pplicable",TRUE)) 
+
+
+    value_i <- value_i  |> 
+               auscensus::calculate_percentage(key_col = "Attribute",
+                                                value_col = "Value",
+                                                key_value = "Total",
+                                                percentage_scale = 100)
+
+   citizenship <- bind_rows(citizenship,value_i)
+
+
+ }
+
+
+citizenship <- citizenship |>
+                select(-Total,-Value) |>
+                pivot_wider(names_from = "Attribute",values_from = "Percentage")
+
+
+dbWriteTable(mydb, "citizenship", citizenship,overwrite=TRUE)
+
+```
+
+```{r}
+DBI::dbListTables(mydb)
+
+```
 
 
 
 ## Climate Data
 
+```{r}
 
+capital_cities <- aussiemaps::get_map(filters = list(LGA_NAME_2022=c("Melbourne",
+                                                                     "Sydney",
+                                                                     "Adelaide",
+                                                                     "Brisbane",
+                                                                     "Darwin",
+                                                                     "Perth",
+                                                                     "Canberra",
+                                                                     "Hobart")),
+                                      year=2021,aggregation="LGA_NAME_2022")
+
+capital_cities <- capital_cities |>
+                  st_drop_geometry() |>
+                  select(LGA_NAME_2022,STATE_NAME_2021) |>
+                  bind_cols(as_tibble(capital_cities |> 
+                         st_centroid() |> 
+                         st_coordinates())) |>
+                  rename("longitude"="X","latitude"="Y")
+
+silodata <- tibble()
+
+for(i in 1:nrow(capital_cities)){
+  
+data_i  <- get_silodata(latitude = capital_cities[i,]$latitude,
+             longitude = capital_cities[i,]$longitude,
+             email = "carlos.yanez.s@gmail.com",
+             START = "20050101",
+             FINISH = "20220731") |>
+          mutate(CapitalCity = capital_cities[i,]$LGA_NAME_2022,
+                 State       = capital_cities[i,]$STATE_NAME_2021)
+
+silodata <- bind_rows(silodata,data_i)
+  
+
+}
+
+rm(data_i,i)
+
+dbWriteTable(mydb, "silodata", silodata,overwrite=TRUE)
+
+
+```
+
+## Proportions tables
 
 ```{r}
-#| eval: true
-dbDisconnect(mydb, shutdown=TRUE)
+
+
+for(year in census_years){
+
+if(year==2006){
+  original_geo <- "CD_CODE_2006"
+  new_geo      <- "CED_NAME_2006"
+}
+if(year %in% c(2011,2016)){
+  original_geo <- str_c("SA1_7DIGITCODE_",year)
+  new_geo      <- str_c("CED_CODE_",year)
+}
+if(year==2021){
+  original_geo <- str_c("SA1_CODE_",year)
+  new_geo      <- str_c("CED_CODE_",year)
+}
+  
+
+correspondence_table <- list_structure(year=year) |>
+    select(any_of(c("id",original_geo,new_geo)))
+
+  proportions_table <-   list_proportions(original_geo) |>
+    collect()  |>
+    select("id","geo_col","prop") |>
+    rename(!!original_geo := "geo_col")
+  
+  correspondence_table <- correspondence_table |>
+    left_join(proportions_table,by=c("id",original_geo)) |>
+    group_by(across(c(original_geo,new_geo))) |>
+    summarise(across(c("prop"), ~ sum(.x,na.rm=TRUE)),.groups = "drop") |>
+    filter(prop!=0) |>
+    mutate(Year=year)
+  
+  dbWriteTable(mydb, str_c("correspondence_",year), correspondence_table,overwrite=TRUE)
+
+}
+
 ```
+
+
+
+## Fix CED names
+
+```{r}
+tables <- DBI::dbListTables(mydb)
+tables <- tables[str_detect(tables,"granular",TRUE)]
+
+
+for(i in 1:length(tables)){
+  cols <- colnames(tbl(mydb,tables[i])) 
+  ced_col <- cols[str_detect(cols,"Unit|CED")]
+  
+  df <- tbl(mydb,tables[i]) |>
+    mutate(across(any_of(ced_col), ~ case_when(
+      Year %in% c(2006,2011) & str_detect(.x,"Fraser") ~ "Fraser (I)",
+      Year %in% c(2019,2021) & str_detect(.x,"Fraser") ~ "Fraser (II)",
+      TRUE ~ .x
+    ))) |>
+    collect()
+  
+    dbWriteTable(mydb, tables[i], df,overwrite=TRUE)
+
+}
+```
+
+
+## Close DB connection
+
+```{r}
+
+#| eval: true
+
+dbDisconnect(mydb, shutdown=TRUE)
+
+```
+
+## Upload release
+
+```{r}
+
+library(piggyback)
+library(fs)
+library(zip)
+
+files_dir      <- here("4. Data")
+repo           <- "carlosyanez/MSc_DA_Project"
+version       <- "data"
+
+#create new release
+tryCatch(pb_new_release(repo,version),
+           error=function(e){cat("ERROR :",conditionMessage(e), "\n")})
+
+
+
+#list and zip files
+files <- dir_ls(files_dir)
+zip_file <- "data.zip"
+
+zip(zip_file,files,mode="cherry-pick")
+
+# upload catalogue items ---
+pb_upload(file=zip_file,repo,version)
+
+file_delete(zip_file)
+
+```
+
 
