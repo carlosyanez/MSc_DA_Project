@@ -178,7 +178,12 @@ for(table in tables_ced){
   
 }
 
-corr
+(corr |> 
+  ggplot(aes(x=party,y=Attribute,fill=corr)) +
+  geom_tile() +
+  scale_fill_gradient2(low="red",mid="white", high="blue") +
+  base_theme) |> 
+  customthemes::save_image(path(bulk_dir,str_c("correlations_hist.png")))
 
 
 # correlation with each primary vote
@@ -197,11 +202,11 @@ all_covariates <- all_covariates |>
   customthemes::save_image(path(bulk_dir,"covariates.png"))
 
 
-corr2 <- round(cor(all_covariates), 1)
+#corr2 <- round(cor(all_covariates), 1)
 
-ggcorrplot::ggcorrplot(corr2, hc.order = TRUE, type = "lower",
-                       lab = TRUE) |>
-  customthemes::save_image(path(bulk_dir,"covariates_correlation.png"))
+#ggcorrplot::ggcorrplot(corr2, hc.order = TRUE, type = "lower",
+#                       lab = TRUE) |>
+#  customthemes::save_image(path(bulk_dir,"covariates_correlation.png"))
 
 #granular
 
