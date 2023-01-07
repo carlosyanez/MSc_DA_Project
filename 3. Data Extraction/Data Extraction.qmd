@@ -802,7 +802,7 @@ dbWriteTable(mydb, "country_of_birth", country_of_birth,overwrite=TRUE)
 
 ```
 
-### household_tenure ----
+### Religion ----
 
 ```{r}
 
@@ -842,7 +842,7 @@ list_census_geo_tables(year = tables_summary$Year,geo=c("SA1|CD"),table_number =
 ```{r}
 
 
-household_tenure_attributes <- tibble()
+religion_attributes <- tibble()
 
 
 
@@ -858,12 +858,12 @@ for(i in 1:nrow(tables_summary)){
               filter(!is.na(Value)) |>
               select(-Value)
 
-  household_tenure_attributes <- bind_rows(attr_i,household_tenure_attributes)
+  religion_attributes <- bind_rows(attr_i,religion_attributes)
 
 }
 
 
-  household_tenure_attributes <- household_tenure_attributes   |> 
+  religion_attributes <- religion_attributes   |> 
                        distinct(Attribute,Year) |>
                       filter(str_detect(Attribute,"[Pp]erson")) |>
                       mutate(dummy=TRUE) |>
@@ -871,11 +871,11 @@ for(i in 1:nrow(tables_summary)){
 
     
 
-household_tenure_attributes |> 
+religion_attributes |> 
   rhandsontable(readOnly = TRUE) |>
   hot_cols(columnSorting = TRUE)
 
-write_csv(household_tenure_attributes,"household_tenure_levels.csv")
+write_csv(religion_attributes,"religion_levels.csv")
 
   
 
@@ -884,11 +884,11 @@ write_csv(household_tenure_attributes,"household_tenure_levels.csv")
 
 ```{r}
 
-household_tenure_attributes <- read_csv("household_tenure_levels_edited.csv")
+religion_attributes <- read_csv("religion_levels_edited.csv")
 
-levels <- attribute_tibble_to_list(household_tenure_attributes)
+levels <- attribute_tibble_to_list(religion_attributes)
 
-household_tenure <- tibble()
+religion <- tibble()
 
 
 
@@ -900,37 +900,37 @@ for(year in census_years){
     geo_structure_x <- "SA1"
   }
 
-  household_tenure_i <- get_census_summary(census_table = census_tables,
+  religion_i <- get_census_summary(census_table = census_tables,
                                    selected_years = year,
                                    geo_structure=geo_structure_x,
                                    attribute = levels) 
 
 
-  household_tenure <- bind_rows(household_tenure,household_tenure_i)
+  religion <- bind_rows(religion,religion_i)
 
 
 }
 
-rm(household_tenure_i,geo_structure_x,levels,household_tenure_attributes)
+rm(religion_i,geo_structure_x,levels,religion_attributes)
 
 
 #save 
 
-dbWriteTable(mydb, "household_tenure_granular", household_tenure,overwrite=TRUE)
+dbWriteTable(mydb, "religion_granular", religion,overwrite=TRUE)
 
-rm(household_tenure)
+rm(religion)
 
 ```
 
 ```{r}
 
-household_tenure <- tibble()
+religion <- tibble()
 
  for(i in 1:length(census_years)){
 
    year <- as.double(census_years[i])
 
-   value_i <- tbl(mydb,"household_tenure_granular") |> 
+   value_i <- tbl(mydb,"religion_granular") |> 
                   filter(Year==year)     |>
                   select(-Unit)                    |>
                   rename(!!codes[i]:="Census_Code") |>
@@ -951,21 +951,21 @@ household_tenure <- tibble()
     value_i <- value_i  |> 
                auscensus::calculate_percentage(key_col = "Attribute",
                                                 value_col = "Value",
-                                                key_value = "household_tenure - Total",
+                                                key_value = "religion - Total",
                                                 percentage_scale = 100)
 
-   household_tenure <- bind_rows(household_tenure,value_i)
+   religion <- bind_rows(religion,value_i)
 
 
  }
 
 
-household_tenure <- household_tenure |>
+religion <- religion |>
                 select(-Total,-Value) |>
                 pivot_wider(names_from = "Attribute",values_from = "Percentage")
 
 
-dbWriteTable(mydb, "household_tenure", household_tenure,overwrite=TRUE)
+dbWriteTable(mydb, "religion", religion,overwrite=TRUE)
 
 ```
 
@@ -1223,7 +1223,7 @@ write_csv(household_tenure_attributes,"household_tenure.csv")
 
 ```{r}
 
-household_tenure_attributes <- read_csv("household_tenure_edited.csv")
+household_tenure_attributes <- read_csv("household_tenure_levels_edited.csv")
 
 levels <- attribute_tibble_to_list(household_tenure_attributes)
 
@@ -1310,7 +1310,514 @@ dbWriteTable(mydb, "household_tenure", household_tenure,overwrite=TRUE)
 ```
 
 
+### Industry of Occupation
 
+```{r}
+
+#| eval: true
+
+census_tables <- list_census_tables() |>
+                 filter(str_detect(`Table Name`,"[In]ndustry")) |>
+                 filter(str_detect(`Table Name`,"[Oo]ccupation"))
+
+
+tables_summary <- census_tables |>
+                  select(-contains("Table")) |>
+                  pivot_longer(-Number, names_to="Year",values_to = "Value") |>
+                  filter(!is.na(Value)) |>
+                  select(-Value)
+
+
+
+list_census_geo_tables(year = tables_summary$Year,geo="CED|CED_2007|CED_2004",table_number = tables_summary$Number) |>
+  mutate(Year=as.character(Year)) |>
+  right_join(tables_summary, by=c("table_number"="Number","Year"="Year"))
+
+```
+
+Not aggregated for all years
+
+```{r}
+
+#| eval: true
+
+list_census_geo_tables(year = tables_summary$Year,geo=c("SA1|CD"),table_number = tables_summary$Number) |>
+   mutate(Year=as.character(Year)) |>
+  right_join(tables_summary, by=c("table_number"="Number","Year"="Year"))
+
+
+```
+
+```{r}
+
+occupation_attributes <- tibble()
+
+for(i in 1:nrow(tables_summary)){
+
+  table_i <- tables_summary[i,]$Number
+  year_i  <- tables_summary[i,]$Year
+
+  attr_i <- list_census_attributes(table_i) |> 
+             pivot_longer(-c(Table,Attribute),
+                           names_to="Year",values_to = "Value") |>
+              filter(Year==year_i) |>
+              filter(!is.na(Value)) |>
+              select(-Value)
+
+  occupation_attributes <- bind_rows(attr_i,occupation_attributes)
+
+}
+
+
+occupation_attributes <- occupation_attributes   |> 
+                       distinct(Attribute,Year) |>
+                      filter(str_detect(Attribute,"[Tt]otal")) |>
+                      mutate(dummy=TRUE) |>
+                      pivot_wider(names_from = Year, values_from = dummy) 
+
+
+
+occupation_attributes |> 
+  rhandsontable(readOnly = TRUE) |>
+  hot_cols(columnSorting = TRUE)
+
+
+write_csv(occupation_attributes,"occupation.csv")
+
+
+```
+
+
+
+```{r}
+
+occupation_attributes <- read_csv("ocuppation_edited.csv")
+
+levels <- attribute_tibble_to_list(occupation_attributes)
+
+occupation <- tibble()
+
+
+
+for(year in census_years){
+
+  if(year=="2006"){
+    geo_structure_x <- "CD"
+  } else{
+    geo_structure_x <- "SA1"
+  }
+
+  occupation_i <- get_census_summary(census_table = census_tables,
+                                   selected_years = year,
+                                   geo_structure=geo_structure_x,
+                                   attribute = levels) 
+
+
+  occupation <- bind_rows(occupation,occupation_i)
+
+
+}
+
+rm(occupation_i,geo_structure_x,levels,occupation_attributes)
+
+
+#save 
+
+dbWriteTable(mydb, "occupation_granular", occupation,overwrite=TRUE)
+
+rm(occupation)
+
+```
+
+
+```{r}
+
+occupation <- tibble()
+
+ for(i in 1:length(census_years)){
+
+   year <- as.double(census_years[i])
+
+   value_i <- tbl(mydb,"occupation_granular") |> 
+                  filter(Year==year)     |>
+                  select(-Unit)                    |>
+                  rename(!!codes[i]:="Census_Code") |>
+                  collect() |>
+                  aussiemaps::geo_aggregate(
+                              values_col="Value",
+                              original_geo=codes[i],
+                              new_geo=ceds[i],
+                              grouping_col = c("Year","Attribute"),
+                              year=census_years[i]) |>
+              rename("Unit"=ceds[i])  |>
+              filter(!is.na(Unit))    |>
+              filter(str_detect(Unit,"[Ss]hipping",TRUE))|>
+              filter(str_detect(Unit,"[Uu]sual",TRUE))   |>
+              filter(str_detect(Unit,"[Aa]pplicable",TRUE)) 
+
+
+    value_i <- value_i  |> 
+               auscensus::calculate_percentage(key_col = "Attribute",
+                                                value_col = "Value",
+                                                key_value = "Occupation - Total",
+                                                percentage_scale = 100)
+
+   occupation <- bind_rows(occupation,value_i)
+
+
+ }
+
+
+occupation <- occupation |>
+                select(-Total,-Value) |>
+                pivot_wider(names_from = "Attribute",values_from = "Percentage")
+
+
+dbWriteTable(mydb, "occupation", occupation,overwrite=TRUE)
+
+```
+
+
+### Relationship status
+
+
+```{r}
+
+
+
+#| eval: true
+
+census_tables <- list_census_tables() |>
+                 filter(str_detect(`Table Name`,"Relationship"))
+
+
+tables_summary <- census_tables |>
+                  select(-contains("Table")) |>
+                  pivot_longer(-Number, names_to="Year",values_to = "Value") |>
+                  filter(!is.na(Value)) |>
+                  select(-Value)
+
+
+
+list_census_geo_tables(year = tables_summary$Year,geo="CED|CED_2007|CED_2004",table_number = tables_summary$Number) |>
+  mutate(Year=as.character(Year)) |>
+  right_join(tables_summary, by=c("table_number"="Number","Year"="Year"))
+
+```
+
+Not aggregated for all years
+
+```{r}
+
+#| eval: true
+
+list_census_geo_tables(year = tables_summary$Year,geo=c("SA1|CD"),table_number = tables_summary$Number) |>
+   mutate(Year=as.character(Year)) |>
+  right_join(tables_summary, by=c("table_number"="Number","Year"="Year"))
+
+
+```
+
+```{r}
+
+relationship_attributes <- tibble()
+
+for(i in 1:nrow(tables_summary)){
+
+  table_i <- tables_summary[i,]$Number
+  year_i  <- tables_summary[i,]$Year
+
+  attr_i <- list_census_attributes(table_i) |> 
+             pivot_longer(-c(Table,Attribute),
+                           names_to="Year",values_to = "Value") |>
+              filter(Year==year_i) |>
+              filter(!is.na(Value)) |>
+              select(-Value)
+
+  relationship_attributes <- bind_rows(attr_i,relationship_attributes)
+
+}
+
+
+relationship_attributes <- relationship_attributes   |> 
+                       distinct(Attribute,Year) |>
+                      filter(str_detect(Attribute,"[Ff]emale",TRUE)) |>
+                      filter(str_detect(Attribute,"[Mm]ale",TRUE)) |>
+                      filter(str_detect(Attribute,"[Pp]erson")) |>
+                      filter(str_detect(Attribute,"[Tt]otal")) |>
+                      mutate(dummy=TRUE) |>
+                      pivot_wider(names_from = Year, values_from = dummy) 
+
+
+
+relationship_attributes |> 
+  rhandsontable(readOnly = TRUE) |>
+  hot_cols(columnSorting = TRUE)
+
+
+write_csv(relationship_attributes,"relationship.csv")
+
+
+```
+
+```{r}
+
+relationship_attributes <- read_csv("relationship_edited.csv")
+
+levels <- attribute_tibble_to_list(relationship_attributes)
+
+relationship <- tibble()
+
+
+
+for(year in census_years){
+
+  if(year=="2006"){
+    geo_structure_x <- "CD"
+  } else{
+    geo_structure_x <- "SA1"
+  }
+
+  relationship_i <- get_census_summary(census_table = census_tables,
+                                   selected_years = year,
+                                   geo_structure=geo_structure_x,
+                                   attribute = levels) 
+
+
+  relationship <- bind_rows(relationship,relationship_i)
+
+
+}
+
+rm(relationship_i,geo_structure_x,levels,relationship_attributes)
+
+
+#save 
+
+dbWriteTable(mydb, "relationship_granular", relationship,overwrite=TRUE)
+
+rm(relationship)
+
+```
+
+
+```{r}
+
+relationship <- tibble()
+
+ for(i in 1:length(census_years)){
+
+   year <- as.double(census_years[i])
+   value_i <- tbl(mydb,"relationship_granular") |> 
+                  filter(Year==year)     |>
+                  select(-Unit)                    |>
+                  rename(!!codes[i]:="Census_Code") |>
+                  collect() |>
+                  aussiemaps::geo_aggregate(
+                              values_col="Value",
+                              original_geo=codes[i],
+                              new_geo=ceds[i],
+                              grouping_col = c("Year","Attribute"),
+                              year=census_years[i]) |>
+              rename("Unit"=ceds[i])  |>
+              filter(!is.na(Unit))    |>
+              filter(str_detect(Unit,"[Ss]hipping",TRUE))|>
+              filter(str_detect(Unit,"[Uu]sual",TRUE))   |>
+              filter(str_detect(Unit,"[Aa]pplicable",TRUE)) 
+
+
+    value_i <- value_i  |> 
+               auscensus::calculate_percentage(key_col = "Attribute",
+                                                value_col = "Value",
+                                                key_value = "Relationship - Total",
+                                                percentage_scale = 100)
+
+   relationship <- bind_rows(relationship,value_i)
+
+
+ }
+
+
+relationship <- relationship |>
+                select(-Total,-Value) |>
+                pivot_wider(names_from = "Attribute",values_from = "Percentage")
+
+
+dbWriteTable(mydb, "relationship", relationship,overwrite=TRUE)
+
+```
+
+
+### Place of residence 5 years  before
+
+
+```{r}
+
+
+
+#| eval: true
+
+census_tables <- list_census_tables() |>
+                 filter(str_detect(`Table Name`,"5 Years"))
+
+
+tables_summary <- census_tables |>
+                  select(-contains("Table")) |>
+                  pivot_longer(-Number, names_to="Year",values_to = "Value") |>
+                  filter(!is.na(Value)) |>
+                  select(-Value)
+
+
+
+list_census_geo_tables(year = tables_summary$Year,geo="CED|CED_2007|CED_2004",table_number = tables_summary$Number) |>
+  mutate(Year=as.character(Year)) |>
+  right_join(tables_summary, by=c("table_number"="Number","Year"="Year"))
+
+```
+
+Not aggregated for all years
+
+```{r}
+#| eval: true
+
+list_census_geo_tables(year = tables_summary$Year,geo=c("SA1|CD"),table_number = tables_summary$Number) |>
+   mutate(Year=as.character(Year)) |>
+  right_join(tables_summary, by=c("table_number"="Number","Year"="Year"))
+
+
+```
+
+```{r}
+
+prior_res_attributes <- tibble()
+
+for(i in 1:nrow(tables_summary)){
+
+  table_i <- tables_summary[i,]$Number
+  year_i  <- tables_summary[i,]$Year
+
+  attr_i <- list_census_attributes(table_i) |> 
+             pivot_longer(-c(Table,Attribute),
+                           names_to="Year",values_to = "Value") |>
+              filter(Year==year_i) |>
+              filter(!is.na(Value)) |>
+              select(-Value)
+
+  prior_res_attributes <- bind_rows(attr_i,prior_res_attributes)
+
+}
+
+
+prior_res_attributes <- prior_res_attributes   |> 
+                       distinct(Attribute,Year) |>
+                      filter(str_detect(Attribute,"[Ff]emale",TRUE)) |>
+                      filter(str_detect(Attribute,"[Mm]ale",TRUE)) |>
+                      filter(str_detect(Attribute,"[Pp]erson")) |>
+                      mutate(dummy=TRUE) |>
+                      pivot_wider(names_from = Year, values_from = dummy) 
+
+
+
+prior_res_attributes |> 
+  rhandsontable(readOnly = TRUE) |>
+  hot_cols(columnSorting = TRUE)
+
+
+write_csv(prior_res_attributes,"prior_res.csv")
+
+
+```
+
+```{r}
+
+prior_res_attributes <- read_csv("prior_res_edited.csv")
+
+levels <- attribute_tibble_to_list(prior_res_attributes)
+
+prior_res <- tibble()
+
+for(year in census_years){
+
+  if(year=="2006"){
+    geo_structure_x <- "CD"
+  } else{
+    geo_structure_x <- "SA1"
+  }
+
+  prior_res_i <- get_census_summary(census_table = census_tables,
+                                   selected_years = year,
+                                   geo_structure=geo_structure_x,
+                                   attribute = levels) 
+
+
+  prior_res <- bind_rows(prior_res,prior_res_i)
+
+
+}
+
+rm(prior_res_i,geo_structure_x,levels,prior_res_attributes)
+
+
+#save 
+
+dbWriteTable(mydb, "prior_res_granular", prior_res,overwrite=TRUE)
+
+rm(prior_res)
+
+```
+
+
+```{r}
+
+prior_res <- tibble()
+
+ for(i in 1:length(census_years)){
+
+   year <- as.double(census_years[i])
+
+   value_i <- tbl(mydb,"prior_res_granular") |> 
+                  filter(Year==year)     |>
+                  select(-Unit)                    |>
+                  rename(!!codes[i]:="Census_Code") |>
+                  collect() |>
+                  aussiemaps::geo_aggregate(
+                              values_col="Value",
+                              original_geo=codes[i],
+                              new_geo=ceds[i],
+                              grouping_col = c("Year","Attribute"),
+                              year=census_years[i]) |>
+              rename("Unit"=ceds[i])  |>
+              filter(!is.na(Unit))    |>
+              filter(str_detect(Unit,"[Ss]hipping",TRUE))|>
+              filter(str_detect(Unit,"[Uu]sual",TRUE))   |>
+              filter(str_detect(Unit,"[Aa]pplicable",TRUE)) 
+
+
+    value_i <- value_i  |> 
+               auscensus::calculate_percentage(key_col = "Attribute",
+                                                value_col = "Value",
+                                                key_value = "Residence move - Total",
+                                                percentage_scale = 100)
+
+   prior_res <- bind_rows(prior_res,value_i)
+
+
+ }
+
+
+prior_res <- prior_res |>
+                select(-Total,-Value) |>
+                pivot_wider(names_from = "Attribute",values_from = "Percentage")
+
+
+dbWriteTable(mydb, "prior_res", prior_res,overwrite=TRUE)
+
+```
+
+
+
+
+### DBI fixes
 
 
 ```{r}
@@ -1322,14 +1829,14 @@ DBI::dbListTables(mydb)
 
 ```{r}
 
-capital_cities <- aussiemaps::get_map(filters = list(LGA_NAME_2022=c("Melbourne",
-                                                                     "Sydney",
-                                                                     "Adelaide",
-                                                                     "Brisbane",
-                                                                     "Darwin",
-                                                                     "Perth",
-                                                                     "Canberra",
-                                                                     "Hobart")),
+capital_cities <- aussiemaps::get_map(filters = list(LGA_NAME_2022=c("^Melbourne$",
+                                                                     "^Sydney$",
+                                                                     "^Adelaide$",
+                                                                     "^Brisbane$",
+                                                                     "^Darwin$",
+                                                                     "^Perth$",
+                                                                     "^Canberra$",
+                                                                     "^Hobart$")),
                                       year=2021,aggregation="LGA_NAME_2022")
 
 capital_cities <- capital_cities |>
@@ -1377,11 +1884,11 @@ if(year==2006){
 }
 if(year %in% c(2011,2016)){
   original_geo <- str_c("SA1_7DIGITCODE_",year)
-  new_geo      <- str_c("CED_CODE_",year)
+  new_geo      <- str_c("CED_NAME_",year)
 }
 if(year==2021){
   original_geo <- str_c("SA1_CODE_",year)
-  new_geo      <- str_c("CED_CODE_",year)
+  new_geo      <- str_c("CED_NAME_",year)
 }
   
 
@@ -1398,7 +1905,12 @@ correspondence_table <- list_structure(year=year) |>
     group_by(across(c(original_geo,new_geo))) |>
     summarise(across(c("prop"), ~ sum(.x,na.rm=TRUE)),.groups = "drop") |>
     filter(prop!=0) |>
-    mutate(Year=year)
+    mutate(Year=year)|>
+    mutate(across(any_of(new_geo), ~ case_when(
+      Year %in% c(2006,2011) & str_detect(.x,"Fraser") ~ "Fraser (I)",
+      Year %in% c(2019,2021) & str_detect(.x,"Fraser") ~ "Fraser (II)",
+      TRUE ~ .x
+    )))
   
   dbWriteTable(mydb, str_c("correspondence_",year), correspondence_table,overwrite=TRUE)
 
@@ -1413,6 +1925,9 @@ correspondence_table <- list_structure(year=year) |>
 ```{r}
 tables <- DBI::dbListTables(mydb)
 tables <- tables[str_detect(tables,"granular",TRUE)]
+tables <- tables[str_detect(tables,"year_equivalency",TRUE)]
+tables <- tables[str_detect(tables,"correspondence_",TRUE)]
+tables <- tables[str_detect(tables,"silodata",TRUE)]
 
 
 for(i in 1:length(tables)){
@@ -1463,7 +1978,7 @@ tryCatch(pb_new_release(repo,version),
 
 #list and zip files
 files <- dir_ls(files_dir)
-zip_file <- "data.zip"
+zip_file <- "data_orig.zip"
 
 zip(zip_file,files,mode="cherry-pick")
 

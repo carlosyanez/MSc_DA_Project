@@ -1,0 +1,57 @@
+Attribute,AtrrNew,2021,2016,2011,2006
+Agriculture_forestry_and_fishing_total,Industry - Agricultural,TRUE,TRUE,TRUE,NA
+Mining_total,Industry - Mining,TRUE,TRUE,TRUE,TRUE
+Manufacturing_total,Industry - Manufacturing,TRUE,TRUE,TRUE,TRUE
+Electricity_gas_water_and_waste_services_total,Industry - Infrastructure,TRUE,TRUE,TRUE,NA
+Construction_total,Industry - Construction,TRUE,TRUE,TRUE,TRUE
+Wholesale_trade_total,Industry - Retail and Wholesale,TRUE,TRUE,TRUE,NA
+Retail_trade_total,Industry - Retail and Wholesale,TRUE,TRUE,TRUE,NA
+Accommodation_and_food_services_total,Industry - Hospitality Arts and Recreation,TRUE,TRUE,TRUE,NA
+Transport_postal_and_warehousing_total,Industry - Services,TRUE,TRUE,TRUE,NA
+Information_media_and_telecommunications_total,Industry - ICT and Science,TRUE,TRUE,TRUE,NA
+Financial_and_insurance_services_total,Industry - Services,TRUE,TRUE,TRUE,NA
+Rental_hiring_and_real_estate_services_total,Industry - Services,TRUE,TRUE,TRUE,NA
+Professional_scientific_and_technical_services_total,Industry - ICT and Science,TRUE,TRUE,TRUE,NA
+Administrative_and_support_services_total,Industry - Admin and Public administration,TRUE,TRUE,TRUE,NA
+Public_administration_and_safety_total,Industry - Admin and Public administration,TRUE,TRUE,TRUE,NA
+Education_and_training_total,Industry - Education,TRUE,TRUE,TRUE,NA
+Health_care_and_social_assistance_total,Industry - Healthcare,TRUE,TRUE,TRUE,NA
+Arts_and_recreation_services_total,Industry - Hospitality Arts and Recreation,TRUE,TRUE,TRUE,NA
+Other_services_total,Industry - Services,TRUE,TRUE,TRUE,NA
+Inadequately_described_not_stated_total,Industry - Other,TRUE,TRUE,TRUE,NA
+Total_occupation_managers,Occupation - Managers and Professionals,TRUE,TRUE,TRUE,NA
+Total_occupation_professionals,Occupation - Managers and Professionals,TRUE,TRUE,TRUE,NA
+Total_occupation_technicians_and_trades_workers,Occupation  - Trades and skilled,TRUE,TRUE,TRUE,NA
+Total_occupation_community_and_personal_service_workers,Occupation - Sales and Service workers,TRUE,TRUE,TRUE,NA
+Total_occupation_clerical_and_administrative_workers,Occupation - Clerical,TRUE,TRUE,TRUE,NA
+Total_occupation_sales_workers,Occupation - Sales and Service workers,TRUE,TRUE,TRUE,NA
+Total_occupation_machinery_operators_and_drivers,Occupation  - Trades and skilled,TRUE,TRUE,TRUE,NA
+Total_occupation_labourers,Occupation - Labourers,TRUE,TRUE,TRUE,NA
+Total_occupation_inadequately_described_not_stated,Occupation - Not stated,TRUE,TRUE,TRUE,NA
+Total_total,Occupation - Total,TRUE,TRUE,TRUE,TRUE
+Agriculture\ Forestry & Fishing_total,Industry - Agricultural,NA,NA,NA,TRUE
+Electricity\ Gas\ Water & Waste Services_total,Industry - Infrastructure,NA,NA,NA,TRUE
+Wholesale Trade_total,Industry - Retail and Wholesale,NA,NA,NA,TRUE
+Retail Trade_total,Industry - Retail and Wholesale,NA,NA,NA,TRUE
+Accommodation & Food Services_total,Industry - Hospitality Arts and Recreation,NA,NA,NA,TRUE
+Transport\ Postal & Warehousing_total,Industry - Services,NA,NA,NA,TRUE
+Information Media & Telecommunications_total,Industry - ICT and Science,NA,NA,NA,TRUE
+Financial & Insurance Services_total,Industry - Services,NA,NA,NA,TRUE
+Rental\ Hiring & Real Estate Services_total,Industry - Services,NA,NA,NA,TRUE
+Professional\ Scientific & Technical Services_total,Industry - ICT and Science,NA,NA,NA,TRUE
+Administrative & Support Services_total,Industry - Admin and Public administration,NA,NA,NA,TRUE
+Public Administration & Safety_total,Industry - Admin and Public administration,NA,NA,NA,TRUE
+Education & Training_total,Industry - Education,NA,NA,NA,TRUE
+Health Care & Social Assistance_total,Industry - Healthcare,NA,NA,NA,TRUE
+Arts & Recreation Services_total,Industry - Hospitality Arts and Recreation,NA,NA,NA,TRUE
+Other Services_total,Industry - Services,NA,NA,NA,TRUE
+Inadequately Described\Not Stated_total,Industry - Other,NA,NA,NA,TRUE
+Total_managers,Occupation - Managers and Professionals,NA,NA,NA,TRUE
+Total_professionals,Occupation - Managers and Professionals,NA,NA,NA,TRUE
+Total_technicians & Trades Workers,Occupation  - Trades and skilled,NA,NA,NA,TRUE
+Total_community & Personal Service Workers,Occupation - Sales and Service workers,NA,NA,NA,TRUE
+Total_clerical & Administrative Workers,Occupation - Clerical,NA,NA,NA,TRUE
+Total_sales Workers,Occupation - Sales and Service workers,NA,NA,NA,TRUE
+Total_machinery Operators & Drivers,Occupation  - Trades and skilled,NA,NA,NA,TRUE
+Total_labourers,Occupation - Labourers,NA,NA,NA,TRUE
+Total_occupation Inadequately Described/ Not Stated,Occupation - Not stated,NA,NA,NA,TRUE
