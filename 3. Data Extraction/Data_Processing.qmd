@@ -218,12 +218,14 @@ for(table in renmant_tables){
 
 ```{r}
 granular_tables <- renmant_tables[str_detect(renmant_tables,"granular")]
-#gran_table <- granular_tables[1]
+#gran_table <- granular_tables[2]
 
 
 for(gran_table in granular_tables){
   
   gt <- tbl(processed_db,gran_table) 
+  
+  gt |> distinct(Year)
   
   result <- tibble()
   for(year in years){
@@ -231,7 +233,7 @@ for(gran_table in granular_tables){
      correspondence_i <- tbl(original_db,str_c("correspondence_",year)) |>
                       collect()  
 
-     colnames(correspondence_i)[1:2] <- c("Unit","DivisionNm")
+     colnames(correspondence_i)[1:2] <- c("Census_Code","DivisionNm")
      
      result_i <- gt |>
             filter(Year==year) |>
@@ -239,17 +241,17 @@ for(gran_table in granular_tables){
      
      result_i_total <- result_i |> 
        filter(str_detect(Attribute,"[Tt]otal")) |>
-                select(-Census_Code,-Attribute) |>
+                select(-Attribute) |>
                 rename("Total"="Value")  
      
       result_i<-    result_i |>
               filter(str_detect(Attribute,"[Tt]otal",TRUE)) |>
-              left_join(result_i_total,by=c("Unit","Year")) |>
+              left_join(result_i_total,by=c("Unit","Census_Code","Year")) |>
                filter(Value!=0)                             |>
                filter(Total!=0)                             |>
                mutate(Percentage=100*Value/Total)           |>
               select(-Value,-Total)                          |>
-            left_join(correspondence_i,by=c("Unit","Year")) |>
+            left_join(correspondence_i,by=c("Census_Code","Year")) |>
             group_by(DivisionNm,Year,Attribute)             |>
             summarise(sd  =sd(Percentage,na.rm=TRUE),
                       .groups="drop")                       |>

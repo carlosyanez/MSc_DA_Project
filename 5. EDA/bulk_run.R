@@ -46,6 +46,8 @@ dir_create(bulk_dir)
 tables <- dbListTables(processed_db)
 
 
+keep_vars <- ls()
+keep_var <- c(keep_vars,"keep_vars")
 ## Party Primary vote -----
 
 primary_vote <- tbl(processed_db,"primary_vote") |>
@@ -54,12 +56,16 @@ primary_vote <- tbl(processed_db,"primary_vote") |>
 
 parties <- unique(primary_vote |> collect() |> distinct(PartyAb) |> pull())
 
+my_palette <-RColorBrewer::brewer.pal(8,"Set2")
+names(my_palette) <- state_acronyms
+
+keep_vars <- c(keep_var,"parties","primary_vote","my_palette")
+
 primary_vote_plot <- list()
 
 for(i in 1:length(parties)){
   
-  my_palette <-RColorBrewer::brewer.pal(8,"Set2")
-  names(my_palette) <- state_acronyms
+
   
   primary_vote_plot[[i]] <-primary_vote |> 
         collect() |>
@@ -104,6 +110,7 @@ for(i in 1:length(parties)){
 }
 
 
+rm(list=ls()[!(ls() %in% keep_vars)])
 ## Party Primary vote - Difference Against National Averages-----
 
 
@@ -154,6 +161,7 @@ for(i in 1:length(parties)){
   
 }
 
+rm(list=ls()[!(ls() %in% keep_vars)])
 ## Party Primary vote - Difference Against State Averages-----
 
 
@@ -205,12 +213,15 @@ for(i in 1:length(parties)){
 }
 
 
+rm(list=ls()[!(ls() %in% keep_vars)])
 ## Histograms and relation with responses ----
 
 tables_ced <- tables[str_detect(tables,"granular",TRUE)]
 tables_ced <- tables_ced[str_detect(tables_ced,"correspondence",TRUE)]
 tables_ced <- tables_ced[str_detect(tables_ced,"year_equivalency",TRUE)]
 tables_ced <- tables_ced[str_detect(tables_ced,"silo|parties|primary|sd$",TRUE)]
+
+keep_vars <- c(keep_vars,"tables_ced")
 
 corr_abs <- tibble()
 corr_state <- tibble()
@@ -462,13 +473,15 @@ for(i in 1:nrow(attribute_grid)){
 
 saveRDS(all_corr,"correlations_predictors.rds")
 (all_corr |> 
-    ggplot(aes(x=party,y=Attribute,fill=corr)) +
+    ggplot(aes(x=attr1,y=attr2,fill=corr)) +
     geom_tile() +
     scale_fill_gradient2(low="red",mid="white", high="blue") +
-    base_theme) |> 
+    base_theme +
+    theme(axis.text.x =element_text(angle=90,hjust=1))) |> 
   customthemes::save_image(path(bulk_dir,str_c("correlations_predictors.png")))
 
 
+rm(list=ls()[!(ls() %in% keep_vars)])
 
 
 ## Histograms and relation with responses - SD ----
@@ -519,11 +532,6 @@ for(table in tables_ced){
       labs(title=attr_values[i]) + 
       base_theme 
     
-    if(i==(length(parties)-1)){
-      primary_vote_plot[[i]] <- primary_vote_plot[[i]] +
-        theme(legend.position = "bottom")
-      
-    }
     
     against_response <- t_collected_i |>
       rename("Census"="Percentage") |>
@@ -531,7 +539,7 @@ for(table in tables_ced){
                 by=c("Year"="census_years")) |>
       select(-Attribute) |>
       left_join(primary_vote |> collect(),
-                by=c("election_years"="Year","Unit"="DivisionNm")
+                by=c("election_years"="Year","DivisionNm"="DivisionNm")
       ) |>
       filter(!is.na(PartyAb))
     
@@ -683,10 +691,55 @@ for(table in tables_ced){
     geom_tile() +
     scale_fill_gradient2(low="red",mid="white", high="blue") +
     base_theme) |> 
-  customthemes::save_image(path(bulk_dir,str_c("correlations_state.png")))
+  customthemes::save_image(path(bulk_dir,str_c("2_sigma_correlations_state.png")))
 
 
+# correlation with bewteen predictors
 
+all_atributes <- unique(all_covariates$Attribute)
+
+attribute_grid <- expand.grid(all_atributes,all_atributes)
+
+all_corr <- tibble()
+for(i in 1:nrow(attribute_grid)){
+  
+  attr1 <- attribute_grid[i,]$Var1
+  attr2 <- attribute_grid[i,]$Var2
+  
+  if(attr1!=attr2){
+    
+    cov_i <- all_covariates |> 
+      filter(Attribute %in% c(attr1,attr2))|>
+      select(any_of(c("Unit","Year","Attribute","Percentage"))) |>
+      distinct(Unit,Year,Attribute,Percentage)                  |>
+      pivot_wider(c(Unit,Year),names_from = Attribute,values_from = Percentage) |>
+      filter(if_any(c(attr1), ~ !is.na(.x))) |>
+      filter(if_any(c(attr2), ~ !is.na(.x))) |>
+      select(all_of(c(attr1,attr2))) |>
+      distinct() |>
+      rename("attr1"=attr1,"attr2"=attr2)
+    
+    corr_i <- cor(cov_i$attr1,cov_i$attr2)
+    
+    corr_i <- tibble(attr1=attr1,attr2=attr2,corr=corr_i)
+  }else{
+    
+    corr_i <- tibble(attr1=attr1,attr2=attr2,corr=1)
+    
+    
+  }
+  
+  all_corr <- bind_rows(all_corr,corr_i)
+}
+
+saveRDS(all_corr,"2_sigma_correlations_predictors.rds")
+(all_corr |> 
+    ggplot(aes(x=attr1,y=attr2,fill=corr)) +
+    geom_tile() +
+    scale_fill_gradient2(low="red",mid="white", high="blue") +
+    base_theme +
+    theme(axis.text.x =element_text(angle=90,hjust=1))) |> 
+  customthemes::save_image(path(bulk_dir,str_c("2_sigma_correlations_predictors.png")))
 
 
 ## disconnect ----
