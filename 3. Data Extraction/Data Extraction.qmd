@@ -951,7 +951,7 @@ religion <- tibble()
     value_i <- value_i  |> 
                auscensus::calculate_percentage(key_col = "Attribute",
                                                 value_col = "Value",
-                                                key_value = "religion - Total",
+                                                key_value = "Religion - Total",
                                                 percentage_scale = 100)
 
    religion <- bind_rows(religion,value_i)

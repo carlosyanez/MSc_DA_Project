@@ -57,5 +57,9 @@ rsconnect/
 #Data
 0. Data/*
 data.zip
-4. Data/consolidated_data.duckdb
-4. Data/consolidated_data.duckdb.wal
+4. Data/*.duckdb
+4. Data/*.duckdb.wal
+5. EDA/bulk/*.png
+5. EDA/bulk/Age - Silent Gen_against_reponse.png
+*.png
+*.png

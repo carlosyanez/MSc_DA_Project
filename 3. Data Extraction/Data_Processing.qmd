@@ -1,0 +1,304 @@
+---
+title: "Data Transformation"
+format: html
+editor: visual
+---
+
+```{r}
+library(tidyverse)
+library(here)
+library(DBI)
+```
+
+```{r}
+original_db <- dbConnect(duckdb::duckdb(), here("4. Data","consolidated_data.duckdb"),read_only=FALSE)
+
+processed_db <- dbConnect(duckdb::duckdb(), here("4. Data","processed_data.duckdb"),read_only=FALSE)
+
+
+```
+
+```{r}
+original_tables <- dbListTables(original_db)
+keep_vars <- ls()
+keep_vars <- c(keep_vars,"keep_vars")
+```
+
+### Pass year_equivalency, correspondence tables
+
+```{r}
+copy_tables <- original_tables[str_detect(original_tables,"year_equivalency|^correspondence")]
+
+for(table in copy_tables){
+  dbWriteTable(processed_db,table, dbReadTable(original_db,table),overwrite=TRUE)
+  
+}
+
+```
+
+## Pass primary vote, as "original,create second centred version (around states)
+
+```{r}
+primary_vote <- tbl(original_db,"primary_vote")
+
+
+state_vote <- primary_vote |>
+              group_by(Year,StateAb) |>
+              summarise(StateVotes=sum(OrdinaryVotes,na.rm = TRUE),
+                        .groups = "drop") |>
+              collect()
+
+national_vote <- primary_vote |>
+              group_by(Year) |>
+              summarise(NationalVotes=sum(OrdinaryVotes,na.rm = TRUE),
+                        .groups = "drop") |>
+              collect()
+
+primary_vote_states <-primary_vote |>
+              group_by(Year,StateAb,PartyAb) |>
+              summarise(OrdinaryVotes=sum(OrdinaryVotes,na.rm = TRUE),
+                        .groups = "drop") |>
+              collect() |>
+              left_join(state_vote,by=c("Year","StateAb")) |>
+              mutate(State_Percentage=100*OrdinaryVotes/StateVotes) |>
+              select(-OrdinaryVotes)
+  
+primary_vote_national <-primary_vote |>
+              group_by(Year,PartyAb) |>
+              summarise(OrdinaryVotes=sum(OrdinaryVotes,na.rm = TRUE),
+                        .groups = "drop") |>
+              collect() |>
+              left_join(national_vote,by=c("Year")) |>
+              mutate(National_Percentage=100*OrdinaryVotes/NationalVotes) |>
+               select(-OrdinaryVotes)
+  
+primary_vote_centred <-primary_vote |>
+                       collect() |>
+                       left_join(primary_vote_states,
+                                by=c("Year","StateAb","PartyAb")) |>
+                       left_join(primary_vote_national,
+                                by=c("Year","PartyAb"))           |>  
+                       mutate(Percentage_Diff_State = Percentage-State_Percentage,
+                              Percentage_Diff_National=Percentage-National_Percentage) 
+
+dbWriteTable(processed_db,"primary_vote",primary_vote_centred,overwrite=TRUE)
+
+rm(list=ls()[!(ls() %in% keep_vars)])
+```
+
+```{r}
+
+```
+
+```{r}
+tbl(processed_db,"primary_vote")
+```
+
+## Reprocess prior locations, reducing number of categories
+
+```{r}
+
+#list of electorates per state
+
+electorates_states <- tbl(original_db,"primary_vote") |>
+                      distinct(Year,DivisionNm,StateAb) |>
+                      rename("election_years"="Year")   |>
+                      left_join(tbl(original_db,"year_equivalency"),
+                                by="election_years") |>
+                      select(-election_years) |>
+                      rename("Year"="census_years") |>
+                      collect()
+years <- unique(electorates_states$Year)
+
+keep_vars <- c(keep_vars,"years")
+
+#retrieved correspondences
+prior_granular <- tibble()
+
+for(year in unique(electorates_states$Year)){
+
+  correspondence_i <- tbl(original_db,str_c("correspondence_",year)) |>
+                      collect() 
+
+  colnames(correspondence_i)[1:2] <- c("Unit","DivisionNm")
+
+  correspondence_i <- correspondence_i |>
+                      left_join(electorates_states,by=c("Year","DivisionNm")) |>
+                      distinct(Unit,Year,StateAb)
+
+  prior_granular_i  <- tbl(original_db,"prior_res_granular") |>
+                       collect() |>
+                       left_join(correspondence_i,by=c("Year","Unit")) |>
+                       filter(!is.na(StateAb)) |>
+                       separate(Attribute,c("Attr1","Attr2"),sep=" - ") |>
+                       mutate(Attr2=str_squish(Attr2))                  |>
+                       mutate(Attr2=case_when(
+                                 Attr2 %in% c("No change",
+                                              "Other",
+                                              "Overseas",
+                                  "Not stated",
+                                  "Total",
+                                  "Within area") ~ Attr2,
+                     Attr2 == StateAb ~ "Within state",
+                     TRUE             ~ "Interstate"
+                   )) |>
+                  unite("Attribute",Attr1:Attr2,sep=" - ") |>
+                  group_by(Census_Code,Unit,Year,Attribute) |>
+                  summarise(Value=sum(Value,na.rm=TRUE),.groups="drop")
+  
+  
+  prior_granular <- bind_rows(prior_granular,prior_granular_i)
+    
+}    
+
+dbWriteTable(processed_db,"prior_granular",prior_granular,overwrite=TRUE)
+rm(list=ls()[!(ls() %in% c(keep_vars,"electorates_states"))])
+
+```
+
+```{r}
+
+prior <- tibble()
+
+for(year in unique(electorates_states$Year)){
+
+ 
+  prior_i  <- tbl(original_db,"prior_res_full") |>
+                       collect() |>
+                  pivot_longer(-c(Unit,Year),
+                               names_to =  "Attribute",
+                               values_to = "Value")                    |>
+                       left_join(electorates_states,by=c("Year"="Year",
+                                                         "Unit"="DivisionNm")) |>
+                       filter(!is.na(StateAb)) |>
+                       separate(Attribute,c("Attr1","Attr2"),sep=" - ") |>
+                       mutate(Attr2=str_squish(Attr2))                  |>
+                       mutate(Attr2=case_when(
+                                 Attr2 %in% c("No change",
+                                              "Other",
+                                              "Overseas",
+                                  "Not stated",
+                                  "Total",
+                                  "Within area") ~ Attr2,
+                     Attr2 == StateAb ~ "Within state",
+                     TRUE             ~ "Interstate"
+                   )) |>
+                  unite("Attribute",Attr1:Attr2,sep=" - ") |>
+                  group_by(Unit,Year,Attribute) |>
+                  summarise(Value=sum(Value,na.rm=TRUE),.groups="drop")
+  
+  
+  prior <- bind_rows(prior,prior_i)
+    
+}            
+
+dbWriteTable(processed_db,"prior",prior,overwrite=TRUE)
+rm(list=ls()[!(ls() %in% c(keep_vars))])
+
+```
+
+### Move other census tables
+
+```{r}
+
+moved_tables <- dbListTables(processed_db)
+
+renmant_tables <- original_tables[!(original_tables %in% moved_tables)]
+renmant_tables <- original_tables[str_detect(original_tables,"^prior|^silo",TRUE)]
+
+
+for(table in renmant_tables){
+  dbWriteTable(processed_db,table, dbReadTable(original_db,table),overwrite=TRUE)
+  
+}
+
+```
+
+### Create variance tables
+
+```{r}
+granular_tables <- renmant_tables[str_detect(renmant_tables,"granular")]
+#gran_table <- granular_tables[1]
+
+
+for(gran_table in granular_tables){
+  
+  gt <- tbl(processed_db,gran_table) 
+  
+  result <- tibble()
+  for(year in years){
+    
+     correspondence_i <- tbl(original_db,str_c("correspondence_",year)) |>
+                      collect()  
+
+     colnames(correspondence_i)[1:2] <- c("Unit","DivisionNm")
+     
+     result_i <- gt |>
+            filter(Year==year) |>
+            collect()   
+     
+     result_i_total <- result_i |> 
+       filter(str_detect(Attribute,"[Tt]otal")) |>
+                select(-Census_Code,-Attribute) |>
+                rename("Total"="Value")  
+     
+      result_i<-    result_i |>
+              filter(str_detect(Attribute,"[Tt]otal",TRUE)) |>
+              left_join(result_i_total,by=c("Unit","Year")) |>
+               filter(Value!=0)                             |>
+               filter(Total!=0)                             |>
+               mutate(Percentage=100*Value/Total)           |>
+              select(-Value,-Total)                          |>
+            left_join(correspondence_i,by=c("Unit","Year")) |>
+            group_by(DivisionNm,Year,Attribute)             |>
+            summarise(sd  =sd(Percentage,na.rm=TRUE),
+                      .groups="drop")                       |>
+            pivot_wider(names_from = Attribute,values_from = sd,
+                        names_prefix ="Sigma - ")
+      
+      result <- bind_rows(result,result_i)
+    
+  }
+  
+  table_name <- str_c(str_remove(gran_table,"_granular"),"_sd")
+  dbWriteTable(processed_db,table_name,result,overwrite=TRUE)
+  
+}
+  
+dbListTables(processed_db)
+
+
+```
+
+```{r}
+dbDisconnect(original_db)
+dbDisconnect(processed_db)
+```
+
+```{r}
+.rs.restartR()
+library(piggyback)
+library(fs)
+library(zip)
+
+files_dir      <- here("4. Data")
+repo           <- "carlosyanez/MSc_DA_Project"
+version       <- "data"
+
+#create new release
+tryCatch(pb_new_release(repo,version),
+           error=function(e){cat("ERROR :",conditionMessage(e), "\n")})
+
+
+
+#list and zip files
+files <- here("4. Data","processed_data.duckdb")
+zip_file <- "data_processed.zip"
+
+zip(zip_file,files,mode="cherry-pick")
+
+# upload catalogue items ---
+pb_upload(file=zip_file,repo,version)
+
+file_delete(zip_file)
+```
