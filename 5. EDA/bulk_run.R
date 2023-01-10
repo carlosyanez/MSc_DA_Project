@@ -362,7 +362,7 @@ for(table in tables_ced){
         scale_colour_manual(values=my_palette) + 
         theme(legend.position = "bottom")
       
-      customthemes::save_image(p_against_response_state, path(bulk_dir,str_c(attr_values[i],"_",state,"_against_reponse_nat_diff.png")))
+      customthemes::save_image(p_against_response_nat, path(bulk_dir,str_c(attr_values[i],"_",state,"_against_reponse_nat_diff.png")))
       
     }
     
@@ -435,9 +435,9 @@ for(table in tables_ced){
 
 # correlation with bewteen predictors
 
-all_atributes <- unique(all_covariates$Attribute)
+all_attributes <- unique(all_covariates$Attribute)
 
-attribute_grid <- expand.grid(all_atributes,all_atributes)
+attribute_grid <- expand.grid(all_attributes,all_attributes)
 
 all_corr <- tibble()
 for(i in 1:nrow(attribute_grid)){
@@ -485,15 +485,12 @@ rm(list=ls()[!(ls() %in% keep_vars)])
 
 
 ## Histograms and relation with responses - SD ----
-
+## using ony primary vote diffrence from national average
 tables_ced <- tables[str_detect(tables,"sd$")]
 
-
-corr_abs <- tibble()
-corr_state <- tibble()
 corr_nat   <- tibble()
 all_covariates <- tibble()
-
+keep_vars <- c(keep_vars,"corr_nat","all_covariates","tables_ced","all_corr")
 
 for(table in tables_ced){
   attr <- dbListFields(processed_db,table)
@@ -542,32 +539,7 @@ for(table in tables_ced){
                 by=c("election_years"="Year","DivisionNm"="DivisionNm")
       ) |>
       filter(!is.na(PartyAb))
-    
-    
-    p_against_response_abs <- against_response |>
-      ggplot(aes(x=Census,y=Percentage,colour=StateAb)) +
-      geom_point() +
-      facet_grid(Year ~ PartyAb) +
-      labs(x=attr_values[i],title=str_c(attr_values[i], " - ABS"),y="Primary Vote") +
-      base_theme +
-      #  scale_colour_manual(values=auspol::manage_colours(extra_values = parties))
-      scale_colour_manual(values=my_palette) + 
-      theme(legend.position = "bottom")
-    
-    customthemes::save_image(p_against_response_abs, path(bulk_dir,str_c("2_sigma_",attr_values[i],"_against_reponse.png")))
-    
-    p_against_response_state <- against_response |>
-      ggplot(aes(x=Census,y=Percentage_Diff_State,colour=StateAb)) +
-      geom_point() +
-      facet_grid(Year ~ PartyAb) +
-      labs(x=attr_values[i],title=str_c(attr_values[i], " - STATE"),y="Primary Vote") +
-      base_theme +
-      #  scale_colour_manual(values=auspol::manage_colours(extra_values = parties))
-      scale_colour_manual(values=my_palette) + 
-      theme(legend.position = "bottom")
-    
-    customthemes::save_image(p_against_response_state, path(bulk_dir,str_c("2_sigma_",attr_values[i],"_against_reponse_state_diff.png")))
-    
+  
     
     p_against_response_nat <- against_response |>
       ggplot(aes(x=Census,y=Percentage_Diff_National,colour=StateAb)) +
@@ -585,33 +557,6 @@ for(table in tables_ced){
     
     for(state in state_acronyms){
       
-      p_against_response_abs <- against_response |>
-        filter(StateAb==state)                   |>
-        ggplot(aes(x=Census,y=Percentage,colour=StateAb)) +
-        geom_point() +
-        facet_grid(Year ~ PartyAb) +
-        labs(x=attr_values[i],title=attr_values[i],y="Primary Vote") +
-        base_theme +
-        #  scale_colour_manual(values=auspol::manage_colours(extra_values = parties))
-        scale_colour_manual(values=my_palette) + 
-        theme(legend.position = "bottom")
-      
-      customthemes::save_image(p_against_response_abs, path(bulk_dir,str_c("2_sigma_",attr_values[i],"_",state,"_against_reponse.png")))
-      
-      p_against_response_state <- against_response |>
-        filter(StateAb==state)                   |>
-        ggplot(aes(x=Census,y=Percentage_Diff_State,colour=StateAb)) +
-        geom_point() +
-        facet_grid(Year ~ PartyAb) +
-        labs(x=attr_values[i],title=attr_values[i],y="Primary Vote") +
-        base_theme +
-        #  scale_colour_manual(values=auspol::manage_colours(extra_values = parties))
-        scale_colour_manual(values=my_palette) + 
-        theme(legend.position = "bottom")
-      
-      customthemes::save_image(p_against_response_state, path(bulk_dir,str_c("2_sigma_",attr_values[i],"_",state,"_against_reponse_state_diff.png")))
-      
-      
       p_against_response_nat <- against_response |>
         filter(StateAb==state)                   |>
         ggplot(aes(x=Census,y=Percentage_Diff_State,colour=StateAb)) +
@@ -623,7 +568,7 @@ for(table in tables_ced){
         scale_colour_manual(values=my_palette) + 
         theme(legend.position = "bottom")
       
-      customthemes::save_image(p_against_response_state, path(bulk_dir,str_c("2_sigma_",attr_values[i],"_",state,"_against_reponse_nat_diff.png")))
+      customthemes::save_image(p_against_response_nat, path(bulk_dir,str_c("2_sigma_",attr_values[i],"_",state,"_against_reponse_nat_diff.png")))
       
     }
     
@@ -636,48 +581,26 @@ for(table in tables_ced){
       filter(Census!=0)  
     
     for(party in parties){
-      
-      cb_abs <- corr_bas |>
-        filter(PartyAb==party) |>
-        filter(!is.na(Percentage)) |>
-        distinct(Census,Percentage)
-      
-      corr_abs_i <- tibble(party=party,Attribute=attr_values[i],corr=cor(cb_abs$Census,cb_abs$Percentage))
-      
+
       cb_nat <- corr_bas |>
         filter(PartyAb==party) |>
         filter(!is.na(Percentage_Diff_National)) |>
         distinct(Census,Percentage_Diff_National)
       
       corr_nat_i <- tibble(party=party,Attribute=attr_values[i],corr=cor(cb_nat$Census,cb_nat$Percentage_Diff_National))
-      
-      cb_state <- corr_bas |>
-        filter(PartyAb==party) |>
-        filter(!is.na(Percentage_Diff_State)) |>
-        distinct(Census,Percentage_Diff_State)
-      
-      corr_state_i <- tibble(party=party,Attribute=attr_values[i],corr=cor(cb_state$Census,cb_state$Percentage_Diff_State))
-      
-      corr_abs <- bind_rows(corr_abs,corr_abs_i)
+    
       corr_nat <- bind_rows(corr_nat,corr_nat_i)
-      corr_state <- bind_rows(corr_state,corr_state_i)
-      
-      
+
     }
     
     all_covariates <- bind_rows(all_covariates,t_collected)
     
   }
   patchwork::wrap_plots(p) |> customthemes::save_image(path(bulk_dir,str_c("2_sigma_",table,"_hist.png")))
+  rm(list=ls()[!(ls() %in% keep_vars)])
   
 }
 
-(corr_abs |> 
-    ggplot(aes(x=party,y=Attribute,fill=corr)) +
-    geom_tile() +
-    scale_fill_gradient2(low="red",mid="white", high="blue") +
-    base_theme) |> 
-  customthemes::save_image(path(bulk_dir,str_c("2_sigma_correlations_abs.png")))
 
 (corr_nat |> 
     ggplot(aes(x=party,y=Attribute,fill=corr)) +
@@ -686,21 +609,16 @@ for(table in tables_ced){
     base_theme) |> 
   customthemes::save_image(path(bulk_dir,str_c("2_sigma_correlations_nat.png")))
 
-(corr_state |> 
-    ggplot(aes(x=party,y=Attribute,fill=corr)) +
-    geom_tile() +
-    scale_fill_gradient2(low="red",mid="white", high="blue") +
-    base_theme) |> 
-  customthemes::save_image(path(bulk_dir,str_c("2_sigma_correlations_state.png")))
 
 
 # correlation with bewteen predictors
 
-all_atributes <- unique(all_covariates$Attribute)
+all_attributes <- unique(all_covariates$Attribute)
 
-attribute_grid <- expand.grid(all_atributes,all_atributes)
+attribute_grid <- expand.grid(all_attributes,all_attributes)
 
 all_corr <- tibble()
+keep_vars <- c(keep_vars,"all_attributes","attribute_grid","all_corr")
 for(i in 1:nrow(attribute_grid)){
   
   attr1 <- attribute_grid[i,]$Var1
@@ -730,6 +648,9 @@ for(i in 1:nrow(attribute_grid)){
   }
   
   all_corr <- bind_rows(all_corr,corr_i)
+  
+  rm(list=ls()[!(ls() %in% keep_vars)])
+  
 }
 
 saveRDS(all_corr,"2_sigma_correlations_predictors.rds")
