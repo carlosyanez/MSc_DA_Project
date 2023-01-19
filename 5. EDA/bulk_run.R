@@ -1,3 +1,4 @@
+###QQ
 ## setup ----
 library(DBI)
 library(tidyverse)
@@ -267,7 +268,7 @@ for(table in tables_ced){
       base_theme 
     
     if(i==(length(parties)-1)){
-      primary_vote_plot[[i]] <- primary_vote_plot[[i]] +
+      p[[i]] <- p[[i]] +
         theme(legend.position = "bottom")
       
     }
@@ -471,7 +472,7 @@ for(i in 1:nrow(attribute_grid)){
   all_corr <- bind_rows(all_corr,corr_i)
 }
 
-saveRDS(all_corr,"correlations_predictors.rds")
+saveRDS(all_corr,here("5. EDA","correlations_predictors.rds"))
 (all_corr |> 
     ggplot(aes(x=attr1,y=attr2,fill=corr)) +
     geom_tile() +
@@ -611,7 +612,7 @@ for(table in tables_ced){
 
 
 
-# correlation with bewteen predictors
+# correlation with between predictors
 
 all_attributes <- unique(all_covariates$Attribute)
 
@@ -628,9 +629,9 @@ for(i in 1:nrow(attribute_grid)){
     
     cov_i <- all_covariates |> 
       filter(Attribute %in% c(attr1,attr2))|>
-      select(any_of(c("Unit","Year","Attribute","Percentage"))) |>
-      distinct(Unit,Year,Attribute,Percentage)                  |>
-      pivot_wider(c(Unit,Year),names_from = Attribute,values_from = Percentage) |>
+      select(any_of(c("Year","DivisionNm","Attribute","Percentage"))) |>
+      distinct(Year,DivisionNm,Attribute,Percentage)                  |>
+      pivot_wider(c(Year,DivisionNm),names_from = Attribute,values_from = Percentage) |>
       filter(if_any(c(attr1), ~ !is.na(.x))) |>
       filter(if_any(c(attr2), ~ !is.na(.x))) |>
       select(all_of(c(attr1,attr2))) |>
@@ -653,7 +654,7 @@ for(i in 1:nrow(attribute_grid)){
   
 }
 
-saveRDS(all_corr,"2_sigma_correlations_predictors.rds")
+saveRDS(all_corr,here("5. EDA","2_sigma_correlations_predictors.rds"))
 (all_corr |> 
     ggplot(aes(x=attr1,y=attr2,fill=corr)) +
     geom_tile() +

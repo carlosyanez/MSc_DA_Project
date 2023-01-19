@@ -21,6 +21,8 @@ execute:
   eval: false
 ---
 
+## Setup
+
 ```{r}
 #| eval: true
 
@@ -1829,44 +1831,107 @@ DBI::dbListTables(mydb)
 
 ```{r}
 
-capital_cities <- aussiemaps::get_map(filters = list(LGA_NAME_2022=c("^Melbourne$",
-                                                                     "^Sydney$",
-                                                                     "^Adelaide$",
-                                                                     "^Brisbane$",
-                                                                     "^Darwin$",
-                                                                     "^Perth$",
-                                                                     "^Canberra$",
-                                                                     "^Hobart$")),
-                                      year=2021,aggregation="LGA_NAME_2022")
+library(sf)
 
-capital_cities <- capital_cities |>
-                  st_drop_geometry() |>
-                  select(LGA_NAME_2022,STATE_NAME_2021) |>
-                  bind_cols(as_tibble(capital_cities |> 
-                         st_centroid() |> 
-                         st_coordinates())) |>
+map_structure <- list_structure(2021)
+
+#electorates and and metro areas
+
+metro <-  map_structure |> 
+                distinct(GCCSA_CODE_2021,GCCSA_NAME_2021) |>
+                filter(str_detect(GCCSA_NAME_2021,"^Rest",TRUE)) |>
+                filter(str_detect(GCCSA_NAME_2021,"^No usual",TRUE)) |>
+                filter(str_detect(GCCSA_NAME_2021,"^Migratory",TRUE)) |>
+                filter(str_detect(GCCSA_NAME_2021,"^Other",TRUE))
+
+metro_electorates <- map_structure |>
+                     filter(GCCSA_CODE_2021 %in% metro$GCCSA_CODE_2021) |>
+                     distinct(CED_CODE_2021, CED_NAME_2021,GCCSA_CODE_2021,GCCSA_NAME_2021) |>
+                      filter(str_detect(CED_NAME_2021,"^Rest",TRUE)) |>
+                      filter(str_detect(CED_NAME_2021,"^No usual",TRUE)) |>
+                      filter(str_detect(CED_NAME_2021,"^Migratory",TRUE)) |>
+                      filter(str_detect(CED_NAME_2021,"^Other",TRUE))
+
+non_metro <- map_structure |>
+             filter(!(CED_CODE_2021 %in% metro_electorates$CED_CODE_2021)) |>
+                      filter(str_detect(CED_NAME_2021,"^Rest",TRUE)) |>
+                      filter(str_detect(CED_NAME_2021,"^No usual",TRUE)) |>
+                      filter(str_detect(CED_NAME_2021,"^Migratory",TRUE)) |>
+                      filter(str_detect(CED_NAME_2021,"^Other",TRUE))      |>
+            select(CED_NAME_2021,CED_CODE_2021)
+
+
+
+metro_areas <-  bind_cols(metro,
+                 get_map(filters = list(GCCSA_CODE_2021 = metro$GCCSA_CODE_2021),
+                       year=2021,
+                       aggregation=c("GCCSA_NAME_2021"),
+                       use_cache=TRUE) |>
+                  st_make_valid() |>
+                  st_centroid() |> 
+                  st_coordinates()) |>
                   rename("longitude"="X","latitude"="Y")
 
-silodata <- tibble()
 
-for(i in 1:nrow(capital_cities)){
+non_metro_map <-get_map(filters = list(CED_CODE_2021 = non_metro$CED_CODE_2021),
+                       year=2021,
+                       aggregation=c("CED_NAME_2021"),
+                       use_cache=TRUE) 
+
+
+non_metro_areas <-  bind_cols(non_metro_map |> st_drop_geometry() |> select(CED_NAME_2021,CED_CODE_2021),
+                  non_metro_map |>st_make_valid() |>
+                  st_centroid() |> 
+                  st_coordinates() ) |> 
+                  rename("longitude"="X","latitude"="Y")
+              
   
-data_i  <- get_silodata(latitude = capital_cities[i,]$latitude,
-             longitude = capital_cities[i,]$longitude,
-             email = "carlos.yanez.s@gmail.com",
-             START = "20050101",
-             FINISH = "20220731") |>
-          mutate(CapitalCity = capital_cities[i,]$LGA_NAME_2022,
-                 State       = capital_cities[i,]$STATE_NAME_2021)
 
-silodata <- bind_rows(silodata,data_i)
+silodata_metro <- tibble()
+
+for(i in 1:nrow(metro_areas)){
+  
+data_i  <- get_silodata(latitude = metro_areas[i,]$latitude,
+             longitude = metro_areas[i,]$longitude,
+             email = "carlos.yanez.s@gmail.com",
+             START = "19700101",
+             FINISH = "20220731") |>
+          mutate(GCCSA_NAME_2021 = metro_areas[i,]$GCCSA_NAME_2021,
+                 GCCSA_CODE_2021 = metro_areas[i,]$GCCSA_CODE_2021
+                 )
+
+silodata_metro <- bind_rows(silodata_metro,data_i)
+  
+
+}
+
+
+silodata_non_metro <- tibble()
+
+for(i in 1:nrow(non_metro_areas)){
+  
+data_i  <- get_silodata(latitude = non_metro_areas[i,]$latitude,
+             longitude = non_metro_areas[i,]$longitude,
+             email = "carlos.yanez.s@gmail.com",
+             START = "19700101",
+             FINISH = "20220731") |>
+          mutate(CED_NAME_2021 = non_metro_areas[i,]$CED_NAME_2021,
+                 CED_CODE_2021 = non_metro_areas[i,]$CED_CODE_2021
+                 )
+
+silodata_non_metro <- bind_rows(silodata_non_metro,data_i)
   
 
 }
 
 rm(data_i,i)
 
-dbWriteTable(mydb, "silodata", silodata,overwrite=TRUE)
+dbWriteTable(mydb, "metro_electorates", metro_electorates,overwrite=TRUE)
+dbWriteTable(mydb, "non_metro_electorates", non_metro_areas,overwrite=TRUE)
+
+
+dbWriteTable(mydb, "silodata_metro", silodata_metro,overwrite=TRUE)
+dbWriteTable(mydb, "silodata_non_metro", silodata_non_metro,overwrite=TRUE)
 
 
 ```
@@ -1966,7 +2031,7 @@ library(piggyback)
 library(fs)
 library(zip)
 
-files_dir      <- here("4. Data")
+file_name      <- here("4. Data","consolidated_data.duckdb")
 repo           <- "carlosyanez/MSc_DA_Project"
 version       <- "data"
 
@@ -1977,10 +2042,9 @@ tryCatch(pb_new_release(repo,version),
 
 
 #list and zip files
-files <- dir_ls(files_dir)
 zip_file <- "data_orig.zip"
 
-zip(zip_file,files,mode="cherry-pick")
+zip(zip_file,file_name,mode="cherry-pick")
 
 # upload catalogue items ---
 pb_upload(file=zip_file,repo,version)

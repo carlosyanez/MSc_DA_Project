@@ -44,8 +44,7 @@ packages_to_install <- tibble::tribble(
 "tinter",                     "CRAN",        "",
 "patchwork",                  "CRAN",        "",
 "DBI",                        "CRAN",        "",
-"duckdb",                     "CRAN",        "",
-"GGally",                     "CRAN",        ""
+"duckdb",                     "CRAN",        ""
 )
 
 just.install::justinstall(packages_to_install)

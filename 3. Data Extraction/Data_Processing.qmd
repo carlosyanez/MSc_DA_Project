@@ -1,4 +1,5 @@
 ---
+stars---
 title: "Data Transformation"
 format: html
 editor: visual
@@ -8,6 +9,7 @@ editor: visual
 library(tidyverse)
 library(here)
 library(DBI)
+library(lubridate)
 ```
 
 ```{r}
@@ -303,4 +305,45 @@ zip(zip_file,files,mode="cherry-pick")
 pb_upload(file=zip_file,repo,version)
 
 file_delete(zip_file)
+```
+
+## Climate Data
+
+```{r}
+dbListTables(original_db)
+source("aus_seasons.R")
+silodata_non_metro <- tbl(original_db,"silodata_non_metro")
+silodata_metro     <- tbl(original_db,"silodata_metro")
+metro_electorates  <- tbl(original_db,"metro_electorates")
+non_metro_electorates <- tbl(original_db,"non_metro_electorates")
+
+
+
+day_months <- tibble(date=as_date("2000-01-01")+0:365) |>
+              mutate(day=day(date),
+                     month=month(date,TRUE),
+                     day_month=str_c(day,"-",month),
+                     season =aus_seasons(date) )
+
+
+```
+
+```{r}
+a <- silodata_metro |>
+  collect()    |>
+   mutate(monthyear = floor_date(date_met,unit="month"),
+          day_month = str_c(day(date_met),"-",month(date_met,TRUE)))
+
+day_months |> filter(day_month %in% a$day_month) |> pull(day_month)
+
+
+  a |> mutate(
+          day_month = fct_reorder(day_month,day_months |> filter(day_month %in% a$day_month) |> pull(day_month))) |>
+  mutate(season=aus_seasons(date_met)) |>
+  filter(season=="Summer") |>
+  ggplot(aes(x=day_month,y=maxt,colour=year,group=year)) +
+  geom_line() + 
+  theme(axis.text.x = element_text(angle=90))
+
+
 ```
