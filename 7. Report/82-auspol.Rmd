@@ -1,5 +1,5 @@
 # (APPENDIX) {auspol} Vignette
-*Extracted from https://gh.carlosyanez.id.au/auspol/articles/house_primary_vote.html on Saturday 21 January 2023*
+*Extracted from https://gh.carlosyanez.id.au/auspol/articles/house_primary_vote.html on Sunday 22 January 2023*
 
 
 **auspol** includes two functions to interact with the preference distribution data:

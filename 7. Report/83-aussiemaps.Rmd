@@ -1,5 +1,5 @@
 # (APPENDIX) {aussiemaps} Vignette
-*Extracted from https://gh.carlosyanez.id.au/aussiemaps/articles/aussiemaps.html on Saturday 21 January 2023*
+*Extracted from https://gh.carlosyanez.id.au/aussiemaps/articles/aussiemaps.html on Sunday 22 January 2023*
 
 
 ## {aussiemaps} - Yet another maps package
