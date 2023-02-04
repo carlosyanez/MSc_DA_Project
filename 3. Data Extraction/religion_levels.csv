@@ -1,59 +1,64 @@
-Attribute,NewAttr,2011,2016,2021,2006
-Buddhism_persons,Religion - Buddhism,TRUE,TRUE,TRUE,TRUE
-Christianity_anglican_persons,Religion - Anglican-Uniting-Presbyterian,TRUE,TRUE,TRUE,NA
-Christianity_assyrian_apostolic_persons,Religion - Other Christianity,TRUE,TRUE,TRUE,NA
-Christianity_baptist_persons,Religion - Other Christianity,TRUE,TRUE,TRUE,NA
-Christianity_brethren_persons,Religion - Other Christianity,TRUE,TRUE,TRUE,NA
-Christianity_catholic_persons,Religion - Catholic,TRUE,TRUE,TRUE,NA
-Christianity_churches_of_christ_persons,Religion - Other Christianity,TRUE,TRUE,TRUE,NA
-Christianity_eastern_orthodox_persons,Religion - Christian Orthodox,TRUE,TRUE,TRUE,NA
-Christianity_jehovahs_witnesses_persons,Religion - Other Christianity,TRUE,TRUE,TRUE,NA
-Christianity_latter_day_saints_persons,Religion - Other Christianity,TRUE,TRUE,TRUE,NA
-Christianity_lutheran_persons,Religion - Other Christianity,TRUE,TRUE,TRUE,NA
-Christianity_oriental_orthodox_persons,Religion - Other Christianity,TRUE,TRUE,TRUE,NA
-Christianity_other_protestant_persons,Religion - Other Christianity,TRUE,TRUE,TRUE,NA
-Christianity_pentecostal_persons,Religion - Other Christianity,TRUE,TRUE,TRUE,NA
-Christianity_presbyterian_and_reformed_persons,Religion - Anglican-Uniting-Presbyterian,TRUE,TRUE,TRUE,NA
-Christianity_salvation_army_persons,Religion - Other Christianity,TRUE,TRUE,TRUE,NA
-Christianity_seventh_day_adventist_persons,Religion - Other Christianity,TRUE,TRUE,TRUE,NA
-Christianity_uniting_church_persons,Religion - Anglican-Uniting-Presbyterian,TRUE,TRUE,TRUE,NA
-Christianity_other_christian_persons,Religion - Other Christianity,TRUE,TRUE,TRUE,NA
-Hinduism_persons,Religion - Hinduism,TRUE,TRUE,TRUE,TRUE
-Islam_persons,Religion - Islam,TRUE,TRUE,TRUE,TRUE
-Judaism_persons,Religion - Judaism,TRUE,TRUE,TRUE,TRUE
-Other_religions_australian_aboriginal_traditional_religions_persons,Religion - Other,TRUE,TRUE,TRUE,NA
-Other_religions_other_religious_groups_persons,Religion - Other,TRUE,TRUE,TRUE,NA
-Religious_affiliation_not_stated_persons,Religion - Not Stated,TRUE,TRUE,TRUE,NA
-Total_persons,Religion - Total,TRUE,TRUE,TRUE,TRUE
-Christianity_christian_nfd_persons,Religion - Other Christianity,TRUE,NA,NA,NA
-No_religion_persons,Religion - No Religion-Secular,TRUE,NA,NA,NA
-Other_religious_affiliation_persons,Religion - Other,TRUE,NA,NA,NA
-Christianity_christianity_nfd_persons,Religion - Other Christianity,NA,TRUE,TRUE,NA
-Other_religions_sikhism_persons,Religion - Other,NA,TRUE,TRUE,NA
-Secular_beliefs_and_other_spiritual_beliefs_and_no_religious_affiliation_no_religion_so_described_persons,Religion - No Religion-Secular,NA,TRUE,TRUE,NA
-Secular_beliefs_and_other_spiritual_beliefs_and_no_religious_affiliation_secular_beliefs_persons,Religion - No Religion-Secular,NA,TRUE,TRUE,NA
-Secular_beliefs_and_other_spiritual_beliefs_and_no_religious_affiliation_other_spiritual_beliefs_persons,Religion - Other,NA,TRUE,TRUE,NA
-Christianity: Anglican_persons,Religion - Anglican-Uniting-Presbyterian,NA,NA,NA,TRUE
-Christianity: Assyrian Apostolic_persons,Religion - Other Christianity,NA,NA,NA,TRUE
-Christianity: Baptist_persons,Religion - Other Christianity,NA,NA,NA,TRUE
-Christianity: Brethren_persons,Religion - Other Christianity,NA,NA,NA,TRUE
-Christianity: Catholic_persons,Religion - Catholic,NA,NA,NA,TRUE
-Christianity: Churches Of Christ_persons,Religion - Other Christianity,NA,NA,NA,TRUE
-Christianity: Eastern Orthodox_persons,Religion - Other Christianity,NA,NA,NA,TRUE
-Christianity: Jehovah's Witnesses_persons,Religion - Other Christianity,NA,NA,NA,TRUE
-Christianity: Latter Day Saints_persons,Religion - Other Christianity,NA,NA,NA,TRUE
-Christianity: Lutheran_persons,Religion - Other Christianity,NA,NA,NA,TRUE
-Christianity: Oriental Orthodox_persons,Religion - Christian Orthodox,NA,NA,NA,TRUE
-Christianity: Other Protestant_persons,Religion - Other Christianity,NA,NA,NA,TRUE
-Christianity: Pentecostal_persons,Religion - Other Christianity,NA,NA,NA,TRUE
-Christianity: Presbyterian And Reformed_persons,Religion - Anglican-Uniting-Presbyterian,NA,NA,NA,TRUE
-Christianity: Salvation Army_persons,Religion - Other Christianity,NA,NA,NA,TRUE
-Christianity: Seventh-Day Adventist_persons,Religion - Other Christianity,NA,NA,NA,TRUE
-Christianity: Uniting Church_persons,Religion - Anglican-Uniting-Presbyterian,NA,NA,NA,TRUE
-Christianity: Christian Nfd_persons,Religion - Other Christianity,NA,NA,NA,TRUE
-Christianity: Other Christian_persons,Religion - Other Christianity,NA,NA,NA,TRUE
-Other Religions: Australian Aboriginal Traditional Religions_persons,Religion - Other,NA,NA,NA,TRUE
-Other Religions: Other Religious Groups_persons,Religion - Other,NA,NA,NA,TRUE
-No Religion_persons,Religion - No Religion-Secular,NA,NA,NA,TRUE
-Other Religious Affiliation_persons,Religion - Other,NA,NA,NA,TRUE
-Religious Affiliation Not Stated_persons,Religion - Not Stated,NA,NA,NA,TRUE
+Attribute,2011,2016,2021,2006
+Buddhism_persons,TRUE,TRUE,TRUE,TRUE
+Christianity_anglican_persons,TRUE,TRUE,TRUE,NA
+Christianity_assyrian_apostolic_persons,TRUE,TRUE,TRUE,NA
+Christianity_baptist_persons,TRUE,TRUE,TRUE,NA
+Christianity_brethren_persons,TRUE,TRUE,TRUE,NA
+Christianity_catholic_persons,TRUE,TRUE,TRUE,NA
+Christianity_churches_of_christ_persons,TRUE,TRUE,TRUE,NA
+Christianity_eastern_orthodox_persons,TRUE,TRUE,TRUE,NA
+Christianity_jehovahs_witnesses_persons,TRUE,TRUE,TRUE,NA
+Christianity_latter_day_saints_persons,TRUE,TRUE,TRUE,NA
+Christianity_lutheran_persons,TRUE,TRUE,TRUE,NA
+Christianity_oriental_orthodox_persons,TRUE,TRUE,TRUE,NA
+Christianity_other_protestant_persons,TRUE,TRUE,TRUE,NA
+Christianity_pentecostal_persons,TRUE,TRUE,TRUE,NA
+Christianity_presbyterian_and_reformed_persons,TRUE,TRUE,TRUE,NA
+Christianity_salvation_army_persons,TRUE,TRUE,TRUE,NA
+Christianity_seventh_day_adventist_persons,TRUE,TRUE,TRUE,NA
+Christianity_uniting_church_persons,TRUE,TRUE,TRUE,NA
+Christianity_other_christian_persons,TRUE,TRUE,TRUE,NA
+Christianity_total_persons,TRUE,TRUE,TRUE,NA
+Hinduism_persons,TRUE,TRUE,TRUE,TRUE
+Islam_persons,TRUE,TRUE,TRUE,TRUE
+Judaism_persons,TRUE,TRUE,TRUE,TRUE
+Other_religions_australian_aboriginal_traditional_religions_persons,TRUE,TRUE,TRUE,NA
+Other_religions_other_religious_groups_persons,TRUE,TRUE,TRUE,NA
+Other_religions_total_persons,TRUE,TRUE,TRUE,NA
+Religious_affiliation_not_stated_persons,TRUE,TRUE,TRUE,NA
+Total_persons,TRUE,TRUE,TRUE,TRUE
+Christianity_christian_nfd_persons,TRUE,NA,NA,NA
+No_religion_persons,TRUE,NA,NA,NA
+Other_religious_affiliation_persons,TRUE,NA,NA,NA
+Christianity_christianity_nfd_persons,NA,TRUE,TRUE,NA
+Other_religions_sikhism_persons,NA,TRUE,TRUE,NA
+Secular_beliefs_and_other_spiritual_beliefs_and_no_religious_affiliation_no_religion_so_described_persons,NA,TRUE,TRUE,NA
+Secular_beliefs_and_other_spiritual_beliefs_and_no_religious_affiliation_secular_beliefs_persons,NA,TRUE,TRUE,NA
+Secular_beliefs_and_other_spiritual_beliefs_and_no_religious_affiliation_other_spiritual_beliefs_persons,NA,TRUE,TRUE,NA
+Secular_beliefs_and_other_spiritual_beliefs_and_no_religious_affiliation_total_persons,NA,TRUE,TRUE,NA
+Christianity: Anglican_persons,NA,NA,NA,TRUE
+Christianity: Assyrian Apostolic_persons,NA,NA,NA,TRUE
+Christianity: Baptist_persons,NA,NA,NA,TRUE
+Christianity: Brethren_persons,NA,NA,NA,TRUE
+Christianity: Catholic_persons,NA,NA,NA,TRUE
+Christianity: Churches Of Christ_persons,NA,NA,NA,TRUE
+Christianity: Eastern Orthodox_persons,NA,NA,NA,TRUE
+Christianity: Jehovah's Witnesses_persons,NA,NA,NA,TRUE
+Christianity: Latter Day Saints_persons,NA,NA,NA,TRUE
+Christianity: Lutheran_persons,NA,NA,NA,TRUE
+Christianity: Oriental Orthodox_persons,NA,NA,NA,TRUE
+Christianity: Other Protestant_persons,NA,NA,NA,TRUE
+Christianity: Pentecostal_persons,NA,NA,NA,TRUE
+Christianity: Presbyterian And Reformed_persons,NA,NA,NA,TRUE
+Christianity: Salvation Army_persons,NA,NA,NA,TRUE
+Christianity: Seventh-Day Adventist_persons,NA,NA,NA,TRUE
+Christianity: Uniting Church_persons,NA,NA,NA,TRUE
+Christianity: Christian Nfd_persons,NA,NA,NA,TRUE
+Christianity: Other Christian_persons,NA,NA,NA,TRUE
+Christianity: Total_persons,NA,NA,NA,TRUE
+Other Religions: Australian Aboriginal Traditional Religions_persons,NA,NA,NA,TRUE
+Other Religions: Other Religious Groups_persons,NA,NA,NA,TRUE
+Other Religions: Total_persons,NA,NA,NA,TRUE
+No Religion_persons,NA,NA,NA,TRUE
+Other Religious Affiliation_persons,NA,NA,NA,TRUE
+Religious Affiliation Not Stated_persons,NA,NA,NA,TRUE

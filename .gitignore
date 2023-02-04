@@ -64,3 +64,5 @@ data.zip
 MSc_DA_Project-Fitzroya.Rproj
 7. Report/_main_files/figure-html/nice-fig-1.png
 -lenga.Rhistory
+*.sqlite
+3. Data Extraction/data_orig.zip

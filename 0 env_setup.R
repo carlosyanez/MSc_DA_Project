@@ -44,10 +44,12 @@ packages_to_install <- tibble::tribble(
 "tinter",                     "CRAN",        "",
 "patchwork",                  "CRAN",        "",
 "DBI",                        "CRAN",        "",
-"duckdb",                     "CRAN",        "",
 "bookdown",                   "CRAN",         "",
 "servr",                      "CRAN",         ""
 )
+
+#duckdb does not guarantee backwards compatility,install the right version:
+remotes::install_version("duckdb", version = "0.6.0", repos = "http://cran.us.r-project.org")
 
 just.install::justinstall(packages_to_install)
 

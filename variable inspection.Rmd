@@ -1,0 +1,98 @@
+---
+title: "Filtering correlations"
+output: html_notebook
+---
+
+Quick notes about looking at all preselected demographic variables.
+Corelations calculated using *bulk_run.R*
+
+```{r}
+library(tidyverse)
+library(here)
+library(glue)
+library(DBI)
+```
+
+```{r}
+processed_db <- dbConnect(duckdb::duckdb(), here("4. Data","processed_data.duckdb"),read_only=FALSE)
+
+```
+
+
+```{r}
+
+base_theme <- customthemes::custom_plot_theme_md(google_font = "Roboto",background_colour = "white", 
+                                                 legend_pos = "botom",legend_dir = "horizontal",
+                                                 title_size = 90,
+                                                 subtitle_size = 36,
+                                                 caption_size = 30,
+                                                 axis_size = 30)+
+  theme(legend.text = ggtext::element_markdown(size=30),
+        axis.text = ggtext::element_markdown(size=50),
+        strip.text.x = element_text(size = 30),
+        strip.text.y = element_text(size = 30))
+
+correlations_predictors <- readRDS(here("5. EDA","correlations_predictors.rds"))
+
+correlations_predictors <- correlations_predictors |>
+                           mutate(cat1=str_extract(attr1,"^([^-...])+"),
+                                  cat2=str_extract(attr2,"^([^-...])+")) |>
+                           mutate(across(starts_with("cat"), ~ str_squish(.x)))
+
+categories <- correlations_predictors|>distinct(cat1) |> pull()
+p <- list()
+
+for(category in categories){
+  
+  p_i <- correlations_predictors |> 
+                filter(cat1==category & cat2==category) |>
+                ggplot(aes(x=attr1,y=attr2,fill=corr)) +
+                geom_tile() +
+                geom_text(aes(label=round(corr,3)),size=3)+
+                scale_fill_gradient2(low="red",mid="white", high="blue") +
+                theme(axis.text.x =element_text(angle=90,hjust=1,size=8),
+                      axis.text.y = element_text(size=8),
+                      axis.title = element_blank())+ 
+                labs(title=glue("Correlation - {category} attributes"),
+                      caption="Source: ABS - Censuses") 
+  
+  p[[length(p)+1]] <- p_i
+
+
+}
+names(p) <- categories
+rm(p_i)
+```
+
+First, we will inspect variables per group (e.g Age), to see if there are obvious correlations between them, as an initial filter. The categories are:
+
+```{r}
+
+categories
+```
+
+Source tables:
+
+```{r}
+dbListTables(processed_db)
+```
+
+
+## Age
+
+```{r}
+p$Age
+```
+
+```{r}
+
+tbl(processed_db,"age_and_sex") |>
+  filter(Year!=2022) |>
+  ggplot(aes(x=Percentage)) +
+  geom_histogram()+
+  facet_grid(Year ~ fct_relevel(Attribute,c("Age - Silent Gen"))
+
+```
+
+- Gen Alpha does not vote yet - Their influence can be captured through houselhold structure.
+- Very negative correlation
