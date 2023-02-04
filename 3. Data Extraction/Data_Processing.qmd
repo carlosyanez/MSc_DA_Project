@@ -165,11 +165,12 @@ prior <- tibble()
 for(year in unique(electorates_states$Year)){
 
  
-  prior_i  <- tbl(original_db,"prior_res_full") |>
+  prior_i  <- tbl(original_db,"prior_res_granular") |>
+              #mutate(Value=as.character(Value)) |>
                        collect() |>
-                  pivot_longer(-c(Unit,Year),
-                               names_to =  "Attribute",
-                               values_to = "Value")                    |>
+              #    pivot_longer(-c(Unit,Year),
+              #                 names_to =  "Attribute",
+              #                 values_to = "Value")                    |>
                        left_join(electorates_states,by=c("Year"="Year",
                                                          "Unit"="DivisionNm")) |>
                        filter(!is.na(StateAb)) |>
@@ -187,6 +188,7 @@ for(year in unique(electorates_states$Year)){
                    )) |>
                   unite("Attribute",Attr1:Attr2,sep=" - ") |>
                   group_by(Unit,Year,Attribute) |>
+                  mutate(Value=as.numeric(Value)) |>
                   summarise(Value=sum(Value,na.rm=TRUE),.groups="drop")
   
   
@@ -280,7 +282,7 @@ dbDisconnect(processed_db)
 ```
 
 ```{r}
-.rs.restartR()
+#.rs.restartR()
 library(piggyback)
 library(fs)
 library(zip)
@@ -346,4 +348,8 @@ day_months |> filter(day_month %in% a$day_month) |> pull(day_month)
   theme(axis.text.x = element_text(angle=90))
 
 
+```
+
+```{r}
+rm(list=ls())
 ```

@@ -45,6 +45,7 @@ bulk_dir <- here("5. EDA","bulk")
 dir_create(bulk_dir)
 
 tables <- dbListTables(processed_db)
+tables <- tables[str_detect(tables,"electorates",TRUE)]
 
 
 keep_vars <- ls()
@@ -65,8 +66,6 @@ keep_vars <- c(keep_var,"parties","primary_vote","my_palette")
 primary_vote_plot <- list()
 
 for(i in 1:length(parties)){
-  
-
   
   primary_vote_plot[[i]] <-primary_vote |> 
         collect() |>

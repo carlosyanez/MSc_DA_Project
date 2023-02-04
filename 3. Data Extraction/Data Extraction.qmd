@@ -1993,7 +1993,7 @@ tables <- tables[str_detect(tables,"granular",TRUE)]
 tables <- tables[str_detect(tables,"year_equivalency",TRUE)]
 tables <- tables[str_detect(tables,"correspondence_",TRUE)]
 tables <- tables[str_detect(tables,"silodata",TRUE)]
-
+tables <- tables[str_detect(tables,"electorates",TRUE)]
 
 for(i in 1:length(tables)){
   cols <- colnames(tbl(mydb,tables[i])) 
@@ -2053,4 +2053,7 @@ file_delete(zip_file)
 
 ```
 
+```{r}
+rm(list=ls())
+```
 
