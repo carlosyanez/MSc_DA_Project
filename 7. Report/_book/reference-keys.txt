@@ -20,6 +20,8 @@ sharing-your-book
 publishing
 pages
 metadata-for-sharing
+appendix-extracting-data
+package-architecture
 appendix-auscensus-vignette
 appendix-auspol-vignette
 what-is-this

@@ -4,13 +4,13 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>A Minimal Book Example</title>
+  <title>Chapter 9 (APPENDIX) Extracting Data | A Minimal Book Example</title>
   <meta name="description" content="<p>This is a minimal example of using the bookdown package to write a book.
 The HTML output format for this example is bookdown::gitbook,
 set in the _output.yml file.</p>" />
   <meta name="generator" content="bookdown 0.31 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="A Minimal Book Example" />
+  <meta property="og:title" content="Chapter 9 (APPENDIX) Extracting Data | A Minimal Book Example" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="<p>This is a minimal example of using the bookdown package to write a book.
@@ -19,7 +19,7 @@ set in the _output.yml file.</p>" />
   <meta name="github-repo" content="rstudio/bookdown-demo" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="A Minimal Book Example" />
+  <meta name="twitter:title" content="Chapter 9 (APPENDIX) Extracting Data | A Minimal Book Example" />
   
   <meta name="twitter:description" content="<p>This is a minimal example of using the bookdown package to write a book.
 The HTML output format for this example is bookdown::gitbook,
@@ -36,8 +36,8 @@ set in the _output.yml file.</p>" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-
-<link rel="next" href="intro.html"/>
+<link rel="prev" href="references-1.html"/>
+<link rel="next" href="appendix-auscensus-vignette.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -236,24 +236,41 @@ div.csl-indent {
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">A Minimal Book Example</h1>
-<p class="author"><em>John Doe</em></p>
-<p class="date"><em>2023-02-04</em></p>
-</div>
-<div id="acknowledgements" class="section level1 hasAnchor" number="1">
-<h1><span class="header-section-number">Chapter 1</span> Acknowledgements<a href="index.html#acknowledgements" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="index.html#cb1-1" aria-hidden="true" tabindex="-1"></a>bookdown<span class="sc">::</span><span class="fu">serve_book</span>()</span>
-<span id="cb1-2"><a href="index.html#cb1-2" aria-hidden="true" tabindex="-1"></a>bookdown<span class="sc">::</span><span class="fu">render_book</span>(<span class="st">&quot;index.Rmd&quot;</span>, <span class="st">&quot;bookdown::pdf_book&quot;</span>)</span></code></pre></div>
+<div id="appendix-extracting-data" class="section level1 hasAnchor" number="9">
+<h1><span class="header-section-number">Chapter 9</span> (APPENDIX) Extracting Data<a href="appendix-extracting-data.html#appendix-extracting-data" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>A particular challenge for this project was to efficiently and systematically being able to extract data. In this particular case, data sources are public and freely made available by Australian government departments. However, there were two challenging aspects, namely:</p>
+<ul>
+<li>The volume of data, especially when it comes to Census Data. This also presented a challenge in terms of selection and aggregation of data not presented at electorate level.</li>
+<li>Changes in file structure and naming convention across time, having to standardise variable names across different census and election years.</li>
+</ul>
+<p>The search for existing data packages did not produce satisfactory results - only a package to retrieve historical weather data was found (<a href="https://gitlab.com/petebaker/cropgrowdays/">{cropgrowdays}</a><span class="citation">(<a href="#ref-cropgrowdays" role="doc-biblioref">Baker and Mortlock 2021</a>)</span>). Therefore, as par of this project it was necessary to create the following R packages:</p>
+<ul>
+<li><p>{auspol}, a data package with containing voting tallies for the Australian House of Representatives. This package contains processed data, sourced from the Australian Electoral Commission, as well as functions to access and plot them. In addition to primary votes (the scope for this project), this also contains preferential distribution tallies.</p></li>
+<li><p>{auscensus}, a package to interact with Census Data Packs (as published by the Australian Bureau of Statistics, ABS). This package does not contain the actual data - each data pack ranges from 600 to 800 MB.</p></li>
+<li><p>{aussiemaps}, which is a rewriting of a geospatial package experiment by the author. This package contains geographical boundaries for ABS statistical structures as well as non-ABS geographies such as electoral divisions. In this project, this package is use to aggregate data from granular statistical structures to electorates.</p></li>
+</ul>
+<div id="package-architecture" class="section level2 hasAnchor" number="9.1">
+<h2><span class="header-section-number">9.1</span> Package Architecture<a href="appendix-extracting-data.html#package-architecture" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The three packages have been designed using the same approach, which can be summarised by the following:</p>
+<ul>
+<li></li>
+</ul>
 
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-cropgrowdays" class="csl-entry">
+Baker, Peter, and Miranda Mortlock. 2021. <span>“Cropgrowdays: Crop Growing Degree Days and Agrometeorological Calculations.”</span> <a href="https://CRAN.R-project.org/package=cropgrowdays">https://CRAN.R-project.org/package=cropgrowdays</a>.
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-
-<a href="intro.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="references-1.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="appendix-auscensus-vignette.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -284,7 +301,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/USERNAME/REPO/edit/BRANCH/index.Rmd",
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/70-ExtractingData.Rmd",
 "text": "Edit"
 },
 "history": {
