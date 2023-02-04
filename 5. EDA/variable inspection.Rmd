@@ -84,15 +84,40 @@ dbListTables(processed_db)
 p$Age
 ```
 
+
 ```{r}
 
 tbl(processed_db,"age_and_sex") |>
-  filter(Year!=2022) |>
-  ggplot(aes(x=Percentage)) +
-  geom_histogram()+
-  facet_grid(Year ~ fct_relevel(Attribute,c("Age - Silent Gen"))
+  filter(Year!=2021) |>
+  ggplot(aes(x=Percentage,y=fct_relevel(Attribute,
+                                        c("Age - Silent Gen","Age - Baby Boomers","Age - Gen X","Age - Gen Y","Age - Gen Z","Age - Gen Alpha")))) +
+  geom_violin() +
+  facet_grid(.~Year) +
+  theme(axis.title.y = element_blank()) +
+   scale_x_continuous("Percentage of Electorate's Population"
+                      )
+  #geom_histogram()+
+  #facet_grid( Year ~ fct_relevel(Attribute,c("Age - Silent Gen")))
 
 ```
+
+```{r}
+tbl(processed_db,"primary_vote") |>
+  select(Year,DivisionNm,PartyAb,Percentage_Diff_National) |>
+  left_join(tbl(processed_db,"year_equivalency"),by=c("Year"="election_years")) |>
+  left_join(tbl(processed_db,"age_and_sex"), by=c("DivisionNm"="Unit","census_years"="Year")) |>
+  filter(census_years!=2021)|>
+  ggplot(aes(y=Percentage,x=Percentage_Diff_National,colour=as_factor(Year)))+
+  geom_point()+
+  facet_grid(fct_relevel(Attribute,c("Age - Silent Gen","Age - Baby Boomers","Age - Gen X","Age - Gen Y","Age - Gen Z","Age - Gen Alpha"))~PartyAb)+
+  labs(x="Population Percentage",y="Primary Vote Percentage")
+  
+  
+
+
+```
+
+
 
 - Gen Alpha does not vote yet - Their influence can be captured through houselhold structure.
 - Very negative correlation

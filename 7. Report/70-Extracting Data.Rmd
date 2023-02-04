@@ -1,0 +1,14 @@
+---
+bibliography: references.bib
+---
+
+# (APPENDIX) Extracting Data
+
+A particular challenge for this project was to efficiently and systematically being able to extract data. In this particular case, data sources are public and freely made available by Australian government departments. However, there were two challenging aspects, namely:
+
+-   The volume of data, especially when it comes to Census Data. This also presented a challenge in terms of selection and aggregation of data not presented at electorate level.
+-   Changes in file structure and naming convention across time, having to standardise variable names across different census and election years.
+
+The search for existing data packages did not produce satisfactory results - only a package to retrieve historical weather data was found ([{cropgrowdays}](https://gitlab.com/petebaker/cropgrowdays/)[@cropgrowdays]). Therefore, as par of this project it was necessary to create the following R packages:
+
+-   {auspol}, a data package with containing voting tallies for the Australian House of Representatives
