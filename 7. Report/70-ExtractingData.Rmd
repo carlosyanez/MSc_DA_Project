@@ -21,4 +21,4 @@ The search for existing data packages did not produce satisfactory results - onl
 
 The three packages have been designed using the same approach, which can be summarised by the following:
 
--   
+-  Data is not included in the packages, but hosted on GitHub repositories. Given the large size of the data files, they cannot be directly included along code and they are shared "releases"instead. Then, the package functions download data as needed. This applies for metadata for the three packages and the actual data for {auspol} and {aussiemaps}.

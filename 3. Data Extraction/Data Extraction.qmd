@@ -972,6 +972,178 @@ dbWriteTable(mydb, "religion", religion,overwrite=TRUE)
 ```
 
 
+### Language ----
+
+```{r}
+
+#| eval: true
+
+census_tables <- list_census_tables() |>
+                 filter(Number %in% c("12","13")) |>
+                 filter(str_detect(`Table Name`,"Language")) |>
+                 filter(`Table Population`=="Persons")
+
+
+tables_summary <- census_tables |>
+                  select(-contains("Table")) |>
+                  pivot_longer(-Number, names_to="Year",values_to = "Value") |>
+                  filter(!is.na(Value)) |>
+                  select(-Value)
+
+
+list_census_geo_tables(year = tables_summary$Year,geo="CED|CED_2007|CED_2004",table_number = tables_summary$Number) |>
+  mutate(Year=as.character(Year)) |>
+  right_join(tables_summary, by=c("table_number"="Number","Year"="Year"))
+
+```
+
+Not aggregated for all years
+
+```{r}
+
+#| eval: true
+
+list_census_geo_tables(year = tables_summary$Year,geo=c("SA1|CD"),table_number = tables_summary$Number) |>
+   mutate(Year=as.character(Year)) |>
+  right_join(tables_summary, by=c("table_number"="Number","Year"="Year"))
+
+
+```
+
+```{r}
+
+
+language_attributes <- tibble()
+
+
+
+for(i in 1:nrow(tables_summary)){
+
+  table_i <- tables_summary[i,]$Number
+  year_i  <- tables_summary[i,]$Year
+
+  attr_i <- list_census_attributes(table_i) |> 
+             pivot_longer(-c(Table,Attribute),
+                           names_to="Year",values_to = "Value") |>
+              filter(Year==year_i) |>
+              filter(!is.na(Value)) |>
+              select(-Value)
+
+  language_attributes <- bind_rows(attr_i,language_attributes)
+
+}
+
+
+  language_attributes <- language_attributes   |> 
+                       distinct(Attribute,Year) |>
+                      filter(str_detect(Attribute,"[Pp]erson")) |>
+                      mutate(dummy=TRUE) |>
+                      pivot_wider(names_from = Year, values_from = dummy)                  
+
+    
+
+language_attributes |> 
+  rhandsontable(readOnly = TRUE) |>
+  hot_cols(columnSorting = TRUE)
+
+write_csv(language_attributes,"language_levels.csv")
+
+  
+
+```
+
+
+```{r}
+
+language_attributes <- read_csv("language_levels_edited.csv")
+
+
+levels <- attribute_tibble_to_list(language_attributes)
+
+language <- tibble()
+
+
+
+for(year in census_years){
+
+  if(year=="2006"){
+    geo_structure_x <- "CD"
+  } else{
+    geo_structure_x <- "SA1"
+  }
+
+  language_i <- get_census_summary(census_table = census_tables,
+                                   selected_years = year,
+                                   geo_structure=geo_structure_x,
+                                   attribute = levels) 
+
+
+  language <- bind_rows(language,language_i)
+  
+
+}
+
+rm(language_i,geo_structure_x,levels,language_attributes)
+
+
+#save 
+
+dbWriteTable(mydb, "language_granular", language,overwrite=TRUE)
+
+rm(language)
+
+```
+
+```{r}
+
+language <- tibble()
+
+ for(i in 1:length(census_years)){
+
+   year <- as.double(census_years[i])
+
+   value_i <- tbl(mydb,"language_granular") |> 
+                  filter(Year==year)     |>
+                  select(-Unit)                    |>
+                  rename(!!codes[i]:="Census_Code") |>
+                  collect() |>
+                  aussiemaps::geo_aggregate(
+                              values_col="Value",
+                              original_geo=codes[i],
+                              new_geo=ceds[i],
+                              grouping_col = c("Year","Attribute"),
+                              year=census_years[i]) |>
+              rename("Unit"=ceds[i])  |>
+              filter(!is.na(Unit))    |>
+              filter(str_detect(Unit,"[Ss]hipping",TRUE))|>
+              filter(str_detect(Unit,"[Uu]sual",TRUE))   |>
+              filter(str_detect(Unit,"[Aa]pplicable",TRUE)) 
+
+
+    value_i <- value_i  |> 
+               auscensus::calculate_percentage(key_col = "Attribute",
+                                                value_col = "Value",
+                                                key_value = "Language - Total",
+                                                percentage_scale = 100)
+
+   language <- bind_rows(language,value_i)
+
+
+ }
+
+
+language <- language |>
+                select(-Total,-Value) |>
+                pivot_wider(names_from = "Attribute",values_from = "Percentage")
+
+
+dbWriteTable(mydb, "language", language,overwrite=TRUE)
+
+```
+
+
+
+
 ### Citizenship ----
 
 ```{r}
@@ -2011,6 +2183,24 @@ for(i in 1:length(tables)){
 
 }
 ```
+
+
+## Primary vote, fix, electorate names
+
+```{r}
+primary_vote <- tbl(processed_db,"primary_vote") |>
+  left_join(tbl(processed_db,"year_equivalency"),by=c("Year"="election_years")) |>
+  collect() |>
+  mutate(DivisionNm=case_when(
+      census_years %in% c(2006,2011) & str_detect(DivisionNm,"Fraser") ~ "Fraser (I)",
+      census_years %in% c(2019,2021) & str_detect(DivisionNm,"Fraser") ~ "Fraser (II)",
+      TRUE ~ str_to_title(DivisionNm)
+      )) 
+
+dbWriteTable(mydb, "primary_vote",primary_vote,overwrite=TRUE)
+
+```
+
 
 
 ## Close DB connection

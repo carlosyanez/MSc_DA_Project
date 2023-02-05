@@ -89,6 +89,20 @@ rm(list=ls()[!(ls() %in% keep_vars)])
 ```
 
 ```{r}
+## Primary vote, fix, electorate names
+
+primary_vote <- tbl(processed_db,"primary_vote") |>
+  left_join(tbl(processed_db,"year_equivalency"),by=c("Year"="election_years")) |>
+  collect() |>
+  mutate(DivisionNm=case_when(
+      census_years %in% c(2006,2011) & str_detect(DivisionNm,"Fraser") ~ "Fraser (I)",
+      census_years %in% c(2019,2021) & str_detect(DivisionNm,"Fraser") ~ "Fraser (II)",
+      TRUE ~ str_to_title(DivisionNm)
+      )) 
+
+dbWriteTable(mydb, "primary_vote",primary_vote,overwrite=TRUE)
+
+
 
 ```
 
@@ -278,7 +292,7 @@ dbListTables(processed_db)
 
 ```{r}
 dbDisconnect(original_db)
-dbDisconnect(processed_db)
+dbDisconnect(processed_db,shutdown=TRUE)
 ```
 
 ```{r}
