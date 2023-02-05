@@ -100,7 +100,7 @@ primary_vote <- tbl(processed_db,"primary_vote") |>
       TRUE ~ str_to_title(DivisionNm)
       )) 
 
-dbWriteTable(mydb, "primary_vote",primary_vote,overwrite=TRUE)
+dbWriteTable(processed_db, "primary_vote",primary_vote,overwrite=TRUE)
 
 
 
@@ -291,7 +291,7 @@ dbListTables(processed_db)
 ```
 
 ```{r}
-dbDisconnect(original_db)
+dbDisconnect(original_db,shutdown=TRUE)
 dbDisconnect(processed_db,shutdown=TRUE)
 ```
 
