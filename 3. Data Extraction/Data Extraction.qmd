@@ -1103,6 +1103,7 @@ language <- tibble()
    year <- as.double(census_years[i])
 
    value_i <- tbl(mydb,"language_granular") |> 
+                  mutate(Attribute=str_replace(Attribute,"^Total$","Language - Total")) |>
                   filter(Year==year)     |>
                   select(-Unit)                    |>
                   rename(!!codes[i]:="Census_Code") |>

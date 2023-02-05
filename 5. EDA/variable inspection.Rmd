@@ -141,7 +141,7 @@ tbl(processed_db,"primary_vote") |>
 
 ## country of birth
 
-Another proxy for multiculturalty.
+Another proxy for multiculturality
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 tbl(processed_db,"country_of_birth") |>
@@ -185,6 +185,24 @@ tbl(processed_db,"primary_vote") |>
 
 - Not sure how informative this is.
 - Not counting for 2nd people, which may still vote with cultural group.
+
+## Language
+
+```{r}
+tbl(processed_db,"language_granular") |>
+  filter(Year!=2021) |>
+  ggplot(aes(x=Australian.Citizens,y="Citizens")) +
+  geom_violin() +
+  facet_grid(.~Year) +
+  theme(axis.title.y = element_blank()) +
+   scale_x_continuous("Percentage of Electorate's Population"
+                      )
+
+
+```
+
+
+
 
 
 
