@@ -185,6 +185,13 @@ tbl(processed_db,"primary_vote") |>
 
 ## Language
 
+```{r}
+tbl(processed_db,"language") |>
+  head(1) |>
+  collect() |> colnames()
+```
+
+
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 tbl(processed_db,"language") |>
   filter(Year!=2021) |>
@@ -235,6 +242,13 @@ primary_vote |>
 -   Highest correlations are negative - between English monolingual and Arabic, Chinese and East Asian languages
 
 ## Religion
+
+```{r}
+tbl(processed_db,"religion") |>
+  head(1) |>
+  collect() |> colnames()
+```
+
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 tbl(processed_db,"religion") |>
@@ -473,6 +487,123 @@ primary_vote |>
 ## Selection variables, single model
 
 - focus only on top three
+
+
+Building dataset to use
+
+
+```{r}
+consolidated_dataset <-
+tbl(processed_db,"primary_vote") |>
+  select(Year,census_years,StateAb,DivisionNm,PartyAb,Percentage_Diff_National) |>
+  filter(PartyAb %in% c("ALP","COAL","GRN")) |>
+  collect() |>
+  mutate(DivisionNm=str_to_title(DivisionNm)) 
+   left_join(
+    tbl(processed_db,"age_and_sex") |>
+      filter(Attribute %in% c("Age - Baby Boomers","Age - Gen X","Age - Gen Y","Age - Gen Z")) |>
+      select(DivisionNm=Unit,census_years=Year,Attribute,Percentage) |>
+      collect()|>
+      mutate(Attribute=str_remove_all(Attribute,"Age - ")) |>
+      pivot_wider(names_from=Attribute,values_from=Percentage) |>
+      mutate(DivisionNm=str_to_title(DivisionNm)) ,
+     by=c("census_years","DivisionNm")
+  ) |>
+     left_join(
+    tbl(processed_db,"citizenship") |>
+      collect()|>
+      rename("DivisionNm"="Unit","census_years"="Year","Australian Citizens"="Australian.Citizens") |>
+      mutate(DivisionNm=str_to_title(DivisionNm)) ,
+     by=c("census_years","DivisionNm")
+  ) |>
+     left_join(
+    tbl(processed_db,"language") |>
+      select(DivisionNm=Unit,census_years=Year,
+             any_of(c("Language...English.Only",
+                    "Language...Chinese",
+                    "Language...South.Asian",
+                    "Language...Arabic",
+                    "Language...East.Asian"))) |>
+      rename_with(~ str_replace(.x,"Language...","Lang - "),starts_with("Language")) |>
+      rename_with(~ str_replace(.x,"\\."," "),starts_with("Lang")) |>
+      collect() |>
+      mutate(DivisionNm=str_to_title(DivisionNm)) ,
+     by=c("census_years","DivisionNm")
+  ) |>
+  left_join(
+    tbl(processed_db,"religion") |>
+      select(DivisionNm=Unit,census_years=Year,
+             any_of(c("Religion...Anglican.Uniting.Presbyterian",
+                    "Religion...Buddhism",
+                    "Religion...Catholic",
+                    "Religion...Christian.Orthodox",
+                    "Religion...Hinduism",
+                    "Religion...Islam"))) |>
+      rename_with(~ str_replace(.x,"Religion...","Rel - "),starts_with("Religion")) |>
+      rename_with(~ str_replace(.x,"\\."," "),starts_with("Lang")) |>
+      collect() |>
+      mutate(DivisionNm=str_to_title(DivisionNm)) ,
+
+     by=c("census_years","DivisionNm")
+  ) |>
+   left_join(
+    tbl(processed_db,"income_level") |>
+      select(DivisionNm=Unit,census_years=Year,
+             any_of(c("Income...1.to.999",
+                    "Income...1000.to.1999",
+                    "Income...2000.or.more"
+                  ))) |>
+      rename_with(~ str_replace(.x,"Income...","Income - "),starts_with("Income")) |>
+      rename_with(~ str_replace(.x,"\\."," "),starts_with("Income")) |>
+      collect() |>
+       mutate(DivisionNm=str_to_title(DivisionNm)) ,
+
+     by=c("census_years","DivisionNm")
+  ) |>
+    left_join(
+    tbl(processed_db,"household_tenure") |>
+      select(DivisionNm=Unit,census_years=Year,
+             any_of(c("Household...Flat",
+                    "Household...Social.or.community"  
+                  ))) |>
+      rename_with(~ str_replace(.x,"Household...","Housing - "),starts_with("Household")) |>
+      rename_with(~ str_replace(.x,"\\."," "),starts_with("Housing")) |>
+      collect() |>
+      mutate(DivisionNm=str_to_title(DivisionNm)) ,
+     by=c("census_years","DivisionNm")
+  ) |>
+  left_join(
+  tbl(processed_db,"school_level") |>
+     mutate(`Ed University` =`Education...Bachelor` + `Education...Graduate.Diploma.or.Certificate` + `Education...Postgraduate`,
+            `Ed Vocational` = `Education...Diploma.or.Certificate`) |>
+      select(DivisionNm=Unit,census_years=Year,`Ed University`, `Ed Vocational`) |>
+      collect() |>
+          mutate(DivisionNm=str_to_title(DivisionNm)) ,
+     by=c("census_years","DivisionNm")
+  ) |>
+  left_join(
+  tbl(processed_db,"relationship") |>
+     mutate(`Ed University` =`Education...Bachelor` + `Education...Graduate.Diploma.or.Certificate` + `Education...Postgraduate`,
+            `Ed Vocational` = `Education...Diploma.or.Certificate`) |>
+      select(DivisionNm=Unit,census_years=Year,
+             `Relationship...Child.under.15`,
+             `Relationship...Group.Household`,
+             `Relationship...De.Facto`,
+             `Relationship...Living.Alone`) |>
+      rename_with(~ str_replace(.x,"Relationship...","Rel - "),starts_with("Relationship")) |>
+      rename_with(~ str_replace(.x,"\\."," "),starts_with("Rel")) |>
+      collect() |>
+          mutate(DivisionNm=str_to_title(DivisionNm)) ,
+     by=c("census_years","DivisionNm")
+  )
+  
+  
+  
+
+
+
+
+```
 
 
 ### disconnect DB
