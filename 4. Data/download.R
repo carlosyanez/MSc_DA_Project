@@ -4,7 +4,7 @@ library(zip)
 library(piggyback)
 library(stringr)
 
-.rs.restartR()
+#.rs.restartR()
 
 data_dir <- here("4. Data")
 

@@ -1,0 +1,483 @@
+---
+title: "Filtering correlations"
+output: html_notebook
+---
+
+Quick notes about looking at all preselected demographic variables.
+
+```{r}
+library(tidyverse)
+library(here)
+library(glue)
+library(DBI)
+
+
+```
+
+```{r}
+processed_db <- dbConnect(duckdb::duckdb(), here("4. Data","processed_data.duckdb"),read_only=FALSE)
+
+```
+
+## Source tables:
+
+```{r}
+dbListTables(processed_db)
+```
+
+```{r}
+primary_vote <- 
+tbl(processed_db,"primary_vote") |>
+  select(Year,census_years,StateAb,DivisionNm,PartyAb,Percentage_Diff_National)
+```
+
+```{r}
+
+```
+
+## Age
+
+```{r}
+gen_order <- c("Age - Greatest Gen","Age - Silent Gen","Age - Baby Boomers","Age - Gen X","Age - Gen Y","Age - Gen Z","Age - Gen Alpha")
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+tbl(processed_db,"age_and_sex") |>
+  filter(Year!=2021) |>
+  select(Year,Unit,Attribute,Percentage) |>
+  collect() |>
+  pivot_wider(names_from="Attribute",values_from = "Percentage") |>
+  select(-Unit,-Year) |>
+  relocate(any_of(gen_order)) |>
+  GGally::ggpairs()
+  
+```
+
+```{r}
+
+tbl(processed_db,"age_and_sex") |>
+  filter(Year!=2021) |>
+  ggplot(aes(x=Percentage,y=fct_relevel(Attribute,gen_order))) +
+  geom_violin() +
+  facet_grid(.~Year) +
+  theme(axis.title.y = element_blank()) +
+   scale_x_continuous("Percentage of Electorate's Population"
+                      )
+  #geom_histogram()+
+  #facet_grid( Year ~ fct_relevel(Attribute,c("Age - Silent Gen")))
+
+```
+
+```{r}
+tbl(processed_db,"primary_vote") |>
+  select(-Percentage) |>
+  left_join(tbl(processed_db,"age_and_sex"), by=c("DivisionNm"="Unit","census_years"="Year")) |>
+  filter(census_years!=2021)|>
+  ggplot(aes(x=Percentage,y=Percentage_Diff_National,colour=as_factor(Year)))+
+  geom_point()+
+  facet_grid(fct_relevel(Attribute,gen_order)~PartyAb)+
+  labs(x="Population Percentage",y="Primary Vote - % from National average")
+  
+  
+```
+
+```{r}
+
+tbl(processed_db,"primary_vote") |>
+  select(-Percentage) |>
+  left_join(tbl(processed_db,"age_and_sex"), by=c("DivisionNm"="Unit","census_years"="Year")) |>
+  filter(census_years!=2021)|>
+  filter(str_detect(Attribute,"Gen Z")) |>
+  ggplot(aes(x=Percentage,y=Percentage_Diff_National,colour=as_factor(Year)))+
+  geom_point()+
+  facet_grid(Year~PartyAb)+
+  labs(x="Population Percentage",y="Primary Vote - % from National average",
+       title= "Focus on Gen Z")
+
+
+```
+
+-   Greatest Gen, merge with silent Gen. - disappearing so problaby not so relevant in terms of changes.
+-   focus on 4 Gens - from boomers to Zers.
+-   Gen Alpha does not vote yet - Their influence can be captured through houselhold structure.
+-   Very negative correlation
+-   Note slighlty positive correlation between COAL vote and percentage of baby boomers, negative correlation with Labor.
+-   Positive correlation between green and millenial vote, but not wih Zs . Be aware that Z percentage may not be relevant in earlier elections, as they were not of voting age (non linear model?)
+
+## citizenship
+
+Caution - Only citizens vote - this is just a proxy measure for multicultarity
+
+```{r}
+tbl(processed_db,"citizenship") |>
+  filter(Year!=2021) |>
+  ggplot(aes(x=Australian.Citizens,y="Citizens")) +
+  geom_violin() +
+  facet_grid(.~Year) +
+  theme(axis.title.y = element_blank()) +
+   scale_x_continuous("Percentage of Electorate's Population"
+                      )
+
+
+```
+
+```{r}
+tbl(processed_db,"primary_vote") |>
+  select(-Percentage) |>
+  left_join(tbl(processed_db,"age_and_sex"), by=c("DivisionNm"="Unit","census_years"="Year")) |>
+  filter(census_years!=2021)|>
+  filter(str_detect(Attribute,"Gen Z")) |>
+  ggplot(aes(x=Percentage,y=Percentage_Diff_National,colour=as_factor(Year)))+
+  geom_point()+
+  facet_grid(Year~PartyAb)+
+  labs(y="Population Percentage",x="Primary Vote - % from National average",
+       title= "Focus on Gen Z")
+```
+
+-   it looks like a big migration boom took place between 2011 and 2016.
+-   Clear negative correlation between % of citizens and green vote. Not so clear with ALP/Coalition.
+-   Not sure how informative this is, considering policy of encouraging acquisition of citizenship
+
+## country of birth
+
+Another proxy for multiculturality
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+tbl(processed_db,"country_of_birth") |>
+  filter(Year!=2021) |>
+  select(-Unit,-Year) |>
+  relocate(any_of(gen_order)) |>
+  GGally::ggpairs()
+  
+```
+
+```{r}
+tbl(processed_db,"country_of_birth") |>
+  filter(Year!=2021) |>
+  collect() |>
+  pivot_longer(-c(Unit,Year),names_to = "Attribute",values_to = "Percentage") |>
+  ggplot(aes(x=Percentage,y=fct_relevel(Attribute,gen_order))) +
+  geom_violin() +
+  facet_grid(.~Year) +
+  theme(axis.title.y = element_blank()) +
+   scale_x_continuous("Percentage of Electorate's Population"
+                      )
+```
+
+```{r}
+tbl(processed_db,"primary_vote") |>
+  select(-Percentage) |>
+  collect() |>
+  left_join(tbl(processed_db,"country_of_birth") |>
+  filter(Year!=2021) |>
+  collect() |>
+  pivot_longer(-c(Unit,Year),names_to = "Attribute",values_to = "Percentage"),
+  by=c("DivisionNm"="Unit","census_years"="Year")) |>
+  filter(census_years!=2021)|>
+  ggplot(aes(x=Percentage,y=Percentage_Diff_National,colour=as_factor(Year)))+
+  geom_point()+
+  facet_grid(Attribute~PartyAb)+
+  labs(y="Population Percentage",x="Primary Vote - % from National average")
+```
+
+-   Not sure how informative this is.
+-   Not counting for 2nd people, which may still vote with cultural group.
+
+## Language
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+tbl(processed_db,"language") |>
+  filter(Year!=2021) |>
+  select(-Unit,-Year) |>
+  GGally::ggpairs()
+```
+
+```{r}
+tbl(processed_db,"language") |>
+  filter(Year!=2021) |>
+  collect() |>
+  pivot_longer(-c(Unit,Year),names_to = "Attribute",values_to = "Percentage") |>
+  mutate(Attribute=str_remove_all(Attribute,"^Language...")) |>
+  ggplot(aes(x=Percentage,y=Attribute)) +
+  geom_violin() +
+  facet_grid(.~Year) +
+  theme(axis.title.y = element_blank()) +
+   scale_x_continuous("Percentage of Electorate's Population"
+                      )
+
+
+```
+
+```{r}
+primary_vote |>
+  collect() |>
+  left_join(tbl(processed_db,"language") |>
+  filter(Year!=2021) |>
+  collect() |>
+  pivot_longer(-c(Unit,Year),names_to = "Attribute",values_to = "Percentage"),
+  by=c("DivisionNm"="Unit","census_years"="Year")) |>
+  mutate(Attribute=str_remove_all(Attribute,"^Language...")) |>
+  filter(census_years!=2021)|>
+  ggplot(aes(x=Percentage,y=Percentage_Diff_National,colour=as_factor(Year)))+
+  geom_point()+
+  facet_grid(Attribute~PartyAb)+
+  labs(y="Population Percentage",x="Primary Vote - % from National average")
+```
+
+-   Speakers of Aboriginal languagues are only significant in Lingiari (30%), then they are \~5% for Leichhardt, then MOSTLY \<1%
+
+-   South Asian , Chinese on the rise, Arabic also relevant on some areas. More important is perhaps % of monolingual English speakers.
+
+-   Chinese language seen positivelt correlated to COAL vote, South Asian Languages to ALP.
+
+-   Cone behaivour for ALP with English monolingual percentages.
+
+-   Highest correlations are negative - between English monolingual and Arabic, Chinese and East Asian languages
+
+## Religion
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+tbl(processed_db,"religion") |>
+  mutate(across(contains("Religion"),as.numeric)) |>
+  filter(Year!=2021) |>
+  select(-Unit,-Year) |>
+  GGally::ggpairs()
+```
+
+```{r}
+tbl(processed_db,"religion") |>
+  filter(Year!=2021) |>
+  collect() |>
+  mutate(across(contains("Religion"),as.numeric)) |>
+  pivot_longer(-c(Unit,Year),names_to = "Attribute",
+               values_to = "Percentage") |>
+  mutate(Attribute=str_remove_all(Attribute,"^Religion...")) |>
+  ggplot(aes(x=Percentage,y=Attribute)) +
+  geom_violin() +
+  facet_grid(.~Year) +
+  theme(axis.title.y = element_blank()) +
+   scale_x_continuous("Percentage of Electorate's Population"
+                      )
+
+```
+
+```{r}
+primary_vote |>
+  collect() |>
+  left_join(tbl(processed_db,"religion") |>
+  mutate(across(contains("Religion"),as.numeric)) |>
+  filter(Year!=2021) |>
+  collect() |>
+  pivot_longer(-c(Unit,Year),names_to = "Attribute",values_to = "Percentage"),
+  by=c("DivisionNm"="Unit","census_years"="Year")) |>
+  mutate(Attribute=str_remove_all(Attribute,"^Religion...")) |>
+  filter(census_years!=2021)|>
+  ggplot(aes(x=Percentage,y=Percentage_Diff_National,colour=as_factor(Year)))+
+  geom_point()+
+  facet_grid(Attribute~PartyAb)+
+  labs(y="Population Percentage",x="Primary Vote - % from National average")
+```
+
+-   Interesting to look at religion
+
+-   anglican-prebysterian-uniting suburbs leaning towards Coalition
+
+-   Catholic, Orthodox, Hindu, Islamic areas leaning towards ALP
+
+-   Slight preference for greens by secular groups
+
+-   No strong but positive correlation between non-Christian religions
+
+## income
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+tbl(processed_db,"income_level") |>
+  filter(Year!=2021) |>
+  select(-Unit,-Year) |>
+  GGally::ggpairs()
+
+```
+
+```{r}
+
+tbl(processed_db,"income_level") |>
+  filter(Year!=2021) |>
+  collect() |>
+  pivot_longer(-c(Unit,Year),names_to = "Attribute",
+               values_to = "Percentage") |>
+  mutate(Attribute=str_remove_all(Attribute,"^Income...")) |>
+  ggplot(aes(x=Percentage,y=Attribute)) +
+  geom_violin() +
+  facet_grid(.~Year) +
+  theme(axis.title.y = element_blank()) +
+   scale_x_continuous("Percentage of Electorate's Population"
+                      )
+```
+
+```{r}
+primary_vote |>
+  collect() |>
+  left_join(tbl(processed_db,"income_level") |>
+  filter(Year!=2021) |>
+  collect() |>
+  pivot_longer(-c(Unit,Year),names_to = "Attribute",values_to = "Percentage"),
+  by=c("DivisionNm"="Unit","census_years"="Year")) |>
+  mutate(Attribute=str_remove_all(Attribute,"^Income...")) |>
+  filter(census_years!=2021)|>
+  ggplot(aes(x=Percentage,y=Percentage_Diff_National,colour=as_factor(Year)))+
+  geom_point()+
+  facet_grid(Attribute~PartyAb)+
+  labs(y="Population Percentage",x="Primary Vote - % from National average")
+```
+
+-   income levels are highly correlated!
+
+-   non clear associations with vote levels - except for negative association between greens and lower income range
+
+## Household tenure
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+tbl(processed_db,"household_tenure") |>
+  filter(Year!=2021) |>
+  select(-Unit,-Year) |>
+  GGally::ggpairs()
+
+```
+
+```{r}
+tbl(processed_db,"household_tenure") |>
+  filter(Year!=2021) |>
+  collect() |>
+  pivot_longer(-c(Unit,Year),names_to = "Attribute",
+               values_to = "Percentage") |>
+  ggplot(aes(x=Percentage,y=Attribute)) +
+  geom_violin() +
+  facet_grid(.~Year) +
+  theme(axis.title.y = element_blank()) +
+   scale_x_continuous("Percentage of Electorate's Population"
+                      )
+```
+
+```{r}
+primary_vote |>
+  collect() |>
+  left_join(tbl(processed_db,"household_tenure") |>
+  filter(Year!=2021) |>
+  collect() |>
+  pivot_longer(-c(Unit,Year),names_to = "Attribute",values_to = "Percentage"),
+  by=c("DivisionNm"="Unit","census_years"="Year")) |>
+  filter(census_years!=2021)|>
+  ggplot(aes(x=Percentage,y=Percentage_Diff_National,colour=as_factor(Year)))+
+  geom_point()+
+  facet_grid(Attribute~PartyAb)+
+  labs(y="Population Percentage",x="Primary Vote - % from National average")
+```
+
+
+-   more flat, less houses (obviously)
+
+-   percentage of flats correlated to percantage of rentals
+-  flat dwellers correlated to greens vote
+
+## Education
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+tbl(processed_db,"school_level") |>
+  filter(Year!=2021) |>
+  select(-Unit,-Year) |>
+  GGally::ggpairs()
+
+```
+```{r}
+tbl(processed_db,"school_level") |>
+  filter(Year!=2021) |>
+  collect() |>
+  pivot_longer(-c(Unit,Year),names_to = "Attribute",
+               values_to = "Percentage") |>
+  ggplot(aes(x=Percentage,y=Attribute)) +
+  geom_violin() +
+  facet_grid(.~Year) +
+  theme(axis.title.y = element_blank()) +
+   scale_x_continuous("Percentage of Electorate's Population"
+                      )
+```
+
+```{r}
+primary_vote |>
+  collect() |>
+  left_join(tbl(processed_db,"school_level") |>
+  filter(Year!=2021) |>
+  collect() |>
+  pivot_longer(-c(Unit,Year),names_to = "Attribute",values_to = "Percentage"),
+  by=c("DivisionNm"="Unit","census_years"="Year")) |>
+  filter(census_years!=2021)|>
+  ggplot(aes(x=Percentage,y=Percentage_Diff_National,colour=as_factor(Year)))+
+  geom_point()+
+  facet_grid(Attribute~PartyAb)+
+  labs(y="Population Percentage",x="Primary Vote - % from National average")
+```
+
+
+
+
+- merge Bachelor + graduate diploma + postgrad (ie. Uni education)
+- explosion in certificates in the last decade - interisting
+- perhaps make three categories - uni, tafe, other
+- greens only evident correlation (pos Uni, negative tafe)
+
+## Relationship
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+tbl(processed_db,"relationship") |>
+  filter(Year!=2021) |>
+  select(-Unit,-Year) |>
+  GGally::ggpairs()
+
+```
+
+```{r}
+tbl(processed_db,"relationship") |>
+  filter(Year!=2021) |>
+  collect() |>
+  pivot_longer(-c(Unit,Year),names_to = "Attribute",
+               values_to = "Percentage") |>
+  ggplot(aes(x=Percentage,y=Attribute)) +
+  geom_violin() +
+  facet_grid(.~Year) +
+  theme(axis.title.y = element_blank()) +
+   scale_x_continuous("Percentage of Electorate's Population"
+                      )
+```
+
+
+```{r}
+primary_vote |>
+  collect() |>
+  left_join(tbl(processed_db,"relationship") |>
+  filter(Year!=2021) |>
+  collect() |>
+  pivot_longer(-c(Unit,Year),names_to = "Attribute",values_to = "Percentage"),
+  by=c("DivisionNm"="Unit","census_years"="Year")) |>
+  filter(census_years!=2021)|>
+  ggplot(aes(x=Percentage,y=Percentage_Diff_National,colour=as_factor(Year)))+
+  geom_point()+
+  facet_grid(Attribute~PartyAb)+
+  labs(y="Population Percentage",x="Primary Vote - % from National average")
+```
+
+
+- relevant for green vote : families with children, vs. group living, de factor, alone
+- probably correlated with age
+
+## Selection variables, single model
+
+- focus only on top three
+
+
+### disconnect DB
+
+```{r}
+dbDisconnect(processed_db,shutdown=TRUE)
+
+```
