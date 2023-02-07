@@ -498,7 +498,7 @@ tbl(processed_db,"primary_vote") |>
   select(Year,census_years,StateAb,DivisionNm,PartyAb,Percentage_Diff_National) |>
   filter(PartyAb %in% c("ALP","COAL","GRN")) |>
   collect() |>
-  mutate(DivisionNm=str_to_title(DivisionNm)) 
+  mutate(DivisionNm=str_to_title(DivisionNm)) |>
    left_join(
     tbl(processed_db,"age_and_sex") |>
       filter(Attribute %in% c("Age - Baby Boomers","Age - Gen X","Age - Gen Y","Age - Gen Z")) |>
@@ -598,12 +598,19 @@ tbl(processed_db,"primary_vote") |>
   )
   
   
-  
-
-
-
+consolidated_dataset <- consolidated_dataset |>
+                        arrange(Year,DivisionNm)
 
 ```
+
+
+```{r}
+readr::write_csv(consolidated_dataset,here("4. Data","consolidated.csv"))
+```
+
+## Inpect consolidated dataset
+
+
 
 
 ### disconnect DB

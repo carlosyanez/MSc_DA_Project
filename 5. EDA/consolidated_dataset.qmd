@@ -1,0 +1,222 @@
+---
+title: "EDA Consolidated Dataset"
+format: html
+editor: visual
+---
+
+## Quarto
+
+This file provided an exploration of the consolidated dataset
+
+```{r}
+library(tidyverse)
+library(here)
+```
+
+```{r}
+dataset <- read_csv(here("4. Data","consolidated.csv"))
+
+```
+
+```{r}
+non_predictors <- c("Year","census_years","StateAb","DivisionNm","PartyAb","Percentage_Diff_National")
+  
+just_predictors <- dataset |> 
+                  select(-Percentage_Diff_National,-PartyAb) |>
+                  distinct() |>
+                  mutate(unique_name = str_c(DivisionNm,"-",Year)) |> 
+                  column_to_rownames(var="unique_name") |>
+                  select(-any_of(c(non_predictors,"unique_name")))
+                  select(-any_of(non_predictors))
+
+
+visdat::vis_cor(just_predictors)
+```
+
+Unsurpringsily, very strong correlation between:
+
+-   Religion - Islam and Language - Arabic - keeping language instad of religion
+
+-   Religion- Hinduism and Laguage - South Asian
+
+-   Religion - Buddihsm and Language - East Asian - keeping language group instead of religion.
+
+Question - is religion important in australian politics. Converserly no - but it seems alignment between Anglican-Presbyterian-Baptist with Coalition and Catholicism with Labor. There are historical reasons (e.g. Irish Catholics involved in labour movements) and there are a proxy for other groups (e.g. rural, anglo-celtic australians voting for National party)
+
+```{r}
+dataset <- dataset |>
+          select(-`Rel - Islam`,
+                  -`Rel - Hinduism`,
+                  -`Rel - Buddhism`)
+
+just_predictors <- just_predictors |>
+          select(-`Rel - Islam`,
+                  -`Rel - Hinduism`,
+                  -`Rel - Buddhism`)
+```
+
+# Principal component analysis?
+
+```{r}
+pca <- FactoMineR::PCA(just_predictors |> drop_na(), ncp=10)
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+factoextra::fviz_screeplot(pca)
+```
+
+```{r}
+pca$eig
+```
+
+```{r}
+factoextra::fviz_pca_contrib(pca, choice="var", axes = 1, top = 15)
+```
+
+```{r}
+factoextra::fviz_pca_contrib(pca, choice="var", axes = 2, top = 15)
+```
+
+```{r}
+factoextra::fviz_pca_contrib(pca, choice="var", axes = 3, top = 15)
+```
+
+```{r}
+factoextra::fviz_pca_contrib(pca, choice="var", axes = 4, top = 15)
+
+```
+
+```{r}
+factoextra::fviz_pca_contrib(pca, choice="var", axes = 5, top = 15)
+```
+
+```{r}
+factoextra::fviz_pca_contrib(pca, choice="var", axes = 6, top = 15)
+```
+
+```{r}
+factoextra::fviz_pca_contrib(pca, choice="var", axes = 7, top = 15)
+```
+
+```{r}
+factoextra::fviz_pca_contrib(pca, choice="var", axes = 8, top = 15)
+```
+
+```{r}
+factoextra::fviz_pca_contrib(pca, choice="var", axes = 9, top = 15)
+```
+
+```{r}
+factoextra::fviz_pca_contrib(pca, choice="var", axes = 10, top = 15)
+```
+
+```{r}
+factoextra::fviz_pca_ind(pca, col.ind = "cos2", 
+             gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
+             repel = TRUE # Avoid text overlapping (slow if many points)
+             )
+
+```
+
+```{r}
+factoextra::fviz_pca_ind(pca, col.ind = "cos2",
+                         axes=c(3,4),
+             gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
+             repel = TRUE # Avoid text overlapping (slow if many points)
+             )
+```
+
+```{r}
+
+```
+
+```{r}
+factoextra::fviz_pca_ind(pca, col.ind = "cos2",
+                         axes=c(4,5),
+             gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
+             repel = TRUE # Avoid text overlapping (slow if many points)
+             )
+```
+
+```{r}
+transformed <- pca$ind$contrib |> 
+  as_tibble(rownames="unique_id") |>
+  separate(unique_id,c("DivisionNm","Year"),"-") |>
+  mutate(Year = as.numeric(Year)) |>
+  left_join(dataset |> select(any_of(non_predictors)),
+            by=c("DivisionNm","Year"))
+```
+
+```{r}
+transformed |>
+  filter(!is.na(Percentage_Diff_National))|>
+  ggplot(aes(x=Dim.1,y=Dim.6,colour=Percentage_Diff_National)) +
+  geom_point() +
+  facet_grid(.~PartyAb) +
+  theme(legend.position = "bottom")
+```
+
+```{r}
+db <- dbscan::dbscan(transformed |> select(-any_of(c(non_predictors,"unique_id"))),eps = 0.2, minPts = 4)
+
+db
+```
+
+```{r}
+transformed$cluster <- db$cluster
+
+ transformed |>
+ separate(unique_id,c("DivisionNm","Year"),"-") |>
+  mutate(Year = as.numeric(Year)) |>
+  left_join(dataset |> select(any_of(non_predictors)),
+            by=c("DivisionNm","Year")) |>
+   select(any_of(c("PartyAb","Percentage_Diff_National","cluster")),
+          starts_with("Dim")) |>
+   pivot_longer(-c("PartyAb","Percentage_Diff_National","cluster"),
+                names_to = "Dim",values_to = "value") |>
+   filter(!is.na(value)) |>
+   filter(!is.na(PartyAb)) |>
+   ggplot(aes(x=value,y=Percentage_Diff_National,colour=as.character(cluster))) +
+   geom_point() +
+   facet_grid(PartyAb ~ Dim) +
+   scale_x_log10()
+
+
+```
+
+```{r}
+ just_predictors |>
+  drop_na()|>
+  add_column(cluster=db$cluster) |>
+  rownames_to_column("unique_id") |>
+ separate(unique_id,c("DivisionNm","Year"),"-") |>
+  mutate(Year = as.numeric(Year)) |>
+  left_join(dataset |> select(any_of(non_predictors)) ,
+            by=c("DivisionNm","Year")) |> 
+   pivot_longer(-c("PartyAb","Percentage_Diff_National","cluster","DivisionNm","Year","StateAb","census_years"),
+                names_to = "Dim",values_to = "value") |>
+   filter(!is.na(value)) |>
+   filter(!is.na(PartyAb)) |>
+   ggplot(aes(x=value,y=Percentage_Diff_National,colour=as.character(cluster))) +
+   geom_point() +
+   facet_grid(PartyAb ~ Dim) +
+   scale_x_log10()
+```
+
+```{r}
+pairs(transformed |>  select(-any_of(c(non_predictors,"unique_id"))), col = db$cluster + 1L)
+
+```
+
+```{r}
+db <- dbscan::dbscan(just_predictors  |> drop_na(),eps = 0.3, minPts = 4)
+db
+```
