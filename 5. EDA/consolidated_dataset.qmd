@@ -325,8 +325,29 @@ db <- dbscan::dbscan(just_predictors  |> drop_na(),eps = 0.3, minPts = 4)
 db
 ```
 
-## Factor Analysis
+# Multiple Factor Analysis?
+
+Makes senss to use it, since variables belong to groups (Age, income, etc
 
 ```{r}
-FactoMineR::
+
+colnames(just_predictors)
+
+mfa <- FactoMineR::MFA(just_predictors,group=c(4,1,5,3,3,2,2,4), name.group =c("Age","Citizenship","Language","Religion","Income","Housing","Education","Relationships"))
+```
+
+```{r}
+factoextra::fviz_mfa_var(mfa)
+```
+
+```{r}
+mfa$
+```
+
+```{r}
+mfa$eig
+```
+
+```{r}
+mfa$separate.analyses$Relationships$var
 ```
