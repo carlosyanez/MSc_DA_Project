@@ -27,7 +27,7 @@ just_predictors <- dataset |>
                   mutate(unique_name = str_c(DivisionNm,"-",Year)) |> 
                   column_to_rownames(var="unique_name") |>
                   select(-any_of(c(non_predictors,"unique_name")))
-                  select(-any_of(non_predictors))
+                  #select(-any_of(non_predictors))
 
 
 visdat::vis_cor(just_predictors)
@@ -82,11 +82,26 @@ factoextra::fviz_pca_contrib(pca, choice="var", axes = 1, top = 15)
 ```
 
 ```{r}
+factoextra::fviz_pca_biplot(pca,c(1,2),geom="point")
+```
+
+```{r}
 factoextra::fviz_pca_contrib(pca, choice="var", axes = 2, top = 15)
 ```
 
 ```{r}
+factoextra::fviz_pca_biplot(pca,c(1,2),geom="point")
+```
+
+```{r}
+```
+
+```{r}
 factoextra::fviz_pca_contrib(pca, choice="var", axes = 3, top = 15)
+```
+
+```{r}
+factoextra::fviz_pca_biplot(pca,c(2,3),geom="point")
 ```
 
 ```{r}
@@ -95,11 +110,24 @@ factoextra::fviz_pca_contrib(pca, choice="var", axes = 4, top = 15)
 ```
 
 ```{r}
+factoextra::fviz_pca_biplot(pca,c(3,4),geom="point")
+```
+
+```{r}
 factoextra::fviz_pca_contrib(pca, choice="var", axes = 5, top = 15)
 ```
 
 ```{r}
 factoextra::fviz_pca_contrib(pca, choice="var", axes = 6, top = 15)
+```
+
+```{r}
+factoextra::fviz_pca_var(pca,c(5,6))
+```
+
+```{r}
+
+pca$var
 ```
 
 ```{r}
@@ -295,4 +323,10 @@ pairs(transformed |>  select(-any_of(c(non_predictors,"unique_id"))), col = db$c
 ```{r}
 db <- dbscan::dbscan(just_predictors  |> drop_na(),eps = 0.3, minPts = 4)
 db
+```
+
+## Factor Analysis
+
+```{r}
+FactoMineR::
 ```
