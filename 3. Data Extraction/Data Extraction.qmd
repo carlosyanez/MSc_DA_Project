@@ -344,8 +344,6 @@ primary_vote |>
 ```
 
 
-
-
 ### Non- School Qualification 
 
 ```{r}
@@ -1277,6 +1275,14 @@ citizenship <- tibble()
 
    year <- as.double(census_years[i])
 
+   
+   original_data <- tbl(mydb,"citizenship_granular") |> 
+                  filter(Year==year)     |>
+                  select(-Unit)                    |>
+                  rename(!!codes[i]:="Census_Code") |>
+                  collect()
+     
+     
    value_i <- tbl(mydb,"citizenship_granular") |> 
                   filter(Year==year)     |>
                   select(-Unit)                    |>

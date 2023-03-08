@@ -1,0 +1,147 @@
+---
+title: "Transformation and Clustering"
+format: html
+---
+
+
+```{r}
+#| warning: false
+library(tidyverse)
+library(here)
+library(FactoMineR)
+library(factoextra)
+```
+
+
+```{r}
+#| warning: false
+#| message: false
+dataset <- read_csv(here("4. Data","consolidated.csv"))
+
+averages <- 
+dataset |>
+  select(-any_of(c("ALP","COAL","GRN","StateAb","DivisionNm"))) |>
+  group_by(Year)                                                |>
+  summarise(across(everything(), ~ mean(.x, na.rm = TRUE)))
+
+```
+
+# Scaling of Predictors
+
+```{r}
+
+predictors_scaled <- dataset |>
+ select(-GRN,-ALP,-COAL) |>
+ pivot_longer(-c("Year","StateAb","DivisionNm"),
+              names_to = "Var",values_to = "Value") |>
+  left_join( averages |> pivot_longer(-c("Year"),names_to="Var",values_to="avg"),
+             by=c("Year","Var")) |>
+  mutate(Value = Value-avg,.keep="unused") |>
+  pivot_wider(names_from = Var, values_from = Value)
+
+
+```
+
+```{r}
+
+GGally::ggpairs(predictors_scaled |> select(-any_of(c("Year","StateAb","DivisionNm"))))
+
+```
+
+
+
+```{r}
+colnames(predictors_scaled |>  select(-any_of(c("Year","DivisionNm","StateAb"))))
+```
+
+# MFA
+
+```{r}
+mfa <- FactoMineR::MFA(predictors_scaled |> 
+                       remove_rownames()  |>
+                       mutate(key=str_c(DivisionNm,Year,sep="_"),.before=1,.keep="unused")|>
+                       select(-election_year) |>
+                       column_to_rownames(var="key"),
+                       group=c(1,1,1,5,6,3,2,2,4),
+                       ncp=8,
+                       type=c("n",rep("c",8)),
+                       name.group =c("State","Citizenship","Age","Language","Religion","Income","Housing","Education","Relationships"))
+```
+
+```{r}
+factoextra::fviz_screeplot(mfa)
+```
+
+```{r}
+mfa$eig |> 
+  as_tibble(rownames = "Dimension") |>
+  mutate(across(is.numeric,~ round(.x,2)))|> 
+  flextable::flextable()
+```
+
+
+```{r}
+factoextra::fviz_mfa_var(mfa,axes=c(1,2))
+```
+```{r}
+factoextra::fviz_mfa_var(mfa,axes=c(3,4))
+```
+
+```{r}
+factoextra::fviz_mfa_var(mfa,axes=c(5,6))
+```
+
+
+```{r}
+factoextra::fviz_mfa_var(mfa,axes=c(7,8))
+
+```
+
+
+# Clustering
+
+
+```{r}
+clustering <- dbscan::hdbscan(mfa$ind$coord,30)
+clustering
+```
+
+```{r}
+clustering$cluster
+```
+
+```{r}
+clusters <- predictors_transformed |>
+  as_tibble(rownames="key") |>
+  select(key) |>
+  separate(key,c("DivisionNm","Year"),sep="_") |>
+  add_column(cluster=as.character(clustering$cluster))
+```
+
+
+```{r}
+library(aussiemaps)
+library(leaflet)
+library(sf)
+
+ced_2021 <- strayr::read_absmap("ced2021")
+
+ced_2021
+
+
+cluster_pal <- colorFactor(topo.colors(6), clusters$cluster)
+
+ced_2021 |>
+  mutate(ced_name_2021=str_squish(ced_name_2021)) |>
+  left_join(clusters |> filter(Year=="2022"),by=c("ced_name_2021"="DivisionNm")) |>
+  filter(!is.na(cluster)) |>
+  leaflet() |>
+   addTiles() %>%
+  addPolygons(stroke = FALSE,
+              smoothFactor = 0.3, 
+              fillOpacity = .5,
+               fillColor = ~cluster_pal(cluster))
+
+
+```
+
