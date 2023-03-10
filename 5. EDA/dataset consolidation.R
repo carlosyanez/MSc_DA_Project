@@ -18,7 +18,7 @@ library(DBI)
 source_db <- dbConnect(duckdb::duckdb(), here("4. Data","processed_data.duckdb"))
 
 
-
+tbl(source_db,"citizenship") |> collect() |> View()
 #get parties table, filter PartyAb keeping only ALP, COAL and GRN
 consolidated <-  tbl(source_db, "primary_vote") |>
   filter(PartyAb %in% c("ALP", "COAL", "GRN")) |>
@@ -27,7 +27,13 @@ consolidated <-  tbl(source_db, "primary_vote") |>
   left_join(tbl(source_db,"year_equivalency"),
             by=c("Year"="election_years")) |>
   rename("election_year"="Year","Year"="census_years") |>
-  mutate(DivisionNm=str_to_lower(DivisionNm)) 
+  mutate(DivisionNm=case_when(
+    Year %in% c(2006,2011) & DivisionNm=="Fraser" ~ "Fraser (I)",
+    Year %in% c(2019,2021) & DivisionNm=="Fraser" ~ "Fraser (II)",
+    TRUE ~ DivisionNm
+  ))  |>
+  mutate(DivisionNm=str_to_lower(DivisionNm))  
+  
 
 ## list available tables
 #dbListTables(source_db)
@@ -42,7 +48,9 @@ consolidated <-  tbl(source_db, "primary_vote") |>
 ## add citizenship
 consolidated <- 
 consolidated |>
-  left_join(tbl(source_db,"citizenship") |> mutate(Unit=str_to_lower(Unit)), by=c("Year"="Year","DivisionNm"="Unit")) 
+  left_join(tbl(source_db,"citizenship") |> mutate(Unit=str_to_lower(Unit)) |> 
+            rename("Australian_Citizens"="Australian.Citizens"),
+            by=c("Year"="Year","DivisionNm"="Unit")) 
 
 # add age groups
 age_groups <-  tbl(source_db,"age_and_sex") |>
@@ -137,6 +145,121 @@ tbl(source_db,"relationship") |>
 consolidated <- consolidated |>
   left_join(relationships,by=c("Year"="Year","DivisionNm"="Unit")) 
 
+#fix CED capitalisation
+
+consolidated <-
+  consolidated |>
+  mutate(initial = str_sub(DivisionNm,1,1),
+         DivisionNm = str_remove(DivisionNm,"^[A-z]"),
+         DivisionNm = paste0(toupper(initial),DivisionNm)) |>
+  select(-initial) |>
+  mutate(DivisionNm=case_when(
+    DivisionNm=="Eden-monaro" ~ "Eden-Monaro",
+    DivisionNm=="Kingsford smith" ~ "Kingsford Smith",
+    DivisionNm=="La trobe" ~ "La Trobe",
+    DivisionNm=="Mcewen" ~ "McEwen",
+    DivisionNm=="Mcmahon" ~ "McMahon",
+    DivisionNm=="Mcmillan" ~ "McMillan",
+    DivisionNm=="Mcpherson" ~ "McPherson",
+    DivisionNm=="Melbourne ports" ~ "Melbourne Ports",
+    DivisionNm=="New england" ~ "New England",
+    DivisionNm=="North sydney" ~ "North Sydney",
+    DivisionNm=="O'connor" ~ "O'Connor",
+    DivisionNm=="Port adelaide" ~ "Port Adelaide",
+    DivisionNm=="Wide bay" ~ "Wide Bay",
+    DivisionNm=="Fraser (i)" ~ "Fraser (I)",
+    DivisionNm=="Fraser (ii)" ~ "Fraser (II)",
+    TRUE ~ DivisionNm
+  )) 
+
+
+
+# add metro flag, GCCSA for metro electorates
+# bases on 2021, then manually review
+
+metro_non_metro <- tbl(source_db,"metro_electorates") |>
+  select(DivisionNm=CED_NAME_2021,Metro_Area=GCCSA_NAME_2021) |>
+  mutate(initial = str_sub(DivisionNm,1,1),
+         DivisionNm = str_remove(DivisionNm,"^[A-z]"),
+         DivisionNm = paste0(toupper(initial),DivisionNm)) |>
+  select(-initial) |>
+  mutate(DivisionNm=case_when(
+    DivisionNm=="Eden-monaro" ~ "Eden-Monaro",
+    DivisionNm=="Kingsford smith" ~ "Kingsford Smith",
+    DivisionNm=="La trobe" ~ "La Trobe",
+    DivisionNm=="Mcewen" ~ "McEwen",
+    DivisionNm=="Mcmahon" ~ "McMahon",
+    DivisionNm=="Mcmillan" ~ "McMillan",
+    DivisionNm=="Mcpherson" ~ "McPherson",
+    DivisionNm=="Melbourne ports" ~ "Melbourne Ports",
+    DivisionNm=="New england" ~ "New England",
+    DivisionNm=="North sydney" ~ "North Sydney",
+    DivisionNm=="O'connor" ~ "O'Connor",
+    DivisionNm=="Port adelaide" ~ "Port Adelaide",
+    DivisionNm=="Wide bay" ~ "Wide Bay",
+    DivisionNm=="Fraser (ii)" ~ "Fraser (II)",
+    DivisionNm=="Fraser" ~ "Fraser (II)",
+    TRUE ~ DivisionNm)) |>
+  mutate(Metro="Yes") |> 
+  collect() |>
+  bind_rows(
+    tbl(source_db,"non_metro_electorates") |>
+      select(DivisionNm=CED_NAME_2021)   |>
+      mutate(initial = str_sub(DivisionNm,1,1),
+             DivisionNm = str_remove(DivisionNm,"^[A-z]"),
+             DivisionNm = paste0(toupper(initial),DivisionNm)) |>
+      select(-initial) |>
+      mutate(DivisionNm=case_when(
+        DivisionNm=="Eden-monaro" ~ "Eden-Monaro",
+        DivisionNm=="Kingsford smith" ~ "Kingsford Smith",
+        DivisionNm=="La trobe" ~ "La Trobe",
+        DivisionNm=="Mcewen" ~ "McEwen",
+        DivisionNm=="Mcmahon" ~ "McMahon",
+        DivisionNm=="Mcmillan" ~ "McMillan",
+        DivisionNm=="Mcpherson" ~ "McPherson",
+        DivisionNm=="Melbourne ports" ~ "Melbourne Ports",
+        DivisionNm=="New england" ~ "New England",
+        DivisionNm=="North sydney" ~ "North Sydney",
+        DivisionNm=="O'connor" ~ "O'Connor",
+        DivisionNm=="Port adelaide" ~ "Port Adelaide",
+        DivisionNm=="Wide bay" ~ "Wide Bay",
+        DivisionNm=="Fraser (ii)" ~ "Fraser (II)",
+        DivisionNm=="Fraser" ~ "Fraser (II)",
+        TRUE ~ DivisionNm)) |>
+      mutate(Metro="No",Metro_Area="Non Metropolitan") |>
+      collect()
+  ) |>
+  bind_rows(
+    tribble(~DivisionNm,~Metro,~Metro_Area,
+            "Batman","Yes","Greater Melbourne",
+            "Charlton","No","Non Metropolitan",
+            "Denison","Yes","Greater Hobart",
+            "Fraser (I)","Yes","Australian Capital Territory",
+            "Kalgoorlie", "No","Non Metropolitan",
+            "Lowe","Yes","Greater Sydney",
+            "McMillan","No","Non Metropolitan",
+            "Melbourne Ports","Yes","Greater Melbourne",
+            "Murray","No","Non Metropolitan",
+            "Port Adelaide", "Yes","Greater Adelaide",
+            "Prospect","Yes","Greater Sydney",
+            "Stirling","Yes","Greater Perth",
+            "Throsby", "No","Non Metropolitan",
+            "Wakefield","No","Non Metropolitan"
+            )
+  )
+
+
+dbWriteTable(source_db,"metro_non_metro",metro_non_metro,overwrite=TRUE)
+
+consolidated <-
+consolidated |> left_join(
+                      tbl(source_db,"metro_non_metro") ,
+                      by="DivisionNm"
+)
+  
+
+  
+
 ## get into a DB view
 select_text <- consolidated |>
   dbplyr::sql_render()
@@ -147,8 +270,13 @@ dbExecute(source_db,"DROP VIEW analysis_dataset;")
 dbExecute(source_db,sql_query)
 
 #copy to file
-tbl(source_db,"analysis_dataset") |> collect() |> write_csv(here("4. Data","consolidated.csv"))
+tbl(source_db,"analysis_dataset") |>
+  collect() |>
+  write_csv(here("4. Data","consolidated.csv"))
+
 #disconnect
 dbDisconnect(source_db, shutdown=TRUE)
 
-
+tbl(source_db,"analysis_dataset") |>
+  collect() |>
+  filter(is.na(Australian_Citizens))

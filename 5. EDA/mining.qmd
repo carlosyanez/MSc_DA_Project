@@ -16,13 +16,15 @@ library(factoextra)
 ```{r}
 #| warning: false
 #| message: false
-dataset <- read_csv(here("4. Data","consolidated.csv"))
+dataset <- read_csv(here("4. Data","consolidated.csv")) |>
+  filter(!is.na(Australian_Citizens)) |>
+  mutate(Year=election_year,.keep="unused")
 
 averages <- 
 dataset |>
   select(-any_of(c("ALP","COAL","GRN","StateAb","DivisionNm"))) |>
   group_by(Year)                                                |>
-  summarise(across(everything(), ~ mean(.x, na.rm = TRUE)))
+  summarise(across(everything(), ~ mean(.x, na.rm = TRUE)))     
 
 ```
 
@@ -30,9 +32,13 @@ dataset |>
 
 ```{r}
 
+key <- c("Year","StateAb","DivisionNm")
+
+
 predictors_scaled <- dataset |>
  select(-GRN,-ALP,-COAL) |>
- pivot_longer(-c("Year","StateAb","DivisionNm"),
+ mutate(across(!any_of(key),as.character)) |>
+ pivot_longer(-all_of(key),
               names_to = "Var",values_to = "Value") |>
   left_join( averages |> pivot_longer(-c("Year"),names_to="Var",values_to="avg"),
              by=c("Year","Var")) |>
