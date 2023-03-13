@@ -333,7 +333,9 @@ silodata_metro     <- tbl(original_db,"silodata_metro")
 metro_electorates  <- tbl(original_db,"metro_electorates")
 non_metro_electorates <- tbl(original_db,"non_metro_electorates")
 
+dbWriteTable(processed_db,"metro_electorates",metro_electorates |> collect(),overwrite=TRUE)
 
+dbWriteTable(processed_db,"non_metro_electorates",non_metro_electorates |> collect(),overwrite=TRUE)
 
 day_months <- tibble(date=as_date("2000-01-01")+0:365) |>
               mutate(day=day(date),

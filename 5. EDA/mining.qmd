@@ -32,7 +32,7 @@ dataset |>
 
 ```{r}
 
-key <- c("Year","StateAb","DivisionNm")
+key <- c("Year","StateAb","DivisionNm","Metro_Area","Metro")
 
 
 predictors_scaled <- dataset |>
@@ -42,7 +42,7 @@ predictors_scaled <- dataset |>
               names_to = "Var",values_to = "Value") |>
   left_join( averages |> pivot_longer(-c("Year"),names_to="Var",values_to="avg"),
              by=c("Year","Var")) |>
-  mutate(Value = Value-avg,.keep="unused") |>
+  mutate(Value = as.numeric(Value)-avg,.keep="unused") |>
   pivot_wider(names_from = Var, values_from = Value)
 
 
@@ -63,15 +63,33 @@ colnames(predictors_scaled |>  select(-any_of(c("Year","DivisionNm","StateAb")))
 # MFA
 
 ```{r}
+
+groups <- colnames(predictors_scaled |> select(-any_of(c("StateAb","Metro_Area","DivisionNm","Year")))) |>
+          as_tibble() |>
+          mutate(group=case_when(
+            str_detect(value,"_") ~  str_extract(value, "^([^_]+)"),
+            TRUE ~ value
+          )) 
+
+group_order <- distinct(groups,group) |> mutate(order=row_number())
+
+
+groups <- groups|>
+  group_by(group) |>
+  summarise(n=n(),.groups="drop") |>
+  left_join(group_order,by="group") |>
+  arrange(order)
+
+
 mfa <- FactoMineR::MFA(predictors_scaled |> 
+                       select(-StateAb,-Metro_Area,Metro) |>
                        remove_rownames()  |>
-                       mutate(key=str_c(DivisionNm,Year,sep="_"),.before=1,.keep="unused")|>
-                       select(-election_year) |>
+                       mutate(key=str_c(DivisionNm,Year,sep="_"),.before=1,.keep="unused") |>
                        column_to_rownames(var="key"),
-                       group=c(1,1,1,5,6,3,2,2,4),
-                       ncp=8,
+                       group=groups$n,
+                       ncp=10,
                        type=c("n",rep("c",8)),
-                       name.group =c("State","Citizenship","Age","Language","Religion","Income","Housing","Education","Relationships"))
+                       name.group =groups$group)
 ```
 
 ```{r}
@@ -85,10 +103,12 @@ mfa$eig |>
   flextable::flextable()
 ```
 
+5 variables capture 80% of variance
 
 ```{r}
 factoextra::fviz_mfa_var(mfa,axes=c(1,2))
 ```
+
 ```{r}
 factoextra::fviz_mfa_var(mfa,axes=c(3,4))
 ```
@@ -116,13 +136,23 @@ clustering
 clustering$cluster
 ```
 
+
+
 ```{r}
-clusters <- predictors_transformed |>
-  as_tibble(rownames="key") |>
-  select(key) |>
-  separate(key,c("DivisionNm","Year"),sep="_") |>
-  add_column(cluster=as.character(clustering$cluster))
+clusters <- predictors_scaled |>
+  #as_tibble(rownames="key") |>
+  #select(key) |>
+  #separate(key,c("DivisionNm","Year"),sep="_") |>
+  select(DivisionNm,Year,Metro) |>
+  add_column(cluster=as.character(clustering$cluster)) |>
+  mutate(DivisionNm=str_squish(DivisionNm))
 ```
+
+```{r}
+ced_2021 |> filter(str_detect(ced_name_2021,"^Mar"))
+```
+
+
 
 
 ```{r}
@@ -130,24 +160,51 @@ library(aussiemaps)
 library(leaflet)
 library(sf)
 
-ced_2021 <- strayr::read_absmap("ced2021")
+ced_2021 <- strayr::read_absmap("ced2021") 
 
 ced_2021
 
 
 cluster_pal <- colorFactor(topo.colors(6), clusters$cluster)
 
+
 ced_2021 |>
   mutate(ced_name_2021=str_squish(ced_name_2021)) |>
+  mutate(ced_name_2021=if_else(ced_name_2021=="Fraser","Fraser (II)",ced_name_2021)) |>
   left_join(clusters |> filter(Year=="2022"),by=c("ced_name_2021"="DivisionNm")) |>
   filter(!is.na(cluster)) |>
   leaflet() |>
-   addTiles() %>%
-  addPolygons(stroke = FALSE,
+   addTiles() |>
+  addPolygons(stroke = TRUE,
               smoothFactor = 0.3, 
+              color ="white",
+              weight=2,
               fillOpacity = .5,
-               fillColor = ~cluster_pal(cluster))
-
+               fillColor = ~cluster_pal(cluster),
+              label=~str_c(ced_name_2021,"(",Metro,")","- ",cluster)) |>
+  addLegend("bottomright", pal = cluster_pal, values = ~cluster,
+    title = "Clustering of 2022 Electorates",
+    opacity = 1
+  )
 
 ```
+
+
+See if there are any differences per electorates
+
+```{r}
+
+predictors_clustered <- predictors_scaled |>
+                        left_join(clusters, by=c("DivisionNm","Year")) |>
+                        relocate(cluster,.before=1)
+  
+
+predictors_clustered |>
+  ggplot(aes(x=Metro)) +
+   geom_bar(stat = "count") +
+   facet_grid(.~cluster )
+
+```
+
+
 

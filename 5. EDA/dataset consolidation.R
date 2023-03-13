@@ -18,14 +18,16 @@ library(DBI)
 source_db <- dbConnect(duckdb::duckdb(), here("4. Data","processed_data.duckdb"))
 
 
-tbl(source_db,"citizenship") |> collect() |> View()
+#tbl(source_db,"citizenship") |> collect() |> View()
 #get parties table, filter PartyAb keeping only ALP, COAL and GRN
 consolidated <-  tbl(source_db, "primary_vote") |>
   filter(PartyAb %in% c("ALP", "COAL", "GRN")) |>
   select(-OrdinaryVotes) |>
-  pivot_wider(names_from = PartyAb,values_from=Percentage) |>
+  arrange(DivisionNm,Year) |>
+  select(Year,DivisionNm,PartyAb,StateAb,Percentage_Diff_National) |>
+  pivot_wider(names_from = PartyAb,values_from=Percentage_Diff_National)  |>
   left_join(tbl(source_db,"year_equivalency"),
-            by=c("Year"="election_years")) |>
+            by=c("Year"="election_years"))  |>
   rename("election_year"="Year","Year"="census_years") |>
   mutate(DivisionNm=case_when(
     Year %in% c(2006,2011) & DivisionNm=="Fraser" ~ "Fraser (I)",
@@ -244,9 +246,11 @@ metro_non_metro <- tbl(source_db,"metro_electorates") |>
             "Prospect","Yes","Greater Sydney",
             "Stirling","Yes","Greater Perth",
             "Throsby", "No","Non Metropolitan",
-            "Wakefield","No","Non Metropolitan"
-            )
-  )
+            "Wakefield","No","Non Metropolitan",
+            ) 
+  ) |> 
+  mutate(Metro = if_else(is.na(Metro),"No",Metro),
+         Metro_Area =if_else(is.na(Metro_Area),"Non Metropolitan",Metro_Area))
 
 
 dbWriteTable(source_db,"metro_non_metro",metro_non_metro,overwrite=TRUE)

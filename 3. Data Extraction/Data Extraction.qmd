@@ -2012,7 +2012,11 @@ DBI::dbListTables(mydb)
 
 library(sf)
 
-map_structure <- list_structure(2021)
+map_structure <- list_structure(2021) |>
+                 select(GCCSA_CODE_2021,GCCSA_NAME_2021,
+                        CED_CODE_2021,CED_NAME_2021,
+                        Year)
+                
 
 #electorates and and metro areas
 
@@ -2024,8 +2028,12 @@ metro <-  map_structure |>
                 filter(str_detect(GCCSA_NAME_2021,"^Other",TRUE))
 
 metro_electorates <- map_structure |>
+                     count(Year,CED_CODE_2021, CED_NAME_2021,GCCSA_CODE_2021,GCCSA_NAME_2021) |>
+                     group_by(Year,CED_CODE_2021, CED_NAME_2021) |>
+                     filter(n==max(n)) |>
+                     ungroup()  |>
+                     select(-n) |>
                      filter(GCCSA_CODE_2021 %in% metro$GCCSA_CODE_2021) |>
-                     distinct(CED_CODE_2021, CED_NAME_2021,GCCSA_CODE_2021,GCCSA_NAME_2021) |>
                       filter(str_detect(CED_NAME_2021,"^Rest",TRUE)) |>
                       filter(str_detect(CED_NAME_2021,"^No usual",TRUE)) |>
                       filter(str_detect(CED_NAME_2021,"^Migratory",TRUE)) |>
@@ -2172,9 +2180,9 @@ tables <- tables[str_detect(tables,"granular",TRUE)]
 tables <- tables[str_detect(tables,"year_equivalency",TRUE)]
 tables <- tables[str_detect(tables,"correspondence_",TRUE)]
 tables <- tables[str_detect(tables,"silodata",TRUE)]
-tables <- tables[str_detect(tables,"electorates",TRUE)]
+#tables <- tables[str_detect(tables,"electorates",TRUE)]
 #tables <- "language"
-
+#tables <- tables[str_detect(tables,"metro")]
 for(i in 1:length(tables)){
   cols <- colnames(tbl(mydb,tables[i])) 
   ced_col <- cols[str_detect(cols,"Unit|CED")]
@@ -2218,6 +2226,8 @@ dbWriteTable(mydb, "primary_vote",primary_vote,overwrite=TRUE)
 #| eval: true
 
 dbDisconnect(mydb, shutdown=TRUE)
+
+dbDisconnect(source_db, shutdown=TRUE)
 
 ```
 
