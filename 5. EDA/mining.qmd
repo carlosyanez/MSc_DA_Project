@@ -202,7 +202,7 @@ predictors_clustered <- predictors_scaled |>
 predictors_clustered |>
   ggplot(aes(x=StateAb,fill=StateAb)) +
    geom_bar(stat = "count") +
-   facet_grid(Metro~cluster )
+   facet_grid(Year~cluster )
 
 ```
 
@@ -214,12 +214,109 @@ library(trelliscopejs)
 predictors_clustered |>
   select(-Metro_Area,-Metro,-Year,-DivisionNm,-StateAb) |>
   pivot_longer(-cluster,names_to="Variable",values_to = "Values") |>
-  ggplot(aes(x=cluster, y=Values)) +
+  ggplot(aes(x="1", y=Values)) +
   ggbeeswarm::geom_beeswarm()+
-  facet_trelliscope( ~ Variable , nrow = 1, ncol = 3, width = 300)
+  facet_trelliscope(  Variable ~cluster , nrow = 1, ncol = 3, width = 300)
 
 ```
 
 
-#Clustering for v
+#Variable reduction?
+
+```{r}
+var_list <- mfa$global.pca$var$coord |> 
+  as_tibble(rownames = "Orig") |>
+  pivot_longer(-Orig,names_to = "New",values_to = "weight") |>
+  mutate(abs_weight=abs(weight)) |>
+  mutate(Dim_number = as.numeric(str_remove(New,"Dim\\."))) |>
+  filter(Dim_number <=5) |>
+  select(-Dim_number)
+
+total_weight <- var_list |>
+  group_by(New) |>
+  summarise(total_weight=sum(abs_weight),.groups = "drop")
+
+reduced_columns <-
+var_list |>
+  left_join(total_weight,by="New") |>
+  mutate(abs_perc=abs_weight/total_weight) |>
+  arrange(New,-abs_perc) |>
+  group_by(New) |>
+  mutate(cumul_weight=cumsum(abs_perc)) |>
+  ungroup() |>
+  filter(cumul_weight<=0.8) |> 
+  distinct(Orig) |>
+  filter(!(Orig %in% c("Yes","No")))
+
+```
+
+
+```{r}
+predictors_clustered |>
+  select(-Metro_Area,-Metro,-Year,-DivisionNm,-StateAb) |>
+  select(any_of(c(reduced_columns$Orig,"cluster"))) |>
+  pivot_longer(-cluster,names_to="Variable",values_to = "Values") |>
+  ggplot(aes(x=cluster, y=Values)) +
+  geom_violin() +
+  facet_trelliscope(  ~ Variable , nrow = 1, ncol = 1, width = 300)
+
+
+```
+
+
+
+```{r}
+  predictors_clustered |>
+  select(DivisionNm,cluster,Year) |>
+  arrange(DivisionNm) |>
+  ggplot(aes(x=as.character(Year),y=DivisionNm,fill=cluster)) +
+  geom_tile()
+```
+
+
+```{r}
+
+char_cols <- dataset |> select(where(is.character)) |> colnames()
+
+parties <-  c("ALP","COAL","GRN","Other")
+clustered_dataset <- dataset |>
+                    left_join(clusters,by=c("DivisionNm","Year","Metro")) |>
+                    relocate(cluster,Year,.before=1) |>
+                   select(any_of(c("Year","cluster",char_cols,parties,reduced_columns$Orig))) |>
+                  mutate(across(any_of(c("ALP","COAL","GRN","Other")), ~replace_na(.x,0)))
+  
+  
+
+write_csv(clustered_dataset,here("4. Data","conslidated_clustered.csv"))
+```
+
+# Modelling
+
+```{r}
+library(tidymodels)
+library(glmnet)
+
+
+#cluster 1
+clustered_dataset_0 <- clustered_dataset |>
+                      filter(cluster==0)
+set.seed(123)
+cd1_train <- initial_split(clustered_dataset_0)
+train <- training(cd1_train)
+
+
+x <- train  |> select(where(is.numeric)) |> select(-any_of(c(parties,"Year"))) |> as.matrix()
+y <- train  |> select(where(is.numeric)) |> select(any_of(c(parties))) |> as.matrix()
+
+fit <- glmnet(x, y,family = "mgaussian")
+plot(fit)
+
+
+```
+
+```{r}
+fit$beta$ALP
+```
+
+
 

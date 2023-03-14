@@ -45,7 +45,9 @@ packages_to_install <- tibble::tribble(
 "patchwork",                  "CRAN",        "",
 "DBI",                        "CRAN",        "",
 "bookdown",                   "CRAN",         "",
-"servr",                      "CRAN",         ""
+"servr",                      "CRAN",         "",
+"glmnet",                     "CRAN",         "",
+"tidymodels",                 "CRAN",         ""
 )
 
 #duckdb does not guarantee backwards compatility,install the right version:
