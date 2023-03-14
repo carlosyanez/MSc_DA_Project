@@ -21,8 +21,7 @@ source_db <- dbConnect(duckdb::duckdb(), here("4. Data","processed_data.duckdb")
 #tbl(source_db,"citizenship") |> collect() |> View()
 #get parties table, filter PartyAb keeping only ALP, COAL and GRN
 consolidated <-  tbl(source_db, "primary_vote") |>
-  filter(PartyAb %in% c("ALP", "COAL", "GRN")) |>
-  select(-OrdinaryVotes) |>
+  filter(PartyAb %in% c("ALP", "COAL", "GRN","Other")) |>
   arrange(DivisionNm,Year) |>
   select(Year,DivisionNm,PartyAb,StateAb,Percentage_Diff_National) |>
   pivot_wider(names_from = PartyAb,values_from=Percentage_Diff_National)  |>
@@ -64,7 +63,9 @@ age_groups <-  tbl(source_db,"age_and_sex") |>
                 select(-Age_Greatest_Gen,-Age_Gen_Alpha)
 
 consolidated <- consolidated |>
-                left_join(age_groups,by=c("Year"="Year","DivisionNm"="Unit")) 
+                left_join(age_groups,by=c("Year"="Year","DivisionNm"="Unit"))
+
+consolidated |> collect() |> nrow()
 
 # add selected languages
 #"Lang - English Only"                
@@ -85,6 +86,8 @@ language <- tbl(source_db,"language") |> select(any_of(c("Unit","Year",
 consolidated <- consolidated |>
   left_join(language,by=c("Year"="Year","DivisionNm"="Unit")) 
 
+consolidated |> collect() |> nrow()
+
 #religion
 #[17] "Rel - Anglican.Uniting.Presbyterian" "Rel - Buddhism"                      "Rel - Catholic"                      "Rel - Christian.Orthodox"           
 #[21] "Rel - Hinduism"                      "Rel - Islam"  
@@ -103,6 +106,8 @@ religion <- tbl(source_db,"religion") |>
 consolidated <- consolidated |>
   left_join(religion,by=c("Year"="Year","DivisionNm"="Unit")) 
 
+consolidated |> collect() |> nrow()
+
 # income
 income <- tbl(source_db,"income_level") |>
   mutate(Unit=str_to_lower(Unit)) |>
@@ -113,6 +118,7 @@ income <- tbl(source_db,"income_level") |>
 consolidated <- consolidated |>
   left_join(income,by=c("Year"="Year","DivisionNm"="Unit")) 
 
+consolidated |> collect() |> nrow()
 
 # housing
 housing <-
@@ -123,6 +129,8 @@ housing <-
   
 consolidated <- consolidated |>
   left_join(housing,by=c("Year"="Year","DivisionNm"="Unit")) 
+
+consolidated |> collect() |> nrow()
 
 #education
 education <-
@@ -135,6 +143,7 @@ tbl(source_db,"school_level") |>
 consolidated <- consolidated |>
   left_join(education,by=c("Year"="Year","DivisionNm"="Unit")) 
 
+consolidated |> collect() |> nrow()
 
 #relationships
 relationships <-
@@ -146,6 +155,8 @@ tbl(source_db,"relationship") |>
 
 consolidated <- consolidated |>
   left_join(relationships,by=c("Year"="Year","DivisionNm"="Unit")) 
+
+consolidated |> collect() |> nrow()
 
 #fix CED capitalisation
 
@@ -181,6 +192,7 @@ consolidated <-
 
 metro_non_metro <- tbl(source_db,"metro_electorates") |>
   select(DivisionNm=CED_NAME_2021,Metro_Area=GCCSA_NAME_2021) |>
+  distinct() |>
   mutate(initial = str_sub(DivisionNm,1,1),
          DivisionNm = str_remove(DivisionNm,"^[A-z]"),
          DivisionNm = paste0(toupper(initial),DivisionNm)) |>
@@ -206,6 +218,7 @@ metro_non_metro <- tbl(source_db,"metro_electorates") |>
   collect() |>
   bind_rows(
     tbl(source_db,"non_metro_electorates") |>
+      distinct() |>
       select(DivisionNm=CED_NAME_2021)   |>
       mutate(initial = str_sub(DivisionNm,1,1),
              DivisionNm = str_remove(DivisionNm,"^[A-z]"),
@@ -260,9 +273,7 @@ consolidated |> left_join(
                       tbl(source_db,"metro_non_metro") ,
                       by="DivisionNm"
 )
-  
 
-  
 
 ## get into a DB view
 select_text <- consolidated |>
@@ -281,6 +292,4 @@ tbl(source_db,"analysis_dataset") |>
 #disconnect
 dbDisconnect(source_db, shutdown=TRUE)
 
-tbl(source_db,"analysis_dataset") |>
-  collect() |>
-  filter(is.na(Australian_Citizens))
+

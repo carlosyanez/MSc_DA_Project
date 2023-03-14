@@ -22,7 +22,7 @@ dataset <- read_csv(here("4. Data","consolidated.csv")) |>
 
 averages <- 
 dataset |>
-  select(-any_of(c("ALP","COAL","GRN","StateAb","DivisionNm"))) |>
+  select(-any_of(c("ALP","COAL","GRN","Other","StateAb","DivisionNm"))) |>
   group_by(Year)                                                |>
   summarise(across(everything(), ~ mean(.x, na.rm = TRUE)))     
 
@@ -36,7 +36,7 @@ key <- c("Year","StateAb","DivisionNm","Metro_Area","Metro")
 
 
 predictors_scaled <- dataset |>
- select(-GRN,-ALP,-COAL) |>
+ select(-GRN,-ALP,-COAL,-Other) |>
  mutate(across(!any_of(key),as.character)) |>
  pivot_longer(-all_of(key),
               names_to = "Var",values_to = "Value") |>
@@ -195,16 +195,31 @@ See if there are any differences per electorates
 ```{r}
 
 predictors_clustered <- predictors_scaled |>
-                        left_join(clusters, by=c("DivisionNm","Year")) |>
+                        left_join(clusters, by=c("DivisionNm","Year","Metro")) |>
                         relocate(cluster,.before=1)
   
 
 predictors_clustered |>
-  ggplot(aes(x=Metro)) +
+  ggplot(aes(x=StateAb,fill=StateAb)) +
    geom_bar(stat = "count") +
-   facet_grid(.~cluster )
+   facet_grid(Metro~cluster )
 
 ```
 
 
+```{r}
+library(trelliscopejs)
+
+
+predictors_clustered |>
+  select(-Metro_Area,-Metro,-Year,-DivisionNm,-StateAb) |>
+  pivot_longer(-cluster,names_to="Variable",values_to = "Values") |>
+  ggplot(aes(x=cluster, y=Values)) +
+  ggbeeswarm::geom_beeswarm()+
+  facet_trelliscope( ~ Variable , nrow = 1, ncol = 3, width = 300)
+
+```
+
+
+#Clustering for v
 

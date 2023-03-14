@@ -2114,7 +2114,7 @@ silodata_non_metro <- bind_rows(silodata_non_metro,data_i)
 rm(data_i,i)
 
 dbWriteTable(mydb, "metro_electorates", metro_electorates,overwrite=TRUE)
-dbWriteTable(mydb, "non_metro_electorates", non_metro_areas,overwrite=TRUE)
+dbWriteTable(mydb, "non_metro_electorates", non_metro,overwrite=TRUE)
 
 
 dbWriteTable(mydb, "silodata_metro", silodata_metro,overwrite=TRUE)
@@ -2227,7 +2227,7 @@ dbWriteTable(mydb, "primary_vote",primary_vote,overwrite=TRUE)
 
 dbDisconnect(mydb, shutdown=TRUE)
 
-dbDisconnect(source_db, shutdown=TRUE)
+#dbDisconnect(source_db, shutdown=TRUE)
 
 ```
 
