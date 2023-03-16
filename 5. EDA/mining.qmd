@@ -20,6 +20,11 @@ dataset <- read_csv(here("4. Data","consolidated.csv")) |>
   filter(!is.na(Australian_Citizens)) |>
   mutate(Year=election_year,.keep="unused")
 
+test <- dataset |> filter(Year==2022)
+write_csv(test,here("4. Data","test.csv"))
+
+dataset <- dataset |> filter(Year!=2022)
+
 averages <- 
 dataset |>
   select(-any_of(c("ALP","COAL","GRN","Other","StateAb","DivisionNm"))) |>
@@ -49,6 +54,7 @@ predictors_scaled <- dataset |>
 ```
 
 ```{r}
+#| eval: false
 
 GGally::ggpairs(predictors_scaled |> select(-any_of(c("Year","StateAb","DivisionNm"))))
 
@@ -123,7 +129,6 @@ factoextra::fviz_mfa_var(mfa,axes=c(7,8))
 
 ```
 
-
 # Clustering
 
 
@@ -131,6 +136,12 @@ factoextra::fviz_mfa_var(mfa,axes=c(7,8))
 clustering <- dbscan::hdbscan(mfa$ind$coord,30)
 clustering
 ```
+```{r}
+plot(clustering$hc, main="HDBSCAN* Hierarchy")
+plot(clustering)
+
+```
+
 
 ```{r}
 clustering$cluster
@@ -140,19 +151,10 @@ clustering$cluster
 
 ```{r}
 clusters <- predictors_scaled |>
-  #as_tibble(rownames="key") |>
-  #select(key) |>
-  #separate(key,c("DivisionNm","Year"),sep="_") |>
   select(DivisionNm,Year,Metro) |>
   add_column(cluster=as.character(clustering$cluster)) |>
   mutate(DivisionNm=str_squish(DivisionNm))
 ```
-
-```{r}
-ced_2021 |> filter(str_detect(ced_name_2021,"^Mar"))
-```
-
-
 
 
 ```{r}
@@ -160,18 +162,16 @@ library(aussiemaps)
 library(leaflet)
 library(sf)
 
-ced_2021 <- strayr::read_absmap("ced2021") 
-
-ced_2021
+ced2018 <- strayr::read_absmap("ced2018") 
 
 
 cluster_pal <- colorFactor(topo.colors(6), clusters$cluster)
 
 
-ced_2021 |>
-  mutate(ced_name_2021=str_squish(ced_name_2021)) |>
-  mutate(ced_name_2021=if_else(ced_name_2021=="Fraser","Fraser (II)",ced_name_2021)) |>
-  left_join(clusters |> filter(Year=="2022"),by=c("ced_name_2021"="DivisionNm")) |>
+ced2018 |>
+  mutate(ced_name_2016=str_squish(ced_name_2018)) |>
+  #mutate(ced_name_2016=if_else(ced_name_2016=="Fraser","Fraser (II)",ced_name_2021)) |>
+  left_join(clusters |> filter(Year=="2016"),by=c("ced_name_2016"="DivisionNm")) |>
   filter(!is.na(cluster)) |>
   leaflet() |>
    addTiles() |>
@@ -181,9 +181,9 @@ ced_2021 |>
               weight=2,
               fillOpacity = .5,
                fillColor = ~cluster_pal(cluster),
-              label=~str_c(ced_name_2021,"(",Metro,")","- ",cluster)) |>
+              label=~str_c(ced_name_2016,"(",Metro,")","- ",cluster)) |>
   addLegend("bottomright", pal = cluster_pal, values = ~cluster,
-    title = "Clustering of 2022 Electorates",
+    title = "Clustering of 2016 Electorates",
     opacity = 1
   )
 
@@ -208,6 +208,7 @@ predictors_clustered |>
 
 
 ```{r}
+# eval: false
 library(trelliscopejs)
 
 
@@ -252,6 +253,7 @@ var_list |>
 
 
 ```{r}
+# eval: false
 predictors_clustered |>
   select(-Metro_Area,-Metro,-Year,-DivisionNm,-StateAb) |>
   select(any_of(c(reduced_columns$Orig,"cluster"))) |>
@@ -287,36 +289,6 @@ clustered_dataset <- dataset |>
   
   
 
-write_csv(clustered_dataset,here("4. Data","conslidated_clustered.csv"))
+write_csv(clustered_dataset,here("4. Data","consolidated_clustered.csv"))
 ```
-
-# Modelling
-
-```{r}
-library(tidymodels)
-library(glmnet)
-
-
-#cluster 1
-clustered_dataset_0 <- clustered_dataset |>
-                      filter(cluster==0)
-set.seed(123)
-cd1_train <- initial_split(clustered_dataset_0)
-train <- training(cd1_train)
-
-
-x <- train  |> select(where(is.numeric)) |> select(-any_of(c(parties,"Year"))) |> as.matrix()
-y <- train  |> select(where(is.numeric)) |> select(any_of(c(parties))) |> as.matrix()
-
-fit <- glmnet(x, y,family = "mgaussian")
-plot(fit)
-
-
-```
-
-```{r}
-coef(fit)
-```
-
-
 
