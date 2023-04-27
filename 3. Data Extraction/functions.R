@@ -1,9 +1,9 @@
 ###### data extraction functions #####
 
 #' @export
-extract_census_ced <- function(table_number, census_years, levels) {
+extract_census_ced <- function(census_tables, census_years, levels,total_level="Total") {
   
-  age_and_sex <- tibble()
+  df <- tibble()
   
   for (x in census_years) {
     if (x == "2006") {
@@ -13,7 +13,7 @@ extract_census_ced <- function(table_number, census_years, levels) {
     }
     message(x)
     censusx <- get_census_summary(
-      table_number = table_number,
+      census_table = census_tables,
       geo_structure = geo_structure_x,
       selected_years = as.character(x),
       attribute = levels
@@ -26,15 +26,15 @@ extract_census_ced <- function(table_number, census_years, levels) {
       calculate_percentage(
         key_col = "Attribute",
         value_col = "Value",
-        key_value = "Total",
+        key_value = total_level,
         percentage_scale = 100
       )
     
     
-    age_and_sex <- bind_rows(age_and_sex, censusx)
+    df <- bind_rows(df, censusx)
     
   }
-  return(age_and_sex)
+  return(df)
 }
 
 #' @export

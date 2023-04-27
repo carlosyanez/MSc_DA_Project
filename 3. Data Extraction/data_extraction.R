@@ -12,12 +12,15 @@ box::use(
   stringr[...],
   auspol[...],
   auscensus[...],
+  aussiemaps[...],
   here[here],
   fs[...],
   DBI[...],
   dbplyr[...],
   duckdb[...],
-  aussiemaps[geo_aggregate]
+  aussiemaps[geo_aggregate],
+  sf[...],
+  cropgrowdays[get_silodata]
   
   
 )
@@ -110,10 +113,12 @@ var04 <- var04 |>
 # convert to list structure used by auscensus /using auscensus::attribute_tibble_to_list()
 
 levels <- attribute_tibble_to_list(var04,"Attribute","Group")
+census_tables  <- list_census_tables() |>
+  filter(Number %in% c("04"))
 
 #extract
 
-age <- extract_census_ced("04",census_years,levels)
+age <- extract_census_ced(census_tables,census_years,levels)
 dbWriteTable(mydb, "age", age,overwrite=TRUE)
 
 
@@ -185,13 +190,13 @@ dbWriteTable(mydb, "language", language,overwrite=TRUE)
 
 ### Census Data - Citizenship           ------ 
 
-census_tables <- list_census_tables() |>
+census_tables  <- list_census_tables() |>
                  filter(Number %in% c("01")) 
 attributes        <- read_csv(aux_files["citizenship_levels_edited.csv"])
 levels            <- attribute_tibble_to_list(attributes)
 total_level       <- names(levels)[str_detect(names(levels),"Total")]
 
-citizenship        <- extract_census_sa1(census_tables, census_years, levels,codes,ceds,total_level)
+citizenship        <- extract_census_ced(census_tables, census_years, levels,total_level)
 dbWriteTable(mydb, "citizenship", citizenship,overwrite=TRUE)
 
 ### Census Data - Household Tenure       ------ 
@@ -203,7 +208,7 @@ levels            <- attribute_tibble_to_list(attributes)
 total_level       <- names(levels)[str_detect(names(levels),"Total")]
 
 household_tenure <- extract_census_sa1(census_tables, census_years, levels,codes,ceds,total_level)
-dbWriteTable(mydb, "household_tenure", household_ternure,overwrite=TRUE)
+dbWriteTable(mydb, "household_tenure", household_tenure,overwrite=TRUE)
 
 ### Census Data - Occupation       ------ 
 
@@ -214,7 +219,7 @@ attributes        <- read_csv(aux_files["occupation_levels_edited.csv"])
 levels            <- attribute_tibble_to_list(attributes)
 total_level       <- names(levels)[str_detect(names(levels),"Total")]
 
-occupation_tenure <- extract_census_sa1(census_tables, census_years, levels,codes,ceds,total_level)
+occupation         <- extract_census_sa1(census_tables, census_years, levels,codes,ceds,total_level)
 dbWriteTable(mydb, "occupation", occupation,overwrite=TRUE)
 
 ### Census Data - Relationship Status      ------ 
@@ -241,12 +246,11 @@ dbWriteTable(mydb, "relationship", relationship,overwrite=TRUE)
 
 ### Climate Data      ------ 
 
-library(sf)
 
 map_structure <- list_structure(2021) |>
   select(GCCSA_CODE_2021,GCCSA_NAME_2021,
-         CED_CODE_2021,CED_NAME_2021,
-         Year)
+         CED_CODE_2021,CED_NAME_2021) |>
+  mutate(Year=2021)
 
 
 #electorates and and metro areas
@@ -308,7 +312,7 @@ non_metro_areas <-  bind_cols(non_metro_map |> st_drop_geometry() |> select(CED_
 silodata_metro <- tibble()
 
 for(i in 1:nrow(metro_areas)){
-  
+  message(i)
   data_i  <- get_silodata(latitude = metro_areas[i,]$latitude,
                           longitude = metro_areas[i,]$longitude,
                           email = "carlos.yanez.s@gmail.com",
@@ -328,6 +332,8 @@ silodata_non_metro <- tibble()
 
 for(i in 1:nrow(non_metro_areas)){
   
+  message(i)
+  tryCatch({
   data_i  <- get_silodata(latitude = non_metro_areas[i,]$latitude,
                           longitude = non_metro_areas[i,]$longitude,
                           email = "carlos.yanez.s@gmail.com",
@@ -337,7 +343,8 @@ for(i in 1:nrow(non_metro_areas)){
            CED_CODE_2021 = non_metro_areas[i,]$CED_CODE_2021
     )
   
-  silodata_non_metro <- bind_rows(silodata_non_metro,data_i)
+  silodata_non_metro <- bind_rows(silodata_non_metro,data_i)},
+  error = function(e){message(e)})
   
   
 }
@@ -375,14 +382,15 @@ for(year in census_years){
     select(any_of(c("id",original_geo,new_geo)))
   
   proportions_table <-   list_proportions(original_geo) |>
+    mutate(prop=as.numeric(area/sum_area)) |>
     collect()  |>
     select("id","geo_col","prop") |>
     rename(!!original_geo := "geo_col")
   
   correspondence_table <- correspondence_table |>
     left_join(proportions_table,by=c("id",original_geo)) |>
-    group_by(across(c(original_geo,new_geo))) |>
-    summarise(across(c("prop"), ~ sum(.x,na.rm=TRUE)),.groups = "drop") |>
+    group_by(across(any_of(c(original_geo,new_geo)))) |>
+    summarise(across(any_of(c("prop")), ~ sum(.x,na.rm=TRUE)),.groups = "drop") |>
     filter(prop!=0) |>
     mutate(Year=year)|>
     mutate(across(any_of(new_geo), ~ case_when(
@@ -395,8 +403,6 @@ for(year in census_years){
   
 }
 
-
-
 ### Fix CED Names ----
 ## Census Data
 tables <- DBI::dbListTables(mydb)
@@ -406,7 +412,7 @@ tables <- tables[str_detect(tables,"correspondence_",TRUE)]
 tables <- tables[str_detect(tables,"silodata",TRUE)]
 #tables <- tables[str_detect(tables,"electorates",TRUE)]
 #tables <- "language"
-#tables <- tables[str_detect(tables,"metro")]
+tables <- tables[str_detect(tables,"metro",TRUE)]
 for(i in 1:length(tables)){
   cols <- colnames(tbl(mydb,tables[i])) 
   ced_col <- cols[str_detect(cols,"Unit|CED")]
@@ -422,18 +428,6 @@ for(i in 1:length(tables)){
   dbWriteTable(mydb, tables[i], df,overwrite=TRUE)
   
 }
-# Primary Vote 
-primary_vote <- tbl(processed_db,"primary_vote") |>
-  left_join(tbl(processed_db,"year_equivalency"),by=c("Year"="election_years")) |>
-  collect() |>
-  mutate(DivisionNm=case_when(
-    census_years %in% c(2006,2011) & str_detect(DivisionNm,"Fraser") ~ "Fraser (I)",
-    census_years %in% c(2019,2021) & str_detect(DivisionNm,"Fraser") ~ "Fraser (II)",
-    TRUE ~ str_to_title(DivisionNm)
-  )) 
-
-dbWriteTable(mydb, "primary_vote",primary_vote,overwrite=TRUE)
-
 ### Disconnect, clean, upload DB -----
 
 dbDisconnect(mydb, shutdown=TRUE)
@@ -453,7 +447,7 @@ tryCatch(pb_new_release(repo,version),
          error=function(e){cat("ERROR :",conditionMessage(e), "\n")})
 
 #list and zip files
-zip_file <- "data_orig.zip"
+zip_file <- path(run_folder,"data_orig.zip")
 
 zip(zip_file,file_name,mode="cherry-pick")
 

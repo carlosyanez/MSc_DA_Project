@@ -1,3 +1,5 @@
-Attribute,2006,2011,2016,2021
-Australian Citizen_persons,TRUE,NA,NA,NA
-Australian_citizen_persons,NA,TRUE,TRUE,TRUE
+Attribute,new,2006,2011,2016,2021
+Australian Citizen_persons,Australian Citizens,TRUE,NA,NA,NA
+Australian_citizen_persons,Australian Citizens,NA,TRUE,TRUE,TRUE
+Total_persons_persons,Total,,,,
+Total Persons_persons,Total,,,,
