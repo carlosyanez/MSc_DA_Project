@@ -10,6 +10,7 @@ box::use(
   dplyr[...],
   tidyr[...],
   stringr[...],
+  lubridate[...],
   auspol[...],
   auscensus[...],
   aussiemaps[...],
@@ -241,8 +242,8 @@ attributes        <- read_csv(aux_files["prior_res_edited.csv"])
 levels            <- attribute_tibble_to_list(attributes)
 total_level       <- names(levels)[str_detect(names(levels),"Total")]
 
-relationship       <- extract_census_sa1(census_tables, census_years, levels,codes,ceds,total_level)
-dbWriteTable(mydb, "relationship", relationship,overwrite=TRUE)
+prior_res       <- extract_census_sa1(census_tables, census_years, levels,codes,ceds,total_level)
+dbWriteTable(mydb, "prior_residence", prior_res,overwrite=TRUE)
 
 ### Climate Data      ------ 
 
@@ -428,6 +429,62 @@ for(i in 1:length(tables)){
   dbWriteTable(mydb, tables[i], df,overwrite=TRUE)
   
 }
+#### Create version of primary vote measured as percentual difference from average vote -----
+
+primary_vote <- tbl(mydb,"primary_vote")
+
+
+# state and national totals
+state_vote <- primary_vote           |>
+  group_by(Year,StateAb) |>
+  summarise(StateVotes=sum(OrdinaryVotes,na.rm = TRUE),
+            .groups = "drop") |>
+  collect()
+
+national_vote <- primary_vote |>
+  group_by(Year) |>
+  summarise(NationalVotes=sum(OrdinaryVotes,na.rm = TRUE),
+            .groups = "drop") |>
+  collect()
+
+# percentages obtain by party
+primary_vote_states <- primary_vote |>
+  group_by(Year,StateAb,PartyAb) |>
+  summarise(OrdinaryVotes=sum(OrdinaryVotes,na.rm = TRUE),
+            .groups = "drop") |>
+  collect() |>
+  left_join(state_vote,by=c("Year","StateAb")) |>
+  mutate(State_Percentage=100*OrdinaryVotes/StateVotes, .keep="unused") 
+
+primary_vote_national <-  primary_vote |>
+  group_by(Year,PartyAb) |>
+  summarise(OrdinaryVotes=sum(OrdinaryVotes,na.rm = TRUE),
+            .groups = "drop") |>
+  collect() |>
+  left_join(national_vote,by=c("Year")) |>
+  mutate(National_Percentage=100*OrdinaryVotes/NationalVotes, .keep="unused")
+
+
+primary_vote_centred <- primary_vote |>
+  collect() |>
+  left_join(primary_vote_states,
+            by=c("Year","StateAb","PartyAb")) |>
+  left_join(primary_vote_national,
+            by=c("Year","PartyAb"))           |>  
+  mutate(Percentage_Diff_State = Percentage-State_Percentage,
+         Percentage_Diff_National=Percentage-National_Percentage) |>
+  left_join(tbl(mydb,"year_equivalency") |> collect() |>
+              mutate(election_years=as.numeric(election_years)),
+            by=c("Year"="election_years")) |>
+  mutate(DivisionNm=case_when(
+    census_years %in% c(2006,2011) & str_detect(DivisionNm,"Fraser") ~ "Fraser (I)",
+    census_years %in% c(2019,2021) & str_detect(DivisionNm,"Fraser") ~ "Fraser (II)",
+    TRUE ~ str_to_title(DivisionNm)
+  )) 
+
+dbWriteTable(mydb,"primary_vote_relative",primary_vote_centred,overwrite=TRUE)
+
+
 ### Disconnect, clean, upload DB -----
 
 dbDisconnect(mydb, shutdown=TRUE)
