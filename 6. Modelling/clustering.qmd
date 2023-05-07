@@ -1,0 +1,93 @@
+---
+title: "Clustering"
+format: html
+editor: visual
+---
+
+## Clustering
+
+The modelling is composed of two stages. As a first step, electorates will be clustered, which will be used as an additional variable for a regression/interpretation model.
+
+The last election will be removed from training data - it will be used as validation later .
+
+Clustering will attempt to identify similar electorates from a demopgrahic PoV.
+
+Once removed the 2022 data, the clustering won't make any distiction betwen the years:
+
+-   the period covered is relatively short to experience signigicant demographic and social changes.
+
+-   Taken this into account, we will assume that demdemographicopgrahic changes are more relevant than time changes.
+
+```{r setup}
+
+library(tidyverse)
+library(aussiemaps)
+library(dbscan)
+library(FactoMineR)
+library(factoextra)
+library(here)
+library(glue)
+
+```
+
+## load data, excluding 2021
+
+```{r load}
+
+parties <- c("ALP","COAL","GRN","Other")
+
+dataset <- read_csv(here("4. Data","consolidated.csv")) |>
+          select(-any_of(parties))
+
+
+train <- dataset |> filter(election_year!=2022) 
+test  <- dataset |> filter(election_year==2022)
+
+```
+
+create clustering set, create groups for MFA
+
+```{r}
+
+train_clustering <- train |>
+                    mutate(Division = glue("{DivisionNm}_{election_year}"),
+                           .keep = "unused")
+
+groups <- colnames( train_clustering |>
+                    select(-any_of(c("StateAb","Metro_Area",
+                                     "Year","Division")),
+                    -any_of(parties))) |>
+          as_tibble() |>
+          mutate(group=case_when(
+            str_detect(value,"_") ~  str_extract(value, "^([^_]+)"),
+            TRUE ~ value
+          )) 
+
+group_order <- distinct(groups,group) |> mutate(order=row_number())
+
+groups <- groups|>
+  group_by(group) |>
+  summarise(n=n(),.groups="drop") |>
+  left_join(group_order,by="group") |>
+  arrange(order)
+
+```
+
+MFA
+
+```{r}
+transform_pred <- MFA(train_clustering |>
+                       select(-any_of(c("StateAb","Metro_Area","Year")),
+                              -any_of(parties)) |>
+                       remove_rownames() |>
+                       column_to_rownames(var="Division"),
+                       group=groups$n,
+                       ncp=10,
+                       type=c(rep("c",8),"n"),
+                       name.group =groups$group,
+                       graph=FALSE)
+```
+
+```{r}
+fviz_pca_biplot(transform_pred)
+```

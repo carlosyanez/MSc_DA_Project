@@ -11,6 +11,7 @@ library(tidymodels)
 library(glmnet)
 library(dbscan)
 library(factoextra)
+library(FactoMineR)
 
 train <- read_csv(here("4. Data","consolidated_clustered.csv"))
 
