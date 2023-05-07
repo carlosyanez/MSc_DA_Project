@@ -1,0 +1,47 @@
+Attribute,2021,2016,2006,2011
+Owned_outright_total,TRUE,TRUE,NA,TRUE
+Owned_with_a_mortgage_total,TRUE,TRUE,NA,TRUE
+Rented_real_estate_agent_total,TRUE,TRUE,NA,TRUE
+Rented_state_or_territory_housing_authority_total,TRUE,TRUE,NA,TRUE
+Rented_community_housing_provider_total,TRUE,NA,NA,NA
+Rented_person_not_in_same_household_total,TRUE,TRUE,NA,TRUE
+Rented_other_landlord_type_total,TRUE,TRUE,NA,TRUE
+Rented_landlord_type_not_stated_total,TRUE,TRUE,NA,TRUE
+Rented_total_dwelling_structure_separate_house,TRUE,TRUE,NA,TRUE
+Rented_total_dwelling_structure_semi_detached_row_or_terrace_house_townhouse_etc,TRUE,TRUE,NA,TRUE
+Rented_total_dwelling_structure_flat_or_apartment,TRUE,TRUE,NA,NA
+Rented_total_dwelling_structure_other_dwelling,TRUE,TRUE,NA,TRUE
+Rented_total_dwelling_structure_not_stated,TRUE,TRUE,NA,TRUE
+Rented_total_total,TRUE,TRUE,NA,TRUE
+Other_tenure_type_total,TRUE,TRUE,NA,TRUE
+Tenure_type_not_stated_total,TRUE,TRUE,NA,TRUE
+Total_dwelling_structure_separate_house,TRUE,TRUE,NA,TRUE
+Total_dwelling_structure_semi_detached_row_or_terrace_house_townhouse_etc,TRUE,TRUE,NA,TRUE
+Total_dwelling_structure_flat_or_apartment,TRUE,TRUE,NA,NA
+Total_dwelling_structure_other_dwelling,TRUE,TRUE,NA,TRUE
+Total_dwelling_structure_not_stated,TRUE,TRUE,NA,TRUE
+Total_total,TRUE,TRUE,TRUE,TRUE
+Rented_housing_co_operative_community_church_group_total,NA,TRUE,NA,TRUE
+Fully Owned_total,NA,NA,TRUE,NA
+Being Purchased_total,NA,NA,TRUE,NA
+Rented: Real Estate Agent_total,NA,NA,TRUE,NA
+Rented: State Or Territory Housing Authority_total,NA,NA,TRUE,NA
+Rented: Person Not In Same Household_total,NA,NA,TRUE,NA
+Rented: Housing Co-Operative/Community/Church Group_total,NA,NA,TRUE,NA
+Rented: Other Landlord Type_total,NA,NA,TRUE,NA
+Rented: Landlord Type Not Stated_total,NA,NA,TRUE,NA
+Rented: Total_separate House,NA,NA,TRUE,NA
+Rented: Total_semi-Detached\ Row Or Terrace House\ Townhouse Etc.,NA,NA,TRUE,NA
+Rented: Total_flat\ Unit Or Apartment,NA,NA,TRUE,NA
+Rented: Total_other Dwelling,NA,NA,TRUE,NA
+Rented: Total_dwelling Structure Not Stated,NA,NA,TRUE,NA
+Rented: Total_total,NA,NA,TRUE,NA
+Other Tenure Type_total,NA,NA,TRUE,NA
+Tenure Type Not Stated_total,NA,NA,TRUE,NA
+Total_separate House,NA,NA,TRUE,NA
+Total_semi-Detached\ Row Or Terrace House\ Townhouse Etc.,NA,NA,TRUE,NA
+Total_flat\ Unit Or Apartment,NA,NA,TRUE,NA
+Total_other Dwelling,NA,NA,TRUE,NA
+Total_dwelling Structure Not Stated,NA,NA,TRUE,NA
+Rented_total_dwelling_structure_flat_unit_or_apartment,NA,NA,NA,TRUE
+Total_dwelling_structure_flat_unit_or_apartment,NA,NA,NA,TRUE

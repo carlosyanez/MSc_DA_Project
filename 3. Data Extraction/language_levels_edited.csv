@@ -1,0 +1,128 @@
+Attribute,AttrNew,2011,2016,2021,2006
+Speaks_english_only_persons,Language - English Only,TRUE,NA,NA,NA
+Speaks_other_language_arabic_persons,Language - Arabic,TRUE,NA,NA,NA
+Speaks_other_language_assyrian_persons,Language - Western Asian,TRUE,NA,NA,NA
+Speaks_other_language_australian_indigenous_languages_persons,Language - Indigenous,TRUE,NA,NA,NA
+Speaks_other_language_chinese_languages_total_persons,Language - Chinese,TRUE,NA,NA,NA
+Speaks_other_language_croatian_persons,Language - European,TRUE,NA,NA,NA
+Speaks_other_language_dutch_persons,Language - European,TRUE,NA,NA,NA
+Speaks_other_language_french_persons,Language - European,TRUE,NA,NA,NA
+Speaks_other_language_german_persons,Language - European,TRUE,NA,NA,NA
+Speaks_other_language_greek_persons,Language - Greek,TRUE,NA,NA,NA
+Speaks_other_language_hungarian_persons,Language - European,TRUE,NA,NA,NA
+Speaks_other_language_indo_aryan_languages_total_persons,Language - South Asian,TRUE,NA,NA,NA
+Speaks_other_language_iranic_languages_total_persons,Language - Western Asian,TRUE,NA,NA,NA
+Speaks_other_language_italian_persons,Language - Italian,TRUE,NA,NA,NA
+Speaks_other_language_japanese_persons,Language - East Asian,TRUE,NA,NA,NA
+Speaks_other_language_khmer_persons,Language - East Asian,TRUE,NA,NA,NA
+Speaks_other_language_korean_persons,Language - East Asian,TRUE,NA,NA,NA
+Speaks_other_language_macedonian_persons,Language - European,TRUE,NA,NA,NA
+Speaks_other_language_maltese_persons,Language - European,TRUE,NA,NA,NA
+Speaks_other_language_polish_persons,Language - European,TRUE,NA,NA,NA
+Speaks_other_language_portuguese_persons,Language - European,TRUE,NA,NA,NA
+Speaks_other_language_russian_persons,Language - European,TRUE,NA,NA,NA
+Speaks_other_language_samoan_persons,Language - Pacific,TRUE,NA,NA,NA
+Speaks_other_language_serbian_persons,Language - European,TRUE,NA,NA,NA
+Speaks_other_language_southeast_asian_austronesian_languages_filipino_persons,Language - Philippinnes,TRUE,NA,NA,NA
+Speaks_other_language_southeast_asian_austronesian_languages_indonesian_persons,Language - Indonesian,TRUE,NA,NA,NA
+Speaks_other_language_southeast_asian_austronesian_languages_tagalog_persons,Language - Philippinnes,TRUE,NA,NA,NA
+Speaks_other_language_southeast_asian_austronesian_languages_other_persons,Language - East Asian,TRUE,NA,NA,NA
+Speaks_other_language_spanish_persons,Language - European,TRUE,NA,NA,NA
+Speaks_other_language_tamil_persons,Language - South Asian,TRUE,NA,NA,NA
+Speaks_other_language_thai_persons,Language - East Asian,TRUE,NA,NA,NA
+Speaks_other_language_turkish_persons,Language - Western Asian,TRUE,NA,NA,NA
+Speaks_other_language_vietnamese_persons,Language - East Asian,TRUE,NA,NA,NA
+Total_persons,Total,TRUE,NA,NA,TRUE
+Persons_total_speaks_english_only,Language - English Only,NA,TRUE,TRUE,NA
+Persons_total_total,Total,NA,TRUE,TRUE,NA
+Persons_speaks_other_language_afrikaans_total,Language - European,NA,TRUE,NA,NA
+Persons_speaks_other_language_arabic_total,Language - Arabic,NA,TRUE,NA,NA
+Persons_speaks_other_language_australian_indigenous_languages_total,Language - Indigenous,NA,TRUE,NA,NA
+Persons_speaks_other_language_chinese_languages_total_total,Language - Chinese,NA,TRUE,NA,NA
+Persons_speaks_other_language_croatian_total,Language - European,NA,TRUE,NA,NA
+Persons_speaks_other_language_dutch_total,Language - European,NA,TRUE,NA,NA
+Persons_speaks_other_language_french_total,Language - European,NA,TRUE,NA,NA
+Persons_speaks_other_language_german_total,Language - European,NA,TRUE,NA,NA
+Persons_speaks_other_language_greek_total,Language - Greek,NA,TRUE,NA,NA
+Persons_speaks_other_language_indo_aryan_languages_total_total,Language - South Asian,NA,TRUE,NA,NA
+Persons_speaks_other_language_italian_total,Language - Italian,NA,TRUE,NA,NA
+Persons_speaks_other_language_japanese_total,Language - East Asian,NA,TRUE,NA,NA
+Persons_speaks_other_language_korean_total,Language - East Asian,NA,TRUE,NA,NA
+Persons_speaks_other_language_macedonian_total,Language - European,NA,TRUE,NA,NA
+Persons_speaks_other_language_maltese_total,Language - European,NA,TRUE,NA,NA
+Persons_speaks_other_language_persian_excluding_dari_total,Language - Western Asian,NA,TRUE,NA,NA
+Persons_speaks_other_language_polish_total,Language - European,NA,TRUE,NA,NA
+Persons_speaks_other_language_russian_total,Language - European,NA,TRUE,NA,NA
+Persons_speaks_other_language_samoan_total,Language - Pacific,NA,TRUE,NA,NA
+Persons_speaks_other_language_serbian_total,Language - European,NA,TRUE,NA,NA
+Persons_speaks_other_language_southeast_asian_austronesian_languages_filipino_total,Language - Philippinnes,NA,TRUE,NA,NA
+Persons_speaks_other_language_southeast_asian_austronesian_languages_indonesian_total,Language - Indonesian,NA,TRUE,NA,NA
+Persons_speaks_other_language_southeast_asian_austronesian_languages_tagalog_total,Language - Philippinnes,NA,TRUE,NA,NA
+Persons_speaks_other_language_southeast_asian_austronesian_languages_other_total,Language - East Asian,NA,TRUE,NA,NA
+Persons_speaks_other_language_spanish_total,Language - European,NA,TRUE,NA,NA
+Persons_speaks_other_language_tamil_total,Language - South Asian,NA,TRUE,NA,NA
+Persons_speaks_other_language_thai_total,Language - East Asian,NA,TRUE,NA,NA
+Persons_speaks_other_language_turkish_total,Language - Western Asian,NA,TRUE,NA,NA
+Persons_speaks_other_language_vietnamese_total,Language - East Asian,NA,TRUE,NA,NA
+Persons_speaks_english_only_uses_other_language_and_speaks_english_total,Language - English Only,NA,NA,TRUE,NA
+Persons_uses_other_language_afrikaans_total,Language - European,NA,NA,TRUE,NA
+Persons_uses_other_language_arabic_total,Language - Arabic,NA,NA,TRUE,NA
+Persons_uses_other_language_australian_indigenous_languages_total,Language - Indigenous,NA,NA,TRUE,NA
+Persons_uses_other_language_chinese_languages_total_total,Language - Chinese,NA,NA,TRUE,NA
+Persons_uses_other_language_croatian_total,Language - European,NA,NA,TRUE,NA
+Persons_uses_other_language_french_total,Language - European,NA,NA,TRUE,NA
+Persons_uses_other_language_german_total,Language - European,NA,NA,TRUE,NA
+Persons_uses_other_language_greek_total,Language - Greek,NA,NA,TRUE,NA
+Persons_uses_other_language_indo_aryan_languages_total_total,Language - South Asian,NA,NA,TRUE,NA
+Persons_uses_other_language_italian_total,Language - Italian,NA,NA,TRUE,NA
+Persons_uses_other_language_japanese_total,Language - East Asian,NA,NA,TRUE,NA
+Persons_uses_other_language_khmer_total,Language - East Asian,NA,NA,TRUE,NA
+Persons_uses_other_language_korean_total,Language - East Asian,NA,NA,TRUE,NA
+Persons_uses_other_language_macedonian_total,Language - European,NA,NA,TRUE,NA
+Persons_uses_other_language_malayalam_total,Language - South Asian,NA,NA,TRUE,NA
+Persons_uses_other_language_persian_excluding_dari_total,Language - Western Asian,NA,NA,TRUE,NA
+Persons_uses_other_language_polish_total,Language - European,NA,NA,TRUE,NA
+Persons_uses_other_language_portuguese_total,Language - European,NA,NA,TRUE,NA
+Persons_uses_other_language_russian_total,Language - European,NA,NA,TRUE,NA
+Persons_uses_other_language_samoan_total,Language - Pacific,NA,NA,TRUE,NA
+Persons_uses_other_language_serbian_total,Language - European,NA,NA,TRUE,NA
+Persons_uses_other_language_southeast_asian_austronesian_languages_filipino_total,Language - Philippinnes,NA,NA,TRUE,NA
+Persons_uses_other_language_southeast_asian_austronesian_languages_indonesian_total,Language - Indonesian,NA,NA,TRUE,NA
+Persons_uses_other_language_southeast_asian_austronesian_languages_tagalog_total,Language - Philippinnes,NA,NA,TRUE,NA
+Persons_uses_other_language_southeast_asian_austronesian_languages_other_total,Language - East Asian,NA,NA,TRUE,NA
+Persons_uses_other_language_spanish_total,Language - European,NA,NA,TRUE,NA
+Persons_uses_other_language_tamil_total,Language - South Asian,NA,NA,TRUE,NA
+Persons_uses_other_language_thai_total,Language - East Asian,NA,NA,TRUE,NA
+Persons_uses_other_language_turkish_total,Language - Western Asian,NA,NA,TRUE,NA
+Persons_uses_other_language_vietnamese_total,Language - East Asian,NA,NA,TRUE,NA
+Speaks English Only_persons,Language - English Only,NA,NA,NA,TRUE
+Speaks Other Language: Arabic_persons,Language - Arabic,NA,NA,NA,TRUE
+Speaks Other Language: Australian Indigenous Languages_persons,Language - Indigenous,NA,NA,NA,TRUE
+Speaks Other Language: Chinese Languages: Total_persons,Language - Chinese,NA,NA,NA,TRUE
+Speaks Other Language: Croatian_persons,Language - European,NA,NA,NA,TRUE
+Speaks Other Language: Dutch_persons,Language - European,NA,NA,NA,TRUE
+Speaks Other Language: Filipino (Excludes Tagalog)_Persons,Language - Philippinnes,NA,NA,NA,TRUE
+Speaks Other Language: French_persons,Language - European,NA,NA,NA,TRUE
+Speaks Other Language: German_persons,Language - European,NA,NA,NA,TRUE
+Speaks Other Language: Greek_persons,Language - Greek,NA,NA,NA,TRUE
+Speaks Other Language: Hindi_persons,Language - South Asian,NA,NA,NA,TRUE
+Speaks Other Language: Hungarian_persons,Language - European,NA,NA,NA,TRUE
+Speaks Other Language: Indonesian_persons,Language - Indonesian,NA,NA,NA,TRUE
+Speaks Other Language: Iranic Languages: Total_persons,Language - Western Asian,NA,NA,NA,TRUE
+Speaks Other Language: Italian_persons,Language - Italian,NA,NA,NA,TRUE
+Speaks Other Language: Japanese_persons,Language - East Asian,NA,NA,NA,TRUE
+Speaks Other Language: Khmer_persons,Language - East Asian,NA,NA,NA,TRUE
+Speaks Other Language: Korean_persons,Language - East Asian,NA,NA,NA,TRUE
+Speaks Other Language: Macedonian_persons,Language - European,NA,NA,NA,TRUE
+Speaks Other Language: Maltese_persons,Language - European,NA,NA,NA,TRUE
+Speaks Other Language: Polish_persons,Language - European,NA,NA,NA,TRUE
+Speaks Other Language: Portuguese_persons,Language - European,NA,NA,NA,TRUE
+Speaks Other Language: Russian_persons,Language - European,NA,NA,NA,TRUE
+Speaks Other Language: Samoan_persons,Language - Pacific,NA,NA,NA,TRUE
+Speaks Other Language: Serbian_persons,Language - European,NA,NA,NA,TRUE
+Speaks Other Language: Sinhalese_persons,Language - South Asian,NA,NA,NA,TRUE
+Speaks Other Language: Spanish_persons,Language - European,NA,NA,NA,TRUE
+Speaks Other Language: Tagalog (Excludes Filipino)_Persons,Language - Philippinnes,NA,NA,NA,TRUE
+Speaks Other Language: Tamil_persons,Language - South Asian,NA,NA,NA,TRUE
+Speaks Other Language: Turkish_persons,Language - Western Asian,NA,NA,NA,TRUE
+Speaks Other Language: Vietnamese_persons,Language - East Asian,NA,NA,NA,TRUE

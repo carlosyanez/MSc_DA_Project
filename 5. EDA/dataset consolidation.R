@@ -267,16 +267,16 @@ consolidated |> left_join(
 
 
 ## get into a DB view
-select_text <- consolidated |>
-  dbplyr::sql_render()
-
-sql_query <- glue::glue("CREATE VIEW analysis_dataset AS\n {select_text};")
-
-dbExecute(source_db,"DROP VIEW analysis_dataset;")
-dbExecute(source_db,sql_query)
+# select_text <- consolidated |>
+#   dbplyr::sql_render()
+# 
+# sql_query <- glue::glue("CREATE VIEW analysis_dataset AS\n {select_text};")
+# 
+# dbExecute(source_db,"DROP VIEW analysis_dataset;")
+# dbExecute(source_db,sql_query)
 
 #copy to file
-tbl(source_db,"analysis_dataset") |>
+consolidated |>
   collect() |>
   write_csv(here("4. Data","consolidated.csv"))
 

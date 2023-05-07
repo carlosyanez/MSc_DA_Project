@@ -1,0 +1,23 @@
+Attribute,AttrNew,2021,2011,2016,2006
+Persons_lone_parent_total,Relationship - Single Parent,TRUE,TRUE,TRUE,NA
+Persons_child_under_15_total,Relationship - Child under 15,TRUE,TRUE,TRUE,NA
+Persons_non_dependent_child_total,Relationship - Non-dependent Child,TRUE,TRUE,TRUE,NA
+Persons_other_related_individual_total,Relationship - Other Relationship,TRUE,TRUE,TRUE,NA
+Persons_unrelated_individual_living_in_family_household_total,Relationship - Unrelated in family household,TRUE,TRUE,TRUE,NA
+Persons_group_household_member_total,Relationship - Group Household,TRUE,TRUE,TRUE,NA
+Persons_lone_person_total,Relationship - Living Alone,TRUE,TRUE,TRUE,NA
+Persons_visitor_from_within_australia_total,Relationship - Visitor,TRUE,TRUE,TRUE,NA
+Persons_total_total,Relationship - Total,TRUE,TRUE,TRUE,TRUE
+Persons_lone Parent_total,Relationship - Single Parent,NA,NA,NA,TRUE
+Persons_child Under 15_total,Relationship - Child under 15,NA,NA,NA,TRUE
+Persons_non-Dependent Child_total,Relationship - Non-dependent Child,NA,NA,NA,TRUE
+Persons_other Related Individual_total,Relationship - Other Relationship,NA,NA,NA,TRUE
+Persons_unrelated Individual Living In Family Household_total,Relationship - Unrelated in family household,NA,NA,NA,TRUE
+Persons_group Household Member_total,Relationship - Group Household,NA,NA,NA,TRUE
+Persons_lone Person_total,Relationship - Living Alone,NA,NA,NA,TRUE
+Persons_visitor (From Within Australia)_Total,Relationship - Visitor,NA,NA,NA,TRUE
+Persons_partner_in_a_registered_marriage_total,Relationship - Married,,,,
+Persons_partner_in_de_facto_marriage_total,Relationship - De Facto,,,,
+Persons_husband_or_wife_in_a_registered_marriage_total,Relationship - Married,,,,
+Persons_husband Or Wife In Registered Marriage_total,Relationship - Married,,,,
+Persons_partner In De Facto Marriage_total,Relationship - De Facto,,,,

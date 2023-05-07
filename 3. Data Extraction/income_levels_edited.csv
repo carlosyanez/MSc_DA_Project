@@ -1,0 +1,37 @@
+Attribute,Attr_New
+Persons_negative_nil_income_total,Income - Negative
+Persons_300_399_total,Income - 1 to 999
+Persons_800_999_total,Income - 1 to 999
+Persons_1000_1249_total,Income - 1000 to 1999
+Persons_1250_1499_total,Income - 1000 to 1999
+Persons_personal_income_not_stated_total,Income - Not Stated
+Persons_total_total,Income - Total
+Persons_1_199_total,Income - 1 to 999
+Persons_200_299_total,Income - 1 to 999
+Persons_400_599_total,Income - 1 to 999
+Persons_600_799_total,Income - 1 to 999
+Persons_1500_1999_total,Income - 1000 to 1999
+Persons_2000_or_more_total,Income - 2000 or more
+Persons_1_149_total,Income - 1 to 999
+Persons_150_299_total,Income - 1 to 999
+Persons_400_499_total,Income - 1 to 999
+Persons_500_649_total,Income - 1 to 999
+Persons_650_799_total,Income - 1 to 999
+Persons_1500_1749_total,Income - 1000 to 1999
+Persons_1750_1999_total,Income - 1000 to 1999
+Persons_2000_2999_more_total,Income - 2000 or more
+Persons_3000_or_more_total,Income - 2000 or more
+Persons_3000_3499_total,Income - 2000 or more
+Persons_3500_or_more_total,Income - 2000 or more
+Persons_negative/Nil Income_total,Income - Negative
+Persons_$1-$149_total,Income - 1 to 999
+Persons_$150-$249_total,Income - 1 to 999
+Persons_$250-$399_total,Income - 1 to 999
+Persons_$400-$599_total,Income - 1 to 999
+Persons_$600-$799_total,Income - 1 to 999
+Persons_$800-$999_total,Income - 1 to 999
+Persons_$1000-$1299_total,Income - 1000 to 1999
+Persons_$1300-$1599_total,Income - 1000 to 1999
+Persons_$1600-$1999_total,Income - 1000 to 1999
+Persons_$2000 Or More_total,Income - 2000 or more
+Persons_individual Income Not Stated_total,Income - Not Stated
