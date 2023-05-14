@@ -3,6 +3,8 @@ library(sf)
 library(leaflet)
 library(htmlwidgets)
 library(glue)
+library(here)
+library(dplyr)
 
 years <- as.numeric(colnames(aussiemaps::list_attributes() |> select(-attributes)))
 
