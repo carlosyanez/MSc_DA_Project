@@ -27,7 +27,7 @@ library(FactoMineR)
 library(factoextra)
 library(here)
 library(glue)
-
+library(gt)
 ```
 
 ## load data, excluding 2021
@@ -89,5 +89,63 @@ transform_pred <- MFA(train_clustering |>
 ```
 
 ```{r}
-fviz_pca_biplot(transform_pred)
+fviz_screeplot(transform_pred)
+```
+
+```{r}
+transform_pred$eig |> 
+  as_tibble() |>
+  mutate(Dimension=glue("Dim {row_number()}"), .before=1) |>
+  gt()
+```
+
+```{r}
+fviz_mfa_var(transform_pred)
+```
+
+No clearly interpretable dimensions but:
+
+-   made them more orthogonal
+
+-   redcuded the number of variables
+
+#### clustering using dbscan
+
+#### step 1: calculate en plot knn distances to determine epsilon
+
+```{r}
+kNNdistplot(transform_pred$ind$coord,5)
+```
+
+```{r}
+clustering <- dbscan(transform_pred$ind$coord,2.5,minPts = 40)
+
+```
+
+```{r}
+```
+
+```{r}
+
+clustering <- dbscan::hdbscan(transform_pred$ind$coord,30,gen_hdbscan_tree=TRUE)
+
+clusters <- tibble(ID=rownames(transform_pred$ind$coord),
+                   cluster = clustering$cluster) |>
+            separate("ID",c("DivisionNm","Year"),sep="_")
+
+```
+
+```{r}
+withr::with_package("leaflet",
+                    {
+        
+        df <- get_map(year=2016,
+                      aggregation = "CED_NAME_2016",
+                      filter_table = list_structure(year=2016),
+                      use_cache = TRUE) |>
+          select(CED_NAME_2016) |>
+          left_join()
+              
+                      
+                    })
 ```
