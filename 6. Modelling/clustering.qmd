@@ -107,7 +107,7 @@ No clearly interpretable dimensions but:
 
 -   made them more orthogonal
 
--   redcuded the number of variables
+-   reduced the number of variables
 
 #### clustering using dbscan
 
@@ -119,33 +119,76 @@ kNNdistplot(transform_pred$ind$coord,5)
 
 ```{r}
 clustering <- dbscan(transform_pred$ind$coord,2.5,minPts = 40)
+clustering
+```
+
+All variations of dbscan only provides 2 clusters max, most datapoints mapped against one cluster. From base knowledge perhaps it be worthy to identify more clusters. Let's try hdbscan.
+
+```{r}
+
+clustering <- dbscan::hdbscan(transform_pred$ind$coord,20,gen_hdbscan_tree=FALSE)
+
+clustering
+
 
 ```
 
 ```{r}
-```
-
-```{r}
-
-clustering <- dbscan::hdbscan(transform_pred$ind$coord,30,gen_hdbscan_tree=TRUE)
-
 clusters <- tibble(ID=rownames(transform_pred$ind$coord),
                    cluster = clustering$cluster) |>
-            separate("ID",c("DivisionNm","Year"),sep="_")
+            separate("ID",c("DivisionNm","Year"),sep="_") |>
+            mutate(Year=as.numeric(Year)) |>
+            left_join(dataset |> 
+                        select(DivisionNm,Year=election_year, Metro_Area),
+                      by=c("DivisionNm","Year"))
+```
 
+Let's see how this clusters map in 2016
+
+```{r}
+
+library(leaflet)
+
+
+df <- get_map(year=2016,
+              aggregation = "CED_NAME_2016",
+              filter_table = list_structure(year=2016),
+              
+              use_cache = TRUE) |>
+          select(DivisionNm=CED_NAME_2016) |>
+          left_join(clusters |> filter(Year==2016),
+                 by="DivisionNm")
+
+
+clusters_names   <- unique(clustering$cluster)
+clusters_colours <- ochRe::ochre_palettes[["lorikeet"]][1:length(clusters_names)]
+
+pal <- colorFactor(clusters_colours, clusters_names)
+
+df |>
+  leaflet() |>
+  addPolygons(stroke = FALSE, smoothFactor = 0.3, fillOpacity = 1,
+    fillColor = ~pal(cluster),
+    label = ~glue::glue("{DivisionNm}: {cluster}")) |>
+    addLegend(pal = pal, values = ~cluster, opacity = 1.0)
+```
+
+clusters \|\>
+
+pivot_wider(names_from="Year",values_from="cluster")
+
+```{r}
+library(gt)
+
+clusters |>
+  pivot_wider(names_from="Year",values_from="cluster") |>
+  select(DivisionNm,Metro_Area,`2007`,`2010`,`2016`)   |>
+  arrange(Metro_Area,DivisionNm) |>
+  gt() |>
+  data_color(columns = -matches("DivisionNm|Metro_Area"),
+             fn=pal)
 ```
 
 ```{r}
-withr::with_package("leaflet",
-                    {
-        
-        df <- get_map(year=2016,
-                      aggregation = "CED_NAME_2016",
-                      filter_table = list_structure(year=2016),
-                      use_cache = TRUE) |>
-          select(CED_NAME_2016) |>
-          left_join()
-              
-                      
-                    })
+dataset
 ```
