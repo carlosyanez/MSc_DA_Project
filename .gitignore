@@ -66,3 +66,7 @@ MSc_DA_Project-Fitzroya.Rproj
 -lenga.Rhistory
 *.sqlite
 3. Data Extraction/data_orig.zip
+4. Data/lib/*
+4. Data/*.gpkg
+4. Data/*.html
+

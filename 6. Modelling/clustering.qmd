@@ -141,13 +141,26 @@ clusters <- tibble(ID=rownames(transform_pred$ind$coord),
             left_join(dataset |> 
                         select(DivisionNm,Year=election_year, Metro_Area),
                       by=c("DivisionNm","Year"))
+
+```
+
+```{r}
+plot(clustering)
 ```
 
 Let's see how this clusters map in 2016
 
 ```{r}
-
 library(leaflet)
+
+clusters_names   <- unique(clustering$cluster)
+clusters_colours <- ochRe::ochre_palettes[["lorikeet"]][1:length(clusters_names)]
+
+pal <- colorFactor(clusters_colours, clusters_names)
+```
+
+```{r}
+
 
 
 df <- get_map(year=2016,
@@ -158,12 +171,6 @@ df <- get_map(year=2016,
           select(DivisionNm=CED_NAME_2016) |>
           left_join(clusters |> filter(Year==2016),
                  by="DivisionNm")
-
-
-clusters_names   <- unique(clustering$cluster)
-clusters_colours <- ochRe::ochre_palettes[["lorikeet"]][1:length(clusters_names)]
-
-pal <- colorFactor(clusters_colours, clusters_names)
 
 df |>
   leaflet() |>
@@ -189,6 +196,67 @@ clusters |>
              fn=pal)
 ```
 
+macquarie \|\>
+
+filter(str_detect(attribute,category)) \|\>
+
+ggplot(aes(x=election_year,y=Value)) +
+
+geom_line() +
+
+facet_grid(\~ attribute)
+
 ```{r}
-dataset
+
+names(clusters_colours) <- clusters_names
+
+
+base_plots <- fs::dir_create(here("6. Modelling","clustering_plots"))
+
+
+electorate <- "Greater Sydney - Macquarie"
+
+
+for(electorate in electorates){
+  message(electorate)
+  
+  ced_dir <- fs::dir_create(fs::path(base_plots,electorate))
+
+  ced_data <- train |>
+    mutate(ced = glue("{Metro_Area} - {DivisionNm}")) |>
+    filter(ced==electorate) |>
+    select(-matches("Metro"),-any_of(c("Year","StateAb"))) |>
+    pivot_longer(-any_of(c("ced","election_year","DivisionNm","cluster")),
+                 values_to = "Value",names_to = "attribute") |>
+      left_join(clusters |> 
+                select(-Metro_Area) |>
+                mutate(cluster=as.character(cluster)), 
+              by=c("DivisionNm"="DivisionNm","election_year"="Year"))
+
+ 
+
+
+attributes <- ced_data |> 
+              distinct(attribute) |>
+              separate(attribute,c("category","rest"),"_") |>
+              distinct(category) |>
+              pull()
+
+# category <- attributes[2]
+
+for(category in attributes){
+p <- ced_data |>
+  filter(str_detect(attribute,category)) |>
+  mutate(election_year=as.character(election_year)) |>
+  ggplot(aes(x=election_year,y=Value, fill=cluster)) +
+  geom_col() +
+  facet_grid(~ attribute) +
+  theme_minimal() +
+  theme(plot.background = element_rect(fill="white")) +
+  scale_fill_manual(values=clusters_colours) +
+  labs(title =glue("{electorate} - {category}"))
+
+ggsave(fs::path(ced_dir,glue("{electorate} - {category}.png")),p)
+}
+}
 ```

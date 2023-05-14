@@ -8,16 +8,16 @@ library(dplyr)
 
 years <- as.numeric(colnames(aussiemaps::list_attributes() |> select(-attributes)))
 
-for(year in year){
+for(year in years){
   message(year)
   map <- get_map(year=year,
           aggregation = glue("CED_NAME_{year}"),
-          filter_table = list_structure(year=year),
+          filter_table = list_structure(year),
           new_crs = "EPSG:4326",
           simplification_factor = 0.05,
           use_cache = TRUE) |>
           rename("DivisionNm"= glue("CED_NAME_{year}")) |>
-          select(Division,matches("STE|STATE"))
+          select(any_of(c("DivisionNm")),matches("STE|STATE"))
   
   
   map_l <- map |>
