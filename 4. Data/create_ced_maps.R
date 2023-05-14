@@ -7,6 +7,7 @@ library(glue)
 years <- as.numeric(colnames(aussiemaps::list_attributes() |> select(-attributes)))
 
 for(year in year){
+  message(year)
   map <- get_map(year=year,
           aggregation = glue("CED_NAME_{year}"),
           filter_table = list_structure(year=year),
