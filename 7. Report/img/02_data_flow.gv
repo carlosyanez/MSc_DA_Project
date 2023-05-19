@@ -1,0 +1,33 @@
+
+digraph G {
+  graph [fontname = "Roboto"];
+  node [fontname = "Roboto"];
+  edge [fontname = "Roboto"];
+  rankdir="LR";
+  
+  bgcolor=transparent;
+  
+  {abs_shapefiles} -> {aussiemaps};
+  {abs_datapack}  -> {auscensus};
+  {aec_election}   -> {auspol};
+  {auspol}    -> {source_dataset};
+  {auscensus} -> {CED_aggregation};
+  {aussiemaps} -> {CED_aggregation};
+  {CED_aggregation} -> {source_dataset};
+  {source_dataset} -> {data_transformation};
+  {data_transformation} -> {data_selection};
+  {data_selection} -> {processed_dataset};
+  
+  auspol [label="{auspol}",shape=ellipse];
+  auscensus [label="{auscensus}",shape=ellipse];
+  aussiemaps [label="{aussiemaps}",shape=ellipse];
+  
+  data_transformation [label="Data Transformation",shape=Square];
+  data_selection [label="Data Selection",shape=Square];
+  CED_aggregation [label="Aggregation \n by CED",shape=Square];
+  
+  abs_shapefiles [label="ABS Boundaries",shape=cylinder];
+  abs_datapack  [label="ABS Census \n Data Pack",shape=cylinder];
+  aec_election   [label="AEC  \n Election Tallies",shape=cylinder];
+  processed_dataset [label="Processed \n Dataset",shape=cylinder];
+}

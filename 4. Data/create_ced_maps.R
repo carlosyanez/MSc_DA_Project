@@ -15,6 +15,7 @@ for(year in years){
           filter_table = list_structure(year),
           new_crs = "EPSG:4326",
           simplification_factor = 0.05,
+          fill_holes = FALSE,
           use_cache = TRUE) |>
           rename("DivisionNm"= glue("CED_NAME_{year}")) |>
           select(any_of(c("DivisionNm")),matches("STE|STATE"))
@@ -32,6 +33,6 @@ for(year in years){
              libdir = here("4. Data","lib"),
              selfcontained = FALSE)
   
-  st_write(map,here("4. Data",glue("CED_{year}.gpkg")))
+  st_write(map,here("4. Data",glue("CED_{year}.gpkg")),delete_dsn = TRUE)
   
 }
