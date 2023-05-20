@@ -293,4 +293,49 @@ brc = Birch(n_clusters=None)
 brc.fit(X)
 ```
 
-\
+## Second attempt, clustering on differences
+
+load national data, recalculate attributes as percentage
+
+```{r}
+
+nationals <- read_csv(here("4. Data","national_values.csv")) |>
+             filter(Year!=2021) |>
+             pivot_longer(-Year, names_to = "Attribute",values_to="National") |>
+             mutate(Attribute=str_replace_all(Attribute," - ","_"),
+                    Attribute=str_replace_all(Attribute,"-","_"),
+                    Attribute=str_squish(Attribute),
+                    Attribute=str_replace_all(Attribute," ","_"))
+
+
+train_clustering <- train_clustering |>
+  pivot_longer(-c(Division,Metro,Metro_Area,Year,StateAb),
+               names_to = "Attribute",values_to = "CED") |>
+  left_join(nationals,
+            by=c("Year","Attribute")) |>
+  mutate(Value=CED-National,.keep="unused") |>
+  pivot_wider(names_from = Attribute, values_from = Value)
+
+```
+
+##  MFA
+
+```{r}
+transform_pred <- MFA(train_clustering |>                        select(-any_of(c("StateAb","Metro_Area","Year","Metro")),                               -any_of(parties)) |>                        remove_rownames() |>                        column_to_rownames(var="Division"),                        group=groups$n,                        ncp=10,                        type=c(rep("c",8),"n"),                        name.group =groups$group,                        graph=FALSE)
+```
+
+```{r}
+fviz_screeplot(transform_pred)
+```
+
+```{r}
+transform_pred$eig |>    as_tibble() |>   mutate(Dimension=glue("Dim {row_number()}"), .before=1) |>   gt()
+```
+
+```{r}
+fviz_mfa_var(transform_pred)
+```
+
+No clearly interpretable dimensions but:
+
+-   
