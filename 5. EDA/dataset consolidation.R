@@ -40,6 +40,14 @@ consolidated |>
               select(Unit,Year,Australian_Citizens),
             by=c("Year"="Year","Unit"="Unit")) 
 
+nationals <-  tbl(source_db,"citizenship") |>
+               group_by(Year) |>
+               summarise(Value=sum(Value),
+                         Total=sum(Total),
+                         .groups="drop")   |>
+               mutate(Australian_Citizens=100*Value/Total,.keep="unused")
+            
+
 # add age groups ------
 age_groups <-  tbl(source_db,"age") |>
                 mutate(Unit=str_to_lower(Unit)) |>
@@ -53,6 +61,18 @@ consolidated <- consolidated |>
                 left_join(age_groups,by=c("Year"="Year","Unit"="Unit"))
 
 consolidated |> collect() |> nrow()
+
+
+nationals   <- nationals |>
+               left_join(
+                 tbl(source_db,"age") |>
+                   group_by(Year,Attribute) |>
+                   summarise(Value=sum(Value),
+                             Total=sum(Total),
+                             .groups="drop")   |>
+                   mutate(Percentage=100*Value/Total,.keep="unused") |>
+                   pivot_wider(names_from=Attribute,values_from=Percentage),
+                 by="Year")
 
 # add selected languages ------
 #"Lang - English Only"                
@@ -69,6 +89,18 @@ consolidated <- consolidated |>
   left_join(language,by=c("Year"="Year","Unit"="Unit")) 
 
 consolidated |> collect() |> nrow()
+
+
+nationals   <- nationals |>
+  left_join(
+    tbl(source_db,"language") |>
+      group_by(Year,Attribute) |>
+      summarise(Value=sum(Value),
+                Total=sum(Total),
+                .groups="drop")   |>
+      mutate(Percentage=100*Value/Total,.keep="unused") |>
+      pivot_wider(names_from=Attribute,values_from=Percentage),
+    by="Year")
 
 #religion ------
 #[17] "Rel - Anglican.Uniting.Presbyterian" "Rel - Buddhism"                      "Rel - Catholic"                      "Rel - Christian.Orthodox"           
@@ -93,6 +125,18 @@ consolidated <- consolidated |>
 
 consolidated |> collect() |> nrow()
 
+nationals   <- nationals |>
+  left_join(
+    tbl(source_db,"religion") |>
+      group_by(Year,Attribute) |>
+      summarise(Value=sum(Value),
+                Total=sum(Total),
+                .groups="drop")   |>
+      mutate(Percentage=100*Value/Total,.keep="unused") |>
+      pivot_wider(names_from=Attribute,values_from=Percentage),
+    by="Year")
+
+
 # income -----
 income <- tbl(source_db,"income") |>
   mutate(Unit=str_to_lower(Unit)) |> 
@@ -105,6 +149,17 @@ consolidated <- consolidated |>
   left_join(income,by=c("Year"="Year","Unit"="Unit")) 
 
 consolidated |> collect() |> nrow()
+
+nationals   <- nationals |>
+  left_join(
+    tbl(source_db,"income") |>
+      group_by(Year,Attribute) |>
+      summarise(Value=sum(Value),
+                Total=sum(Total),
+                .groups="drop")   |>
+      mutate(Percentage=100*Value/Total,.keep="unused") |>
+      pivot_wider(names_from=Attribute,values_from=Percentage),
+    by="Year")
 
 # housing ------
 housing <-
@@ -119,6 +174,17 @@ consolidated <- consolidated |>
   left_join(housing,by=c("Year"="Year","Unit"="Unit")) 
 
 consolidated |> collect() |> nrow()
+
+nationals   <- nationals |>
+  left_join(
+    tbl(source_db,"household_tenure") |>
+      group_by(Year,Attribute) |>
+      summarise(Value=sum(Value),
+                Total=sum(Total),
+                .groups="drop")   |>
+      mutate(Percentage=100*Value/Total,.keep="unused") |>
+      pivot_wider(names_from=Attribute,values_from=Percentage),
+    by="Year")
 
 #education ------
 education <-
@@ -135,6 +201,17 @@ consolidated <- consolidated |>
 
 consolidated |> collect() |> nrow()
 
+nationals   <- nationals |>
+  left_join(
+    tbl(source_db,"ed_level") |>
+      group_by(Year,Attribute) |>
+      summarise(Value=sum(Value),
+                Total=sum(Total),
+                .groups="drop")   |>
+      mutate(Percentage=100*Value/Total,.keep="unused") |>
+      pivot_wider(names_from=Attribute,values_from=Percentage),
+    by="Year")
+
 #relationships --------
 relationships <-
 tbl(source_db,"relationship") |>
@@ -145,12 +222,23 @@ tbl(source_db,"relationship") |>
   filter(Attribute!="Relationship_Visitor") |>
   select(Unit,Attribute,Year,Percentage) |>
   pivot_wider(names_from = "Attribute",values_from = "Percentage") 
- 
+
 
 consolidated <- consolidated |>
   left_join(relationships,by=c("Year"="Year","Unit"="Unit")) 
 
 consolidated |> collect() |> nrow()
+
+nationals   <- nationals |>
+  left_join(
+    tbl(source_db,"relationship") |>
+      group_by(Year,Attribute) |>
+      summarise(Value=sum(Value),
+                Total=sum(Total),
+                .groups="drop")   |>
+      mutate(Percentage=100*Value/Total,.keep="unused") |>
+      pivot_wider(names_from=Attribute,values_from=Percentage),
+    by="Year")
 
 #fix CED capitalisation
 
@@ -275,10 +363,15 @@ consolidated |> left_join(
 # dbExecute(source_db,"DROP VIEW analysis_dataset;")
 # dbExecute(source_db,sql_query)
 
-#copy to file
+#copy to files
 consolidated |>
   collect() |>
   write_csv(here("4. Data","consolidated.csv"))
+
+nationals |>
+  collect() |>
+  write_csv(here("4. Data","national_values.csv"))
+
 
 #disconnect
 dbDisconnect(source_db, shutdown=TRUE)

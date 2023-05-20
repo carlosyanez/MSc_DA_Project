@@ -8,7 +8,7 @@
   <meta name="description" content="<p>This is a minimal example of using the bookdown package to write a book.
 The HTML output format for this example is bookdown::gitbook,
 set in the _output.yml file.</p>" />
-  <meta name="generator" content="bookdown 0.31 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.32 and GitBook 2.6.7" />
 
   <meta property="og:title" content="References | A Minimal Book Example" />
   <meta property="og:type" content="book" />
@@ -29,15 +29,15 @@ set in the _output.yml file.</p>" />
 <meta name="author" content="John Doe" />
 
 
-<meta name="date" content="2023-02-04" />
+<meta name="date" content="2023-05-20" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="sharing-your-book.html"/>
-<link rel="next" href="references-1.html"/>
+<link rel="prev" href="strucure.html"/>
+<link rel="next" href="data.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -58,6 +58,10 @@ set in the _output.yml file.</p>" />
 <link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
 <link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/htmlwidgets-1.6.1/htmlwidgets.js"></script>
+<script src="libs/viz-1.8.2/viz.js"></script>
+<link href="libs/DiagrammeR-styles-0.2/styles.css" rel="stylesheet" />
+<script src="libs/grViz-binding-1.0.10/grViz.js"></script>
 
 
 <style type="text/css">
@@ -161,60 +165,42 @@ div.csl-indent {
       <nav role="navigation">
 
 <ul class="summary">
-<li><a href="./">A Minimal Book Example</a></li>
+<li><a href="./">MSc's Report</a></li>
 
 <li class="divider"></li>
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Acknowledgements</a></li>
 <li class="chapter" data-level="2" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>2</b> Introduction</a></li>
 <li class="chapter" data-level="3" data-path="strucure.html"><a href="strucure.html"><i class="fa fa-check"></i><b>3</b> Strucure</a></li>
-<li class="chapter" data-level="4" data-path="cross.html"><a href="cross.html"><i class="fa fa-check"></i><b>4</b> Cross-references</a>
-<ul>
-<li class="chapter" data-level="4.1" data-path="cross.html"><a href="cross.html#chapters-and-sub-chapters"><i class="fa fa-check"></i><b>4.1</b> Chapters and sub-chapters</a></li>
-<li class="chapter" data-level="4.2" data-path="cross.html"><a href="cross.html#captioned-figures-and-tables"><i class="fa fa-check"></i><b>4.2</b> Captioned figures and tables</a></li>
-</ul></li>
-<li class="chapter" data-level="5" data-path="parts.html"><a href="parts.html"><i class="fa fa-check"></i><b>5</b> Parts</a></li>
-<li class="chapter" data-level="6" data-path="footnotes-and-citations.html"><a href="footnotes-and-citations.html"><i class="fa fa-check"></i><b>6</b> Footnotes and citations</a>
-<ul>
-<li class="chapter" data-level="6.1" data-path="footnotes-and-citations.html"><a href="footnotes-and-citations.html#footnotes"><i class="fa fa-check"></i><b>6.1</b> Footnotes</a></li>
-<li class="chapter" data-level="6.2" data-path="footnotes-and-citations.html"><a href="footnotes-and-citations.html#citations"><i class="fa fa-check"></i><b>6.2</b> Citations</a></li>
-</ul></li>
-<li class="chapter" data-level="7" data-path="blocks.html"><a href="blocks.html"><i class="fa fa-check"></i><b>7</b> Blocks</a>
-<ul>
-<li class="chapter" data-level="7.1" data-path="blocks.html"><a href="blocks.html#equations"><i class="fa fa-check"></i><b>7.1</b> Equations</a></li>
-<li class="chapter" data-level="7.2" data-path="blocks.html"><a href="blocks.html#theorems-and-proofs"><i class="fa fa-check"></i><b>7.2</b> Theorems and proofs</a></li>
-<li class="chapter" data-level="7.3" data-path="blocks.html"><a href="blocks.html#callout-blocks"><i class="fa fa-check"></i><b>7.3</b> Callout blocks</a></li>
-</ul></li>
-<li class="chapter" data-level="8" data-path="sharing-your-book.html"><a href="sharing-your-book.html"><i class="fa fa-check"></i><b>8</b> Sharing your book</a>
-<ul>
-<li class="chapter" data-level="8.1" data-path="sharing-your-book.html"><a href="sharing-your-book.html#publishing"><i class="fa fa-check"></i><b>8.1</b> Publishing</a></li>
-<li class="chapter" data-level="8.2" data-path="sharing-your-book.html"><a href="sharing-your-book.html#pages"><i class="fa fa-check"></i><b>8.2</b> 404 pages</a></li>
-<li class="chapter" data-level="8.3" data-path="sharing-your-book.html"><a href="sharing-your-book.html#metadata-for-sharing"><i class="fa fa-check"></i><b>8.3</b> Metadata for sharing</a></li>
-</ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="chapter" data-level="4" data-path="data.html"><a href="data.html"><i class="fa fa-check"></i><b>4</b> Sourcing Data</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="data.html"><a href="data.html#extracting-data"><i class="fa fa-check"></i><b>4.1</b> Extracting data</a></li>
+</ul></li>
 <li class="chapter" data-level="" data-path="references-1.html"><a href="references-1.html"><i class="fa fa-check"></i>References</a></li>
-<li class="chapter" data-level="9" data-path="appendix-extracting-data.html"><a href="appendix-extracting-data.html"><i class="fa fa-check"></i><b>9</b> (APPENDIX) Extracting Data</a>
+<li class="chapter" data-level="" data-path="references-2.html"><a href="references-2.html"><i class="fa fa-check"></i>References</a></li>
+<li class="chapter" data-level="5" data-path="appendix-extracting-data.html"><a href="appendix-extracting-data.html"><i class="fa fa-check"></i><b>5</b> (APPENDIX) Extracting Data</a>
 <ul>
-<li class="chapter" data-level="9.1" data-path="appendix-extracting-data.html"><a href="appendix-extracting-data.html#package-architecture"><i class="fa fa-check"></i><b>9.1</b> Package Architecture</a></li>
+<li class="chapter" data-level="5.1" data-path="appendix-extracting-data.html"><a href="appendix-extracting-data.html#package-architecture"><i class="fa fa-check"></i><b>5.1</b> Package Architecture</a></li>
 </ul></li>
-<li class="chapter" data-level="10" data-path="appendix-auscensus-vignette.html"><a href="appendix-auscensus-vignette.html"><i class="fa fa-check"></i><b>10</b> (APPENDIX) {auscensus} Vignette</a></li>
-<li class="chapter" data-level="11" data-path="appendix-auspol-vignette.html"><a href="appendix-auspol-vignette.html"><i class="fa fa-check"></i><b>11</b> (APPENDIX) {auspol} Vignette</a>
+<li class="chapter" data-level="6" data-path="appendix-auscensus-vignette.html"><a href="appendix-auscensus-vignette.html"><i class="fa fa-check"></i><b>6</b> (APPENDIX) {auscensus} Vignette</a></li>
+<li class="chapter" data-level="7" data-path="appendix-auspol-vignette.html"><a href="appendix-auspol-vignette.html"><i class="fa fa-check"></i><b>7</b> (APPENDIX) {auspol} Vignette</a>
 <ul>
-<li class="chapter" data-level="11.1" data-path="appendix-auspol-vignette.html"><a href="appendix-auspol-vignette.html#what-is-this"><i class="fa fa-check"></i><b>11.1</b> What is this?</a></li>
-<li class="chapter" data-level="11.2" data-path="appendix-auspol-vignette.html"><a href="appendix-auspol-vignette.html#getting-the-data"><i class="fa fa-check"></i><b>11.2</b> Getting the data</a></li>
-<li class="chapter" data-level="11.3" data-path="appendix-auspol-vignette.html"><a href="appendix-auspol-vignette.html#plotting"><i class="fa fa-check"></i><b>11.3</b> Plotting</a>
+<li class="chapter" data-level="7.1" data-path="appendix-auspol-vignette.html"><a href="appendix-auspol-vignette.html#what-is-this"><i class="fa fa-check"></i><b>7.1</b> What is this?</a></li>
+<li class="chapter" data-level="7.2" data-path="appendix-auspol-vignette.html"><a href="appendix-auspol-vignette.html#getting-the-data"><i class="fa fa-check"></i><b>7.2</b> Getting the data</a></li>
+<li class="chapter" data-level="7.3" data-path="appendix-auspol-vignette.html"><a href="appendix-auspol-vignette.html#plotting"><i class="fa fa-check"></i><b>7.3</b> Plotting</a>
 <ul>
-<li class="chapter" data-level="11.3.1" data-path="appendix-auspol-vignette.html"><a href="appendix-auspol-vignette.html#historic-trends"><i class="fa fa-check"></i><b>11.3.1</b> Historic Trends</a></li>
+<li class="chapter" data-level="7.3.1" data-path="appendix-auspol-vignette.html"><a href="appendix-auspol-vignette.html#historic-trends"><i class="fa fa-check"></i><b>7.3.1</b> Historic Trends</a></li>
 </ul></li>
-<li class="chapter" data-level="11.4" data-path="appendix-auspol-vignette.html"><a href="appendix-auspol-vignette.html#results-for-one-election"><i class="fa fa-check"></i><b>11.4</b> Results for one election</a></li>
+<li class="chapter" data-level="7.4" data-path="appendix-auspol-vignette.html"><a href="appendix-auspol-vignette.html#results-for-one-election"><i class="fa fa-check"></i><b>7.4</b> Results for one election</a></li>
 </ul></li>
-<li class="chapter" data-level="12" data-path="appendix-aussiemaps-vignette.html"><a href="appendix-aussiemaps-vignette.html"><i class="fa fa-check"></i><b>12</b> (APPENDIX) {aussiemaps} Vignette</a>
+<li class="chapter" data-level="8" data-path="appendix-aussiemaps-vignette.html"><a href="appendix-aussiemaps-vignette.html"><i class="fa fa-check"></i><b>8</b> (APPENDIX) {aussiemaps} Vignette</a>
 <ul>
-<li class="chapter" data-level="12.1" data-path="appendix-aussiemaps-vignette.html"><a href="appendix-aussiemaps-vignette.html#aussiemaps---yet-another-maps-package"><i class="fa fa-check"></i><b>12.1</b> {aussiemaps} - Yet another maps package</a></li>
-<li class="chapter" data-level="12.2" data-path="appendix-aussiemaps-vignette.html"><a href="appendix-aussiemaps-vignette.html#getting-started."><i class="fa fa-check"></i><b>12.2</b> Getting started.</a></li>
-<li class="chapter" data-level="12.3" data-path="appendix-aussiemaps-vignette.html"><a href="appendix-aussiemaps-vignette.html#filtering-via-regular-expressions"><i class="fa fa-check"></i><b>12.3</b> Filtering via regular expressions</a></li>
-<li class="chapter" data-level="12.4" data-path="appendix-aussiemaps-vignette.html"><a href="appendix-aussiemaps-vignette.html#even-more-complex-filtering"><i class="fa fa-check"></i><b>12.4</b> Even more complex filtering</a></li>
-<li class="chapter" data-level="12.5" data-path="appendix-aussiemaps-vignette.html"><a href="appendix-aussiemaps-vignette.html#aggregation"><i class="fa fa-check"></i><b>12.5</b> Aggregation</a></li>
-<li class="chapter" data-level="12.6" data-path="appendix-aussiemaps-vignette.html"><a href="appendix-aussiemaps-vignette.html#data-aggregation"><i class="fa fa-check"></i><b>12.6</b> Data Aggregation</a></li>
+<li class="chapter" data-level="8.1" data-path="appendix-aussiemaps-vignette.html"><a href="appendix-aussiemaps-vignette.html#aussiemaps---yet-another-maps-package"><i class="fa fa-check"></i><b>8.1</b> {aussiemaps} - Yet another maps package</a></li>
+<li class="chapter" data-level="8.2" data-path="appendix-aussiemaps-vignette.html"><a href="appendix-aussiemaps-vignette.html#getting-started."><i class="fa fa-check"></i><b>8.2</b> Getting started.</a></li>
+<li class="chapter" data-level="8.3" data-path="appendix-aussiemaps-vignette.html"><a href="appendix-aussiemaps-vignette.html#filtering-via-regular-expressions"><i class="fa fa-check"></i><b>8.3</b> Filtering via regular expressions</a></li>
+<li class="chapter" data-level="8.4" data-path="appendix-aussiemaps-vignette.html"><a href="appendix-aussiemaps-vignette.html#even-more-complex-filtering"><i class="fa fa-check"></i><b>8.4</b> Even more complex filtering</a></li>
+<li class="chapter" data-level="8.5" data-path="appendix-aussiemaps-vignette.html"><a href="appendix-aussiemaps-vignette.html#aggregation"><i class="fa fa-check"></i><b>8.5</b> Aggregation</a></li>
+<li class="chapter" data-level="8.6" data-path="appendix-aussiemaps-vignette.html"><a href="appendix-aussiemaps-vignette.html#data-aggregation"><i class="fa fa-check"></i><b>8.6</b> Data Aggregation</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -245,8 +231,8 @@ div.csl-indent {
           </div>
         </div>
       </div>
-<a href="sharing-your-book.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="references-1.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="strucure.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="data.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -288,7 +274,7 @@ gitbook.start({
 "link": null,
 "text": null
 },
-"download": ["_main.pdf", "_main.epub"],
+"download": ["_main.pdf"],
 "search": {
 "engine": "fuse",
 "options": null
@@ -300,20 +286,6 @@ gitbook.start({
 });
 </script>
 
-<!-- dynamically load mathjax for compatibility with self-contained -->
-<script>
-  (function () {
-    var script = document.createElement("script");
-    script.type = "text/javascript";
-    var src = "true";
-    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
-    if (location.protocol !== "file:")
-      if (/^https?:/.test(src))
-        src = src.replace(/^https?:/, '');
-    script.src = src;
-    document.getElementsByTagName("head")[0].appendChild(script);
-  })();
-</script>
 </body>
 
 </html>

@@ -4,13 +4,13 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 10 (APPENDIX) {auscensus} Vignette | A Minimal Book Example</title>
+  <title>Chapter 6 (APPENDIX) {auscensus} Vignette | A Minimal Book Example</title>
   <meta name="description" content="<p>This is a minimal example of using the bookdown package to write a book.
 The HTML output format for this example is bookdown::gitbook,
 set in the _output.yml file.</p>" />
-  <meta name="generator" content="bookdown 0.31 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.32 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 10 (APPENDIX) {auscensus} Vignette | A Minimal Book Example" />
+  <meta property="og:title" content="Chapter 6 (APPENDIX) {auscensus} Vignette | A Minimal Book Example" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="<p>This is a minimal example of using the bookdown package to write a book.
@@ -19,7 +19,7 @@ set in the _output.yml file.</p>" />
   <meta name="github-repo" content="rstudio/bookdown-demo" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 10 (APPENDIX) {auscensus} Vignette | A Minimal Book Example" />
+  <meta name="twitter:title" content="Chapter 6 (APPENDIX) {auscensus} Vignette | A Minimal Book Example" />
   
   <meta name="twitter:description" content="<p>This is a minimal example of using the bookdown package to write a book.
 The HTML output format for this example is bookdown::gitbook,
@@ -29,7 +29,7 @@ set in the _output.yml file.</p>" />
 <meta name="author" content="John Doe" />
 
 
-<meta name="date" content="2023-02-04" />
+<meta name="date" content="2023-05-20" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -58,6 +58,10 @@ set in the _output.yml file.</p>" />
 <link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
 <link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/htmlwidgets-1.6.1/htmlwidgets.js"></script>
+<script src="libs/viz-1.8.2/viz.js"></script>
+<link href="libs/DiagrammeR-styles-0.2/styles.css" rel="stylesheet" />
+<script src="libs/grViz-binding-1.0.10/grViz.js"></script>
 
 
 <style type="text/css">
@@ -161,60 +165,42 @@ div.csl-indent {
       <nav role="navigation">
 
 <ul class="summary">
-<li><a href="./">A Minimal Book Example</a></li>
+<li><a href="./">MSc's Report</a></li>
 
 <li class="divider"></li>
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Acknowledgements</a></li>
 <li class="chapter" data-level="2" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>2</b> Introduction</a></li>
 <li class="chapter" data-level="3" data-path="strucure.html"><a href="strucure.html"><i class="fa fa-check"></i><b>3</b> Strucure</a></li>
-<li class="chapter" data-level="4" data-path="cross.html"><a href="cross.html"><i class="fa fa-check"></i><b>4</b> Cross-references</a>
-<ul>
-<li class="chapter" data-level="4.1" data-path="cross.html"><a href="cross.html#chapters-and-sub-chapters"><i class="fa fa-check"></i><b>4.1</b> Chapters and sub-chapters</a></li>
-<li class="chapter" data-level="4.2" data-path="cross.html"><a href="cross.html#captioned-figures-and-tables"><i class="fa fa-check"></i><b>4.2</b> Captioned figures and tables</a></li>
-</ul></li>
-<li class="chapter" data-level="5" data-path="parts.html"><a href="parts.html"><i class="fa fa-check"></i><b>5</b> Parts</a></li>
-<li class="chapter" data-level="6" data-path="footnotes-and-citations.html"><a href="footnotes-and-citations.html"><i class="fa fa-check"></i><b>6</b> Footnotes and citations</a>
-<ul>
-<li class="chapter" data-level="6.1" data-path="footnotes-and-citations.html"><a href="footnotes-and-citations.html#footnotes"><i class="fa fa-check"></i><b>6.1</b> Footnotes</a></li>
-<li class="chapter" data-level="6.2" data-path="footnotes-and-citations.html"><a href="footnotes-and-citations.html#citations"><i class="fa fa-check"></i><b>6.2</b> Citations</a></li>
-</ul></li>
-<li class="chapter" data-level="7" data-path="blocks.html"><a href="blocks.html"><i class="fa fa-check"></i><b>7</b> Blocks</a>
-<ul>
-<li class="chapter" data-level="7.1" data-path="blocks.html"><a href="blocks.html#equations"><i class="fa fa-check"></i><b>7.1</b> Equations</a></li>
-<li class="chapter" data-level="7.2" data-path="blocks.html"><a href="blocks.html#theorems-and-proofs"><i class="fa fa-check"></i><b>7.2</b> Theorems and proofs</a></li>
-<li class="chapter" data-level="7.3" data-path="blocks.html"><a href="blocks.html#callout-blocks"><i class="fa fa-check"></i><b>7.3</b> Callout blocks</a></li>
-</ul></li>
-<li class="chapter" data-level="8" data-path="sharing-your-book.html"><a href="sharing-your-book.html"><i class="fa fa-check"></i><b>8</b> Sharing your book</a>
-<ul>
-<li class="chapter" data-level="8.1" data-path="sharing-your-book.html"><a href="sharing-your-book.html#publishing"><i class="fa fa-check"></i><b>8.1</b> Publishing</a></li>
-<li class="chapter" data-level="8.2" data-path="sharing-your-book.html"><a href="sharing-your-book.html#pages"><i class="fa fa-check"></i><b>8.2</b> 404 pages</a></li>
-<li class="chapter" data-level="8.3" data-path="sharing-your-book.html"><a href="sharing-your-book.html#metadata-for-sharing"><i class="fa fa-check"></i><b>8.3</b> Metadata for sharing</a></li>
-</ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="chapter" data-level="4" data-path="data.html"><a href="data.html"><i class="fa fa-check"></i><b>4</b> Sourcing Data</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="data.html"><a href="data.html#extracting-data"><i class="fa fa-check"></i><b>4.1</b> Extracting data</a></li>
+</ul></li>
 <li class="chapter" data-level="" data-path="references-1.html"><a href="references-1.html"><i class="fa fa-check"></i>References</a></li>
-<li class="chapter" data-level="9" data-path="appendix-extracting-data.html"><a href="appendix-extracting-data.html"><i class="fa fa-check"></i><b>9</b> (APPENDIX) Extracting Data</a>
+<li class="chapter" data-level="" data-path="references-2.html"><a href="references-2.html"><i class="fa fa-check"></i>References</a></li>
+<li class="chapter" data-level="5" data-path="appendix-extracting-data.html"><a href="appendix-extracting-data.html"><i class="fa fa-check"></i><b>5</b> (APPENDIX) Extracting Data</a>
 <ul>
-<li class="chapter" data-level="9.1" data-path="appendix-extracting-data.html"><a href="appendix-extracting-data.html#package-architecture"><i class="fa fa-check"></i><b>9.1</b> Package Architecture</a></li>
+<li class="chapter" data-level="5.1" data-path="appendix-extracting-data.html"><a href="appendix-extracting-data.html#package-architecture"><i class="fa fa-check"></i><b>5.1</b> Package Architecture</a></li>
 </ul></li>
-<li class="chapter" data-level="10" data-path="appendix-auscensus-vignette.html"><a href="appendix-auscensus-vignette.html"><i class="fa fa-check"></i><b>10</b> (APPENDIX) {auscensus} Vignette</a></li>
-<li class="chapter" data-level="11" data-path="appendix-auspol-vignette.html"><a href="appendix-auspol-vignette.html"><i class="fa fa-check"></i><b>11</b> (APPENDIX) {auspol} Vignette</a>
+<li class="chapter" data-level="6" data-path="appendix-auscensus-vignette.html"><a href="appendix-auscensus-vignette.html"><i class="fa fa-check"></i><b>6</b> (APPENDIX) {auscensus} Vignette</a></li>
+<li class="chapter" data-level="7" data-path="appendix-auspol-vignette.html"><a href="appendix-auspol-vignette.html"><i class="fa fa-check"></i><b>7</b> (APPENDIX) {auspol} Vignette</a>
 <ul>
-<li class="chapter" data-level="11.1" data-path="appendix-auspol-vignette.html"><a href="appendix-auspol-vignette.html#what-is-this"><i class="fa fa-check"></i><b>11.1</b> What is this?</a></li>
-<li class="chapter" data-level="11.2" data-path="appendix-auspol-vignette.html"><a href="appendix-auspol-vignette.html#getting-the-data"><i class="fa fa-check"></i><b>11.2</b> Getting the data</a></li>
-<li class="chapter" data-level="11.3" data-path="appendix-auspol-vignette.html"><a href="appendix-auspol-vignette.html#plotting"><i class="fa fa-check"></i><b>11.3</b> Plotting</a>
+<li class="chapter" data-level="7.1" data-path="appendix-auspol-vignette.html"><a href="appendix-auspol-vignette.html#what-is-this"><i class="fa fa-check"></i><b>7.1</b> What is this?</a></li>
+<li class="chapter" data-level="7.2" data-path="appendix-auspol-vignette.html"><a href="appendix-auspol-vignette.html#getting-the-data"><i class="fa fa-check"></i><b>7.2</b> Getting the data</a></li>
+<li class="chapter" data-level="7.3" data-path="appendix-auspol-vignette.html"><a href="appendix-auspol-vignette.html#plotting"><i class="fa fa-check"></i><b>7.3</b> Plotting</a>
 <ul>
-<li class="chapter" data-level="11.3.1" data-path="appendix-auspol-vignette.html"><a href="appendix-auspol-vignette.html#historic-trends"><i class="fa fa-check"></i><b>11.3.1</b> Historic Trends</a></li>
+<li class="chapter" data-level="7.3.1" data-path="appendix-auspol-vignette.html"><a href="appendix-auspol-vignette.html#historic-trends"><i class="fa fa-check"></i><b>7.3.1</b> Historic Trends</a></li>
 </ul></li>
-<li class="chapter" data-level="11.4" data-path="appendix-auspol-vignette.html"><a href="appendix-auspol-vignette.html#results-for-one-election"><i class="fa fa-check"></i><b>11.4</b> Results for one election</a></li>
+<li class="chapter" data-level="7.4" data-path="appendix-auspol-vignette.html"><a href="appendix-auspol-vignette.html#results-for-one-election"><i class="fa fa-check"></i><b>7.4</b> Results for one election</a></li>
 </ul></li>
-<li class="chapter" data-level="12" data-path="appendix-aussiemaps-vignette.html"><a href="appendix-aussiemaps-vignette.html"><i class="fa fa-check"></i><b>12</b> (APPENDIX) {aussiemaps} Vignette</a>
+<li class="chapter" data-level="8" data-path="appendix-aussiemaps-vignette.html"><a href="appendix-aussiemaps-vignette.html"><i class="fa fa-check"></i><b>8</b> (APPENDIX) {aussiemaps} Vignette</a>
 <ul>
-<li class="chapter" data-level="12.1" data-path="appendix-aussiemaps-vignette.html"><a href="appendix-aussiemaps-vignette.html#aussiemaps---yet-another-maps-package"><i class="fa fa-check"></i><b>12.1</b> {aussiemaps} - Yet another maps package</a></li>
-<li class="chapter" data-level="12.2" data-path="appendix-aussiemaps-vignette.html"><a href="appendix-aussiemaps-vignette.html#getting-started."><i class="fa fa-check"></i><b>12.2</b> Getting started.</a></li>
-<li class="chapter" data-level="12.3" data-path="appendix-aussiemaps-vignette.html"><a href="appendix-aussiemaps-vignette.html#filtering-via-regular-expressions"><i class="fa fa-check"></i><b>12.3</b> Filtering via regular expressions</a></li>
-<li class="chapter" data-level="12.4" data-path="appendix-aussiemaps-vignette.html"><a href="appendix-aussiemaps-vignette.html#even-more-complex-filtering"><i class="fa fa-check"></i><b>12.4</b> Even more complex filtering</a></li>
-<li class="chapter" data-level="12.5" data-path="appendix-aussiemaps-vignette.html"><a href="appendix-aussiemaps-vignette.html#aggregation"><i class="fa fa-check"></i><b>12.5</b> Aggregation</a></li>
-<li class="chapter" data-level="12.6" data-path="appendix-aussiemaps-vignette.html"><a href="appendix-aussiemaps-vignette.html#data-aggregation"><i class="fa fa-check"></i><b>12.6</b> Data Aggregation</a></li>
+<li class="chapter" data-level="8.1" data-path="appendix-aussiemaps-vignette.html"><a href="appendix-aussiemaps-vignette.html#aussiemaps---yet-another-maps-package"><i class="fa fa-check"></i><b>8.1</b> {aussiemaps} - Yet another maps package</a></li>
+<li class="chapter" data-level="8.2" data-path="appendix-aussiemaps-vignette.html"><a href="appendix-aussiemaps-vignette.html#getting-started."><i class="fa fa-check"></i><b>8.2</b> Getting started.</a></li>
+<li class="chapter" data-level="8.3" data-path="appendix-aussiemaps-vignette.html"><a href="appendix-aussiemaps-vignette.html#filtering-via-regular-expressions"><i class="fa fa-check"></i><b>8.3</b> Filtering via regular expressions</a></li>
+<li class="chapter" data-level="8.4" data-path="appendix-aussiemaps-vignette.html"><a href="appendix-aussiemaps-vignette.html#even-more-complex-filtering"><i class="fa fa-check"></i><b>8.4</b> Even more complex filtering</a></li>
+<li class="chapter" data-level="8.5" data-path="appendix-aussiemaps-vignette.html"><a href="appendix-aussiemaps-vignette.html#aggregation"><i class="fa fa-check"></i><b>8.5</b> Aggregation</a></li>
+<li class="chapter" data-level="8.6" data-path="appendix-aussiemaps-vignette.html"><a href="appendix-aussiemaps-vignette.html#data-aggregation"><i class="fa fa-check"></i><b>8.6</b> Data Aggregation</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -236,153 +222,60 @@ div.csl-indent {
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="appendix-auscensus-vignette" class="section level1 hasAnchor" number="10">
-<h1><span class="header-section-number">Chapter 10</span> (APPENDIX) {auscensus} Vignette<a href="appendix-auscensus-vignette.html#appendix-auscensus-vignette" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p><em>Extracted from <a href="https://gh.carlosyanez.id.au/auscensus/articles/complex_case.html" class="uri">https://gh.carlosyanez.id.au/auscensus/articles/complex_case.html</a> on Sunday 22 January 2023</em></p>
+<div id="appendix-auscensus-vignette" class="section level1 hasAnchor" number="6">
+<h1><span class="header-section-number">Chapter 6</span> (APPENDIX) {auscensus} Vignette<a href="appendix-auscensus-vignette.html#appendix-auscensus-vignette" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p><em>Extracted from <a href="https://carlosyanez.github.io/auscensus/articles/complex_case.html" class="uri">https://carlosyanez.github.io/auscensus/articles/complex_case.html</a> on Sunday 22 January 2023</em></p>
 <p>This vignette shows a more complex use case of auscensus. Let’s assume we want to extract the percentage of Australian Citizens for all Commonwealth Electoral Divisions, as measured in last 4 Censuses (2006-2021).</p>
 <p>An initial exploration shows that this data can be found in table 01 (across all four censuses) - which provided an statistical summary. However, is not published aggregated by electorate across all censuses.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="appendix-auscensus-vignette.html#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: true</span></span>
-<span id="cb5-2"><a href="appendix-auscensus-vignette.html#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-3"><a href="appendix-auscensus-vignette.html#cb5-3" aria-hidden="true" tabindex="-1"></a>census_tables <span class="ot">&lt;-</span> <span class="fu">list_census_tables</span>() <span class="sc">|&gt;</span></span>
-<span id="cb5-4"><a href="appendix-auscensus-vignette.html#cb5-4" aria-hidden="true" tabindex="-1"></a>                 <span class="fu">filter</span>(Number <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;01&quot;</span>)) </span>
-<span id="cb5-5"><a href="appendix-auscensus-vignette.html#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-6"><a href="appendix-auscensus-vignette.html#cb5-6" aria-hidden="true" tabindex="-1"></a>tables_summary <span class="ot">&lt;-</span> census_tables <span class="sc">|&gt;</span></span>
-<span id="cb5-7"><a href="appendix-auscensus-vignette.html#cb5-7" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">select</span>(<span class="sc">-</span><span class="fu">contains</span>(<span class="st">&quot;Table&quot;</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb5-8"><a href="appendix-auscensus-vignette.html#cb5-8" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">pivot_longer</span>(<span class="sc">-</span>Number, <span class="at">names_to=</span><span class="st">&quot;Year&quot;</span>,<span class="at">values_to =</span> <span class="st">&quot;Value&quot;</span>) <span class="sc">|&gt;</span></span>
-<span id="cb5-9"><a href="appendix-auscensus-vignette.html#cb5-9" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(Value)) <span class="sc">|&gt;</span></span>
-<span id="cb5-10"><a href="appendix-auscensus-vignette.html#cb5-10" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">select</span>(<span class="sc">-</span>Value)</span>
-<span id="cb5-11"><a href="appendix-auscensus-vignette.html#cb5-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-12"><a href="appendix-auscensus-vignette.html#cb5-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-13"><a href="appendix-auscensus-vignette.html#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="fu">list_census_geo_tables</span>(<span class="at">year =</span> tables_summary<span class="sc">$</span>Year,<span class="at">geo=</span><span class="st">&quot;CED|CED_2007|CED_2004&quot;</span>,<span class="at">table_number =</span> tables_summary<span class="sc">$</span>Number) <span class="sc">|&gt;</span></span>
-<span id="cb5-14"><a href="appendix-auscensus-vignette.html#cb5-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Year=</span><span class="fu">as.character</span>(Year)) <span class="sc">|&gt;</span></span>
-<span id="cb5-15"><a href="appendix-auscensus-vignette.html#cb5-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">right_join</span>(tables_summary, <span class="at">by=</span><span class="fu">c</span>(<span class="st">&quot;table_number&quot;</span><span class="ot">=</span><span class="st">&quot;Number&quot;</span>,<span class="st">&quot;Year&quot;</span><span class="ot">=</span><span class="st">&quot;Year&quot;</span>))</span></code></pre></div>
+<pre><code>## # A tibble: 4 × 3
+##   Year  table_number CED  
+##   &lt;chr&gt; &lt;chr&gt;        &lt;lgl&gt;
+## 1 2011  01           TRUE 
+## 2 2016  01           TRUE 
+## 3 2021  01           TRUE 
+## 4 2006  01           NA</code></pre>
 <p>Therefore, we will retrieve the data from the lowest statistical unit. However, SA1 were not available in 2006 - where the smallest area was a “CD”.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="appendix-auscensus-vignette.html#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: true</span></span>
-<span id="cb6-2"><a href="appendix-auscensus-vignette.html#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-3"><a href="appendix-auscensus-vignette.html#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">list_census_geo_tables</span>(<span class="at">year =</span> tables_summary<span class="sc">$</span>Year,<span class="at">geo=</span><span class="fu">c</span>(<span class="st">&quot;SA1|CD&quot;</span>),<span class="at">table_number =</span> tables_summary<span class="sc">$</span>Number) <span class="sc">|&gt;</span></span>
-<span id="cb6-4"><a href="appendix-auscensus-vignette.html#cb6-4" aria-hidden="true" tabindex="-1"></a>   <span class="fu">mutate</span>(<span class="at">Year=</span><span class="fu">as.character</span>(Year)) <span class="sc">|&gt;</span></span>
-<span id="cb6-5"><a href="appendix-auscensus-vignette.html#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">right_join</span>(tables_summary, <span class="at">by=</span><span class="fu">c</span>(<span class="st">&quot;table_number&quot;</span><span class="ot">=</span><span class="st">&quot;Number&quot;</span>,<span class="st">&quot;Year&quot;</span><span class="ot">=</span><span class="st">&quot;Year&quot;</span>)) </span></code></pre></div>
+<pre><code>## # A tibble: 4 × 4
+##   Year  table_number CD    SA1  
+##   &lt;chr&gt; &lt;chr&gt;        &lt;lgl&gt; &lt;lgl&gt;
+## 1 2006  01           TRUE  NA   
+## 2 2011  01           NA    TRUE 
+## 3 2016  01           NA    TRUE 
+## 4 2021  01           NA    TRUE</code></pre>
 <p>The next step is to figure the attributes for the numbers of Australian citizen and total population, which are presented below:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="appendix-auscensus-vignette.html#cb7-1" aria-hidden="true" tabindex="-1"></a>citizenship_attributes <span class="ot">&lt;-</span> <span class="fu">tibble</span>()</span>
-<span id="cb7-2"><a href="appendix-auscensus-vignette.html#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-3"><a href="appendix-auscensus-vignette.html#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(tables_summary)){</span>
-<span id="cb7-4"><a href="appendix-auscensus-vignette.html#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-5"><a href="appendix-auscensus-vignette.html#cb7-5" aria-hidden="true" tabindex="-1"></a>  table_i <span class="ot">&lt;-</span> tables_summary[i,]<span class="sc">$</span>Number</span>
-<span id="cb7-6"><a href="appendix-auscensus-vignette.html#cb7-6" aria-hidden="true" tabindex="-1"></a>  year_i  <span class="ot">&lt;-</span> tables_summary[i,]<span class="sc">$</span>Year</span>
-<span id="cb7-7"><a href="appendix-auscensus-vignette.html#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-8"><a href="appendix-auscensus-vignette.html#cb7-8" aria-hidden="true" tabindex="-1"></a>  attr_i <span class="ot">&lt;-</span> <span class="fu">list_census_attributes</span>(table_i) <span class="sc">|&gt;</span> </span>
-<span id="cb7-9"><a href="appendix-auscensus-vignette.html#cb7-9" aria-hidden="true" tabindex="-1"></a>             <span class="fu">pivot_longer</span>(<span class="sc">-</span><span class="fu">c</span>(Table,Attribute),</span>
-<span id="cb7-10"><a href="appendix-auscensus-vignette.html#cb7-10" aria-hidden="true" tabindex="-1"></a>                           <span class="at">names_to=</span><span class="st">&quot;Year&quot;</span>,<span class="at">values_to =</span> <span class="st">&quot;Value&quot;</span>) <span class="sc">|&gt;</span></span>
-<span id="cb7-11"><a href="appendix-auscensus-vignette.html#cb7-11" aria-hidden="true" tabindex="-1"></a>              <span class="fu">filter</span>(Year<span class="sc">==</span>year_i) <span class="sc">|&gt;</span></span>
-<span id="cb7-12"><a href="appendix-auscensus-vignette.html#cb7-12" aria-hidden="true" tabindex="-1"></a>              <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(Value)) <span class="sc">|&gt;</span></span>
-<span id="cb7-13"><a href="appendix-auscensus-vignette.html#cb7-13" aria-hidden="true" tabindex="-1"></a>              <span class="fu">select</span>(<span class="sc">-</span>Value)</span>
-<span id="cb7-14"><a href="appendix-auscensus-vignette.html#cb7-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-15"><a href="appendix-auscensus-vignette.html#cb7-15" aria-hidden="true" tabindex="-1"></a>  citizenship_attributes <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(attr_i,citizenship_attributes)</span>
-<span id="cb7-16"><a href="appendix-auscensus-vignette.html#cb7-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-17"><a href="appendix-auscensus-vignette.html#cb7-17" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb7-18"><a href="appendix-auscensus-vignette.html#cb7-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-19"><a href="appendix-auscensus-vignette.html#cb7-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-20"><a href="appendix-auscensus-vignette.html#cb7-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-21"><a href="appendix-auscensus-vignette.html#cb7-21" aria-hidden="true" tabindex="-1"></a>citizenship_attributes <span class="sc">|&gt;</span></span>
-<span id="cb7-22"><a href="appendix-auscensus-vignette.html#cb7-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>()</span></code></pre></div>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="appendix-auscensus-vignette.html#cb8-1" aria-hidden="true" tabindex="-1"></a>citizenship_attributes <span class="ot">&lt;-</span> citizenship_attributes   <span class="sc">|&gt;</span> </span>
-<span id="cb8-2"><a href="appendix-auscensus-vignette.html#cb8-2" aria-hidden="true" tabindex="-1"></a>                       <span class="fu">distinct</span>(Attribute,Year) <span class="sc">|&gt;</span></span>
-<span id="cb8-3"><a href="appendix-auscensus-vignette.html#cb8-3" aria-hidden="true" tabindex="-1"></a>                      <span class="fu">filter</span>(<span class="fu">str_detect</span>(Attribute,<span class="st">&quot;[Aa]ustralian&quot;</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb8-4"><a href="appendix-auscensus-vignette.html#cb8-4" aria-hidden="true" tabindex="-1"></a>                      <span class="fu">filter</span>(<span class="fu">str_detect</span>(Attribute,<span class="st">&quot;[Pp]erson&quot;</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb8-5"><a href="appendix-auscensus-vignette.html#cb8-5" aria-hidden="true" tabindex="-1"></a>                      <span class="fu">mutate</span>(<span class="at">dummy=</span><span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
-<span id="cb8-6"><a href="appendix-auscensus-vignette.html#cb8-6" aria-hidden="true" tabindex="-1"></a>                      <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> Year, <span class="at">values_from =</span> dummy)  <span class="sc">|&gt;</span></span>
-<span id="cb8-7"><a href="appendix-auscensus-vignette.html#cb8-7" aria-hidden="true" tabindex="-1"></a>                      <span class="fu">bind_rows</span>(</span>
-<span id="cb8-8"><a href="appendix-auscensus-vignette.html#cb8-8" aria-hidden="true" tabindex="-1"></a>                         citizenship_attributes   <span class="sc">|&gt;</span> </span>
-<span id="cb8-9"><a href="appendix-auscensus-vignette.html#cb8-9" aria-hidden="true" tabindex="-1"></a>                       <span class="fu">distinct</span>(Attribute,Year) <span class="sc">|&gt;</span></span>
-<span id="cb8-10"><a href="appendix-auscensus-vignette.html#cb8-10" aria-hidden="true" tabindex="-1"></a>                      <span class="fu">filter</span>(<span class="fu">str_detect</span>(Attribute,<span class="st">&quot;^[Tt]otal&quot;</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb8-11"><a href="appendix-auscensus-vignette.html#cb8-11" aria-hidden="true" tabindex="-1"></a>                      <span class="fu">filter</span>(<span class="fu">str_detect</span>(Attribute,<span class="st">&quot;[Pp]ersons$&quot;</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb8-12"><a href="appendix-auscensus-vignette.html#cb8-12" aria-hidden="true" tabindex="-1"></a>                      <span class="fu">mutate</span>(<span class="at">dummy=</span><span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
-<span id="cb8-13"><a href="appendix-auscensus-vignette.html#cb8-13" aria-hidden="true" tabindex="-1"></a>                      <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> Year, <span class="at">values_from =</span> dummy)</span>
-<span id="cb8-14"><a href="appendix-auscensus-vignette.html#cb8-14" aria-hidden="true" tabindex="-1"></a>                      )</span>
-<span id="cb8-15"><a href="appendix-auscensus-vignette.html#cb8-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-16"><a href="appendix-auscensus-vignette.html#cb8-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-17"><a href="appendix-auscensus-vignette.html#cb8-17" aria-hidden="true" tabindex="-1"></a>citizenship_attributes </span></code></pre></div>
+<pre><code>## # A tibble: 6 × 3
+##   Table Attribute                     Year 
+##   &lt;chr&gt; &lt;chr&gt;                         &lt;chr&gt;
+## 1 01    Total Persons_males           2006 
+## 2 01    Total Persons_females         2006 
+## 3 01    Total Persons_persons         2006 
+## 4 01    Age Groups: 0-4 Years_males   2006 
+## 5 01    Age Groups: 0-4 Years_females 2006 
+## 6 01    Age Groups: 0-4 Years_persons 2006</code></pre>
+<pre><code>## # A tibble: 4 × 5
+##   Attribute                  `2006` `2011` `2016` `2021`
+##   &lt;chr&gt;                      &lt;lgl&gt;  &lt;lgl&gt;  &lt;lgl&gt;  &lt;lgl&gt; 
+## 1 Australian Citizen_persons TRUE   NA     NA     NA    
+## 2 Australian_citizen_persons NA     TRUE   TRUE   TRUE  
+## 3 Total Persons_persons      TRUE   NA     NA     NA    
+## 4 Total_persons_persons      NA     TRUE   TRUE   TRUE</code></pre>
 <p>Using <em>attribute_tibble_to_list</em>, this data frame can be converted into the required format.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="appendix-auscensus-vignette.html#cb9-1" aria-hidden="true" tabindex="-1"></a>citizenship_attributes <span class="ot">&lt;-</span> citizenship_attributes <span class="sc">|&gt;</span></span>
-<span id="cb9-2"><a href="appendix-auscensus-vignette.html#cb9-2" aria-hidden="true" tabindex="-1"></a>                          <span class="fu">select</span>(Attribute)      <span class="sc">|&gt;</span></span>
-<span id="cb9-3"><a href="appendix-auscensus-vignette.html#cb9-3" aria-hidden="true" tabindex="-1"></a>                          <span class="fu">mutate</span>(<span class="at">AttrNew =</span> <span class="fu">case_when</span>(</span>
-<span id="cb9-4"><a href="appendix-auscensus-vignette.html#cb9-4" aria-hidden="true" tabindex="-1"></a>                            <span class="fu">str_detect</span>(Attribute,<span class="st">&quot;Australian&quot;</span>) <span class="sc">~</span> <span class="st">&quot;Australian Citizens&quot;</span>,</span>
-<span id="cb9-5"><a href="appendix-auscensus-vignette.html#cb9-5" aria-hidden="true" tabindex="-1"></a>                            <span class="fu">str_detect</span>(Attribute,<span class="st">&quot;Total&quot;</span>)      <span class="sc">~</span> <span class="st">&quot;Total&quot;</span></span>
-<span id="cb9-6"><a href="appendix-auscensus-vignette.html#cb9-6" aria-hidden="true" tabindex="-1"></a>                          ))</span>
-<span id="cb9-7"><a href="appendix-auscensus-vignette.html#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-8"><a href="appendix-auscensus-vignette.html#cb9-8" aria-hidden="true" tabindex="-1"></a>levels <span class="ot">&lt;-</span> <span class="fu">attribute_tibble_to_list</span>(citizenship_attributes)</span></code></pre></div>
 <p>Now, we can cycle through the four censuses and extract the data. Please note that CDs and SA1s are not equivalent, but they are stored together for convenience:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="appendix-auscensus-vignette.html#cb10-1" aria-hidden="true" tabindex="-1"></a>census_years <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;2006&quot;</span>,<span class="st">&quot;2011&quot;</span>,<span class="st">&quot;2016&quot;</span>,<span class="st">&quot;2021&quot;</span>)</span>
-<span id="cb10-2"><a href="appendix-auscensus-vignette.html#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-3"><a href="appendix-auscensus-vignette.html#cb10-3" aria-hidden="true" tabindex="-1"></a>citizenship <span class="ot">&lt;-</span> <span class="fu">tibble</span>()</span>
-<span id="cb10-4"><a href="appendix-auscensus-vignette.html#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-5"><a href="appendix-auscensus-vignette.html#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(year <span class="cf">in</span> census_years){</span>
-<span id="cb10-6"><a href="appendix-auscensus-vignette.html#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-7"><a href="appendix-auscensus-vignette.html#cb10-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(year<span class="sc">==</span><span class="st">&quot;2006&quot;</span>){</span>
-<span id="cb10-8"><a href="appendix-auscensus-vignette.html#cb10-8" aria-hidden="true" tabindex="-1"></a>    geo_structure_x <span class="ot">&lt;-</span> <span class="st">&quot;CD&quot;</span></span>
-<span id="cb10-9"><a href="appendix-auscensus-vignette.html#cb10-9" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span>{</span>
-<span id="cb10-10"><a href="appendix-auscensus-vignette.html#cb10-10" aria-hidden="true" tabindex="-1"></a>    geo_structure_x <span class="ot">&lt;-</span> <span class="st">&quot;SA1&quot;</span></span>
-<span id="cb10-11"><a href="appendix-auscensus-vignette.html#cb10-11" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb10-12"><a href="appendix-auscensus-vignette.html#cb10-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-13"><a href="appendix-auscensus-vignette.html#cb10-13" aria-hidden="true" tabindex="-1"></a>  citizenship_i <span class="ot">&lt;-</span> <span class="fu">get_census_summary</span>(<span class="at">census_table =</span> census_tables,</span>
-<span id="cb10-14"><a href="appendix-auscensus-vignette.html#cb10-14" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">selected_years =</span> year,</span>
-<span id="cb10-15"><a href="appendix-auscensus-vignette.html#cb10-15" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">geo_structure=</span>geo_structure_x,</span>
-<span id="cb10-16"><a href="appendix-auscensus-vignette.html#cb10-16" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">attribute =</span> levels) </span>
-<span id="cb10-17"><a href="appendix-auscensus-vignette.html#cb10-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-18"><a href="appendix-auscensus-vignette.html#cb10-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-19"><a href="appendix-auscensus-vignette.html#cb10-19" aria-hidden="true" tabindex="-1"></a>  citizenship <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(citizenship,citizenship_i)</span>
-<span id="cb10-20"><a href="appendix-auscensus-vignette.html#cb10-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-21"><a href="appendix-auscensus-vignette.html#cb10-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-22"><a href="appendix-auscensus-vignette.html#cb10-22" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
-<pre><code>## 2006: Extracting 0 attributes.</code></pre>
-<pre><code>## ERROR : [EBUSY] Failed to remove &#39;C:/Users/carlo/OneDrive/Documents/.auscensus_cache/CD_NSW_B01.csv&#39;: resource busy or locked 
-## ERROR : [EBUSY] Failed to remove &#39;C:/Users/carlo/OneDrive/Documents/.auscensus_cache/CD_NSW_B01.csv&#39;: resource busy or locked</code></pre>
-<pre><code>## 2011: Extracting 0 attributes.</code></pre>
-<pre><code>## ERROR : [EBUSY] Failed to remove &#39;C:/Users/carlo/OneDrive/Documents/.auscensus_cache/2011Census_B01_AUST_SA1_short.csv&#39;: resource busy or locked</code></pre>
-<pre><code>## 2016: Extracting 0 attributes.</code></pre>
-<pre><code>## ERROR : [EBUSY] Failed to remove &#39;C:/Users/carlo/OneDrive/Documents/.auscensus_cache/2016Census_G01_AUS_SA1.csv&#39;: resource busy or locked</code></pre>
-<pre><code>## 2021: Extracting 0 attributes.</code></pre>
-<pre><code>## ERROR : [EBUSY] Failed to remove &#39;C:/Users/carlo/OneDrive/Documents/.auscensus_cache/2021Census_G01_AUST_SA1.csv&#39;: resource busy or locked</code></pre>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="appendix-auscensus-vignette.html#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(citizenship_i,geo_structure_x,levels,citizenship_attributes)</span></code></pre></div>
 <p>To aggregate the data, <strong><a href="https://gh.carlosyanez.id.au/aussiemaps/">aussiemaps::geo_aggregate()</a></strong> can help using area to apportion on non-overalpping cases. Then, this package’s <em>calculate_percentage()</em> will take the totals from the list and calculate percentages.</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="appendix-auscensus-vignette.html#cb20-1" aria-hidden="true" tabindex="-1"></a>citizenship_ced<span class="ot">&lt;-</span> <span class="fu">tibble</span>()</span>
-<span id="cb20-2"><a href="appendix-auscensus-vignette.html#cb20-2" aria-hidden="true" tabindex="-1"></a>codes <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;CD_CODE_2006&quot;</span>,<span class="st">&quot;SA1_7DIGITCODE_2011&quot;</span>,<span class="st">&quot;SA1_7DIGITCODE_2016&quot;</span>,<span class="st">&quot;SA1_CODE_2021&quot;</span>)</span>
-<span id="cb20-3"><a href="appendix-auscensus-vignette.html#cb20-3" aria-hidden="true" tabindex="-1"></a>ceds  <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;CED_NAME_2006&quot;</span>,<span class="st">&quot;CED_NAME_2011&quot;</span>,<span class="st">&quot;CED_NAME_2016&quot;</span>,<span class="st">&quot;CED_NAME_2021&quot;</span>)</span>
-<span id="cb20-4"><a href="appendix-auscensus-vignette.html#cb20-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-5"><a href="appendix-auscensus-vignette.html#cb20-5" aria-hidden="true" tabindex="-1"></a> <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(census_years)){</span>
-<span id="cb20-6"><a href="appendix-auscensus-vignette.html#cb20-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-7"><a href="appendix-auscensus-vignette.html#cb20-7" aria-hidden="true" tabindex="-1"></a>   year <span class="ot">&lt;-</span> <span class="fu">as.double</span>(census_years[i])</span>
-<span id="cb20-8"><a href="appendix-auscensus-vignette.html#cb20-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-9"><a href="appendix-auscensus-vignette.html#cb20-9" aria-hidden="true" tabindex="-1"></a>   value_i <span class="ot">&lt;-</span> citizenship <span class="sc">|&gt;</span> </span>
-<span id="cb20-10"><a href="appendix-auscensus-vignette.html#cb20-10" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">filter</span>(Year<span class="sc">==</span>year)     <span class="sc">|&gt;</span></span>
-<span id="cb20-11"><a href="appendix-auscensus-vignette.html#cb20-11" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">select</span>(<span class="sc">-</span>Unit)                    <span class="sc">|&gt;</span></span>
-<span id="cb20-12"><a href="appendix-auscensus-vignette.html#cb20-12" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">rename</span>(<span class="sc">!!</span>codes[i]<span class="sc">:</span><span class="er">=</span><span class="st">&quot;Census_Code&quot;</span>) <span class="sc">|&gt;</span></span>
-<span id="cb20-13"><a href="appendix-auscensus-vignette.html#cb20-13" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">collect</span>() <span class="sc">|&gt;</span></span>
-<span id="cb20-14"><a href="appendix-auscensus-vignette.html#cb20-14" aria-hidden="true" tabindex="-1"></a>                  aussiemaps<span class="sc">::</span><span class="fu">geo_aggregate</span>(</span>
-<span id="cb20-15"><a href="appendix-auscensus-vignette.html#cb20-15" aria-hidden="true" tabindex="-1"></a>                              <span class="at">values_col=</span><span class="st">&quot;Value&quot;</span>,</span>
-<span id="cb20-16"><a href="appendix-auscensus-vignette.html#cb20-16" aria-hidden="true" tabindex="-1"></a>                              <span class="at">original_geo=</span>codes[i],</span>
-<span id="cb20-17"><a href="appendix-auscensus-vignette.html#cb20-17" aria-hidden="true" tabindex="-1"></a>                              <span class="at">new_geo=</span>ceds[i],</span>
-<span id="cb20-18"><a href="appendix-auscensus-vignette.html#cb20-18" aria-hidden="true" tabindex="-1"></a>                              <span class="at">grouping_col =</span> <span class="fu">c</span>(<span class="st">&quot;Year&quot;</span>,<span class="st">&quot;Attribute&quot;</span>),</span>
-<span id="cb20-19"><a href="appendix-auscensus-vignette.html#cb20-19" aria-hidden="true" tabindex="-1"></a>                              <span class="at">year=</span>census_years[i]) <span class="sc">|&gt;</span></span>
-<span id="cb20-20"><a href="appendix-auscensus-vignette.html#cb20-20" aria-hidden="true" tabindex="-1"></a>              <span class="fu">rename</span>(<span class="st">&quot;Unit&quot;</span><span class="ot">=</span>ceds[i])  <span class="sc">|&gt;</span></span>
-<span id="cb20-21"><a href="appendix-auscensus-vignette.html#cb20-21" aria-hidden="true" tabindex="-1"></a>              <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(Unit))    <span class="sc">|&gt;</span></span>
-<span id="cb20-22"><a href="appendix-auscensus-vignette.html#cb20-22" aria-hidden="true" tabindex="-1"></a>              <span class="fu">filter</span>(<span class="fu">str_detect</span>(Unit,<span class="st">&quot;[Ss]hipping&quot;</span>,<span class="cn">TRUE</span>))<span class="sc">|&gt;</span></span>
-<span id="cb20-23"><a href="appendix-auscensus-vignette.html#cb20-23" aria-hidden="true" tabindex="-1"></a>              <span class="fu">filter</span>(<span class="fu">str_detect</span>(Unit,<span class="st">&quot;[Uu]sual&quot;</span>,<span class="cn">TRUE</span>))   <span class="sc">|&gt;</span></span>
-<span id="cb20-24"><a href="appendix-auscensus-vignette.html#cb20-24" aria-hidden="true" tabindex="-1"></a>              <span class="fu">filter</span>(<span class="fu">str_detect</span>(Unit,<span class="st">&quot;[Aa]pplicable&quot;</span>,<span class="cn">TRUE</span>)) </span>
-<span id="cb20-25"><a href="appendix-auscensus-vignette.html#cb20-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-26"><a href="appendix-auscensus-vignette.html#cb20-26" aria-hidden="true" tabindex="-1"></a>    value_i <span class="ot">&lt;-</span> value_i  <span class="sc">|&gt;</span> </span>
-<span id="cb20-27"><a href="appendix-auscensus-vignette.html#cb20-27" aria-hidden="true" tabindex="-1"></a>               auscensus<span class="sc">::</span><span class="fu">calculate_percentage</span>(<span class="at">key_col =</span> <span class="st">&quot;Attribute&quot;</span>,</span>
-<span id="cb20-28"><a href="appendix-auscensus-vignette.html#cb20-28" aria-hidden="true" tabindex="-1"></a>                                                <span class="at">value_col =</span> <span class="st">&quot;Value&quot;</span>,</span>
-<span id="cb20-29"><a href="appendix-auscensus-vignette.html#cb20-29" aria-hidden="true" tabindex="-1"></a>                                                <span class="at">key_value =</span> <span class="st">&quot;Total&quot;</span>,</span>
-<span id="cb20-30"><a href="appendix-auscensus-vignette.html#cb20-30" aria-hidden="true" tabindex="-1"></a>                                                <span class="at">percentage_scale =</span> <span class="dv">100</span>)</span>
-<span id="cb20-31"><a href="appendix-auscensus-vignette.html#cb20-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-32"><a href="appendix-auscensus-vignette.html#cb20-32" aria-hidden="true" tabindex="-1"></a>   citizenship_ced <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(citizenship_ced,value_i)</span>
-<span id="cb20-33"><a href="appendix-auscensus-vignette.html#cb20-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-34"><a href="appendix-auscensus-vignette.html#cb20-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-35"><a href="appendix-auscensus-vignette.html#cb20-35" aria-hidden="true" tabindex="-1"></a> }</span>
-<span id="cb20-36"><a href="appendix-auscensus-vignette.html#cb20-36" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-37"><a href="appendix-auscensus-vignette.html#cb20-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-38"><a href="appendix-auscensus-vignette.html#cb20-38" aria-hidden="true" tabindex="-1"></a>citizenship_ced </span></code></pre></div>
+<pre><code>## # A tibble: 601 × 6
+##    Unit       Year Attribute            Value  Total Percentage
+##    &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt;                &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt;
+##  1 Adelaide   2006 Australian Citizens 115908 140151       82.7
+##  2 Aston      2006 Australian Citizens 115010 129463       88.8
+##  3 Ballarat   2006 Australian Citizens 118247 129221       91.5
+##  4 Banks      2006 Australian Citizens 104181 118371       88.0
+##  5 Barker     2006 Australian Citizens 133033 145410       91.5
+##  6 Barton     2006 Australian Citizens 105287 131234       80.2
+##  7 Bass       2006 Australian Citizens  85631  94270       90.8
+##  8 Batman     2006 Australian Citizens 105561 128107       82.4
+##  9 Bendigo    2006 Australian Citizens 121930 131885       92.5
+## 10 Bennelong  2006 Australian Citizens 104473 129340       80.8
+## # ℹ 591 more rows</code></pre>
 
 </div>
             </section>
@@ -433,7 +326,7 @@ gitbook.start({
 "link": null,
 "text": null
 },
-"download": ["_main.pdf", "_main.epub"],
+"download": ["_main.pdf"],
 "search": {
 "engine": "fuse",
 "options": null
@@ -445,20 +338,6 @@ gitbook.start({
 });
 </script>
 
-<!-- dynamically load mathjax for compatibility with self-contained -->
-<script>
-  (function () {
-    var script = document.createElement("script");
-    script.type = "text/javascript";
-    var src = "true";
-    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
-    if (location.protocol !== "file:")
-      if (/^https?:/.test(src))
-        src = src.replace(/^https?:/, '');
-    script.src = src;
-    document.getElementsByTagName("head")[0].appendChild(script);
-  })();
-</script>
 </body>
 
 </html>

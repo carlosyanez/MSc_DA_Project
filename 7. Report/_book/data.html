@@ -4,13 +4,13 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 5 (APPENDIX) Extracting Data | A Minimal Book Example</title>
+  <title>Chapter 4 Sourcing Data | A Minimal Book Example</title>
   <meta name="description" content="<p>This is a minimal example of using the bookdown package to write a book.
 The HTML output format for this example is bookdown::gitbook,
 set in the _output.yml file.</p>" />
   <meta name="generator" content="bookdown 0.32 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 5 (APPENDIX) Extracting Data | A Minimal Book Example" />
+  <meta property="og:title" content="Chapter 4 Sourcing Data | A Minimal Book Example" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="<p>This is a minimal example of using the bookdown package to write a book.
@@ -19,7 +19,7 @@ set in the _output.yml file.</p>" />
   <meta name="github-repo" content="rstudio/bookdown-demo" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 5 (APPENDIX) Extracting Data | A Minimal Book Example" />
+  <meta name="twitter:title" content="Chapter 4 Sourcing Data | A Minimal Book Example" />
   
   <meta name="twitter:description" content="<p>This is a minimal example of using the bookdown package to write a book.
 The HTML output format for this example is bookdown::gitbook,
@@ -36,8 +36,8 @@ set in the _output.yml file.</p>" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="references-2.html"/>
-<link rel="next" href="appendix-auscensus-vignette.html"/>
+<link rel="prev" href="references.html"/>
+<link rel="next" href="references-1.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -222,32 +222,37 @@ div.csl-indent {
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="appendix-extracting-data" class="section level1 hasAnchor" number="5">
-<h1><span class="header-section-number">Chapter 5</span> (APPENDIX) Extracting Data<a href="appendix-extracting-data.html#appendix-extracting-data" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>A particular challenge for this project was to efficiently and systematically being able to extract data. In this particular case, data sources are public and freely made available by Australian government departments. However, there were two challenging aspects, namely:</p>
+<div id="data" class="section level1 hasAnchor" number="4">
+<h1><span class="header-section-number">Chapter 4</span> Sourcing Data<a href="data.html#data" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>Based on the previously explained approach, data had to be source from 2 main sources:</p>
 <ul>
-<li>The volume of data, especially when it comes to Census Data. This also presented a challenge in terms of selection and aggregation of data not presented at electorate level.</li>
-<li>Changes in file structure and naming convention across time, having to standardise variable names across different census and election years.</li>
+<li><p>The Australian Electoral Commission (AEC). The AEC contains detailed online records for all federal election held in the 21st century, through their Tally Room websites. All data is presented in CSV format and it is publicly and easily accessible.</p></li>
+<li><p>The Australian Bureau of Statistics (ABS). The ABS provides an extensive repository of statistical data. This project is using Census Data, which is available through their Census Data packs.</p></li>
 </ul>
-<p>The search for existing data packages did not produce satisfactory results - only a package to retrieve historical weather data was found (<a href="https://gitlab.com/petebaker/cropgrowdays/">{cropgrowdays}</a><span class="citation">(<a href="#ref-cropgrowdays" role="doc-biblioref">Baker and Mortlock 2021</a>)</span>). Therefore, as par of this project it was necessary to create the following R packages:</p>
+<p>In both cases, the data provided is of high quality, trustable and provided in open formats. However, three particular challenges arose:</p>
 <ul>
-<li><p>{auspol}, a data package with containing voting tallies for the Australian House of Representatives. This package contains processed data, sourced from the Australian Electoral Commission, as well as functions to access and plot them. In addition to primary votes (the scope for this project), this also contains preferential distribution tallies.</p></li>
-<li><p>{auscensus}, a package to interact with Census Data Packs (as published by the Australian Bureau of Statistics, ABS). This package does not contain the actual data - each data pack ranges from 600 to 800 MB.</p></li>
-<li><p>{aussiemaps}, which is a rewriting of a geospatial package experiment by the author. This package contains geographical boundaries for ABS statistical structures as well as non-ABS geographies such as electoral divisions. In this project, this package is use to aggregate data from granular statistical structures to electorates.</p></li>
+<li>There is a large volume of data: multiple political parties, +100 electoral divisions and a very large number of statistical data collected in each census.</li>
+<li>Not all publicly available Census data is provided by electoral division. Aggregation from statistical collection areas into electorates is not straightforward due to a lack of 1:1 correspondence between the former (defined by the AEC) and the latter (defined by the ABS).</li>
+<li>Despite the best efforts of both organisations, names of electorates, parties, census attributes change over time, requiring work to track a variable across time.</li>
 </ul>
-<div id="package-architecture" class="section level2 hasAnchor" number="5.1">
-<h2><span class="header-section-number">5.1</span> Package Architecture<a href="appendix-extracting-data.html#package-architecture" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>The three packages have been designed using the same approach, which can be summarised by the following:</p>
+<p>To better overcome those challenges in a repeatable way, three R packages have been created as part of this projects, namely:</p>
 <ul>
-<li>Data is not included in the packages, but hosted on GitHub repositories. Given the large size of the data files, they cannot be directly included along code and they are shared “releases”instead. Then, the package functions download data as needed. This applies for metadata for the three packages and the actual data for {auspol} and {aussiemaps}.</li>
+<li>{auspol}, which extracts and presents electoral results.</li>
+<li>{auscensus}, which allows to interact with Census Data Packs to extract different statistics across geographical units, and across censuses.</li>
+<li>{aussiemaps}, which assists with aggregating census data into electoral divisions, by matching and apportioning different geographical structures.</li>
 </ul>
-
+<p>Each package is further detailed in the appendix.</p>
+<p>Using the above tools, the extraction pipeline can be represented by figure <a href="data.html#fig:data-flow">4.1</a>.</p>
+<div class="figure"><span style="display:block;" id="fig:data-flow"></span>
+<div class="grViz html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-142667da2da338869949" style="width:672px;height:480px;"></div>
+<script type="application/json" data-for="htmlwidget-142667da2da338869949">{"x":{"diagram":"\ndigraph G {\n  graph [fontname = \"Roboto\"];\n  node [fontname = \"Roboto\"];\n  edge [fontname = \"Roboto\"];\n  rankdir=\"LR\";\n  \n  bgcolor=transparent;\n  \n  {abs_shapefiles} -> {aussiemaps};\n  {abs_datapack}  -> {auscensus};\n  {aec_election}   -> {auspol};\n  {auspol}    -> {source_dataset};\n  {auscensus} -> {CED_aggregation};\n  {aussiemaps} -> {CED_aggregation};\n  {CED_aggregation} -> {source_dataset};\n  {source_dataset} -> {data_transformation};\n  {data_transformation} -> {data_selection};\n  {data_selection} -> {processed_dataset};\n  \n  auspol [label=\"{auspol}\",shape=ellipse];\n  auscensus [label=\"{auscensus}\",shape=ellipse];\n  aussiemaps [label=\"{aussiemaps}\",shape=ellipse];\n  \n  data_transformation [label=\"Data Transformation\",shape=Square];\n  data_selection [label=\"Data Selection\",shape=Square];\n  CED_aggregation [label=\"Aggregation \\n by CED\",shape=Square];\n  \n  abs_shapefiles [label=\"ABS Boundaries\",shape=cylinder];\n  abs_datapack  [label=\"ABS Census \\n Data Pack\",shape=cylinder];\n  aec_election   [label=\"AEC  \\n Election Tallies\",shape=cylinder];\n  processed_dataset [label=\"Processed \\n Dataset\",shape=cylinder];\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<p class="caption">
+Figure 4.1: Flow of data from sources to dataset
+</p>
 </div>
-</div>
-<h3>References</h3>
-<div id="refs" class="references csl-bib-body hanging-indent">
-<div id="ref-cropgrowdays" class="csl-entry">
-Baker, Peter, and Miranda Mortlock. 2021. <span>“Cropgrowdays: Crop Growing Degree Days and Agrometeorological Calculations.”</span> <a href="https://CRAN.R-project.org/package=cropgrowdays">https://CRAN.R-project.org/package=cropgrowdays</a>.
+<p>The main points of the process are explained below.</p>
+<div id="extracting-data" class="section level2 hasAnchor" number="4.1">
+<h2><span class="header-section-number">4.1</span> Extracting data<a href="data.html#extracting-data" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 </div>
 </div>
             </section>
@@ -255,8 +260,8 @@ Baker, Peter, and Miranda Mortlock. 2021. <span>“Cropgrowdays: Crop Growing De
           </div>
         </div>
       </div>
-<a href="references-2.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="appendix-auscensus-vignette.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="references.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="references-1.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -287,7 +292,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/USERNAME/REPO/edit/BRANCH/70-ExtractingData.Rmd",
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/03-sourcing-and-processsing-data.Rmd",
 "text": "Edit"
 },
 "history": {

@@ -1,6 +1,10 @@
 # (APPENDIX) {auscensus} Vignette
-*Extracted from https://gh.carlosyanez.id.au/auscensus/articles/complex_case.html on Sunday 22 January 2023*
+*Extracted from https://carlosyanez.github.io/auscensus/articles/complex_case.html on Sunday 22 January 2023*
 
+```{r}
+library(auscensus)
+library(tidyverse)
+```
 
 
 This vignette shows a more complex use case of auscensus. Let's assume we want to extract the percentage of Australian Citizens for all Commonwealth Electoral Divisions, as measured in last 4 Censuses (2006-2021).
@@ -12,8 +16,10 @@ An initial exploration shows that this data can be found in table 01 (across all
 
 #| eval: true
 
-census_tables <- list_census_tables() |>
-                 filter(Number %in% c("01")) 
+census_tables <- list_census_tables() 
+
+census_tables <- census_tables |>
+                 filter(if_any(any_of(c("Number")),~ .x %in% c("01"))) 
 
 tables_summary <- census_tables |>
                   select(-contains("Table")) |>

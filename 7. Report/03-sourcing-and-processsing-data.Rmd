@@ -3,6 +3,15 @@ output:
   pdf_document: default
   html_document: default
 ---
+
+```{r seven-setup,message=FALSE,warning=FALSE,echo=FALSE}
+library(DiagrammeR)
+library(here)
+
+knitr::opts_chunk$set(warning=FALSE,message = FALSE,echo=FALSE)
+
+```
+
 # Sourcing Data {#data}
 
 Based on the previously explained approach, data had to be source from 2 main sources:
@@ -28,15 +37,10 @@ Each package is further detailed in the appendix.
 Using the above tools, the extraction pipeline can be represented by figure \@ref(fig:data-flow).
 
 ```{r data-flow, fig.cap="Flow of data from sources to dataset", echo=FALSE}
-library(DiagrammeR)
-library(here)
 DiagrammeR::grViz(here("img","02_data_flow.gv"))
 ```
 
-The main points of the process are explained below.
-
-
-## Extracting data
+This pipeline is further explained in APPENDIX.
 
 `r if (knitr::is_html_output()) '
 # References {-}

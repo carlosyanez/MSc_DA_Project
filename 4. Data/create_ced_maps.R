@@ -36,3 +36,42 @@ for(year in years){
   st_write(map,here("4. Data",glue("CED_{year}.gpkg")),delete_dsn = TRUE)
   
 }
+
+
+## redo for 2021, carving ACT out of Eden-Monaro
+
+ced2021 <- st_read(here("4. Data",glue("CED_2021.gpkg")))
+
+divisions_act <- c("Canberra","Fenner","Bean")
+
+eden <- ced2021 |>
+            filter(DivisionNm=="Eden-Monaro")
+
+act <- ced2021 |>
+          filter(DivisionNm %in% divisions_act)
+act <- act |> st_cast("POLYGON")
+
+
+act <- act[st_covered_by(act,eden,sparse = FALSE),]
+act <- act |> summarise()
+
+eden <- st_difference(eden,act |> st_make_valid()) 
+
+ced2021 <-
+  ced2021 |>
+  filter(DivisionNm!="Eden-Monaro") |>
+  bind_rows(eden)
+  
+map_l <- ced2021 |>
+  leaflet()  |>
+  addTiles() |>
+  addPolygons(fillColor = "blue",
+              fillOpacity = 0.4,
+              label=~DivisionNm)
+
+saveWidget(map_l,
+           here("4. Data",glue("CED_2021.html")),
+           libdir = here("4. Data","lib"),
+           selfcontained = FALSE)
+
+st_write(ced2021,here("4. Data",glue("CED_2021.gpkg")),delete_dsn = TRUE)

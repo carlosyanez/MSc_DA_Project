@@ -1,5 +1,9 @@
 # (APPENDIX) {aussiemaps} Vignette
-*Extracted from https://gh.carlosyanez.id.au/aussiemaps/articles/aussiemaps.html on Sunday 22 January 2023*
+*Extracted from https://carlosyanez.github.io/aussiemaps/articles/aussiemaps.html on Sunday 22 January 2023*
+```{r}
+library(aussiemaps)
+library(tidyverse)
+```
 
 
 ## {aussiemaps} - Yet another maps package
@@ -122,9 +126,9 @@ It is worth noticing that the *aggregation* parameter accepts more than one vari
 
 ```{r}
 
-poas_inner_melbourne <- get_map(filters=list(LGA_NAME_2022=c("Melbourne","Phillip$")),
+poas_inner_melbourne <- get_map(filters=list(LGA_NAME_2021=c("Melbourne","Phillip$")),
                                 year=2021,
-                                aggregation = c("POA_NAME_2021","LGA_NAME_2022"))
+                                aggregation = c("POA_NAME_2021","LGA_NAME_2021"))
 
 poas_inner_melbourne |>
   mutate(colour=case_when(
@@ -132,7 +136,7 @@ poas_inner_melbourne |>
     TRUE ~ "grey"
   )) |>
   ggplot()+
-  geom_sf(aes(fill=colour,colour=LGA_NAME_2022)) +
+  geom_sf(aes(fill=colour,colour=LGA_NAME_2021)) +
   scale_fill_identity() +
   theme_void() +
   labs(title="Postcode 3004 extends across two LGAs")

@@ -1,5 +1,9 @@
 # (APPENDIX) {auspol} Vignette
-*Extracted from https://gh.carlosyanez.id.au/auspol/articles/house_primary_vote.html on Sunday 22 January 2023*
+*Extracted from https://carlosyanez.github.io/auspol/articles/house_primary_vote.html on Sunday 22 January 2023*
+```{r}
+library(auspol)
+library(tidyverse)
+```
 
 
 **auspol** includes two functions to interact with the preference distribution data:
