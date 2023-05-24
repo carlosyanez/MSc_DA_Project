@@ -8,7 +8,7 @@ editor: visual
 
 The modelling is composed of two stages. As a first step, electorates will be clustered, which will be used as an additional variable for a regression/interpretation model.
 
-The last election will be removed from training data - it will be used as validation later .
+The last election will be removed from dataseting data - it will be used as validation later .
 
 Clustering will attempt to identify similar electorates from a demopgrahic PoV.
 
@@ -40,8 +40,7 @@ dataset <- read_csv(here("4. Data","consolidated.csv")) |>
           select(-any_of(parties))
 
 
-train <- dataset |> filter(election_year!=2022) 
-test  <- dataset |> filter(election_year==2022)
+dataset <- dataset |> filter(election_year!=2022) 
 
 ```
 
@@ -49,11 +48,11 @@ create clustering set, create groups for MFA
 
 ```{r}
 
-train_clustering <- train |>
+dataset_clustering <- dataset |>
                     mutate(Division = glue("{DivisionNm}_{election_year}"),
                            .keep = "unused")
 
-groups <- colnames( train_clustering |>
+groups <- colnames( dataset_clustering |>
                     select(-any_of(c("StateAb","Metro_Area",
                                      "Year","Division")),
                     -any_of(parties))) |>
@@ -76,7 +75,7 @@ groups <- groups|>
 MFA
 
 ```{r}
-transform_pred <- MFA(train_clustering |>
+transform_pred <- MFA(dataset_clustering |>
                        select(-any_of(c("StateAb","Metro_Area","Year")),
                               -any_of(parties)) |>
                        remove_rownames() |>
@@ -214,7 +213,7 @@ names(clusters_colours) <- clusters_names
 base_plots <- fs::dir_create(here("6. Modelling","clustering_plots"))
 
 
-electorates <-  train |>
+electorates <-  dataset |>
     distinct(Metro_Area,DivisionNm) |>
     mutate(ced = glue("{Metro_Area} - {DivisionNm}")) |>
     pull(ced)
@@ -224,7 +223,7 @@ for(electorate in electorates){
   
   ced_dir <- fs::dir_create(fs::path(base_plots,electorate))
 
-  ced_data <- train |>
+  ced_data <- dataset |>
     mutate(ced = glue("{Metro_Area} - {DivisionNm}")) |>
     filter(ced==electorate) |>
     select(-matches("Metro"),-any_of(c("Year","StateAb"))) |>
@@ -308,7 +307,7 @@ nationals <- read_csv(here("4. Data","national_values.csv")) |>
                     Attribute=str_replace_all(Attribute," ","_"))
 
 
-train_clustering <- train_clustering |>
+dataset_clustering <- dataset_clustering |>
   pivot_longer(-c(Division,Metro,Metro_Area,Year,StateAb),
                names_to = "Attribute",values_to = "CED") |>
   left_join(nationals,
@@ -318,10 +317,39 @@ train_clustering <- train_clustering |>
 
 ```
 
-##  MFA
+## MFA
 
 ```{r}
-transform_pred <- MFA(train_clustering |>                        select(-any_of(c("StateAb","Metro_Area","Year","Metro")),                               -any_of(parties)) |>                        remove_rownames() |>                        column_to_rownames(var="Division"),                        group=groups$n,                        ncp=10,                        type=c(rep("c",8),"n"),                        name.group =groups$group,                        graph=FALSE)
+groups <- colnames( dataset_clustering |>
+                    select(-any_of(c("StateAb","Metro_Area",
+                                     "Year","Division")),
+                    -any_of(parties))) |>
+          as_tibble() |>
+          mutate(group=case_when(
+            str_detect(value,"_") ~  str_extract(value, "^([^_]+)"),
+            TRUE ~ value
+          )) 
+
+group_order <- distinct(groups,group) |> mutate(order=row_number())
+
+groups <- groups|>
+  group_by(group) |>
+  summarise(n=n(),.groups="drop") |>
+  left_join(group_order,by="group") |>
+  arrange(order)
+```
+
+```{r}
+transform_pred <- MFA(dataset_clustering |>
+                       select(-any_of(c("StateAb","Metro_Area","Year")),
+                              -any_of(parties)) |>
+                       remove_rownames() |>
+                       column_to_rownames(var="Division"),
+                       group=groups$n,
+                       ncp=10,
+                       type=c("n",rep("c",8)),
+                       name.group =groups$group,
+                       graph=FALSE)
 ```
 
 ```{r}
@@ -329,7 +357,10 @@ fviz_screeplot(transform_pred)
 ```
 
 ```{r}
-transform_pred$eig |>    as_tibble() |>   mutate(Dimension=glue("Dim {row_number()}"), .before=1) |>   gt()
+transform_pred$eig |>   
+  as_tibble() |>  
+  mutate(Dimension=glue("Dim {row_number()}"), .before=1) |>
+  gt()
 ```
 
 ```{r}
@@ -338,4 +369,241 @@ fviz_mfa_var(transform_pred)
 
 No clearly interpretable dimensions but:
 
--   
+-   90% of variance explained by 6 variables
+
+## DBSCAN and HDBSCAN
+
+#### 
+
+```{r}
+kNNdistplot(transform_pred$ind$coord[1:6,],5)
+```
+
+```{r}
+clustering <- dbscan(transform_pred$ind$coord[,1:6],eps=4,minPts = 40) 
+
+clustering
+```
+
+All variations of dbscan only provides 2 clusters max, most datapoints mapped against one cluster. From base knowledge perhaps it be worthy to identify more clusters. Let's try hdbscan
+
+```{r}
+clustering <- dbscan::hdbscan(transform_pred$ind$coord,15,gen_hdbscan_tree=FALSE)  
+clustering
+```
+
+```{r}
+clusters <- tibble(ID=rownames(transform_pred$ind$coord),                    cluster = clustering$cluster) |>             separate("ID",c("DivisionNm","Year"),sep="_") |>             mutate(Year=as.numeric(Year)) |>             left_join(dataset |>                          select(DivisionNm,Year=election_year, Metro_Area),                       by=c("DivisionNm","Year")) 
+```
+
+```{r}
+plot(clustering)
+```
+
+Let's see how this clusters map in 2016
+
+```{r}
+
+library(leaflet)
+
+clusters_names   <- sort(unique(clustering$cluster))
+
+clusters_colours <- ochRe::ochre_palettes[["lorikeet"]][1:length(clusters_names)]
+pal <- colorFactor(clusters_colours, clusters_names)
+names(clusters_colours) <- str_c("cluster ",clusters_names)
+```
+
+```{r}
+
+df2016 <-
+  sf::st_read(here("4. Data","CED_2016.gpkg"))|>  
+  mutate(DivisionNm = if_else(DivisionNm=="Fraser","Fraser (I)",DivisionNm))  |>
+  left_join(clusters |> filter(Year==2016),                  by="DivisionNm") 
+
+
+df2016 |>   leaflet() |>  
+  addPolygons(stroke = FALSE, smoothFactor = 0.3, fillOpacity = 1,     fillColor = ~pal(cluster),     label = ~glue::glue("{DivisionNm}: {cluster}")) |> 
+  addLegend(pal = pal, values = ~cluster, opacity = 1.0)
+```
+
+```{r}
+df2010 <-
+  sf::st_read(here("4. Data","CED_2011.gpkg"))|> 
+  mutate(DivisionNm = if_else(DivisionNm=="Fraser","Fraser (I)",DivisionNm))  |>
+  left_join(clusters |> filter(Year==2010),                  by="DivisionNm") 
+
+
+df2010 |>   leaflet() |>  
+  addPolygons(stroke = FALSE, smoothFactor = 0.3, fillOpacity = 1,     fillColor = ~pal(cluster),     label = ~glue::glue("{DivisionNm}: {cluster}")) |> 
+  addLegend(pal = pal, values = ~cluster, opacity = 1.0)
+```
+
+```{r}
+df2007 <-
+  sf::st_read(here("4. Data","CED_2006.gpkg"))|>
+  filter(DivisionNm!="Not Applicable")         |>
+  mutate(DivisionNm=if_else(DivisionNm=="Fraser","Fraser (I)",DivisionNm)) |>
+  left_join(clusters |> filter(Year==2007),                  by="DivisionNm") 
+
+
+df2007 |>   leaflet() |>  
+  addPolygons(stroke = FALSE, smoothFactor = 0.3, fillOpacity = 1,     fillColor = ~pal(cluster),     label = ~glue::glue("{DivisionNm}: {cluster}")) |> 
+  addLegend(pal = pal, values = ~cluster, opacity = 1.0)
+```
+
+Changes over time in capital cities
+
+```{r}
+allmaps <- bind_rows(df2007,df2010,df2016)
+```
+
+```{r}
+
+metro <- "Melbourne"
+allmaps |> 
+  filter(str_detect(Metro_Area,metro)) |>
+  mutate(cluster=glue("cluster {cluster}")) |>
+  select(DivisionNm,cluster,Year) |>
+  ggplot(aes(fill=cluster)) +
+  geom_sf(colour="grey70") +
+  facet_wrap(~ Year) +
+  theme_void() +
+  scale_fill_manual(values = clusters_colours) +
+  labs(title=metro)
+  
+```
+
+```{r}
+metro <- "Sydney"
+allmaps |> 
+  filter(str_detect(Metro_Area,metro)) |>
+  mutate(cluster=glue("cluster {cluster}")) |>
+  select(DivisionNm,cluster,Year) |>
+  ggplot(aes(fill=cluster)) +
+  geom_sf() +
+  facet_wrap(~ Year) +
+  theme_void() +
+  scale_fill_manual(values=clusters_colours) +
+  labs(title=metro)
+```
+
+```{r}
+metro <- "Brisbane"
+allmaps |> 
+  filter(str_detect(Metro_Area,metro)) |>
+  mutate(cluster=glue("cluster {cluster}")) |>
+  select(DivisionNm,cluster,Year) |>
+  ggplot(aes(fill=cluster)) +
+  geom_sf() +
+  facet_wrap(~ Year) +
+  theme_void() +
+  scale_fill_manual(values=clusters_colours) +
+  labs(title=metro)
+```
+
+```{r}
+clustering_img <- fs::dir_create(here("6. Modelling","clustering_img"))
+
+p <-list()
+for(group in groups$group[str_detect(groups$group,"Metro",TRUE)]){
+  
+  p[[length(p)+1]] <- dataset_clustering |>
+    separate(Division,c("Division","Year"),sep="_") |>
+    mutate(Year=as.numeric(Year)) |>
+    select(any_of(c("Division","Year")),matches(glue::glue("^{group}"))) |>
+    pivot_longer(-c(Division,Year),names_to="Attribute",values_to="Value") |>
+    left_join(clusters,
+              by=c("Division"="DivisionNm","Year"="Year")) |>
+    mutate(cluster=glue("cluster {cluster}")) |>
+    ggplot(aes(y=Attribute,colour=cluster,x=Value),alpha=0.5) +
+    ggbeeswarm::geom_quasirandom() +
+    theme_minimal()+
+    scale_colour_manual(values=clusters_colours) +
+    #facet_wrap(Year ~. , nrow = 1) +
+    labs(title = group)
+  
+  
+  
+}
+
+
+
+```
+
+```{r}
+p[[1]]
+```
+
+```{r}
+p[[2]]
+```
+
+```{r}
+p[[3]]
+```
+
+```{r}
+p[[4]]
+```
+
+```{r}
+p[[5]]
+```
+
+```{r}
+p[[7]]
+```
+
+```{r}
+p[[8]]
+```
+
+```{r}
+p[[8]]
+```
+
+### Can I code the results in a simple classification algorithm?
+
+```{r}
+
+library(rpart)
+library(rsample)
+
+cluster_classification <- dataset_clustering |>
+    separate(Division,c("Division","Year"),sep="_") |>
+    mutate(Year=as.numeric(Year)) |>
+    left_join(clusters |> select(-Metro_Area),
+              by=c("Division"="DivisionNm","Year"="Year")) |>
+  select(-any_of(c("Division","Year","Metro_Area","StateAb"))) |>
+  mutate(cluster =as.character(cluster))
+
+
+split <- initial_split(cluster_classification)
+training <- training(split)
+testing <-  testing(split)
+
+tree <- rpart(cluster ~ .,training)
+
+tree
+```
+
+```{r}
+rpart.plot::prp(tree)
+```
+
+```{r}
+
+preds <- predict(tree,testing |> select(-cluster),type="vector")
+
+
+tibble(pred=preds,
+       response=testing(split)$cluster) |>
+  mutate(result=(pred==response)) |>
+  summarise(accuracy=mean(result))
+```
+
+This is bad, let's try random forests
+
+```{r}
+library(rand)
+```

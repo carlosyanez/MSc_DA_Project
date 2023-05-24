@@ -119,7 +119,7 @@ census_tables  <- list_census_tables() |>
 
 #extract
 
-age <- extract_census_ced(census_tables,census_years,levels)
+age <- extract_census_ced(census_tables,as.numeric(census_years),levels)
 dbWriteTable(mydb, "age", age,overwrite=TRUE)
 
 

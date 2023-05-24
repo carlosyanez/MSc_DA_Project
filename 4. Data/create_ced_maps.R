@@ -22,7 +22,7 @@ for(year in years){
   
   
   map_l <- map |>
-          leaflet()  |>
+          leaflet() |>
           addTiles() |>
           addPolygons(fillColor = "blue",
                       fillOpacity = 0.4,
@@ -75,3 +75,35 @@ saveWidget(map_l,
            selfcontained = FALSE)
 
 st_write(ced2021,here("4. Data",glue("CED_2021.gpkg")),delete_dsn = TRUE)
+
+
+#upload
+
+library(piggyback)
+library(zip)
+library(fs)
+library(here)
+
+repo           <- "carlosyanez/MSc_DA_Project"
+version       <- "data"
+
+#create new release
+tryCatch(pb_new_release(repo,version),
+         error=function(e){cat("ERROR :",conditionMessage(e), "\n")})
+
+
+files <- dir_ls(here("4. Data"),regexp = "gpkg")
+for(file in files) {
+  #list and zip files
+  run_folder <- path_dir(file)
+  file_base  <- path_file(file)
+  
+  zip_file <- path(glue::glue("{file}.zip"))
+  
+  zip(zip_file, file, mode = "cherry-pick")
+  
+  # upload catalogue items ---
+  pb_upload(file = zip_file, repo, version)
+  file_delete(zip_file)
+}
+

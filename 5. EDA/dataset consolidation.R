@@ -376,4 +376,32 @@ nationals |>
 #disconnect
 dbDisconnect(source_db, shutdown=TRUE)
 
+##upload dataset
 
+rm(list=ls())
+
+library(piggyback)
+library(fs)
+library(zip)
+
+repo           <- "carlosyanez/MSc_DA_Project"
+version       <- "data"
+
+#create new release
+tryCatch(pb_new_release(repo,version),
+         error=function(e){cat("ERROR :",conditionMessage(e), "\n")})
+
+files <- dir_ls(here("4. Data"),regexp = "csv")
+for(file in files) {
+  #list and zip files
+  run_folder <- path_dir(file)
+  file_base  <- path_file(file)
+  
+  zip_file <- path(glue::glue("{file}.zip"))
+  
+  zip(zip_file, file, mode = "cherry-pick")
+  
+  # upload catalogue items ---
+  pb_upload(file = zip_file, repo, version)
+  file_delete(zip_file)
+}
