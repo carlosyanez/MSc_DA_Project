@@ -1,0 +1,61 @@
+---
+title: "cluster_classifier"
+format: html
+editor: visual
+---
+
+```{r}
+library(tidyverse)
+library(tidymodels)
+library(here)
+
+```
+
+```{r}
+
+
+nationals <- read_csv(here("4. Data","national_values.csv")) |>
+             filter(Year!=2021) |>
+             pivot_longer(-Year, names_to = "Attribute",values_to="National") |>
+             mutate(Attribute=str_replace_all(Attribute," - ","_"),
+                    Attribute=str_replace_all(Attribute,"-","_"),
+                    Attribute=str_squish(Attribute),
+                    Attribute=str_replace_all(Attribute," ","_"))
+
+
+dataset <- read_csv(here("4. Data","consolidated.csv"))      |>
+           select(-any_of(c("ALP","COAL","GRN","Other")))    |>
+           filter(election_year!=2022)                       |>
+           select(-any_of(c("Metro_Area",
+                            "StateAb","Year")))     |>
+           mutate(Division = str_c(DivisionNm,"-",election_year),
+                  .keep="unused",.before=1)                  |>
+           mutate(Metro=case_when(
+             Metro=="Yes" ~ 1,
+             Metro=="No"  ~ 0
+            ),.keep="unused") 
+
+
+clusters <- read_csv(here("4. Data","clusters.csv"))         |>
+            mutate(Division = str_c(DivisionNm,"-",Year),
+                             .keep="unused")                 |>
+            select(-any_of(c("Metro_Area")))
+
+
+dataset <- dataset |>
+           left_join(clusters,by="Division") |>
+           relocate(cluster,.after=1)
+
+```
+
+```{r}
+set.seed(1234)
+split <- initial_split(dataset,prop=0.8)
+
+training <- training(split) 
+testing  <- testing(split)
+
+
+```
+
+## rpart decision tree

@@ -562,48 +562,10 @@ p[[8]]
 p[[8]]
 ```
 
-### Can I code the results in a simple classification algorithm?
+### 
+
+Save clusters
 
 ```{r}
-
-library(rpart)
-library(rsample)
-
-cluster_classification <- dataset_clustering |>
-    separate(Division,c("Division","Year"),sep="_") |>
-    mutate(Year=as.numeric(Year)) |>
-    left_join(clusters |> select(-Metro_Area),
-              by=c("Division"="DivisionNm","Year"="Year")) |>
-  select(-any_of(c("Division","Year","Metro_Area","StateAb"))) |>
-  mutate(cluster =as.character(cluster))
-
-
-split <- initial_split(cluster_classification)
-training <- training(split)
-testing <-  testing(split)
-
-tree <- rpart(cluster ~ .,training)
-
-tree
-```
-
-```{r}
-rpart.plot::prp(tree)
-```
-
-```{r}
-
-preds <- predict(tree,testing |> select(-cluster),type="vector")
-
-
-tibble(pred=preds,
-       response=testing(split)$cluster) |>
-  mutate(result=(pred==response)) |>
-  summarise(accuracy=mean(result))
-```
-
-This is bad, let's try random forests
-
-```{r}
-library(rand)
+write_csv(clusters,here("4. Data","clusters.csv"))
 ```
