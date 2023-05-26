@@ -49,9 +49,15 @@ packages_to_install <- tibble::tribble(
 "glmnet",                     "CRAN",         "",
 "tidymodels",                 "CRAN",         "",
 "rpart",                      "CRAN",         "",
+"rpart.plot",                 "CRAN",         "",
 "randomForest",               "CRAN",         "",
-"ranger",                      "CRAN",         "",
+"ranger",                     "CRAN",         "",
+"xgboost",                    "CRAN",         "",
+"discrim",                    "CRAN",         "",
+"klaR",                       "CRAN",         "",
+"vip",                        "CRAN",         "",
 )
+
 
 #duckdb does not guarantee backwards compatility,install the right version:
 remotes::install_version("duckdb", version = "0.6.0", repos = "http://cran.us.r-project.org")
