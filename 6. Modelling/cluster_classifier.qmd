@@ -171,7 +171,7 @@ tune_spec <-
       trees = tune(),
       min_n = tune()
   ) %>% 
-  set_engine("ranger") %>% 
+  set_engine("ranger",importance="impurity") %>% 
   set_mode("classification")
 
 tune_spec
@@ -194,7 +194,7 @@ tree_res <- workflow() |>
 
 set.seed(345)
 tune_res <- tune_grid(
-  tree_wf,
+  tree_res,
   resamples = cell_folds,
   grid = 20
 )
@@ -203,21 +203,9 @@ tune_res
 ```
 
 ```{r}
-tune_res %>%
-  collect_metrics() %>%
-  mutate(tree_depth = factor(tree_depth)) %>%
-  ggplot(aes(cost_complexity, mean, color = tree_depth)) +
-  geom_line(linewidth = 1.5, alpha = 0.6) +
-  geom_point(size = 2) +
-  facet_wrap(~ .metric, scales = "free", nrow = 2) +
-  scale_x_log10(labels = scales::label_number()) +
-  scale_color_viridis_d(option = "plasma", begin = .9, end = 0)
-
-```
-
-```{r}
 tune_res |>
   show_best("accuracy")
+
 ```
 
 ```{r}
@@ -225,7 +213,7 @@ best_tree <- tune_res %>%
   select_best("accuracy")
 
 final_wf <- 
-  tree_wf %>% 
+  tree_res %>% 
   finalize_workflow(best_tree)
 
 final_wf
@@ -246,7 +234,7 @@ library(vip)
 
 extract_workflow(ranger_model) |>
   extract_fit_parsnip() |>
-  vip()##
+  vip()
 ```
 
 
@@ -289,7 +277,7 @@ tree_res <- workflow() |>
 
 set.seed(345)
 tune_res <- tune_grid(
-  tree_wf,
+  tree_res,
   resamples = cell_folds,
   grid = 20
 )
@@ -298,25 +286,50 @@ tune_res
 ```
 
 ```{r}
-tune_res %>%
-  collect_metrics() %>%
-  mutate(tree_depth = factor(tree_depth)) %>%
-  ggplot(aes(cost_complexity, mean, color = tree_depth)) +
-  geom_line(linewidth = 1.5, alpha = 0.6) +
-  geom_point(size = 2) +
-  facet_wrap(~ .metric, scales = "free", nrow = 2) +
-  scale_x_log10(labels = scales::label_number()) +
-  scale_color_viridis_d(option = "plasma", begin = .9, end = 0)
-
+tune_res |>
+  show_best("accuracy")
 ```
+
+```{r}
+best_tree <- tune_res %>%
+  select_best("accuracy")
+
+final_wf <- 
+  tree_wf %>% 
+  finalize_workflow(best_tree)
+
+final_wf
+```
+
+```{r}
+
+ranger_model <- 
+  final_wf |>
+  last_fit(split) 
+
+ranger_model |>
+    collect_metrics()
+```
+
+```{r}
+library(vip)
+
+extract_workflow(ranger_model) |>
+  extract_fit_parsnip() |>
+  vip()##
+```
+
+
 ## Naive Bayes
 
 ```{r}
 
+library(discrim)
+
 tune_spec <- 
   naive_Bayes(smoothness = tune(),
               Laplace = tune()) %>% 
-  set_engine("klaR") 
+  set_engine("naivebayes") 
 
 tune_spec
 ```
@@ -338,7 +351,7 @@ tree_res <- workflow() |>
 
 set.seed(345)
 tune_res <- tune_grid(
-  tree_wf,
+  tree_res,
   resamples = cell_folds,
   grid = 20
 )
@@ -347,16 +360,78 @@ tune_res
 ```
 
 ```{r}
-tune_res %>%
-  collect_metrics() %>%
-  mutate(tree_depth = factor(tree_depth)) %>%
-  ggplot(aes(cost_complexity, mean, color = tree_depth)) +
-  geom_line(linewidth = 1.5, alpha = 0.6) +
-  geom_point(size = 2) +
-  facet_wrap(~ .metric, scales = "free", nrow = 2) +
-  scale_x_log10(labels = scales::label_number()) +
-  scale_color_viridis_d(option = "plasma", begin = .9, end = 0)
+tune_res |>
+  show_best("accuracy")
+```
 
+```{r}
+best_tree <- tune_res %>%
+  select_best("accuracy")
+
+final_wf <- 
+  tree_wf %>% 
+  finalize_workflow(best_tree)
+
+final_wf
+```
+
+```{r}
+
+ranger_model <- 
+  final_wf |>
+  last_fit(split) 
+
+ranger_model |>
+    collect_metrics()
+```
+
+```{r}
+library(vip)
+
+extract_workflow(ranger_model) |>
+  extract_fit_parsnip() |>
+  vip()##
+```
+
+# multinomial regression with elastic net
+```{r}
+
+
+tune_spec <- 
+  multinom_reg(
+  mode = "classification",
+  engine = "nnet",
+  penalty = tune(),
+  mixture = tune()
+) |>
+  set_engine("glmnet") 
+
+tune_spec
+```
+
+```{r}
+
+set.seed(234)
+cell_folds <- vfold_cv(training)
+
+```
+
+```{r}
+set.seed(345)
+
+tree_res <- workflow() |>
+  add_model(tune_spec) |>
+  add_formula(cluster ~ .)
+
+
+set.seed(345)
+tune_res <- tune_grid(
+  tree_res,
+  resamples = cell_folds,
+  grid = 20
+)
+
+tune_res
 ```
 
 ```{r}

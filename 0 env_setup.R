@@ -55,6 +55,8 @@ packages_to_install <- tibble::tribble(
 "xgboost",                    "CRAN",         "",
 "discrim",                    "CRAN",         "",
 "klaR",                       "CRAN",         "",
+"naivebayes",                 "CRAN",         "",
+"nnet",                       "CRAN",         "",
 "vip",                        "CRAN",         "",
 )
 
