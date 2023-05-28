@@ -1,6 +1,12 @@
 ---
 title: "Clustering"
-format: html
+format:
+  html:
+    code-fold: true
+    code-summary: "Show the code"
+    toc: true
+    toc-location: left
+    df_print: kable
 editor: visual
 ---
 
@@ -260,36 +266,6 @@ p <- ced_data |>
 ggsave(fs::path(ced_dir,glue("{electorate} - {category}.png")),p)
 }
 }
-```
-
-### BIRCH clustering
-
-```{r}
-library(stream)
-
-BIRCH <- DSC_BIRCH(threshold = .1, branching = 8, maxLeaf = 40)
-
-update(BIRCH, transform_pred$ind$coord, n = 500)
-
-BIRCH$RObj$initFields
-```
-
-```{python}
-import pandas as pd
-
-```
-
-```{r}
-library(reticulate)
-reticulate::py_install("sklearn")
-```
-
-```{python}
-from sklearn.cluster import Birch
-
-X = [[0, 1], [0.3, 1], [-0.3, 1], [0, -1], [0.3, -1], [-0.3, -1]]
-brc = Birch(n_clusters=None)
-brc.fit(X)
 ```
 
 ## Second attempt, clustering on differences

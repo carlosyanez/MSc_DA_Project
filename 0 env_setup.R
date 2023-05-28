@@ -58,6 +58,9 @@ packages_to_install <- tibble::tribble(
 "naivebayes",                 "CRAN",         "",
 "nnet",                       "CRAN",         "",
 "vip",                        "CRAN",         "",
+"NeuralNetTools",             "CRAN",         "",
+"butcher",                    "CRAN",         "",
+"lobstr",                     "CRAN",         ""
 )
 
 
