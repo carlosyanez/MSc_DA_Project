@@ -1,0 +1,36 @@
+---
+title: "cluster_classifier"
+editor: visual
+format:
+  html:
+    code-fold: true
+    code-summary: "Show the code"
+    toc: true
+    toc-location: left
+    df-print: paged
+---
+
+# Setup and load data
+
+```{r}
+library(tidyverse)
+library(tidymodels)
+library(here)
+```
+
+```{r}
+dataset <- read_csv(here("4. Data","consolidated.csv"))      |>
+           select(-any_of(c("ALP","COAL","GRN","Other")))    |>
+           filter(election_year!=2022)                       |>
+           select(-any_of(c("Metro_Area","Year")))              |>
+           mutate(Division = str_c(DivisionNm,"-",election_year),
+                  .keep="unused",.before=1)                  |>
+            mutate(across(where(is.numeric), ~ replace_na(.x,0)))
+
+
+clusters <- read_csv(here("4. Data","clusters.csv"))         |>
+            mutate(Division = str_c(DivisionNm,"-",Year),
+                             .keep="unused")                 |>
+            select(-any_of(c("Metro_Area")))
+```
+

@@ -1,0 +1,170 @@
+---
+title: "cluster_classifier"
+editor: visual
+format:
+  html:
+    code-fold: true
+    code-summary: "Show the code"
+    toc: true
+    toc-location: left
+    df-print: kable
+---
+
+```{r}
+library(tidyverse)
+library(tidymodels)
+library(here)
+
+
+```
+
+```{r}
+
+
+nationals <- read_csv(here("4. Data","national_values.csv")) |>
+             filter(Year!=2021) |>
+             pivot_longer(-Year, names_to = "Attribute",values_to="National") |>
+             mutate(Attribute=str_replace_all(Attribute," - ","_"),
+                    Attribute=str_replace_all(Attribute,"-","_"),
+                    Attribute=str_squish(Attribute),
+                    Attribute=str_replace_all(Attribute," ","_"))
+
+
+dataset <- read_csv(here("4. Data","consolidated.csv"))      |>
+           select(-any_of(c("ALP","COAL","GRN","Other")))    |>
+           filter(election_year!=2022)                       |>
+           select(-any_of(c("Metro_Area",
+                            "StateAb","Year")))     |>
+           mutate(Division = str_c(DivisionNm,"-",election_year),
+                  .keep="unused",.before=1)                  |>
+           mutate(Metro=case_when(
+             Metro=="Yes" ~ 1,
+             Metro=="No"  ~ 0
+            ),.keep="unused") |>
+            mutate(across(where(is.numeric), ~ replace_na(.x,0)))
+
+
+clusters <- read_csv(here("4. Data","clusters.csv"))         |>
+            mutate(Division = str_c(DivisionNm,"-",Year),
+                             .keep="unused")                 |>
+            select(-any_of(c("Metro_Area")))
+
+
+dataset <- dataset |>
+           left_join(clusters,by="Division") |>
+           relocate(cluster,.after=1)        |>
+           mutate(cluster=as_factor(cluster)) |>
+           column_to_rownames("Division")
+
+### leave just selected columns
+
+dataset <- dataset |>
+           select(any_of(c("cluster","Language_English_Only","Metro")),
+                  any_of(c("Household_Flat",
+                           "Household_Standalone",
+                           "Household_Owned_with_a_mortgage",
+                           "Relationship_Non_dependent_Child",
+                           "Relationship_Group_Household",
+                           "Relationship_Child_under_15")))
+
+
+rm(clusters,nationals)
+
+```
+
+```{r}
+set.seed(1234)
+split <- initial_split(dataset,prop=0.8)
+
+training <- training(split) 
+testing  <- testing(split)
+
+```
+
+## random forest decision tree
+
+```{r}
+
+tune_spec <- 
+  rand_forest(
+      mtry = tune(),
+      trees = tune(),
+      min_n = tune()
+  ) %>% 
+  set_engine("ranger",importance="impurity") %>% 
+  set_mode("classification")
+
+tune_spec
+```
+
+```{r}
+
+
+set.seed(234)
+cell_folds <- vfold_cv(training)
+
+```
+
+```{r}
+set.seed(345)
+
+tree_res <- workflow() |>
+  add_model(tune_spec) |>
+  add_formula(cluster ~ .)
+
+
+set.seed(345)
+tune_res <- tune_grid(
+  tree_res,
+  resamples = cell_folds,
+  grid = 20
+)
+
+
+```
+
+```{r}
+tune_res |>
+  show_best("accuracy")
+
+```
+
+```{r}
+best_tree <- tune_res %>%
+  select_best("accuracy")
+
+final_wf <- 
+  tree_res %>% 
+  finalize_workflow(best_tree)
+
+final_wf
+```
+
+```{r}
+
+ranger_model <- 
+  final_wf |>
+  last_fit(split) 
+
+ranger_model |>
+    collect_metrics()
+```
+
+```{r}
+library(vip)
+
+extract_workflow(ranger_model) |>
+  extract_fit_parsnip() |>
+  vip()
+```
+
+# Save
+
+```{r}
+library(fs)
+clustering_folder <- fs::dir_create(here("6. Modelling","clustering_models"))
+
+saveRDS(ranger_model,path(clustering_folder,"clustering_ranger_redux.rds"))
+
+
+```
