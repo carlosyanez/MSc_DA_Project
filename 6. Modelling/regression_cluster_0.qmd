@@ -1,0 +1,92 @@
+---
+title: "Regression cluster0"
+editor: visual
+format:
+  html:
+    code-fold: true
+    code-summary: "Show the code"
+    toc: true
+    toc-location: left
+    df-print: paged
+---
+
+# Setup and load data
+
+```{r}
+library(tidyverse)
+library(tidymodels)
+library(here)
+library(gt)
+library(joinet)
+source(here("6. Modelling","glmnet_functions.R"))
+```
+
+```{r}
+dataset <- read_csv(here("4. Data","consolidated.csv"))      |>
+           filter(election_year!=2022)                       |>
+           select(-any_of(c("Metro_Area","Year")))              |>
+           mutate(Division = str_c(DivisionNm,"-",election_year),
+                  .keep="unused",.before=1)                  |>
+            mutate(across(where(is.numeric), ~ replace_na(.x,0)))
+
+
+clusters <- read_csv(here("4. Data","clusters.csv"))         |>
+            mutate(Division = str_c(DivisionNm,"-",Year),
+                             .keep="unused")                 |>
+            select(-any_of(c("Metro_Area")))
+
+
+dataset <- dataset |>
+           left_join(clusters,by="Division")
+
+rm(clusters)
+
+party_cols <- c("GRN","ALP","COAL","Other")
+
+dataset <- dataset |>
+          filter(cluster==0) |>
+          select(-any_of(c("cluster")))
+
+
+
+dataset |>
+  count(Metro,StateAb) |>
+  pivot_wider(names_from = StateAb,values_from = n) |>
+  gt() |>
+  gt::data_color(columns = 2:9,palette = c("yellow","orange"),
+                 domain = c(0,100))
+
+
+dataset <- dataset |>
+          select(-any_of(c("StateAb","Metro")))
+
+```
+
+
+
+```{r}
+set.seed(24644)
+split <- split_dataset(dataset,train_perc = 0.8,id_col = "Division")
+
+```
+
+```{r}
+lasso_selection <-  lasso_selection(split,"Division",party_cols)
+
+```
+```{r}
+lambda_penalty_plot(lasso_selection$cv,lasso_selection$cv$lambda.1se,legend_y=20)
+```
+
+```{r}
+plot(lasso_selection$cv)
+```
+```{r}
+p <- coef_plot(lasso_selection$cv)
+
+patchwork::wrap_plots(p)
+
+```
+
+
+

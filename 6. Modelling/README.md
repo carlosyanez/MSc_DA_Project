@@ -16,3 +16,6 @@ clustering is a intermediate step. See project documentation
 
 ## Regression
 
+| QMD | Description|
+|----|----|
+|| regression_lasso_pas1 | first "naive" run |
