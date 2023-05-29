@@ -54,13 +54,16 @@ data_0 <- dataset |>
 
 
 
-data_0 |>
+table <- data_0 |>
   count(Metro,StateAb) |>
-  pivot_wider(names_from = StateAb,values_from = n) |>
-  gt() |>
-  gt::data_color(columns = 2:9,palette = c("yellow","orange"),
-                 domain = c(0,100))
+  pivot_wider(names_from = StateAb,values_from = n) 
 
+
+
+table|>
+  gt() |>
+  data_color(columns = 2:ncol(table),palette = c("yellow","orange"),
+                 domain = c(0,100))
 ```
 
 
@@ -128,12 +131,14 @@ data_1 <- dataset |>
           select(-cluster)
 
 
-
+table <-
 data_1 |>
   count(Metro,StateAb) |>
-  pivot_wider(names_from = StateAb,values_from = n) |>
+  pivot_wider(names_from = StateAb,values_from = n)
+
+table|>
   gt() |>
-  gt::data_color(columns = 2:9,palette = c("yellow","orange"),
+  data_color(columns = 2:ncol(table),palette = c("yellow","orange"),
                  domain = c(0,100))
 
 ```
@@ -205,11 +210,13 @@ data_2 <- dataset |>
 
 
 
-data_2 |>
+table <- data_2 |>
   count(Metro,StateAb) |>
-  pivot_wider(names_from = StateAb,values_from = n) |>
+  pivot_wider(names_from = StateAb,values_from = n) 
+
+table|>
   gt() |>
-  gt::data_color(columns = 2:9,palette = c("yellow","orange"),
+  data_color(columns = 2:ncol(table),palette = c("yellow","orange"),
                  domain = c(0,100))
 
 ```

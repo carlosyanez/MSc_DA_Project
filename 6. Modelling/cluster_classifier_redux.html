@@ -79,7 +79,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#random-forest-decision-tree" id="toc-random-forest-decision-tree" class="nav-link active" data-scroll-target="#random-forest-decision-tree">random forest decision tree</a></li>
+  <li><a href="#can-we-reduce-the-number-of-input-variables" id="toc-can-we-reduce-the-number-of-input-variables" class="nav-link active" data-scroll-target="#can-we-reduce-the-number-of-input-variables">Can we reduce the number of input variables?</a></li>
+  <li><a href="#accuracy-deep-down" id="toc-accuracy-deep-down" class="nav-link" data-scroll-target="#accuracy-deep-down">Accuracy Deep down</a></li>
+  <li><a href="#can-be-improved" id="toc-can-be-improved" class="nav-link" data-scroll-target="#can-be-improved">Can be improved ?</a>
+  <ul class="collapse">
+  <li><a href="#metro" id="toc-metro" class="nav-link" data-scroll-target="#metro">Metro</a></li>
+  <li><a href="#section" id="toc-section" class="nav-link" data-scroll-target="#section"></a></li>
+  <li><a href="#back-to-decision-tree-classifier" id="toc-back-to-decision-tree-classifier" class="nav-link" data-scroll-target="#back-to-decision-tree-classifier">Back to decision Tree classifier</a></li>
+  </ul></li>
   <li><a href="#save" id="toc-save" class="nav-link" data-scroll-target="#save">Save</a></li>
   </ul>
 </nav>
@@ -139,7 +146,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 ✖ dplyr::lag()      masks stats::lag()
 ✖ yardstick::spec() masks readr::spec()
 ✖ recipes::step()   masks stats::step()
-• Search for functions across packages at https://www.tidymodels.org/find/</code></pre>
+• Use tidymodels_prefer() to resolve common conflicts.</code></pre>
 </div>
 <details>
 <summary>Code</summary>
@@ -171,18 +178,17 @@ dbl (63): Year, Australian_Citizens, Age - Baby Boomers, Age - Gen X, Age - ...
 </div>
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>dataset <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">here</span>(<span class="st">"4. Data"</span>,<span class="st">"consolidated.csv"</span>))      <span class="sc">|&gt;</span></span>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>dataset_orig <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">here</span>(<span class="st">"4. Data"</span>,<span class="st">"consolidated.csv"</span>))      <span class="sc">|&gt;</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>           <span class="fu">select</span>(<span class="sc">-</span><span class="fu">any_of</span>(<span class="fu">c</span>(<span class="st">"ALP"</span>,<span class="st">"COAL"</span>,<span class="st">"GRN"</span>,<span class="st">"Other"</span>)))    <span class="sc">|&gt;</span></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>           <span class="fu">filter</span>(election_year<span class="sc">!=</span><span class="dv">2022</span>)                       <span class="sc">|&gt;</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>           <span class="fu">select</span>(<span class="sc">-</span><span class="fu">any_of</span>(<span class="fu">c</span>(<span class="st">"Metro_Area"</span>,</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>                            <span class="st">"StateAb"</span>,<span class="st">"Year"</span>)))     <span class="sc">|&gt;</span></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>           <span class="fu">mutate</span>(<span class="at">Division =</span> <span class="fu">str_c</span>(DivisionNm,<span class="st">"-"</span>,election_year),</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>                  <span class="at">.keep=</span><span class="st">"unused"</span>,<span class="at">.before=</span><span class="dv">1</span>)                  <span class="sc">|&gt;</span></span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>           <span class="fu">mutate</span>(<span class="at">Metro=</span><span class="fu">case_when</span>(</span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>             Metro<span class="sc">==</span><span class="st">"Yes"</span> <span class="sc">~</span> <span class="dv">1</span>,</span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>             Metro<span class="sc">==</span><span class="st">"No"</span>  <span class="sc">~</span> <span class="dv">0</span></span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>            ),<span class="at">.keep=</span><span class="st">"unused"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>            <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.numeric), <span class="sc">~</span> <span class="fu">replace_na</span>(.x,<span class="dv">0</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>           <span class="fu">select</span>(<span class="sc">-</span><span class="fu">any_of</span>(<span class="fu">c</span>(<span class="st">"Year"</span>)))     <span class="sc">|&gt;</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>           <span class="fu">mutate</span>(<span class="at">Division =</span> <span class="fu">str_c</span>(DivisionNm,<span class="st">"-"</span>,election_year),</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>                  <span class="at">.keep=</span><span class="st">"unused"</span>,<span class="at">.before=</span><span class="dv">1</span>)                  <span class="sc">|&gt;</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>           <span class="fu">mutate</span>(<span class="at">Metro=</span><span class="fu">case_when</span>(</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>             Metro<span class="sc">==</span><span class="st">"Yes"</span> <span class="sc">~</span> <span class="dv">1</span>,</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>             Metro<span class="sc">==</span><span class="st">"No"</span>  <span class="sc">~</span> <span class="dv">0</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>            ),<span class="at">.keep=</span><span class="st">"unused"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>            <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.numeric), <span class="sc">~</span> <span class="fu">replace_na</span>(.x,<span class="dv">0</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stderr">
 <pre><code>Rows: 601 Columns: 65
@@ -213,7 +219,7 @@ dbl (2): Year, cluster
 </div>
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>dataset <span class="ot">&lt;-</span> dataset <span class="sc">|&gt;</span></span>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>dataset_orig <span class="ot">&lt;-</span> dataset_orig <span class="sc">|&gt;</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>           <span class="fu">left_join</span>(clusters,<span class="at">by=</span><span class="st">"Division"</span>) <span class="sc">|&gt;</span></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>           <span class="fu">relocate</span>(cluster,<span class="at">.after=</span><span class="dv">1</span>)        <span class="sc">|&gt;</span></span>
 <span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>           <span class="fu">mutate</span>(<span class="at">cluster=</span><span class="fu">as_factor</span>(cluster)) <span class="sc">|&gt;</span></span>
@@ -221,7 +227,7 @@ dbl (2): Year, cluster
 <span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="do">### leave just selected columns</span></span>
 <span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>dataset <span class="ot">&lt;-</span> dataset <span class="sc">|&gt;</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>dataset <span class="ot">&lt;-</span> dataset_orig <span class="sc">|&gt;</span></span>
 <span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>           <span class="fu">select</span>(<span class="fu">any_of</span>(<span class="fu">c</span>(<span class="st">"cluster"</span>,<span class="st">"Language_English_Only"</span>,<span class="st">"Metro"</span>)),</span>
 <span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">any_of</span>(<span class="fu">c</span>(<span class="st">"Household_Flat"</span>,</span>
 <span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>                           <span class="st">"Household_Standalone"</span>,</span>
@@ -244,8 +250,8 @@ dbl (2): Year, cluster
 <span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>testing  <span class="ot">&lt;-</span> <span class="fu">testing</span>(split)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<section id="random-forest-decision-tree" class="level2">
-<h2 class="anchored" data-anchor-id="random-forest-decision-tree">random forest decision tree</h2>
+<section id="can-we-reduce-the-number-of-input-variables" class="level2">
+<h2 class="anchored" data-anchor-id="can-we-reduce-the-number-of-input-variables">Can we reduce the number of input variables?</h2>
 <div class="cell">
 <details>
 <summary>Code</summary>
@@ -494,15 +500,838 @@ Attaching package: 'vip'</code></pre>
 </div>
 </div>
 </section>
+<section id="accuracy-deep-down" class="level2">
+<h2 class="anchored" data-anchor-id="accuracy-deep-down">Accuracy Deep down</h2>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>ranger_model<span class="sc">$</span>.predictions[[<span class="dv">1</span>]] <span class="sc">|&gt;</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(.pred_class,cluster)  <span class="sc">|&gt;</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Right=</span>(cluster<span class="sc">==</span>.pred_class)) <span class="sc">|&gt;</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(cluster,Right) <span class="sc">|&gt;</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(cluster) <span class="sc">|&gt;</span></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">n=</span>n<span class="sc">/</span><span class="fu">sum</span>(n)) <span class="sc">|&gt;</span></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">|&gt;</span></span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> <span class="st">"Right"</span>, <span class="at">values_from =</span> <span class="st">"n"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div class="kable-table">
+<table class="table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">cluster</th>
+<th style="text-align: right;">FALSE</th>
+<th style="text-align: right;">TRUE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">0</td>
+<td style="text-align: right;">0.1935484</td>
+<td style="text-align: right;">0.8064516</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">1</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">1.0000000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2</td>
+<td style="text-align: right;">0.1818182</td>
+<td style="text-align: right;">0.8181818</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<p>testing(split)</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>wrong_preds <span class="ot">&lt;-</span> ranger_model<span class="sc">$</span>.predictions[[<span class="dv">1</span>]] <span class="sc">|&gt;</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(.pred_class,cluster)  <span class="sc">|&gt;</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">id=</span><span class="fu">row_number</span>())       <span class="sc">|&gt;</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Right=</span>(cluster<span class="sc">==</span>.pred_class)) <span class="sc">|&gt;</span></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Right<span class="sc">==</span><span class="cn">FALSE</span>)</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>wrong_preds <span class="ot">&lt;-</span>dataset <span class="sc">|&gt;</span></span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">id=</span><span class="fu">row_number</span>()) <span class="sc">|&gt;</span></span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>(id <span class="sc">%in%</span> split<span class="sc">$</span>in_id)) <span class="sc">|&gt;</span></span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">id=</span><span class="fu">row_number</span>()) <span class="sc">|&gt;</span></span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(id <span class="sc">%in%</span> wrong_preds<span class="sc">$</span>id) <span class="sc">|&gt;</span></span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(wrong_preds <span class="sc">|&gt;</span> <span class="fu">select</span>(<span class="sc">-</span>cluster),<span class="at">by=</span><span class="st">"id"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">relocate</span>(.pred_class ,<span class="at">.after=</span><span class="dv">1</span>) <span class="sc">|&gt;</span></span>
+<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>id,<span class="sc">-</span>Right)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+<section id="can-be-improved" class="level1">
+<h1>Can be improved ?</h1>
+<p>Cluster 1 == Non metro?</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>dataset_orig <span class="sc">|&gt;</span> </span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Metro<span class="sc">==</span><span class="dv">0</span>) <span class="sc">|&gt;</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(cluster,StateAb) <span class="sc">|&gt;</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from=</span>StateAb,<span class="at">values_from =</span> n)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div class="kable-table">
+<table class="table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">cluster</th>
+<th style="text-align: right;">NSW</th>
+<th style="text-align: right;">NT</th>
+<th style="text-align: right;">QLD</th>
+<th style="text-align: right;">SA</th>
+<th style="text-align: right;">WA</th>
+<th style="text-align: right;">TAS</th>
+<th style="text-align: right;">VIC</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">1</td>
+<td style="text-align: right;">52</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">38</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">30</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<section id="metro" class="level2">
+<h2 class="anchored" data-anchor-id="metro">Metro</h2>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>dataset_orig <span class="sc">|&gt;</span> </span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Metro<span class="sc">==</span><span class="dv">1</span>) <span class="sc">|&gt;</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(cluster,StateAb) <span class="sc">|&gt;</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from=</span>StateAb,<span class="at">values_from =</span> n)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div class="kable-table">
+<table class="table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">cluster</th>
+<th style="text-align: right;">ACT</th>
+<th style="text-align: right;">NSW</th>
+<th style="text-align: right;">NT</th>
+<th style="text-align: right;">QLD</th>
+<th style="text-align: right;">SA</th>
+<th style="text-align: right;">TAS</th>
+<th style="text-align: right;">VIC</th>
+<th style="text-align: right;">WA</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">0</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">70</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">14</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">39</td>
+<td style="text-align: right;">11</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">21</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">30</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">42</td>
+<td style="text-align: right;">26</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>dataset_metro <span class="ot">&lt;-</span> dataset_orig <span class="sc">|&gt;</span> </span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>                <span class="fu">select</span>(<span class="sc">-</span>Metro_Area,<span class="sc">-</span>StateAb) <span class="sc">|&gt;</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>                <span class="fu">filter</span>(Metro<span class="sc">==</span><span class="dv">1</span>) <span class="sc">|&gt;</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>                <span class="fu">mutate</span>(<span class="at">cluster=</span><span class="fu">fct_drop</span>(cluster))</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>split <span class="ot">&lt;-</span> <span class="fu">initial_split</span>(dataset_metro,<span class="at">prop=</span><span class="fl">0.8</span>)</span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>training <span class="ot">&lt;-</span> <span class="fu">training</span>(split) </span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>testing  <span class="ot">&lt;-</span> <span class="fu">testing</span>(split)</span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a>cell_folds <span class="ot">&lt;-</span> <span class="fu">vfold_cv</span>(training)</span>
+<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a>tune_res <span class="ot">&lt;-</span> <span class="fu">tune_grid</span>(</span>
+<span id="cb32-15"><a href="#cb32-15" aria-hidden="true" tabindex="-1"></a>  tree_res,</span>
+<span id="cb32-16"><a href="#cb32-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">resamples =</span> cell_folds,</span>
+<span id="cb32-17"><a href="#cb32-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">grid =</span> <span class="dv">20</span></span>
+<span id="cb32-18"><a href="#cb32-18" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>i Creating pre-processing data to finalize unknown parameter: mtry</code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>best_tree <span class="ot">&lt;-</span> tune_res <span class="sc">%&gt;%</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select_best</span>(<span class="st">"accuracy"</span>)</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>final_wf <span class="ot">&lt;-</span> </span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>  tree_res <span class="sc">%&gt;%</span> </span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">finalize_workflow</span>(best_tree)</span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>ranger_model_metro <span class="ot">&lt;-</span> </span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>  final_wf <span class="sc">|&gt;</span></span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">last_fit</span>(split) </span>
+<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a>ranger_model_metro <span class="sc">|&gt;</span></span>
+<span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">collect_metrics</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div class="kable-table">
+<table class="table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">.metric</th>
+<th style="text-align: left;">.estimator</th>
+<th style="text-align: right;">.estimate</th>
+<th style="text-align: left;">.config</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">accuracy</td>
+<td style="text-align: left;">binary</td>
+<td style="text-align: right;">0.8135593</td>
+<td style="text-align: left;">Preprocessor1_Model1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">roc_auc</td>
+<td style="text-align: left;">binary</td>
+<td style="text-align: right;">0.8797619</td>
+<td style="text-align: left;">Preprocessor1_Model1</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">extract_workflow</span>(ranger_model_metro) <span class="sc">|&gt;</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">extract_fit_parsnip</span>() <span class="sc">|&gt;</span></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vip</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="cluster_classifier_redux_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="section" class="level2">
+<h2 class="anchored" data-anchor-id="section"></h2>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>dataset_non_metro <span class="ot">&lt;-</span> dataset_orig <span class="sc">|&gt;</span> </span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>                <span class="fu">select</span>(<span class="sc">-</span>Metro_Area,<span class="sc">-</span>StateAb) <span class="sc">|&gt;</span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>                <span class="fu">filter</span>(Metro<span class="sc">==</span><span class="dv">0</span>) <span class="sc">|&gt;</span></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>                <span class="fu">mutate</span>(<span class="at">cluster=</span><span class="fu">fct_drop</span>(cluster))</span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>split <span class="ot">&lt;-</span> <span class="fu">initial_split</span>(dataset_non_metro,<span class="at">prop=</span><span class="fl">0.8</span>)</span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a>training <span class="ot">&lt;-</span> <span class="fu">training</span>(split) </span>
+<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a>testing  <span class="ot">&lt;-</span> <span class="fu">testing</span>(split)</span>
+<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a>cell_folds <span class="ot">&lt;-</span> <span class="fu">vfold_cv</span>(training)</span>
+<span id="cb36-13"><a href="#cb36-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-14"><a href="#cb36-14" aria-hidden="true" tabindex="-1"></a>tune_res <span class="ot">&lt;-</span> <span class="fu">tune_grid</span>(</span>
+<span id="cb36-15"><a href="#cb36-15" aria-hidden="true" tabindex="-1"></a>  tree_res,</span>
+<span id="cb36-16"><a href="#cb36-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">resamples =</span> cell_folds,</span>
+<span id="cb36-17"><a href="#cb36-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">grid =</span> <span class="dv">20</span></span>
+<span id="cb36-18"><a href="#cb36-18" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>i Creating pre-processing data to finalize unknown parameter: mtry</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>! Fold01: internal:
+  There was 1 warning in `dplyr::summarise()`.
+  ℹ In argument: `.estimate = metric_fn(...)`.
+  ℹ In group 1: `mtry = 22`, `trees = 776`, `min_n = 28`.
+  Caused by warning:
+  ! No event observations were detected in `truth` with event level '0'....
+  ℹ In argument: `.estimate = metric_fn(...)`.
+  ℹ In group 1: `mtry = 25`, `trees = 869`, `min_n = 22`.
+  Caused by warning:
+  ! No event observations were detected in `truth` with event level '0'....
+  ℹ In argument: `.estimate = metric_fn(...)`.
+  ℹ In group 1: `mtry = 27`, `trees = 1307`, `min_n = 17`.
+  Caused by warning:
+  ! No event observations were detected in `truth` with event level '0'....
+  ℹ In argument: `.estimate = metric_fn(...)`.
+  ℹ In group 1: `mtry = 29`, `trees = 1708`, `min_n = 18`.
+  Caused by warning:
+  ! No event observations were detected in `truth` with event level '0'....
+  ℹ In argument: `.estimate = metric_fn(...)`.
+  ℹ In group 1: `mtry = 16`, `trees = 43`, `min_n = 25`.
+  Caused by warning:
+  ! No event observations were detected in `truth` with event level '0'....
+  ℹ In argument: `.estimate = metric_fn(...)`.
+  ℹ In group 1: `mtry = 36`, `trees = 1953`, `min_n = 15`.
+  Caused by warning:
+  ! No event observations were detected in `truth` with event level '0'....
+  ℹ In argument: `.estimate = metric_fn(...)`.
+  ℹ In group 1: `mtry = 54`, `trees = 159`, `min_n = 38`.
+  Caused by warning:
+  ! No event observations were detected in `truth` with event level '0'....
+  ℹ In argument: `.estimate = metric_fn(...)`.
+  ℹ In group 1: `mtry = 34`, `trees = 1817`, `min_n = 2`.
+  Caused by warning:
+  ! No event observations were detected in `truth` with event level '0'....
+  ℹ In argument: `.estimate = metric_fn(...)`.
+  ℹ In group 1: `mtry = 48`, `trees = 1563`, `min_n = 8`.
+  Caused by warning:
+  ! No event observations were detected in `truth` with event level '0'....
+  ℹ In argument: `.estimate = metric_fn(...)`.
+  ℹ In group 1: `mtry = 46`, `trees = 1625`, `min_n = 20`.
+  Caused by warning:
+  ! No event observations were detected in `truth` with event level '0'....
+  ℹ In argument: `.estimate = metric_fn(...)`.
+  ℹ In group 1: `mtry = 38`, `trees = 484`, `min_n = 24`.
+  Caused by warning:
+  ! No event observations were detected in `truth` with event level '0'....
+  ℹ In argument: `.estimate = metric_fn(...)`.
+  ℹ In group 1: `mtry = 3`, `trees = 218`, `min_n = 33`.
+  Caused by warning:
+  ! No event observations were detected in `truth` with event level '0'....
+  ℹ In argument: `.estimate = metric_fn(...)`.
+  ℹ In group 1: `mtry = 41`, `trees = 963`, `min_n = 37`.
+  Caused by warning:
+  ! No event observations were detected in `truth` with event level '0'....
+  ℹ In argument: `.estimate = metric_fn(...)`.
+  ℹ In group 1: `mtry = 45`, `trees = 1291`, `min_n = 5`.
+  Caused by warning:
+  ! No event observations were detected in `truth` with event level '0'....
+  ℹ In argument: `.estimate = metric_fn(...)`.
+  ℹ In group 1: `mtry = 51`, `trees = 504`, `min_n = 30`.
+  Caused by warning:
+  ! No event observations were detected in `truth` with event level '0'....
+  ℹ In argument: `.estimate = metric_fn(...)`.
+  ℹ In group 1: `mtry = 12`, `trees = 1059`, `min_n = 35`.
+  Caused by warning:
+  ! No event observations were detected in `truth` with event level '0'....
+  ℹ In argument: `.estimate = metric_fn(...)`.
+  ℹ In group 1: `mtry = 5`, `trees = 1422`, `min_n = 10`.
+  Caused by warning:
+  ! No event observations were detected in `truth` with event level '0'....
+  ℹ In argument: `.estimate = metric_fn(...)`.
+  ℹ In group 1: `mtry = 7`, `trees = 329`, `min_n = 8`.
+  Caused by warning:
+  ! No event observations were detected in `truth` with event level '0'....
+  ℹ In argument: `.estimate = metric_fn(...)`.
+  ℹ In group 1: `mtry = 20`, `trees = 1179`, `min_n = 13`.
+  Caused by warning:
+  ! No event observations were detected in `truth` with event level '0'....
+  ℹ In argument: `.estimate = metric_fn(...)`.
+  ℹ In group 1: `mtry = 12`, `trees = 672`, `min_n = 31`.
+  Caused by warning:
+  ! No event observations were detected in `truth` with event level '0'.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>! Fold02: internal:
+  There was 1 warning in `dplyr::summarise()`.
+  ℹ In argument: `.estimate = metric_fn(...)`.
+  ℹ In group 1: `mtry = 22`, `trees = 776`, `min_n = 28`.
+  Caused by warning:
+  ! No event observations were detected in `truth` with event level '0'....
+  ℹ In argument: `.estimate = metric_fn(...)`.
+  ℹ In group 1: `mtry = 25`, `trees = 869`, `min_n = 22`.
+  Caused by warning:
+  ! No event observations were detected in `truth` with event level '0'....
+  ℹ In argument: `.estimate = metric_fn(...)`.
+  ℹ In group 1: `mtry = 27`, `trees = 1307`, `min_n = 17`.
+  Caused by warning:
+  ! No event observations were detected in `truth` with event level '0'....
+  ℹ In argument: `.estimate = metric_fn(...)`.
+  ℹ In group 1: `mtry = 29`, `trees = 1708`, `min_n = 18`.
+  Caused by warning:
+  ! No event observations were detected in `truth` with event level '0'....
+  ℹ In argument: `.estimate = metric_fn(...)`.
+  ℹ In group 1: `mtry = 16`, `trees = 43`, `min_n = 25`.
+  Caused by warning:
+  ! No event observations were detected in `truth` with event level '0'....
+  ℹ In argument: `.estimate = metric_fn(...)`.
+  ℹ In group 1: `mtry = 36`, `trees = 1953`, `min_n = 15`.
+  Caused by warning:
+  ! No event observations were detected in `truth` with event level '0'....
+  ℹ In argument: `.estimate = metric_fn(...)`.
+  ℹ In group 1: `mtry = 54`, `trees = 159`, `min_n = 38`.
+  Caused by warning:
+  ! No event observations were detected in `truth` with event level '0'....
+  ℹ In argument: `.estimate = metric_fn(...)`.
+  ℹ In group 1: `mtry = 34`, `trees = 1817`, `min_n = 2`.
+  Caused by warning:
+  ! No event observations were detected in `truth` with event level '0'....
+  ℹ In argument: `.estimate = metric_fn(...)`.
+  ℹ In group 1: `mtry = 48`, `trees = 1563`, `min_n = 8`.
+  Caused by warning:
+  ! No event observations were detected in `truth` with event level '0'....
+  ℹ In argument: `.estimate = metric_fn(...)`.
+  ℹ In group 1: `mtry = 46`, `trees = 1625`, `min_n = 20`.
+  Caused by warning:
+  ! No event observations were detected in `truth` with event level '0'....
+  ℹ In argument: `.estimate = metric_fn(...)`.
+  ℹ In group 1: `mtry = 38`, `trees = 484`, `min_n = 24`.
+  Caused by warning:
+  ! No event observations were detected in `truth` with event level '0'....
+  ℹ In argument: `.estimate = metric_fn(...)`.
+  ℹ In group 1: `mtry = 3`, `trees = 218`, `min_n = 33`.
+  Caused by warning:
+  ! No event observations were detected in `truth` with event level '0'....
+  ℹ In argument: `.estimate = metric_fn(...)`.
+  ℹ In group 1: `mtry = 41`, `trees = 963`, `min_n = 37`.
+  Caused by warning:
+  ! No event observations were detected in `truth` with event level '0'....
+  ℹ In argument: `.estimate = metric_fn(...)`.
+  ℹ In group 1: `mtry = 45`, `trees = 1291`, `min_n = 5`.
+  Caused by warning:
+  ! No event observations were detected in `truth` with event level '0'....
+  ℹ In argument: `.estimate = metric_fn(...)`.
+  ℹ In group 1: `mtry = 51`, `trees = 504`, `min_n = 30`.
+  Caused by warning:
+  ! No event observations were detected in `truth` with event level '0'....
+  ℹ In argument: `.estimate = metric_fn(...)`.
+  ℹ In group 1: `mtry = 12`, `trees = 1059`, `min_n = 35`.
+  Caused by warning:
+  ! No event observations were detected in `truth` with event level '0'....
+  ℹ In argument: `.estimate = metric_fn(...)`.
+  ℹ In group 1: `mtry = 5`, `trees = 1422`, `min_n = 10`.
+  Caused by warning:
+  ! No event observations were detected in `truth` with event level '0'....
+  ℹ In argument: `.estimate = metric_fn(...)`.
+  ℹ In group 1: `mtry = 7`, `trees = 329`, `min_n = 8`.
+  Caused by warning:
+  ! No event observations were detected in `truth` with event level '0'....
+  ℹ In argument: `.estimate = metric_fn(...)`.
+  ℹ In group 1: `mtry = 20`, `trees = 1179`, `min_n = 13`.
+  Caused by warning:
+  ! No event observations were detected in `truth` with event level '0'....
+  ℹ In argument: `.estimate = metric_fn(...)`.
+  ℹ In group 1: `mtry = 12`, `trees = 672`, `min_n = 31`.
+  Caused by warning:
+  ! No event observations were detected in `truth` with event level '0'.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>! Fold06: internal:
+  There was 1 warning in `dplyr::summarise()`.
+  ℹ In argument: `.estimate = metric_fn(...)`.
+  ℹ In group 1: `mtry = 22`, `trees = 776`, `min_n = 28`.
+  Caused by warning:
+  ! No event observations were detected in `truth` with event level '0'....
+  ℹ In argument: `.estimate = metric_fn(...)`.
+  ℹ In group 1: `mtry = 25`, `trees = 869`, `min_n = 22`.
+  Caused by warning:
+  ! No event observations were detected in `truth` with event level '0'....
+  ℹ In argument: `.estimate = metric_fn(...)`.
+  ℹ In group 1: `mtry = 27`, `trees = 1307`, `min_n = 17`.
+  Caused by warning:
+  ! No event observations were detected in `truth` with event level '0'....
+  ℹ In argument: `.estimate = metric_fn(...)`.
+  ℹ In group 1: `mtry = 29`, `trees = 1708`, `min_n = 18`.
+  Caused by warning:
+  ! No event observations were detected in `truth` with event level '0'....
+  ℹ In argument: `.estimate = metric_fn(...)`.
+  ℹ In group 1: `mtry = 16`, `trees = 43`, `min_n = 25`.
+  Caused by warning:
+  ! No event observations were detected in `truth` with event level '0'....
+  ℹ In argument: `.estimate = metric_fn(...)`.
+  ℹ In group 1: `mtry = 36`, `trees = 1953`, `min_n = 15`.
+  Caused by warning:
+  ! No event observations were detected in `truth` with event level '0'....
+  ℹ In argument: `.estimate = metric_fn(...)`.
+  ℹ In group 1: `mtry = 54`, `trees = 159`, `min_n = 38`.
+  Caused by warning:
+  ! No event observations were detected in `truth` with event level '0'....
+  ℹ In argument: `.estimate = metric_fn(...)`.
+  ℹ In group 1: `mtry = 34`, `trees = 1817`, `min_n = 2`.
+  Caused by warning:
+  ! No event observations were detected in `truth` with event level '0'....
+  ℹ In argument: `.estimate = metric_fn(...)`.
+  ℹ In group 1: `mtry = 48`, `trees = 1563`, `min_n = 8`.
+  Caused by warning:
+  ! No event observations were detected in `truth` with event level '0'....
+  ℹ In argument: `.estimate = metric_fn(...)`.
+  ℹ In group 1: `mtry = 46`, `trees = 1625`, `min_n = 20`.
+  Caused by warning:
+  ! No event observations were detected in `truth` with event level '0'....
+  ℹ In argument: `.estimate = metric_fn(...)`.
+  ℹ In group 1: `mtry = 38`, `trees = 484`, `min_n = 24`.
+  Caused by warning:
+  ! No event observations were detected in `truth` with event level '0'....
+  ℹ In argument: `.estimate = metric_fn(...)`.
+  ℹ In group 1: `mtry = 3`, `trees = 218`, `min_n = 33`.
+  Caused by warning:
+  ! No event observations were detected in `truth` with event level '0'....
+  ℹ In argument: `.estimate = metric_fn(...)`.
+  ℹ In group 1: `mtry = 41`, `trees = 963`, `min_n = 37`.
+  Caused by warning:
+  ! No event observations were detected in `truth` with event level '0'....
+  ℹ In argument: `.estimate = metric_fn(...)`.
+  ℹ In group 1: `mtry = 45`, `trees = 1291`, `min_n = 5`.
+  Caused by warning:
+  ! No event observations were detected in `truth` with event level '0'....
+  ℹ In argument: `.estimate = metric_fn(...)`.
+  ℹ In group 1: `mtry = 51`, `trees = 504`, `min_n = 30`.
+  Caused by warning:
+  ! No event observations were detected in `truth` with event level '0'....
+  ℹ In argument: `.estimate = metric_fn(...)`.
+  ℹ In group 1: `mtry = 12`, `trees = 1059`, `min_n = 35`.
+  Caused by warning:
+  ! No event observations were detected in `truth` with event level '0'....
+  ℹ In argument: `.estimate = metric_fn(...)`.
+  ℹ In group 1: `mtry = 5`, `trees = 1422`, `min_n = 10`.
+  Caused by warning:
+  ! No event observations were detected in `truth` with event level '0'....
+  ℹ In argument: `.estimate = metric_fn(...)`.
+  ℹ In group 1: `mtry = 7`, `trees = 329`, `min_n = 8`.
+  Caused by warning:
+  ! No event observations were detected in `truth` with event level '0'....
+  ℹ In argument: `.estimate = metric_fn(...)`.
+  ℹ In group 1: `mtry = 20`, `trees = 1179`, `min_n = 13`.
+  Caused by warning:
+  ! No event observations were detected in `truth` with event level '0'....
+  ℹ In argument: `.estimate = metric_fn(...)`.
+  ℹ In group 1: `mtry = 12`, `trees = 672`, `min_n = 31`.
+  Caused by warning:
+  ! No event observations were detected in `truth` with event level '0'.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>! Fold10: internal:
+  There was 1 warning in `dplyr::summarise()`.
+  ℹ In argument: `.estimate = metric_fn(...)`.
+  ℹ In group 1: `mtry = 22`, `trees = 776`, `min_n = 28`.
+  Caused by warning:
+  ! No event observations were detected in `truth` with event level '0'....
+  ℹ In argument: `.estimate = metric_fn(...)`.
+  ℹ In group 1: `mtry = 25`, `trees = 869`, `min_n = 22`.
+  Caused by warning:
+  ! No event observations were detected in `truth` with event level '0'....
+  ℹ In argument: `.estimate = metric_fn(...)`.
+  ℹ In group 1: `mtry = 27`, `trees = 1307`, `min_n = 17`.
+  Caused by warning:
+  ! No event observations were detected in `truth` with event level '0'....
+  ℹ In argument: `.estimate = metric_fn(...)`.
+  ℹ In group 1: `mtry = 29`, `trees = 1708`, `min_n = 18`.
+  Caused by warning:
+  ! No event observations were detected in `truth` with event level '0'....
+  ℹ In argument: `.estimate = metric_fn(...)`.
+  ℹ In group 1: `mtry = 16`, `trees = 43`, `min_n = 25`.
+  Caused by warning:
+  ! No event observations were detected in `truth` with event level '0'....
+  ℹ In argument: `.estimate = metric_fn(...)`.
+  ℹ In group 1: `mtry = 36`, `trees = 1953`, `min_n = 15`.
+  Caused by warning:
+  ! No event observations were detected in `truth` with event level '0'....
+  ℹ In argument: `.estimate = metric_fn(...)`.
+  ℹ In group 1: `mtry = 54`, `trees = 159`, `min_n = 38`.
+  Caused by warning:
+  ! No event observations were detected in `truth` with event level '0'....
+  ℹ In argument: `.estimate = metric_fn(...)`.
+  ℹ In group 1: `mtry = 34`, `trees = 1817`, `min_n = 2`.
+  Caused by warning:
+  ! No event observations were detected in `truth` with event level '0'....
+  ℹ In argument: `.estimate = metric_fn(...)`.
+  ℹ In group 1: `mtry = 48`, `trees = 1563`, `min_n = 8`.
+  Caused by warning:
+  ! No event observations were detected in `truth` with event level '0'....
+  ℹ In argument: `.estimate = metric_fn(...)`.
+  ℹ In group 1: `mtry = 46`, `trees = 1625`, `min_n = 20`.
+  Caused by warning:
+  ! No event observations were detected in `truth` with event level '0'....
+  ℹ In argument: `.estimate = metric_fn(...)`.
+  ℹ In group 1: `mtry = 38`, `trees = 484`, `min_n = 24`.
+  Caused by warning:
+  ! No event observations were detected in `truth` with event level '0'....
+  ℹ In argument: `.estimate = metric_fn(...)`.
+  ℹ In group 1: `mtry = 3`, `trees = 218`, `min_n = 33`.
+  Caused by warning:
+  ! No event observations were detected in `truth` with event level '0'....
+  ℹ In argument: `.estimate = metric_fn(...)`.
+  ℹ In group 1: `mtry = 41`, `trees = 963`, `min_n = 37`.
+  Caused by warning:
+  ! No event observations were detected in `truth` with event level '0'....
+  ℹ In argument: `.estimate = metric_fn(...)`.
+  ℹ In group 1: `mtry = 45`, `trees = 1291`, `min_n = 5`.
+  Caused by warning:
+  ! No event observations were detected in `truth` with event level '0'....
+  ℹ In argument: `.estimate = metric_fn(...)`.
+  ℹ In group 1: `mtry = 51`, `trees = 504`, `min_n = 30`.
+  Caused by warning:
+  ! No event observations were detected in `truth` with event level '0'....
+  ℹ In argument: `.estimate = metric_fn(...)`.
+  ℹ In group 1: `mtry = 12`, `trees = 1059`, `min_n = 35`.
+  Caused by warning:
+  ! No event observations were detected in `truth` with event level '0'....
+  ℹ In argument: `.estimate = metric_fn(...)`.
+  ℹ In group 1: `mtry = 5`, `trees = 1422`, `min_n = 10`.
+  Caused by warning:
+  ! No event observations were detected in `truth` with event level '0'....
+  ℹ In argument: `.estimate = metric_fn(...)`.
+  ℹ In group 1: `mtry = 7`, `trees = 329`, `min_n = 8`.
+  Caused by warning:
+  ! No event observations were detected in `truth` with event level '0'....
+  ℹ In argument: `.estimate = metric_fn(...)`.
+  ℹ In group 1: `mtry = 20`, `trees = 1179`, `min_n = 13`.
+  Caused by warning:
+  ! No event observations were detected in `truth` with event level '0'....
+  ℹ In argument: `.estimate = metric_fn(...)`.
+  ℹ In group 1: `mtry = 12`, `trees = 672`, `min_n = 31`.
+  Caused by warning:
+  ! No event observations were detected in `truth` with event level '0'.</code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>best_tree <span class="ot">&lt;-</span> tune_res <span class="sc">%&gt;%</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select_best</span>(<span class="st">"accuracy"</span>)</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>final_wf <span class="ot">&lt;-</span> </span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>  tree_res <span class="sc">%&gt;%</span> </span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">finalize_workflow</span>(best_tree)</span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>ranger_model_non_metro <span class="ot">&lt;-</span> </span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a>  final_wf <span class="sc">|&gt;</span></span>
+<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">last_fit</span>(split) </span>
+<span id="cb42-11"><a href="#cb42-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-12"><a href="#cb42-12" aria-hidden="true" tabindex="-1"></a>ranger_model_non_metro <span class="sc">|&gt;</span></span>
+<span id="cb42-13"><a href="#cb42-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">collect_metrics</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div class="kable-table">
+<table class="table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">.metric</th>
+<th style="text-align: left;">.estimator</th>
+<th style="text-align: right;">.estimate</th>
+<th style="text-align: left;">.config</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">accuracy</td>
+<td style="text-align: left;">binary</td>
+<td style="text-align: right;">0.9375</td>
+<td style="text-align: left;">Preprocessor1_Model1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">roc_auc</td>
+<td style="text-align: left;">binary</td>
+<td style="text-align: right;">1.0000</td>
+<td style="text-align: left;">Preprocessor1_Model1</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">extract_workflow</span>(ranger_model_non_metro) <span class="sc">|&gt;</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">extract_fit_parsnip</span>() <span class="sc">|&gt;</span></span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vip</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="cluster_classifier_redux_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Metro accuracy becomes worse?</p>
+<p>Non metro accuracy very good - but dataset is very imbalanced - Not going this way.</p>
+</section>
+<section id="back-to-decision-tree-classifier" class="level2">
+<h2 class="anchored" data-anchor-id="back-to-decision-tree-classifier">Back to decision Tree classifier</h2>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>split <span class="ot">&lt;-</span> <span class="fu">initial_split</span>(dataset,<span class="at">prop=</span><span class="fl">0.8</span>)</span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>training <span class="ot">&lt;-</span> <span class="fu">training</span>(split) </span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>testing  <span class="ot">&lt;-</span> <span class="fu">testing</span>(split)</span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a>cell_folds <span class="ot">&lt;-</span> <span class="fu">vfold_cv</span>(training)</span>
+<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-9"><a href="#cb44-9" aria-hidden="true" tabindex="-1"></a>tune_spec <span class="ot">&lt;-</span> </span>
+<span id="cb44-10"><a href="#cb44-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">decision_tree</span>(</span>
+<span id="cb44-11"><a href="#cb44-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">cost_complexity =</span> <span class="fu">tune</span>(),</span>
+<span id="cb44-12"><a href="#cb44-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">tree_depth =</span> <span class="fu">tune</span>()</span>
+<span id="cb44-13"><a href="#cb44-13" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb44-14"><a href="#cb44-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">"rpart"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb44-15"><a href="#cb44-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_mode</span>(<span class="st">"classification"</span>)</span>
+<span id="cb44-16"><a href="#cb44-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-17"><a href="#cb44-17" aria-hidden="true" tabindex="-1"></a>tree_grid <span class="ot">&lt;-</span> <span class="fu">grid_regular</span>(<span class="fu">cost_complexity</span>(),</span>
+<span id="cb44-18"><a href="#cb44-18" aria-hidden="true" tabindex="-1"></a>                          <span class="fu">tree_depth</span>(),</span>
+<span id="cb44-19"><a href="#cb44-19" aria-hidden="true" tabindex="-1"></a>                          <span class="at">levels =</span> <span class="dv">5</span>)</span>
+<span id="cb44-20"><a href="#cb44-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-21"><a href="#cb44-21" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">345</span>)</span>
+<span id="cb44-22"><a href="#cb44-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-23"><a href="#cb44-23" aria-hidden="true" tabindex="-1"></a>tree_wf <span class="ot">&lt;-</span> <span class="fu">workflow</span>() <span class="sc">|&gt;</span></span>
+<span id="cb44-24"><a href="#cb44-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_model</span>(tune_spec) <span class="sc">|&gt;</span></span>
+<span id="cb44-25"><a href="#cb44-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_formula</span>(cluster <span class="sc">~</span> .)</span>
+<span id="cb44-26"><a href="#cb44-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-27"><a href="#cb44-27" aria-hidden="true" tabindex="-1"></a>tree_res <span class="ot">&lt;-</span> </span>
+<span id="cb44-28"><a href="#cb44-28" aria-hidden="true" tabindex="-1"></a>  tree_wf <span class="sc">|&gt;</span></span>
+<span id="cb44-29"><a href="#cb44-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tune_grid</span>(</span>
+<span id="cb44-30"><a href="#cb44-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">resamples =</span> cell_folds,</span>
+<span id="cb44-31"><a href="#cb44-31" aria-hidden="true" tabindex="-1"></a>    <span class="at">grid =</span> tree_grid</span>
+<span id="cb44-32"><a href="#cb44-32" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb44-33"><a href="#cb44-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-34"><a href="#cb44-34" aria-hidden="true" tabindex="-1"></a>best_tree <span class="ot">&lt;-</span> tree_res <span class="sc">%&gt;%</span></span>
+<span id="cb44-35"><a href="#cb44-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select_best</span>(<span class="st">"accuracy"</span>)</span>
+<span id="cb44-36"><a href="#cb44-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-37"><a href="#cb44-37" aria-hidden="true" tabindex="-1"></a>final_wf <span class="ot">&lt;-</span> </span>
+<span id="cb44-38"><a href="#cb44-38" aria-hidden="true" tabindex="-1"></a>  tree_wf <span class="sc">%&gt;%</span> </span>
+<span id="cb44-39"><a href="#cb44-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">finalize_workflow</span>(best_tree)</span>
+<span id="cb44-40"><a href="#cb44-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-41"><a href="#cb44-41" aria-hidden="true" tabindex="-1"></a>rpart_model <span class="ot">&lt;-</span> </span>
+<span id="cb44-42"><a href="#cb44-42" aria-hidden="true" tabindex="-1"></a>  final_wf <span class="sc">|&gt;</span></span>
+<span id="cb44-43"><a href="#cb44-43" aria-hidden="true" tabindex="-1"></a>  <span class="fu">last_fit</span>(split) </span>
+<span id="cb44-44"><a href="#cb44-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-45"><a href="#cb44-45" aria-hidden="true" tabindex="-1"></a>rpart_model <span class="sc">|&gt;</span></span>
+<span id="cb44-46"><a href="#cb44-46" aria-hidden="true" tabindex="-1"></a>    <span class="fu">collect_metrics</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div class="kable-table">
+<table class="table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">.metric</th>
+<th style="text-align: left;">.estimator</th>
+<th style="text-align: right;">.estimate</th>
+<th style="text-align: left;">.config</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">accuracy</td>
+<td style="text-align: left;">multiclass</td>
+<td style="text-align: right;">0.8444444</td>
+<td style="text-align: left;">Preprocessor1_Model1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">roc_auc</td>
+<td style="text-align: left;">hand_till</td>
+<td style="text-align: right;">0.9033887</td>
+<td style="text-align: left;">Preprocessor1_Model1</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">extract_workflow</span>(rpart_model)  <span class="sc">|&gt;</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">extract_fit_engine</span>() <span class="sc">|&gt;</span></span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>    rpart.plot<span class="sc">::</span><span class="fu">rpart.plot</span>(<span class="at">roundint =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="cluster_classifier_redux_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(vip)</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a><span class="fu">extract_workflow</span>(rpart_model) <span class="sc">|&gt;</span></span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">extract_fit_parsnip</span>() <span class="sc">|&gt;</span></span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vip</span>()<span class="do">##</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="cluster_classifier_redux_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>rpart_model<span class="sc">$</span>.predictions[[<span class="dv">1</span>]] <span class="sc">|&gt;</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(.pred_class,cluster)  <span class="sc">|&gt;</span></span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Right=</span>(cluster<span class="sc">==</span>.pred_class)) <span class="sc">|&gt;</span></span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(cluster,Right) <span class="sc">|&gt;</span></span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(cluster) <span class="sc">|&gt;</span></span>
+<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">n=</span>n<span class="sc">/</span><span class="fu">sum</span>(n)) <span class="sc">|&gt;</span></span>
+<span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">|&gt;</span></span>
+<span id="cb47-8"><a href="#cb47-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> <span class="st">"Right"</span>, <span class="at">values_from =</span> <span class="st">"n"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div class="kable-table">
+<table class="table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">cluster</th>
+<th style="text-align: right;">FALSE</th>
+<th style="text-align: right;">TRUE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">0</td>
+<td style="text-align: right;">0.2580645</td>
+<td style="text-align: right;">0.7419355</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">1</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">1.0000000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2</td>
+<td style="text-align: right;">0.1818182</td>
+<td style="text-align: right;">0.8181818</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</section>
+</section>
 <section id="save" class="level1">
 <h1>Save</h1>
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(fs)</span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>clustering_folder <span class="ot">&lt;-</span> fs<span class="sc">::</span><span class="fu">dir_create</span>(<span class="fu">here</span>(<span class="st">"6. Modelling"</span>,<span class="st">"clustering_models"</span>))</span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(ranger_model,<span class="fu">path</span>(clustering_folder,<span class="st">"clustering_rpart_redux.rds"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(fs)</span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>clustering_folder <span class="ot">&lt;-</span> fs<span class="sc">::</span><span class="fu">dir_create</span>(<span class="fu">here</span>(<span class="st">"6. Modelling"</span>,<span class="st">"clustering_models"</span>))</span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(ranger_model,<span class="fu">path</span>(clustering_folder,<span class="st">"clustering_ranger_redux.rds"</span>))</span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(rpart_model,<span class="fu">path</span>(clustering_folder,<span class="st">"clustering_rpart_redux.rds"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </section>

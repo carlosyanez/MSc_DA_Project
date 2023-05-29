@@ -60,7 +60,8 @@ packages_to_install <- tibble::tribble(
 "vip",                        "CRAN",         "",
 "NeuralNetTools",             "CRAN",         "",
 "butcher",                    "CRAN",         "",
-"lobstr",                     "CRAN",         ""
+"lobstr",                     "CRAN",         "",
+"paletteer",                  "CRAN",         "",
 )
 
 

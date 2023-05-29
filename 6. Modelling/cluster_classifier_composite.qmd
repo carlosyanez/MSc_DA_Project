@@ -7,7 +7,7 @@ format:
     code-summary: "Show the code"
     toc: true
     toc-location: left
-    df_print: kable
+    df_print: paged
 ---
 
 ```{r}
@@ -19,7 +19,8 @@ library(here)
 ```
 
 ```{r}
-
+#| warning: false
+#| message: false
 
 nationals <- read_csv(here("4. Data","national_values.csv")) |>
              filter(Year!=2021) |>
@@ -60,9 +61,35 @@ rm(clusters,nationals)
 
 ```
 
+# Combined model
+
+### Remove cluster 1, test criteria with criteria from prior iterations
+
+```{r}
+dataset_1 <- dataset |> filter(cluster==1)
+
+dataset_1 |>
+  mutate(is_1 = ((Metro==0) & !(Language_English_Only <80))) |>
+  summarise(is_1 = mean(is_1))
+
+```
+```{r}
+dataset_1 |>
+  mutate(is_1 = ((Metro==0) & !(Language_English_Only <80))) |>
+  filter(!is_1)
+```
+
+```{r}
+dataset_rest <- dataset |> 
+                filter(cluster!=1) |>
+                mutate(cluster=fct_drop(cluster))
+```
+
+
+
 ```{r}
 set.seed(1234)
-split <- initial_split(dataset,prop=0.8)
+split <- initial_split(dataset_rest,prop=0.8)
 
 training <- training(split) 
 testing  <- testing(split)
@@ -111,7 +138,6 @@ tree_res <-
     grid = tree_grid
     )
 
-tree_res
 ```
 
 ```{r}
@@ -206,7 +232,7 @@ tune_res <- tune_grid(
   grid = 20
 )
 
-tune_res
+
 ```
 
 ```{r}
@@ -244,210 +270,17 @@ extract_workflow(ranger_model) |>
   vip()
 ```
 
-## Naive Bayes
-
 ```{r}
-
-library(discrim)
-
-tune_spec <- 
-  naive_Bayes(smoothness = tune(),
-              Laplace = tune()) %>% 
-  set_engine("naivebayes") 
-
-tune_spec
+ranger_model$.predictions[[1]] |>
+  select(.pred_class,cluster)  |>
+  mutate(Right=(cluster==.pred_class)) |>
+  count(cluster,Right) |>
+  group_by(cluster) |>
+  mutate(n=n/sum(n)) |>
+  ungroup() |>
+  pivot_wider(names_from = "Right", values_from = "n")
 ```
 
-```{r}
-
-set.seed(234)
-cell_folds <- vfold_cv(training)
-
-```
-
-```{r}
-set.seed(345)
-
-tree_res <- workflow() |>
-  add_model(tune_spec) |>
-  add_formula(cluster ~ .)
-
-
-set.seed(345)
-tune_res <- tune_grid(
-  tree_res,
-  resamples = cell_folds,
-  grid = 20
-)
-
-tune_res
-```
-
-```{r}
-tune_res |>
-  show_best("accuracy")
-```
-
-```{r}
-best_tree <- tune_res %>%
-  select_best("accuracy")
-
-final_wf <- 
-  tree_res %>% 
-  finalize_workflow(best_tree)
-
-final_wf
-```
-
-```{r}
-
-naive_model <- 
-  final_wf |>
-  last_fit(split) 
-
-naive_model |>
-    collect_metrics()
-```
-
-# multinomial classifier with elastic net
-
-```{r}
-
-
-tune_spec <- 
-  multinom_reg(
-  mode = "classification",
-  penalty = tune(),
-  mixture = tune()
-) |>
-  set_engine("glmnet") 
-
-tune_spec
-```
-
-```{r}
-
-set.seed(234)
-cell_folds <- vfold_cv(training)
-
-```
-
-```{r}
-set.seed(345)
-
-tree_res <- workflow() |>
-  add_model(tune_spec) |>
-  add_formula(cluster ~ .)
-
-
-set.seed(345)
-tune_res <- tune_grid(
-  tree_res,
-  resamples = cell_folds,
-  grid = 20
-)
-
-tune_res
-```
-
-```{r}
-tune_res |>
-  show_best("accuracy")
-```
-
-```{r}
-best_tree <- tune_res %>%
-  select_best("accuracy")
-
-final_wf <- 
-  tree_res %>% 
-  finalize_workflow(best_tree)
-
-final_wf
-```
-
-```{r}
-
-glmnet_model <- 
-  final_wf |>
-  last_fit(split) 
-
-glmnet_model |>
-    collect_metrics()
-```
-
-```{r}
-library(vip)
-
-extract_workflow(glmnet_model) |>
-  extract_fit_parsnip() |>
-  vip()##
-```
-
-## multinomial classifier with neural network
-
-```{r}
-
-
-tune_spec <- 
-  multinom_reg(
-  mode = "classification",
-  penalty = tune()) |>
-  set_engine("nnet") 
-
-tune_spec
-```
-
-```{r}
-
-set.seed(234)
-cell_folds <- vfold_cv(training)
-
-```
-
-```{r}
-set.seed(345)
-
-tree_res <- workflow() |>
-  add_model(tune_spec) |>
-  add_formula(cluster ~ .)
-
-
-set.seed(345)
-tune_res <- tune_grid(
-  tree_res,
-  resamples = cell_folds,
-  grid = 20
-)
-
-tune_res
-```
-
-```{r}
-tune_res |>
-  show_best("accuracy")
-```
-
-```{r}
-best_tree <- tune_res %>%
-  select_best("accuracy")
-
-final_wf <- 
-  tree_res %>% 
-  finalize_workflow(best_tree)
-
-final_wf
-```
-
-```{r}
-
-nnet_model <- 
-  final_wf |>
-  last_fit(split) 
-
-nnet_model |>
-    collect_metrics()
-```
 
 # Save
 
@@ -455,10 +288,148 @@ nnet_model |>
 library(fs)
 clustering_folder <- fs::dir_create(here("6. Modelling","clustering_models"))
 
-saveRDS(nnet_model,path(clustering_folder,"clustering_nnet.rds"))
-saveRDS(rpart_model,path(clustering_folder,"clustering_rpart.rds"))
-saveRDS(ranger_model,path(clustering_folder,"clustering_ranger.rds"))
-saveRDS(naive_model,path(clustering_folder,"clustering_naive.rds"))
+saveRDS(rpart_model,path(clustering_folder,"clustering_rpart_combined.rds"))
+saveRDS(ranger_model,path(clustering_folder,"clustering_ranger_combined.rds"))
 
 
 ```
+
+
+# random forest with reduced dataset
+```{r}
+dataset_rest_orig <- dataset_rest
+```
+
+
+```{r}
+#| warning: false
+#| message: false
+
+dataset_rest |>
+  select(any_of(c("Household_Flat",
+                  "Household_Standalone",
+                  "Household_Owned_with_a_mortgage",
+                  "Relationship_Group_Household",
+                  "Relationship_Married",
+                  "Relationship_Single_Parent",
+                  "Household_Rented",
+                  "Relationship_Non_dependent_Child",
+                  "Household_Social_or_community",
+                  "Education_Postgraduate"
+                  ))) |>
+  GGally::ggpairs()
+```
+
+
+
+```{r}
+
+set.seed(1234)
+dataset_rest <- dataset_rest |>
+   select(any_of(c("cluster",
+                   "Household_Flat",
+                #  "Household_Standalone", highly correlated to Household_Flat
+                  "Household_Owned_with_a_mortgage",
+                  "Relationship_Group_Household",
+                  "Relationship_Married",
+                  "Relationship_Single_Parent",
+                  "Household_Rented",
+                  "Relationship_Non_dependent_Child",
+                  "Household_Social_or_community",
+                  "Education_Postgraduate")))
+
+split <- initial_split(dataset_rest,prop=0.8)
+
+training <- training(split) 
+testing  <- testing(split)
+
+
+
+```
+
+
+```{r}
+
+tune_spec <- 
+  rand_forest(
+      mtry = tune(),
+      trees = tune(),
+      min_n = tune()
+  ) %>% 
+  set_engine("ranger",importance="impurity") %>% 
+  set_mode("classification")
+
+tune_spec
+```
+
+```{r}
+
+
+set.seed(234)
+cell_folds <- vfold_cv(training)
+
+```
+
+```{r}
+set.seed(345)
+
+tree_res <- workflow() |>
+  add_model(tune_spec) |>
+  add_formula(cluster ~ .)
+
+
+set.seed(345)
+tune_res <- tune_grid(
+  tree_res,
+  resamples = cell_folds,
+  grid = 20
+)
+
+
+```
+
+```{r}
+tune_res |>
+  show_best("accuracy")
+
+```
+
+```{r}
+best_tree <- tune_res %>%
+  select_best("accuracy")
+
+final_wf <- 
+  tree_res %>% 
+  finalize_workflow(best_tree)
+
+final_wf
+```
+
+```{r}
+
+ranger_model <- 
+  final_wf |>
+  last_fit(split) 
+
+ranger_model |>
+    collect_metrics()
+```
+
+```{r}
+library(vip)
+
+extract_workflow(ranger_model) |>
+  extract_fit_parsnip() |>
+  vip()
+```
+```{r}
+ranger_model$.predictions[[1]] |>
+  select(.pred_class,cluster)  |>
+  mutate(Right=(cluster==.pred_class)) |>
+  count(cluster,Right) |>
+  group_by(cluster) |>
+  mutate(n=n/sum(n)) |>
+  ungroup() |>
+  pivot_wider(names_from = "Right", values_from = "n")
+```
+

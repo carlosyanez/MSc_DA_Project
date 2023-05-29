@@ -18,6 +18,9 @@ library(here)
 
 ```
 
+Redux + Adding Education Bachelor
+
+
 ```{r}
 
 
@@ -58,18 +61,32 @@ dataset_orig <- dataset_orig |>
 ### leave just selected columns
 
 dataset <- dataset_orig |>
-           select(any_of(c("cluster","Language_English_Only","Metro")),
-                  any_of(c("Household_Flat",
+           select(any_of(c("cluster",
+                           "Language_English_Only", 
+                           "Metro")),
+                  any_of(c("Household_Flat",    ### Highly Correlated with Household Standalone
                            "Household_Standalone",
                            "Household_Owned_with_a_mortgage",
                            "Relationship_Non_dependent_Child",
                            "Relationship_Group_Household",
-                           "Relationship_Child_under_15")))
+                           "Relationship_Child_under_15",
+                           "Education_Bachelor", 
+                           "Income_1_to_999"
+                           )))
 
 
 rm(clusters,nationals)
 
 ```
+
+
+```{r}
+#| warning: false
+#| message: false
+GGally::ggpairs(dataset)
+```
+
+
 
 ```{r}
 set.seed(1234)
@@ -193,123 +210,11 @@ wrong_preds <-dataset |>
 
 ```
 
-# Can be improved ?
 
-Cluster 1 == Non metro?
-
-```{r}
-dataset_orig |> 
-  filter(Metro==0) |>
-  count(cluster,StateAb) |>
-  pivot_wider(names_from=StateAb,values_from = n)
-```
-
-## Metro
-
-```{r}
-
-dataset_orig |> 
-  filter(Metro==1) |>
-  count(cluster,StateAb) |>
-  pivot_wider(names_from=StateAb,values_from = n)
-```
-
-```{r}
-dataset_metro <- dataset_orig |> 
-                select(-Metro_Area,-StateAb) |>
-                filter(Metro==1) |>
-                mutate(cluster=fct_drop(cluster))
-
-set.seed(1234)
-split <- initial_split(dataset_metro,prop=0.8)
-
-training <- training(split) 
-testing  <- testing(split)
-
-cell_folds <- vfold_cv(training)
-
-tune_res <- tune_grid(
-  tree_res,
-  resamples = cell_folds,
-  grid = 20
-)
-
-best_tree <- tune_res %>%
-  select_best("accuracy")
-
-final_wf <- 
-  tree_res %>% 
-  finalize_workflow(best_tree)
-
-ranger_model_metro <- 
-  final_wf |>
-  last_fit(split) 
-
-ranger_model_metro |>
-    collect_metrics()
-
-extract_workflow(ranger_model_metro) |>
-  extract_fit_parsnip() |>
-  vip()
-
-```
-
-## 
-
-```{r}
-dataset_non_metro <- dataset_orig |> 
-                select(-Metro_Area,-StateAb) |>
-                filter(Metro==0) |>
-                mutate(cluster=fct_drop(cluster))
-
-set.seed(1234)
-split <- initial_split(dataset_non_metro,prop=0.8)
-
-training <- training(split) 
-testing  <- testing(split)
-
-cell_folds <- vfold_cv(training)
-
-tune_res <- tune_grid(
-  tree_res,
-  resamples = cell_folds,
-  grid = 20
-)
-
-best_tree <- tune_res %>%
-  select_best("accuracy")
-
-final_wf <- 
-  tree_res %>% 
-  finalize_workflow(best_tree)
-
-ranger_model_non_metro <- 
-  final_wf |>
-  last_fit(split) 
-
-ranger_model_non_metro |>
-    collect_metrics()
-
-extract_workflow(ranger_model_non_metro) |>
-  extract_fit_parsnip() |>
-  vip()
-```
-
-Metro accuracy becomes worse?
-
-Non metro accuracy very good - but dataset is very imbalanced - Not going this way.
 
 ## Back to decision Tree classifier
 
 ```{r}
-
-set.seed(1234)
-split <- initial_split(dataset,prop=0.8)
-
-training <- training(split) 
-testing  <- testing(split)
-
-cell_folds <- vfold_cv(training)
 
 tune_spec <- 
   decision_tree(
@@ -387,9 +292,8 @@ rpart_model$.predictions[[1]] |>
 library(fs)
 clustering_folder <- fs::dir_create(here("6. Modelling","clustering_models"))
 
-saveRDS(ranger_model,path(clustering_folder,"clustering_ranger_redux.rds"))
-saveRDS(rpart_model,path(clustering_folder,"clustering_rpart_redux.rds"))
-
+saveRDS(ranger_model,path(clustering_folder,"clustering_ranger_redux_2.rds"))
+saveRDS(rpart_model,path(clustering_folder,"clustering_rpart_redux_2.rds"))
 
 
 ```
