@@ -84,45 +84,32 @@ distribution_plots <- function(dataset, title_text, subtitle_text) {
 #' @param include_data whether to include prediction data in output (default FALSE)
 #' @output summary with key performance metrics and prediction results (if included)
 get_summary <- function(model_class, observations, test_data, include_data = FALSE) {
-  predictions <- tibble(
-    obs = observations,
-    pred = model_class |> predict(test_data, type = "class") |> as_factor() ) |>
-    mutate(
-      result = case_when(
-        obs == 1 & pred == 1 ~ "TP",
-        obs == 1 & pred == 0 ~ "FN",
-        obs == 0 & pred == 0 ~ "TN",
-        obs == 0 & pred == 1 ~ "FP",
-        TRUE ~ "NA"
-      )
-    )  |>
-    relocate(obs, pred, result, .before = 1)
   
-  results <- predictions |>
-    count(result)
-  
-  result_zeros <- tribble( ~ result,  ~ n,
-                           "TP", 0,
-                           "FN", 0,
-                           "TN", 0,
-                           "FP", 0)
-  
-  results <- rbind(results,
-                   result_zeros |> filter(!(result %in% results$result)))
-  
-  
-  results <- results |>
-    pivot_wider(names_from = result, values_from = n) |>
-    mutate(
-      total = FN + FP + TN + TP,
-      accuracy    = (TP + TN) / (nrow(predictions)),
-      sensitivity = (TP) / (TP + FN),
-      specificity = (TN) / (TN + FP),
-      precision   = (TP) / (TP + FP)
-    )
-  
-  
-  return(results)
+ results_base <- observations |> 
+    as_tibble(rownames="variable") |>
+    pivot_longer(-variable,names_to = "response",values_to="actual") |>
+    left_join(
+      model_class |> 
+        predict(test_data, type = "response") |>
+        as_tibble(rownames="variable")         |>
+        pivot_longer(-variable,names_to = "response",values_to="prediction") |>
+        mutate(response = str_remove_all(response,"\\.s0")),
+      by=c("variable","response")) |>
+  mutate(square_error=(prediction-actual)^2)
+ 
+ results_party <- results_base |>
+                  group_by(response)|>
+                   summarise(RMSE=(sqrt(mean(square_error))),.groups="drop")
+ 
+ results_overall <- results_base |>
+                    summarise(RMSE=(sqrt(mean(square_error)))) |>
+                    mutate(response="Overall")
+ 
+ results_party |>
+   bind_rows(results_overall) |>
+   mutate(response=str_c("RMSE_",response)) |>
+   pivot_wider(names_from = "response",values_from="RMSE")
+ 
 }
 
 #' get summary of prediction performance (and prediction data)
@@ -152,7 +139,7 @@ lasso_selection <- function(dataset_split,id_col,responses,family="mgaussian") {
   
   for(i in 1:length(coeffs)){
     
-    coeff_list <- coefs[[i]]@Dimnames[[1]][coefs[[i]]@i[-1] + 1]
+    coeff_list <- coeffs[[i]]@Dimnames[[1]][coeffs[[i]]@i[-1] + 1]
     
     coeffs_tibble <- coeffs_tibble |>
                       bind_rows(tibble(covariate=coeff_list,response=rep(names(coeffs)[i],length(coeff_list))))
@@ -185,26 +172,24 @@ assess_net <-function(dataset_split,
                       id_col,
                       alpha_grid = seq(0, 1, 0.025),
                       responses,
+                      predictors,
                       family = "mgaussian",
                       preset_lambda = NULL) {
   # prep data for glmnet()
   
-  x.train <-  dataset_split$training |>  column_to_rownames(id_col) |>  select(-all_of(responses)) |> as.matrix()
+  x.train <-  dataset_split$training |>  column_to_rownames(id_col) |>  select(all_of(predictors)) |> as.matrix()
   y.train <-  dataset_split$training |>  column_to_rownames(id_col) |>  select(all_of(responses)) |> as.matrix()
-  x.test  <-  dataset_split$testing |>   column_to_rownames(id_col) |>select(-all_of(responses)) |> as.matrix()
+  x.test  <-  dataset_split$testing |>   column_to_rownames(id_col) |> select(all_of(predictors)) |> as.matrix()
   y.test  <-  dataset_split$testing |>   column_to_rownames(id_col) |> select(all_of(responses)) |> as.matrix()  
   
 
   #ridge regression
-  #https://progressr.futureverse.org/
-  x <- 1:length(alpha_grid)
-  p <- progressor(along = x)
   
-  for (i in x) {
+  for (i in 1:length(alpha_grid)) {
     
     if (is.null(preset_lambda)) {
       cv.net <-
-        cv.glmnet(x.train, y.train, family = "binomial", alpha = alpha_grid[i])
+        cv.glmnet(x.train, y.train, family = "mgaussian", alpha = alpha_grid[i])
       lambda <- cv.net$lambda.1se
     }else{
       lambda <- preset_lambda
@@ -214,7 +199,7 @@ assess_net <-function(dataset_split,
       glmnet(
         x.train,
         y.train,
-        family = "binomial",
+        family = "mgaussian",
         alpha = alpha_grid[i],
         lambda = lambda
       )
@@ -226,14 +211,20 @@ assess_net <-function(dataset_split,
                  lambda     =  lambda) |>
       relocate(number, alpha, lambda, .before = 1)
     
-    betas <- as.matrix(nets.model$beta) |>
-      as.data.frame(.) |>
-      rownames_to_column() |>
-      pivot_longer(!rowname, names_to = "col1", values_to = "col2") |>
-      pivot_wider(names_from = "rowname", values_from = "col2") |>
-      select(-col1)
+    coefs <- tibble()
     
-    metrics <- bind_cols(metrics, betas)
+    for(i in 1:length(nets.model$beta)){
+      
+     coef_i <-  as.matrix(nets.model$beta[[i]]) |>
+                as_tibble(rownames="covariate")  |>
+                mutate(response=names(nets.model$beta)[i])
+      coefs <- bind_rows(coefs,coef_i)
+      
+    }
+    
+    coefs <-coefs |> pivot_wider(names_from = "response",values_from = "s0")
+    
+    metrics <- metrics |> add_column(coefs= list(coefs))
     
     
     if (exists("nets.metrics")) {
@@ -241,10 +232,7 @@ assess_net <-function(dataset_split,
     } else{
       nets.metrics <- metrics
     }
-    
-    p(message = sprintf("Added %g", x[i]))
-    
-    
+
   }
   
   return(nets.metrics)
@@ -366,46 +354,123 @@ coef_plot <- function(a) {
 #' plot showing glmnet coefficients, ordered by absolute vlaue
 #' @param model glmnet object
 #' @output ggplot object
-coef_lollipop <- function(model) {
+coef_lollipop <- function(model,
+                          plot_colours=c("red","blue"),
+                          plot_mode="independent"
+                          ){
   
-  betas <- model$model$beta
+  betas <- model$glmnet.fit$beta
+  lambdas <- model$glmnet.fit$lambda
+  names(plot_colours) <- as.character(c(FALSE,TRUE))
   
-  p <- list()
+  
+  coefs <- extract_coefs(model)
+  
+  if(plot_mode == "independent") {
+    
+    p <- list()
+    panels <- names(coefs)
+    panels <- panels[str_detect(panels,"variable",TRUE)]
+    
+    for(panel in panels){
+      
+    p[[length(p) +1]] <-  coefs |>
+      select(all_of(c("variable",panel))) |>
+      rename("value"=panel) |>
+      mutate(variable = str_c(variable, " :: ", formatC(value, 3))) |>
+      mutate(variable = fct_reorder(variable, abs(value))) |>
+      mutate(sign=as.character(value>=0)) |>
+      ggplot(aes(x = variable, y = value,colour=sign,fill=sign)) +
+      geom_segment(aes(
+        x = variable,
+        xend = variable,
+        y = 0,
+        yend = value )) +
+      geom_point(size = 4,
+                 alpha = 0.6) +
+      coord_flip() +
+      theme(
+        panel.grid.major.y = element_blank(),
+        panel.border = element_blank(),
+        axis.ticks.y = element_blank(),
+        legend.position = "none"
+      ) +
+      scale_fill_manual(values=plot_colours) +
+      scale_colour_manual(values=plot_colours)+
+      labs(x = "Covariate",
+           y = "Coefficient",
+           subtitle=panel)
+    }
+    
+  }else{
+    p <- coefs |>
+          pivot_longer(-variable, names_to = "response",values_to = "value") |>
+      mutate(sign=as.character(value>=0)) |>
+      ggplot(aes(x = variable, y = value,colour=sign,fill=sign)) +
+      geom_segment(aes(
+        x = variable,
+        xend = variable,
+        y = 0,
+        yend = value )) +
+      geom_point(size = 4,
+                 alpha = 0.6) +
+      coord_flip() +
+      theme(
+        panel.grid.major.y = element_blank(),
+        panel.border = element_blank(),
+        axis.ticks.y = element_blank(),
+        legend.position = "none"
+      ) +
+      scale_fill_manual(values=colours) +
+      scale_colour_manual(values=colours)+
+      labs(x = "Covariate",
+           y = "Coefficient") +
+      facet_wrap(response ~ .,ncol=2)
+    
+  }
+  
+  return(p)
+}
+
+#extract non-zero coefficients from lasso model
+extract_coefs <- function(model,column_order=NULL){
+  betas <- model$glmnet.fit$beta
+  lambdas <- model$glmnet.fit$lambda
+  
+  output <- tibble()
   
   for(i in 1:length(betas)){
     
-  beta_i <- betas[[i]]
-  name_i  <- names(betas)[i]
-  
-  p[[length(p) +1]] <-  beta_i |>
-    as.matrix() |>
-    as.data.frame() |>
-    rownames_to_column("variable") |>
-    filter(!(s0 == 0) | (variable == "(Intercept)")) |>
-    mutate(variable = str_c(variable, " :: ", form(s0, 3))) |>
-    mutate(variable = fct_reorder(variable, abs(s0))) |>
-    ggplot(aes(x = variable, y = s0)) +
-    geom_segment(aes(
-      x = variable,
-      xend = variable,
-      y = 0,
-      yend = s0
-    ), color = line_colour) +
-    geom_point(color = fill_colour,
-               size = 4,
-               alpha = 0.6) +
-    coord_flip() +
-    theme(
-      panel.grid.major.y = element_blank(),
-      panel.border = element_blank(),
-      axis.ticks.y = element_blank()
-    ) +
-    labs(x = "Covariate",
-         y = "Coefficient",
-         subtitle=name_i)
+    beta_i <- betas[[i]]
+    name_i  <- names(betas)[i]
+    names(lambdas) <- colnames(beta_i)
+    lastone <- tibble(s=names(which(lambdas>model$lambda.1se)))  |>
+      mutate(order=as.numeric(str_extract(s,"(\\d)+"))) |>
+      slice_max(order) |>
+      pull(s)
+    
+    beta_i <- beta_i |>
+      as.matrix() |>
+      as.data.frame() |>
+      rownames_to_column("variable") |>
+      select(any_of(c("variable",lastone)))    |>
+      rename("value"=lastone) |>
+      filter(abs(value)>0)    |>
+      mutate(dim=name_i)
+    
+    output <- bind_rows(beta_i,output)
     
   }
-  return(p)
+  output <- output |>
+           pivot_wider(names_from = "dim",values_from = "value") |>
+           mutate(across(where(is.numeric), ~ replace_na(.x,0)))
+  if(!is.null(column_order)){
+    
+    output <- output |> select(all_of(c("variable",column_order)))
+  }
+  
+  return(output)
+  
 }
 
 #' show "heatmap"  plots with accuracy, sensitivity, specificity  for assess_net results
@@ -413,11 +478,15 @@ coef_lollipop <- function(model) {
 #' @output ggplot object
 enet_grid_plot <- function(assess_net_output,title_text="",subtitle_text=""){
   
-  assess_net_output |>
-    select(alpha, lambda, accuracy, sensitivity, specificity) |>
+  df <- assess_net_output |>
+    select(alpha, lambda, contains("RMSE")) |>
     pivot_longer(c(-alpha, -lambda), names_to = "metric", values_to = "value")  |>
-    mutate(lambda = digits_formatter(lambda,sig_digits = 4),
-           alpha  = digits_formatter(alpha,sig_digits = 3)) |>
+    mutate(lambda = formatC(lambda, 4),
+           alpha  = formatC(alpha, 3)) 
+  
+  values_limits <- c(min(df$value),max(df$value))
+  
+  df|>
     ggplot() +
     geom_tile(
       aes(x = alpha, y = lambda, fill = value),
@@ -425,20 +494,21 @@ enet_grid_plot <- function(assess_net_output,title_text="",subtitle_text=""){
       colour = "white",
       width = 0.4
     ) + 
-    facet_wrap(. ~ metric, nrow = 1) +
+    facet_wrap(. ~ metric, nrow = 2) +
+    theme_minimal() +
     theme(legend.position = "right",
           legend.direction = "vertical",
           axis.text.x  = element_text(angle=90)) +
-    scale_fill_gradientn(colours = brewer.pal(n = 9, name = "YlOrRd")[c(1, 3, 5, 7, 9)],
+    scale_fill_gradientn(colours = RColorBrewer::brewer.pal(n = 9, name = "YlOrRd")[c(9, 7, 5, 3, 1)],
                          na.value="grey90",
-                         limits=c(0,1),
-                         values=c(0,0.5,0.65,0.7,0.75,1)) +
+                         limits=values_limits) + #,
+                         #values=c(0,0.5,0.65,0.7,0.75,1)) +
     labs(
       title = title_text,
       subtitle= subtitle_text,
       x = expression("" ~ alpha ~ ""),
       y = expression("" ~ lambda ~ ""),
       fill = "Value"
-    )
+    ) 
 }
 

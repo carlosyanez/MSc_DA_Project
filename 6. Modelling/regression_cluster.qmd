@@ -1,6 +1,8 @@
 ---
-title: "Regression cluster0"
+title: "Regression"
 editor: visual
+params:
+  cluster: 0
 format:
   html:
     code-fold: true
@@ -17,9 +19,18 @@ library(tidyverse)
 library(tidymodels)
 library(here)
 library(gt)
-library(joinet)
+library(glmnet)
+library(ggrepel)
 source(here("6. Modelling","glmnet_functions.R"))
 ```
+
+```{r}
+cluster <- params$cluster
+
+
+```
+
+# Cluster `r cluster`
 
 ```{r}
 dataset <- read_csv(here("4. Data","consolidated.csv"))      |>
@@ -44,7 +55,7 @@ rm(clusters)
 party_cols <- c("GRN","ALP","COAL","Other")
 
 dataset <- dataset |>
-          filter(cluster==0) |>
+          filter(cluster==cluster) |>
           select(-any_of(c("cluster")))
 
 
@@ -62,8 +73,6 @@ dataset <- dataset |>
 
 ```
 
-
-
 ```{r}
 set.seed(24644)
 split <- split_dataset(dataset,train_perc = 0.8,id_col = "Division")
@@ -74,19 +83,90 @@ split <- split_dataset(dataset,train_perc = 0.8,id_col = "Division")
 lasso_selection <-  lasso_selection(split,"Division",party_cols)
 
 ```
+
 ```{r}
 lambda_penalty_plot(lasso_selection$cv,lasso_selection$cv$lambda.1se,legend_y=20)
 ```
 
 ```{r}
-plot(lasso_selection$cv)
-```
-```{r}
 p <- coef_plot(lasso_selection$cv)
 
-patchwork::wrap_plots(p)
+p
+```
+
+```{r}
+p <- coef_lollipop(lasso_selection$cv)
+p
+```
+
+```{r}
+coefficients <- extract_coefs(lasso_selection$cv)
+coef_min_max <- coefficients |>
+                pivot_longer(-variable,names_to="r",values_to = "value") |>
+                summarise(min=min(value),max=max(value))
+
+
+
+
+
+coefficients |>
+  mutate(across(where(is.numeric),~round(.x,4)))|>
+  gt() |>
+  data_color(columns=where(is.numeric),
+               colors = scales::col_bin(
+      bins = c(-Inf, 0, Inf),
+      palette = c("red", "green"),
+    ))
 
 ```
 
+```{r}
+results <- assess_net(split,
+           id_col="Division",
+           alpha_grid = seq(0, 1, 0.002),
+           responses= c("ALP","GRN","COAL","Other"),
+           predictors=coefficients$variable,
+           family = "mgaussian")
+results
+```
 
+```{r}
+enet_grid_plot(results)
+```
 
+```{r}
+enet_folder <- fs::dir_create(here("6. Modelling","elastic_net_eval"))
+
+saveRDS(enet_folder,fs::path(enet_folder,glue::glue("cluster{cluster}.rds")))
+
+```
+
+```{r}
+results |> 
+  mutate(min=(RMSE_Overall==min(RMSE_Overall))) |>
+  filter(min)
+```
+
+```{r}
+results |> 
+  mutate(min=(RMSE_ALP==min(RMSE_ALP))) |>
+  filter(min)
+```
+
+```{r}
+results |> 
+  mutate(min=(RMSE_COAL==min(RMSE_COAL))) |>
+  filter(min)
+```
+
+```{r}
+results |> 
+  mutate(min=(RMSE_GRN==min(RMSE_GRN))) |>
+  filter(min)
+```
+
+```{r}
+results |> 
+  mutate(min=(RMSE_Other==min(RMSE_Other))) |>
+  filter(min)
+```
