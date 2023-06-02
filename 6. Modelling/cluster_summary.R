@@ -15,12 +15,47 @@ clusters <- read_csv(here("4. Data","clusters.csv"))         |>
             mutate(Year=as.character(Year))       |>
             left_join(tbl(source_db,"year_equivalency") |> collect(),
                       by=c("Year"="election_years")) |>
-            mutate(Year=as.numeric(census_years),.keep="unused")
+            mutate(Year=as.numeric(Year)) 
+        
+
 
 
 duckdb::duckdb_register(source_db, "clusters", clusters)
 
 duckdb::duckdb_unregister(source_db,"clusters")
+
+### votes
+cluster_vote<- tbl(source_db,"primary_vote") |>
+              select(-OrdinaryVotes)      |>
+              collect() |>
+             left_join(clusters,by=c("DivisionNm","Year")) |>
+             mutate(PartyAb=if_else(str_detect(PartyAb,"Other"),"Other",PartyAb)) |>
+             group_by(cluster,Year,PartyAb) |>
+             summarise(avg=mean(Percentage),.groups = "drop") |>
+            filter(!is.na(cluster))
+
+cluster_rel <- tbl(source_db,"primary_vote") |>
+                select(-OrdinaryVotes)       |>
+                collect() |>
+                mutate(PartyAb=if_else(str_detect(PartyAb,"Other"),"Other",PartyAb)) |>
+                group_by(Year,DivisionNm,PartyAb) |>
+                summarise(Percentage=sum(Percentage),.groups = "drop") |>
+                left_join(clusters,by=c("DivisionNm","Year")) |>
+                filter(!is.na(cluster)) |>
+                left_join(cluster_vote,by=c("cluster","PartyAb","Year")) |>
+                mutate(value=Percentage-avg) |>
+                select(-cluster,-Percentage,-avg) |>
+                pivot_wider(names_from = PartyAb,values_from = value) |>
+                select(-census_years)
+  
+
+consolidated <- read_csv(here("4. Data","consolidated.csv"))
+
+consolidated <- consolidated |>
+  select(-any_of(c("ALP","COAL","GRN","Other"))) |>
+  left_join(cluster_rel,by=c("DivisionNm","Year"))
+
+write_csv(consolidated,here("4. Data","consolidated_cluster.csv"))
 
 
 ## list available tables
@@ -28,6 +63,8 @@ duckdb::duckdb_unregister(source_db,"clusters")
 
 ## add citizenship ------
 
+clusters <- clusters |>
+  mutate(Year=as.numeric(census_years),.keep="unused")
 
 cluster <- tbl(source_db,"citizenship")|>
           filter(Year!=2021)           |>
