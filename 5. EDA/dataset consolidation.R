@@ -27,6 +27,15 @@ consolidated <-  tbl(source_db, "primary_vote_relative") |>
   ))  |>
   mutate(Unit=str_to_lower(DivisionNm))  
   
+## electorate + state for state summaries
+
+electorate_state <- consolidated |> 
+                    select(DivisionNm,StateAb,Year) |>
+                    collect()
+
+duckdb::duckdb_register(source_db, "electorate_state", electorate_state)
+
+
 
 ## list available tables
 #dbListTables(source_db)
@@ -46,7 +55,17 @@ nationals <-  tbl(source_db,"citizenship") |>
                          Total=sum(Total),
                          .groups="drop")   |>
                mutate(Australian_Citizens=100*Value/Total,.keep="unused")
-            
+
+state <- tbl(source_db,"citizenship")|>
+          left_join(tbl(source_db,"electorate_state"),
+                    by=c("Unit"="DivisionNm","Year"="Year")) |>
+          group_by(Year,StateAb) |>
+          summarise(Value=sum(Value),
+                    Total=sum(Total),
+                    .groups="drop")   |>
+          mutate(Australian_Citizens=100*Value/Total,.keep="unused")
+  
+
 
 # add age groups ------
 age_groups <-  tbl(source_db,"age") |>
@@ -73,6 +92,21 @@ nationals   <- nationals |>
                    mutate(Percentage=100*Value/Total,.keep="unused") |>
                    pivot_wider(names_from=Attribute,values_from=Percentage),
                  by="Year")
+
+
+state  <- state |>
+          left_join(
+            tbl(source_db,"age") |>
+              left_join(tbl(source_db,"electorate_state"),
+                        by=c("Unit"="DivisionNm","Year"="Year")) |>
+              group_by(Year,StateAb,Attribute)  |>
+              summarise(Value=sum(Value),
+                        Total=sum(Total),
+                        .groups="drop")   |>
+              mutate(Percentage=100*Value/Total,.keep="unused") |>
+              pivot_wider(names_from=Attribute,values_from=Percentage),
+            by=c("StateAb","Year"))
+
 
 # add selected languages ------
 #"Lang - English Only"                
@@ -101,6 +135,20 @@ nationals   <- nationals |>
       mutate(Percentage=100*Value/Total,.keep="unused") |>
       pivot_wider(names_from=Attribute,values_from=Percentage),
     by="Year")
+
+
+state   <- state |>
+  left_join(
+    tbl(source_db,"language") |>
+      left_join(tbl(source_db,"electorate_state"),
+                by=c("Unit"="DivisionNm","Year"="Year")) |>
+      group_by(Year,StateAb,Attribute)  |>
+      summarise(Value=sum(Value),
+                Total=sum(Total),
+                .groups="drop")   |>
+      mutate(Percentage=100*Value/Total,.keep="unused") |>
+      pivot_wider(names_from=Attribute,values_from=Percentage),
+    by=c("StateAb","Year"))
 
 #religion ------
 #[17] "Rel - Anglican.Uniting.Presbyterian" "Rel - Buddhism"                      "Rel - Catholic"                      "Rel - Christian.Orthodox"           
@@ -136,6 +184,19 @@ nationals   <- nationals |>
       pivot_wider(names_from=Attribute,values_from=Percentage),
     by="Year")
 
+state   <- state |>
+  left_join(
+    tbl(source_db,"religion") |>
+      left_join(consolidated |> select(DivisionNm,StateAb,Year),
+                by=c("Unit"="DivisionNm","Year"="Year")) |>
+      group_by(Year,StateAb,Attribute)  |>
+      summarise(Value=sum(Value),
+                Total=sum(Total),
+                .groups="drop")   |>
+      mutate(Percentage=100*Value/Total,.keep="unused") |>
+      pivot_wider(names_from=Attribute,values_from=Percentage),
+    by=c("StateAb","Year"))
+
 
 # income -----
 income <- tbl(source_db,"income") |>
@@ -160,6 +221,19 @@ nationals   <- nationals |>
       mutate(Percentage=100*Value/Total,.keep="unused") |>
       pivot_wider(names_from=Attribute,values_from=Percentage),
     by="Year")
+
+state   <- state |>
+  left_join(
+    tbl(source_db,"income") |>
+      left_join(consolidated |> select(DivisionNm,StateAb,Year),
+                by=c("Unit"="DivisionNm","Year"="Year")) |>
+      group_by(Year,StateAb,Attribute)  |>
+      summarise(Value=sum(Value),
+                Total=sum(Total),
+                .groups="drop")   |>
+      mutate(Percentage=100*Value/Total,.keep="unused") |>
+      pivot_wider(names_from=Attribute,values_from=Percentage),
+    by=c("StateAb","Year"))
 
 # housing ------
 housing <-
@@ -186,6 +260,19 @@ nationals   <- nationals |>
       pivot_wider(names_from=Attribute,values_from=Percentage),
     by="Year")
 
+state   <- state |>
+  left_join(
+    tbl(source_db,"household_tenure") |>
+      left_join(consolidated |> select(DivisionNm,StateAb,Year),
+                by=c("Unit"="DivisionNm","Year"="Year")) |>
+      group_by(Year,StateAb,Attribute)  |>
+      summarise(Value=sum(Value),
+                Total=sum(Total),
+                .groups="drop")   |>
+      mutate(Percentage=100*Value/Total,.keep="unused") |>
+      pivot_wider(names_from=Attribute,values_from=Percentage),
+    by=c("StateAb","Year"))
+
 #education ------
 education <-
 tbl(source_db,"ed_level") |>
@@ -211,6 +298,20 @@ nationals   <- nationals |>
       mutate(Percentage=100*Value/Total,.keep="unused") |>
       pivot_wider(names_from=Attribute,values_from=Percentage),
     by="Year")
+
+state   <- state |>
+  left_join(
+    tbl(source_db,"ed_level") |>
+      left_join(consolidated |> select(DivisionNm,StateAb,Year),
+                by=c("Unit"="DivisionNm","Year"="Year")) |>
+      group_by(Year,StateAb,Attribute)  |>
+      summarise(Value=sum(Value),
+                Total=sum(Total),
+                .groups="drop")   |>
+      mutate(Percentage=100*Value/Total,.keep="unused") |>
+      pivot_wider(names_from=Attribute,values_from=Percentage),
+    by=c("StateAb","Year"))
+
 
 #relationships --------
 relationships <-
@@ -239,6 +340,20 @@ nationals   <- nationals |>
       mutate(Percentage=100*Value/Total,.keep="unused") |>
       pivot_wider(names_from=Attribute,values_from=Percentage),
     by="Year")
+
+
+state   <- state |>
+  left_join(
+    tbl(source_db,"relationship") |>
+      left_join(consolidated |> select(DivisionNm,StateAb,Year),
+                by=c("Unit"="DivisionNm","Year"="Year")) |>
+      group_by(Year,StateAb,Attribute)  |>
+      summarise(Value=sum(Value),
+                Total=sum(Total),
+                .groups="drop")   |>
+      mutate(Percentage=100*Value/Total,.keep="unused") |>
+      pivot_wider(names_from=Attribute,values_from=Percentage),
+    by=c("StateAb","Year"))
 
 #fix CED capitalisation
 
@@ -372,6 +487,9 @@ nationals |>
   collect() |>
   write_csv(here("4. Data","national_values.csv"))
 
+state |>
+  collect() |>
+  write_csv(here("4. Data","state_values.csv"))
 
 #disconnect
 dbDisconnect(source_db, shutdown=TRUE)

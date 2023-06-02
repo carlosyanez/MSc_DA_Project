@@ -1,0 +1,234 @@
+---
+title: "Regression"
+editor: visual
+params:
+  cluster: 0
+  a_grid: !expr c(0,1)
+format:
+  html:
+    code-fold: true
+    code-summary: "Show the code"
+    toc: true
+    toc-location: left
+    df-print: paged
+---
+
+# Setup and load data
+
+```{r}
+library(tidyverse)
+library(tidymodels)
+library(here)
+library(gt)
+library(glmnet)
+library(ggrepel)
+source(here("6. Modelling","glmnet_functions_univariate.R"))
+```
+
+```{r}
+cluster <- params$cluster
+
+
+```
+
+# Cluster `r cluster`
+
+```{r}
+dataset <- read_csv(here("4. Data","consolidated.csv"))      |>
+           filter(election_year!=2022)                       |>
+           select(-any_of(c("Metro_Area")))              |>
+            mutate(across(where(is.numeric), ~ replace_na(.x,0)))
+
+
+clusters <- read_csv(here("4. Data","clusters.csv"))         |>
+            select(-any_of(c("Metro_Area")))
+
+
+dataset <- dataset |>
+           left_join(clusters,by=c("DivisionNm"="DivisionNm","election_year"="Year"))
+
+rm(clusters)
+
+party_cols <- c("GRN","ALP","COAL","Other")
+
+vote <- dataset |> select(DivisionNm,Year,election_year,StateAb,Metro,cluster,all_of(party_cols))
+
+nationals <- read_csv(here("4. Data","cluster_values.csv")) |>
+             pivot_longer(-c(Year,cluster),
+                          names_to = "Attribute",values_to="National") |>
+             mutate(Attribute=str_replace_all(Attribute," - ","_"),
+                    Attribute=str_replace_all(Attribute,"-","_"),
+                    Attribute=str_squish(Attribute),
+                    Attribute=str_replace_all(Attribute," ","_")) 
+
+
+rest <- dataset |> 
+        select(-all_of(party_cols)) |>
+        select(-Metro,-StateAb,-election_year) |>
+         pivot_longer(-c(DivisionNm,Year,cluster),
+               names_to = "Attribute",values_to = "CED") |>
+         mutate(Year=as.numeric(Year))                   |>
+         left_join(nationals,
+            by=c("Year","Attribute","cluster")) |>
+          select(-cluster) |>
+          mutate(Value=CED-National,.keep="unused") |>
+          pivot_wider(names_from = Attribute, values_from = Value)
+
+
+dataset <- vote |>
+           left_join(rest,by=c("DivisionNm","Year")) |>
+           mutate(Division=str_c(DivisionNm,"-",election_year),.keep="unused") |>
+          filter(cluster==cluster) |>
+          select(-any_of(c("cluster","Year","Household_Semi_detached")))
+
+
+
+dataset |>
+  count(Metro,StateAb) |>
+  pivot_wider(names_from = StateAb,values_from = n) |>
+  gt() |>
+  gt::data_color(columns = 2:9,palette = c("yellow","orange"),
+                 domain = c(0,100))
+
+
+dataset <- dataset |>
+          select(-any_of(c("StateAb","Metro")))
+
+```
+
+```{r}
+set.seed(24644)
+split <- split_dataset(dataset,train_perc = 0.8,id_col = "Division")
+
+```
+
+```{r}
+lasso_sel <- list()
+for(party in party_cols){
+      other_parties <- party_cols[str_detect(party_cols,party,TRUE)]
+      lasso_sel[[length(lasso_sel)+1]] <-  lasso_selection(split,
+                                                           "Division",
+                                                           party,
+                                                           other_parties)
+}
+names(lasso_sel) <- party_cols
+```
+
+```{r}
+p<-list()
+for(i in 1:length(party_cols)){
+  p[[i]] <- lambda_penalty_plot(lasso_sel[[i]]$cv,
+                      lasso_sel[[i]]$cv$lambda.1se,
+                      legend_y=20) + 
+    labs(title=party_cols[i])
+}
+
+p
+```
+
+```{r}
+p <- list()
+for(i in 1:length(party_cols)){
+
+p[[i]] <- coef_plot(lasso_sel[[i]]$cv) + labs(title=party_cols[i])
+}
+
+p
+```
+
+```{r}
+p <- list()
+for(i in 1:length(party_cols)){
+  p[[i]] <- coef_lollipop(lasso_sel[[i]]$cv) + labs(title=party_cols[i])
+}
+
+p
+
+```
+
+```{r}
+
+
+coefficients <- tibble()
+for(i in 1:length(party_cols)){
+  
+coefficients_i <- extract_coefs(lasso_sel[[i]]$cv) |>
+                  mutate(party=party_cols[i]) 
+
+coefficients <- bind_rows(coefficients,coefficients_i)
+
+}
+
+coef_min_max <- coefficients |>
+                summarise(min=min(value),max=max(value))
+
+coefficients <- coefficients |>
+                pivot_wider(names_from = party,values_from = value)
+
+coefficients |>
+  mutate(across(where(is.numeric),~round(.x,4)))|>
+  gt() |>
+  data_color(columns=where(is.numeric),
+               colors = scales::col_bin(
+      bins = c(-Inf, 0, Inf),
+      palette = c("red", "green"),
+    ))
+
+```
+
+```{r}
+
+results <- list()
+party_list <- colnames(coefficients)
+party_list <- party_list[str_detect(party_list,"variable",TRUE)]
+for(party in party_list ){
+  
+coeff_party <- coefficients |>
+               pivot_longer(-variable,names_to = "party_name",
+                            values_to = "value") |>
+               filter(party_name==party) |>
+               filter(!is.na(value))|>
+               pull(variable)
+  
+results[[length(results)+1]] <- assess_net(split,
+                                           id_col="Division",
+                                           alpha_grid = params$a_grid,
+                                           response= party,
+           predictors=coeff_party,
+           family = "gaussian")
+}
+names(results) <- party_list
+```
+
+```{r}
+p <-list()
+for(party in party_list ){
+  p[[length(p)+1]] <- enet_grid_plot(results[[1]]) + labs(title=party)
+}
+p
+```
+
+```{r}
+enet_folder <- fs::dir_create(here("6. Modelling","elastic_net_eval"))
+
+saveRDS(results,fs::path(enet_folder,glue::glue("cluster_univariate_{cluster}.rds")))
+
+```
+
+```{r}
+results[[1]] |> 
+  mutate(min=(RMSE_GRN==min(RMSE_GRN))) |>
+  filter(min)
+```
+
+```{r}
+results[[2]] |> 
+  mutate(min=(RMSE_ALP==min(RMSE_ALP))) |>
+  filter(min)
+```
+
+```{r}
+results[[3]] |> 
+  mutate(min=(RMSE_COAL==min(RMSE_COAL))) |>
+  filter(min)
+```

@@ -119,12 +119,13 @@ get_summary <- function(model_class, observations, test_data, include_data = FAL
 #' @output list with best lasso results
 lasso_selection <- function(dataset_split,id_col,responses,family="mgaussian") {
   
-  x.train <-  dataset_split$training |> column_to_rownames(id_col)  |> select(-all_of(responses)) |> as.matrix()
+  x.train <-  dataset_split$training |> column_to_rownames(id_col)  |> select(-all_of(responses)) # |> as.matrix()
+  x.train <- model.matrix( ~ .+1, data = x.train)
   y.train <-  dataset_split$training |>  column_to_rownames(id_col) |> select(all_of(responses)) |> as.matrix()
   
   
   cv.lasso  <-
-    cv.glmnet(x.train, y.train, alpha = 1,family=family)
+    cv.glmnet(x.train, y.train, alpha = 1,family=family,intercept=TRUE)
   
   lasso.model <- glmnet(
     x.train,
@@ -161,6 +162,8 @@ lasso_selection <- function(dataset_split,id_col,responses,family="mgaussian") {
   
 }
 
+
+
 #' assess performance of elastic net models for a range of regularisation parameters
 #' @param  dataset_split output of split_dataset(), using glmnet
 #' @param  alpha_grid vector of alphas
@@ -177,9 +180,18 @@ assess_net <-function(dataset_split,
                       preset_lambda = NULL) {
   # prep data for glmnet()
   
-  x.train <-  dataset_split$training |>  column_to_rownames(id_col) |>  select(all_of(predictors)) |> as.matrix()
+  ### remove intercept, added as part of fitting
+  
+  predictors <- predictors[str_detect(predictors,"Intercept",TRUE)]
+  
+  x.train <-  dataset_split$training |>  column_to_rownames(id_col) |>  select(all_of(predictors)) 
+  x.train <- model.matrix( ~ .+1, data = x.train)
+  
   y.train <-  dataset_split$training |>  column_to_rownames(id_col) |>  select(all_of(responses)) |> as.matrix()
-  x.test  <-  dataset_split$testing |>   column_to_rownames(id_col) |> select(all_of(predictors)) |> as.matrix()
+  
+  x.test  <-  dataset_split$testing |>   column_to_rownames(id_col) |> select(all_of(predictors)) #|> as.matrix()
+  x.test <- model.matrix( ~ .+1, data = x.test)
+  
   y.test  <-  dataset_split$testing |>   column_to_rownames(id_col) |> select(all_of(responses)) |> as.matrix()  
   
 
@@ -204,8 +216,10 @@ assess_net <-function(dataset_split,
         lambda = lambda
       )
     
-    
-    metrics <- get_summary(nets.model, y.test, x.test) |>
+
+    metrics <- get_summary(model_class=nets.model, 
+                           observations=y.test,
+                           test_data=x.test) |>
       add_column(number     =  i,
                  alpha      =  alpha_grid[i],
                  lambda     =  lambda) |>
@@ -297,34 +311,33 @@ coef_plot <- function(a) {
   p <- list()
   for(i in 1:length(betas)){
     
-    group <- names(betas)[i]
+      group <- names(betas)[i]
+      betas_i  <-  as(betas[[i]],"matrix")
+      rows     <- rownames(betas_i)
+      betas_i  <- as_tibble(betas_i,rownames_to_column="variable") 
     
-    betas_i  <-  as(betas[[i]],"matrix")
-    rows     <- rownames(betas_i)
-    betas_i  <- as_tibble(betas_i,rownames_to_column="variable") 
+      names(lambdas) <- colnames(betas_i)
+      above_line <- names(which(lambdas>a$lambda.1se))
     
-    names(lambdas) <- colnames(betas_i)
-    above_line <- names(which(lambdas>a$lambda.1se))
+      betas_i <- betas_i|>
+                 add_column(variable=rows) |>
+                 pivot_longer(-c(variable))  |>
+                 mutate(lambda = lambdas[name]) 
     
-    betas_i <- betas_i|>
-               add_column(variable=rows) |>
-               pivot_longer(-c(variable))  |>
-               mutate(lambda = lambdas[name]) 
-    
-    remaining_vars <- betas_i |> 
-      filter(name %in% above_line)     |>
-      filter(abs(value)>0)             |>
-      distinct(variable)               |>
-      pull()
+      remaining_vars <- betas_i |> 
+        filter(name %in% above_line)     |>
+        filter(abs(value)>0)             |>
+        distinct(variable)               |>
+        pull()
     
     
-    min_lines <- betas_i |>
+      min_lines <- betas_i |>
                  filter(variable %in% remaining_vars) |>
                  group_by(variable) |>
                  mutate(flag=(lambda==min(lambda, na.rm=TRUE))) |>
                  ungroup() |>
                  filter(flag) 
-    
+
     
     p[[length(p)+1]] <- betas_i |>
     ggplot(aes(x = lambda, y = value, col = variable)) +
@@ -455,7 +468,7 @@ extract_coefs <- function(model,column_order=NULL){
       rownames_to_column("variable") |>
       select(any_of(c("variable",lastone)))    |>
       rename("value"=lastone) |>
-      filter(abs(value)>0)    |>
+      filter(abs(value)>0|variable=="(Intercept)")    |>
       mutate(dim=name_i)
     
     output <- bind_rows(beta_i,output)
