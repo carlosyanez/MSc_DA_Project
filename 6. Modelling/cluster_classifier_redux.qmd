@@ -387,8 +387,11 @@ rpart_model$.predictions[[1]] |>
 library(fs)
 clustering_folder <- fs::dir_create(here("6. Modelling","clustering_models"))
 
-saveRDS(ranger_model,path(clustering_folder,"clustering_ranger_redux.rds"))
-saveRDS(rpart_model,path(clustering_folder,"clustering_rpart_redux.rds"))
+saveRDS(extract_fit_parsnip(ranger_model),
+        path(clustering_folder,"clustering_ranger_redux.rds"))
+
+saveRDS(extract_fit_parsnip(rpart_model),
+        path(clustering_folder,"clustering_rpart_redux.rds"))
 
 
 

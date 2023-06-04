@@ -150,7 +150,7 @@ results <- assess_net(split,
            responses= c("ALP","GRN","COAL","Other"),
            predictors=coefficients$variable,
            family = "mgaussian")
-results
+results$coefs
 ```
 
 ```{r}

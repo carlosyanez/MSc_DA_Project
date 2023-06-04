@@ -186,12 +186,9 @@ assess_net <-function(dataset_split,
   
   x.train <-  dataset_split$training |>  column_to_rownames(id_col) |>  select(all_of(predictors)) 
   x.train <- model.matrix( ~ .+1, data = x.train)
-  
   y.train <-  dataset_split$training |>  column_to_rownames(id_col) |>  select(all_of(responses)) |> as.matrix()
-  
   x.test  <-  dataset_split$testing |>   column_to_rownames(id_col) |> select(all_of(predictors)) #|> as.matrix()
   x.test <- model.matrix( ~ .+1, data = x.test)
-  
   y.test  <-  dataset_split$testing |>   column_to_rownames(id_col) |> select(all_of(responses)) |> as.matrix()  
   
 

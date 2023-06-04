@@ -83,6 +83,7 @@ primary_vote <- house_primary_vote_summary(state= state_acronyms,
 
 dbWriteTable(mydb, "primary_vote", primary_vote,overwrite=TRUE)
 
+
 ### Census Data - Age distribution -----
 
 #get list of variables to aggregate, convert age at census to generation 
@@ -483,6 +484,8 @@ primary_vote_centred <- primary_vote |>
   )) 
 
 dbWriteTable(mydb,"primary_vote_relative",primary_vote_centred,overwrite=TRUE)
+
+write_csv(tbl(mydb,"primary_vote") |> collect(),here(data_folder,"primary_vote.csv"))
 
 
 ### Disconnect, clean, upload DB -----

@@ -73,6 +73,7 @@ dataset_1 |>
   summarise(is_1 = mean(is_1))
 
 ```
+
 ```{r}
 dataset_1 |>
   mutate(is_1 = ((Metro==0) & !(Language_English_Only <80))) |>
@@ -84,8 +85,6 @@ dataset_rest <- dataset |>
                 filter(cluster!=1) |>
                 mutate(cluster=fct_drop(cluster))
 ```
-
-
 
 ```{r}
 set.seed(1234)
@@ -281,25 +280,23 @@ ranger_model$.predictions[[1]] |>
   pivot_wider(names_from = "Right", values_from = "n")
 ```
 
-
 # Save
 
 ```{r}
 library(fs)
 clustering_folder <- fs::dir_create(here("6. Modelling","clustering_models"))
 
-saveRDS(rpart_model,path(clustering_folder,"clustering_rpart_combined.rds"))
-saveRDS(ranger_model,path(clustering_folder,"clustering_ranger_combined.rds"))
+saveRDS(extract_fit_parsnip(rpart_model),path(clustering_folder,"clustering_rpart_combined.rds"))
+saveRDS(extract_fit_parsnip(ranger_model),path(clustering_folder,"clustering_ranger_combined.rds"))
 
 
 ```
 
-
 # random forest with reduced dataset
+
 ```{r}
 dataset_rest_orig <- dataset_rest
 ```
-
 
 ```{r}
 #| warning: false
@@ -319,8 +316,6 @@ dataset_rest |>
                   ))) |>
   GGally::ggpairs()
 ```
-
-
 
 ```{r}
 
@@ -346,7 +341,6 @@ testing  <- testing(split)
 
 
 ```
-
 
 ```{r}
 
@@ -422,6 +416,7 @@ extract_workflow(ranger_model) |>
   extract_fit_parsnip() |>
   vip()
 ```
+
 ```{r}
 ranger_model$.predictions[[1]] |>
   select(.pred_class,cluster)  |>
@@ -432,4 +427,3 @@ ranger_model$.predictions[[1]] |>
   ungroup() |>
   pivot_wider(names_from = "Right", values_from = "n")
 ```
-

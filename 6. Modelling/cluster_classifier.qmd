@@ -455,10 +455,10 @@ nnet_model |>
 library(fs)
 clustering_folder <- fs::dir_create(here("6. Modelling","clustering_models"))
 
-saveRDS(nnet_model,path(clustering_folder,"clustering_nnet.rds"))
-saveRDS(rpart_model,path(clustering_folder,"clustering_rpart.rds"))
-saveRDS(ranger_model,path(clustering_folder,"clustering_ranger.rds"))
-saveRDS(naive_model,path(clustering_folder,"clustering_naive.rds"))
+saveRDS(extract_fit_parsnip(nnet_model),path(clustering_folder,"clustering_nnet.rds"))
+saveRDS(extract_fit_parsnip(rpart_model),path(clustering_folder,"clustering_rpart.rds"))
+saveRDS(extract_fit_parsnip(ranger_model),path(clustering_folder,"clustering_ranger.rds"))
+saveRDS(extract_fit_parsnip(naive_model),path(clustering_folder,"clustering_naive.rds"))
 
 
 ```

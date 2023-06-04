@@ -80,7 +80,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#can-we-reduce-the-number-of-input-variables" id="toc-can-we-reduce-the-number-of-input-variables" class="nav-link active" data-scroll-target="#can-we-reduce-the-number-of-input-variables">Can we reduce the number of input variables?</a></li>
-  <li><a href="#accuracy-deep-down" id="toc-accuracy-deep-down" class="nav-link" data-scroll-target="#accuracy-deep-down">Accuracy Deep down</a></li>
+  <li><a href="#accuracy-by-cluster" id="toc-accuracy-by-cluster" class="nav-link" data-scroll-target="#accuracy-by-cluster">Accuracy by cluster</a></li>
   <li><a href="#can-be-improved" id="toc-can-be-improved" class="nav-link" data-scroll-target="#can-be-improved">Can be improved ?</a>
   <ul class="collapse">
   <li><a href="#metro" id="toc-metro" class="nav-link" data-scroll-target="#metro">Metro</a></li>
@@ -146,7 +146,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 ✖ dplyr::lag()      masks stats::lag()
 ✖ yardstick::spec() masks readr::spec()
 ✖ recipes::step()   masks stats::step()
-• Use tidymodels_prefer() to resolve common conflicts.</code></pre>
+• Search for functions across packages at https://www.tidymodels.org/find/</code></pre>
 </div>
 <details>
 <summary>Code</summary>
@@ -500,8 +500,8 @@ Attaching package: 'vip'</code></pre>
 </div>
 </div>
 </section>
-<section id="accuracy-deep-down" class="level2">
-<h2 class="anchored" data-anchor-id="accuracy-deep-down">Accuracy Deep down</h2>
+<section id="accuracy-by-cluster" class="level2">
+<h2 class="anchored" data-anchor-id="accuracy-by-cluster">Accuracy by cluster</h2>
 <div class="cell">
 <details>
 <summary>Code</summary>
@@ -1330,8 +1330,11 @@ Attaching package: 'vip'</code></pre>
 <div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(fs)</span>
 <span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>clustering_folder <span class="ot">&lt;-</span> fs<span class="sc">::</span><span class="fu">dir_create</span>(<span class="fu">here</span>(<span class="st">"6. Modelling"</span>,<span class="st">"clustering_models"</span>))</span>
 <span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(ranger_model,<span class="fu">path</span>(clustering_folder,<span class="st">"clustering_ranger_redux.rds"</span>))</span>
-<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(rpart_model,<span class="fu">path</span>(clustering_folder,<span class="st">"clustering_rpart_redux.rds"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(<span class="fu">extract_fit_parsnip</span>(ranger_model),</span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>        <span class="fu">path</span>(clustering_folder,<span class="st">"clustering_ranger_redux.rds"</span>))</span>
+<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-7"><a href="#cb48-7" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(<span class="fu">extract_fit_parsnip</span>(rpart_model),</span>
+<span id="cb48-8"><a href="#cb48-8" aria-hidden="true" tabindex="-1"></a>        <span class="fu">path</span>(clustering_folder,<span class="st">"clustering_rpart_redux.rds"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </section>

@@ -1,0 +1,316 @@
+---
+title: " Forecast for 2021 election"
+format:
+  html:
+    code-fold: true
+    code-summary: "Show the code"
+    toc: true
+    toc-location: left
+    df-print: paged
+editor: visual
+---
+
+```{r}
+library(tidymodels)
+library(tidyverse)
+library(fs)
+library(here)
+library(glmnet)
+library(glue)
+
+```
+
+## load models
+
+```{r}
+classification_model <- readRDS(here("6. Modelling","clustering_models","clustering_ranger_redux.rds"))
+
+regression_parameters   <-  list()
+
+for(i in 1:3){
+  regression_parameters[[i]] <-readRDS(here("6. Modelling","elastic_net_eval",
+                                 glue("cluster_delta_cluster_cluster{i-1}.rds"))) |>
+      filter(RMSE_Overall==min(RMSE_Overall))
+}
+names(regression_parameters) <- 0:2
+
+
+```
+
+Data to train regression model(s)
+
+```{r}
+dataset <- read_csv(here("4. Data","consolidated_cluster.csv"))      |>
+           filter(election_year!=2022)                       |>
+           select(-any_of(c("Metro_Area")))              |>
+            mutate(across(where(is.numeric), ~ replace_na(.x,0)))
+
+
+clusters <- read_csv(here("4. Data","clusters.csv"))         |>
+            select(-any_of(c("Metro_Area")))
+
+
+dataset <- dataset |>
+           left_join(clusters,by=c("DivisionNm"="DivisionNm","election_year"="Year"))
+
+rm(clusters)
+
+party_cols <- c("GRN","ALP","COAL","Other")
+
+vote <- dataset |> select(DivisionNm,Year,election_year,StateAb,Metro,cluster,all_of(party_cols))
+
+cluster_avg <- read_csv(here("4. Data","cluster_values.csv")) |>
+             filter(Year!=2021) |>
+             pivot_longer(-c(Year,cluster),
+                          names_to = "Attribute",values_to="National") |>
+             mutate(Attribute=str_replace_all(Attribute," - ","_"),
+                    Attribute=str_replace_all(Attribute,"-","_"),
+                    Attribute=str_squish(Attribute),
+                    Attribute=str_replace_all(Attribute," ","_")) 
+
+
+rest <- dataset |> 
+        select(-all_of(party_cols)) |>
+        select(-Metro,-StateAb,-election_year) |>
+         pivot_longer(-c(DivisionNm,Year,cluster),
+               names_to = "Attribute",values_to = "CED") |>
+         mutate(Year=as.numeric(Year))                   |>
+         left_join(cluster_avg,
+            by=c("Year","Attribute","cluster")) |>
+          select(-cluster) |>
+          mutate(Value=CED-National,.keep="unused") |>
+          pivot_wider(names_from = Attribute, values_from = Value)
+
+
+dataset <- vote |>
+           left_join(rest,by=c("DivisionNm","Year")) |>
+           mutate(Division=str_c(DivisionNm,"-",election_year),.keep="unused") |>
+          select(-any_of(c("Year","Household_Semi_detached"))) |>
+          select(-any_of(c("StateAb","Metro")))
+
+
+rm(rest,vote)
+
+
+```
+
+```{r}
+
+regression_models <- list()
+id_col <- "Division"
+
+for(i in c(1:3)){
+  cluster_nbr <- i-1
+
+  predictors <- regression_parameters[[i]]$coefs[[1]] |>
+                filter(str_detect(covariate,"Intercept",TRUE)) |>
+                pull(covariate)
+  
+  x.train <- dataset |>  column_to_rownames(id_col) |>  select(all_of(predictors)) 
+  x.train <- model.matrix( ~ .+1, data = x.train)
+  
+  y.train <-  dataset |>  column_to_rownames(id_col) |>  select(all_of(party_cols)) |> as.matrix()
+
+  regression_models[[i]] <- glmnet(x.train,y.train,
+                        family = "mgaussian",
+                        lambda = regression_parameters[[i]][1,]$lambda ,
+                        alpha =  regression_parameters[[i]][1,]$alpha)
+  
+}
+names(regression_models) <- 0:2
+
+```
+
+## Forecasting 2021
+
+```{r}
+new_data <-  read_csv(here("4. Data","consolidated.csv"))      |>
+           select(-any_of(party_cols))    |>
+           filter(election_year==2022)                       |>
+           select(-any_of(c("Year")))     |>
+           mutate(Division = str_c(DivisionNm,"-",election_year),
+                  .keep="unused",.before=1)                  |>
+           mutate(Metro=case_when(
+             Metro=="Yes" ~ 1,
+             Metro=="No"  ~ 0
+            ),.keep="unused") |>
+           mutate(across(where(is.numeric), ~ replace_na(.x,0)))
+
+
+          
+
+
+clusters   <- new_data |> 
+                    column_to_rownames("Division") |>
+                   select(any_of(c("Language_English_Only","Metro")),
+                   any_of(c("Household_Flat",
+                           "Household_Standalone",
+                           "Household_Owned_with_a_mortgage",
+                           "Relationship_Non_dependent_Child",
+                           "Relationship_Group_Household",
+                           "Relationship_Child_under_15")))      
+
+clusters<-        clusters|>
+                  add_column(cluster= predict(classification_model,clusters)$.pred_class) |>
+                  rownames_to_column("Division") |>
+                  select(Division,cluster)
+
+```
+
+```{r}
+library(leaflet)
+library(sf)
+
+map_data <- st_read(here("4. Data","CED_2021.gpkg")) |>
+  left_join(clusters |>
+            mutate(DivisionNm=str_remove(Division,"-2022")) |>
+            mutate(DivisionNm=str_remove(DivisionNm," \\(II\\)")),
+            by="DivisionNm") 
+
+
+clusters_colours <- ochRe::ochre_palettes[["lorikeet"]][1:3]
+pal <- colorFactor(clusters_colours, 0:2)
+
+
+
+map_data    |>
+  leaflet() |>
+  addPolygons(stroke = FALSE, smoothFactor = 0.3, fillOpacity = 1,     fillColor = ~pal(cluster),     label = ~glue::glue("{DivisionNm}: {cluster}")) |> 
+  addLegend(pal = pal, values = ~cluster, opacity = 1.0)
+
+
+```
+
+```{r}
+
+new_data <- new_data |>
+            left_join(clusters,by="Division")
+
+```
+
+```{r}
+
+prediction <- tibble()
+
+for(i in c(1:3)){
+  
+   cluster_nbr <- i-1
+   
+   predictors <- regression_parameters[[i]]$coefs[[1]] |>
+                 filter(str_detect(covariate,"Intercept",TRUE)) |>
+                 pull(covariate)
+   
+   x.new <- new_data |> 
+              filter(cluster==cluster_nbr) |>
+              column_to_rownames("Division") |>
+              select(all_of(predictors)) 
+   
+   
+   x.new <- model.matrix( ~ .+1, data = x.new) 
+  
+   pred_i <- predict(regression_models[[i]], x.new) |>
+             as_tibble(rownames="Division")         |>
+             rename_with(~str_remove(.x,"\\.s0"))   |>
+             mutate(cluster=cluster_nbr,.after=1)
+
+
+   prediction <- bind_rows(prediction,pred_i)
+     
+}
+
+```
+
+```{r}
+historic_cluster <- read_csv(here("4. Data","consolidated_cluster.csv"))      |>
+                    filter(election_year!=2022)                       |>
+                    select(any_of(c("GRN","COAL","ALP","Other")))              |>
+                     mutate(across(where(is.numeric), ~ replace_na(.x,0)))
+  
+```
+
+```{r}
+
+#news poll
+primary_vote <- tribble(~PartyAb,~Avg.Vote,
+                        "COAL", 35,	
+                        "ALP",  36,
+                        "GRN",  12,
+                        "Other",17)
+
+
+
+
+actual_vote <- read_csv(here("4. Data","primary_vote.csv")) |>
+               filter(Year==2022)                           |>
+               group_by(PartyAb,DivisionNm)                 |>
+               summarise(Actual=sum(Percentage),.groups="drop")
+
+
+prediction_compared <- prediction |>
+  pivot_longer(-c(Division,cluster),
+               names_to="PartyAb",
+               values_to = "VoteDiff") |>
+  mutate(DivisionNm=str_remove(Division,"-2022")) |>
+  left_join(primary_vote,by="PartyAb") |>
+  mutate(Predicted=Avg.Vote+VoteDiff) |>
+  left_join(actual_vote,by=c("DivisionNm","PartyAb")) |>
+  select(DivisionNm,PartyAb,cluster,Predicted,Actual) |>
+  mutate(Error=Actual-Predicted)
+  
+
+```
+
+```{r}
+library(echarts4r)
+
+prediction_compared$ref <- rnorm(nrow(prediction_compared))
+auspol::party_colours()[party_cols]
+
+prediction_compared |>
+  mutate(Div=glue::glue("{DivisionNm} ({cluster}): {PartyAb}")) |>
+  group_by(PartyAb,cluster) |>
+  e_charts(Error)       |>
+   e_theme_custom('{"color":["#E13940","#1C4F9C","#009C3D","#414141"]}')|>
+  e_scatter(ref,symbol_size = 10,bind=Div)   |>
+  e_x_axis(min=-30,max=30) |>
+  e_rm_axis(axis="y") |>
+  e_facet(rows=4,cols=3)    |>
+  e_tooltip(formatter = htmlwidgets::JS("
+      function(params){
+        return('<strong>' + params.name + 
+                '</strong><br />error: ' + params.value[0]) 
+                }
+    ")) 
+```
+
+```{r}
+prediction_compared |>
+  mutate(Error=Error^2) |>
+  group_by(PartyAb) |>
+  summarise(RMSE=sqrt(mean(Error,na.rm=TRUE)),.groups="drop")
+```
+
+Samples
+
+```{r}
+library(auspol)
+
+house_primary_historic_plot("Grayndler", parties =4, 
+                            parties_year = 2022, 
+                            include_others = TRUE )
+
+```
+
+```{r}
+house_primary_historic_plot("Kooyong", parties =4, 
+                            parties_year = 2022, 
+                            include_others = TRUE )
+
+```
+
+```{r}
+house_primary_historic_plot("Griffith", parties =4, 
+                            parties_year = 2022, 
+                            include_others = TRUE )
+
+```
