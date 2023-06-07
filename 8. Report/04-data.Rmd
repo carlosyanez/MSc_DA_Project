@@ -1,0 +1,260 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+bibliography:
+- book.bib
+- packages.bib
+---
+
+```{r seven-setup,message=FALSE,warning=FALSE,echo=FALSE}
+library(DiagrammeR)
+library(dplyr)
+library(readr)
+library(stringr)
+library(here)
+library(auspol)
+library(flextable)
+library(ggplot2)
+
+source(here::here("formatting_defaults.R"))
+
+project_path <- fs::path(here(),"..")
+
+
+```
+
+# Data {#data}
+
+## Data Sources {#data-sources}
+
+The first in the process was to source demographic and electoral data, which has been provided from two sources:
+
+-   **The Australian Electoral Commission** (AEC) [@AEC] . The AEC contains detailed online records for every federal election held in the 21st century, through their Tally Room website [@TallyRoom].
+
+-   The **Australian Bureau of Statistics** (ABS) [@ABS]. The ABS provides a wide number of national statistics and is responsible to conduct a national census of population and housing every 5 years. Comprehensive census data is provided in multiple formats, including csv files through Census Data Packs [@CensusDataPack], which are available for censuses from 2006 onwards.
+
+Both organisations are the authoritative source for electoral and statistical data in Australia, and the data is provided openly. Although there are no quality issues, the way that data is provided presents other challenges, namely:
+
+-   In both cases, data are provided in large volumes and exhaustive granularity. If not done effectively, data extraction and aggregation can be time-consuming and resource intensive.
+-   Census data points are provided using the ABS own geographical standard - and only a small selection of census data is provided at the electoral division level. Conversion between ABS geographical structures and electoral divisions is not straightforward as there is no 1:1 correspondence. Both geographical systems change from election to election and census to census.
+-   Despite the best efforts of both organisations in keeping consistency, names of electorates, parties, and census attributes change over time - to compare similar statistics manual mapping is necessary.
+
+To address these issues and ensure repeatability, three R packages have been written to undertake this task:
+
+-   **{auspol} [@R-auspol]**, which extracts and presents electoral results.
+-   **{auscensus} [@R-auscensus]**, which allows to interact with Census Data Packs to extract different statistics across geographical units, and across censuses.
+-   **{aussiemaps} [@R-aussiemaps]**, which assists with aggregating census data into electoral divisions, by matching and apportioning different geographical structures.
+
+The appendix contains a vignette for each package, explaining their respective *modus operandi*. At a higher level, the extraction pipeline for this project is represented by figure \@ref(fig:data-flow).
+
+```{r data-flow, fig.cap="Flow of data from sources to dataset", echo=FALSE}
+DiagrammeR::grViz(here("img","02_data_flow.gv"))
+```
+
+In summary, the process followed consisted of the below steps:
+
+1.  Census data was extracted from the respective Census Data Pack using **{auscensus}**. Using the package workflow, key attributes were identified in each census, extracted from the respective files and given common names. Data were extracted for statistical areas and apportioned into Commonwealth Electoral Divisions by overlapping area, with the help of functions written into **{aussiemaps}**
+
+2.  Primary vote results for each division were extracted using the **auspol** package.
+
+3.  All the data was stored in a local database, from where was extracted and put together in a single dataset.
+
+4.  From there, the "raw" data was further processed and stored in a single "consolidated" dataset.
+
+## Data Selection {#data-selection}
+
+### Census and Election Years {#data-selection-years}
+
+The first to address when extracting the data is to establish a correspondence between census and election data. Since election the census cycle (5 years) does not match the electoral cycle (determined by the incumbent government, with a 3-year term for the House of Representatives), there is a potential problem of the census data not being completely representative of the population on a given election day. Figure \@ref(fig:elections-and-census) presents the best matches between both events held in the 21st century.
+
+```{r elections-and-census}
+ tibble::tribble(~Year, ~Event,
+                2001,"Census",
+                2006,"Census",
+                2011,"Census",
+                2016,"Census",
+                2021,"Census",
+                2001,"Election",
+                2004,"Election",
+                2007,"Election",
+                2010,"Election",
+                2013,"Election",
+                2016,"Election",
+                2019,"Election",
+                2022,"Election"
+                ) |>
+  mutate(start = lubridate::ymd(Year,truncated = 2L),
+         end=start+lubridate::ddays(365)) |>
+vistime::gg_vistime(col.event="Year",col.group = "Event", title = "Timeline of Census and Elections") 
+
+```
+
+Considering the census data available and selecting the elections closer to each census, four pairs of events were selected for data extraction. there are presented in table \@ref(tab:selected-pairs)
+
+```{r }
+
+tibble::tribble(~Census,~Election,
+                "2006","2007",
+                "2010","2011",
+                "2016","2016",
+                "2021","2022") |>
+   flex_default("Selected Census-Election pairings","selected-pairs") |>
+   set_table_properties( width = .8, layout = "autofit") |>
+   align(j=1, align = "right", part = "all")
+
+
+```
+
+Please note that this selection will remove half of the elections within the period, which may have an effect on model accuracy. However, since the objective is not to obtain an accurate prediction this has been accepted as a trade-off to avoid having to interpolate demographic attributes between censuses - which is also subject to inaccuracies given the rapid demographic changes experienced in Australia's main cities.
+
+### Electoral Data {#data-selection-electoral}
+
+In the case of the electoral data. not much processing was required. The source data already contains records of primary voting for each electorate and only percentages have been calculated. In addition, the number of total votes per party at the national and state level have been calculated. A sample of the extracted data is presented in table \@ref(tab:canberra2022).
+
+```{r}
+
+auspol::house_primary_vote_summary(division="Canberra",
+                                   year=2022,
+                                   parties = c("ALP","LP","GRN"),
+                                   include_others = TRUE) |>
+  mutate(Year=as.character(Year)) |>
+  mutate(PartyNm=case_when(
+    PartyAb =="Other" ~ "Other Parties",
+    PartyAb =="LP" ~ glue::glue("{PartyNm} (Coalition)"),
+    TRUE ~ PartyAb
+  ),
+  PartyAb = case_when(
+    stringr::str_detect(PartyNm,"Coalition") ~"COAL",
+    TRUE ~ PartyAb
+  )) |>
+  mutate(Percentage=OrdinaryVotes/sum(OrdinaryVotes)) |>
+  select(Year=Year,
+         Division=DivisionNm,
+        Abbreviation=PartyAb,
+        Party=PartyNm,
+        Votes=OrdinaryVotes,
+        Percentage=Percentage) |>
+  flex_default("Sample extraction - Canberra 2022","canberra2022") |>
+    set_formatter( Percentage = function(x) sprintf( "%.1f%%", x*100 ) )
+
+
+```
+
+### Census Data
+
+As mentioned in section \@ref(data-sources), a major challenge with respect of census data is the large volume of data points collected. For instance, the data pack for the 2022 Census contains 62 different tables, ranging from 8 [^04-data-1] to 1,590 [^04-data-2] attributes.
+
+[^04-data-1]: *02 -Selected Medians and Averages*
+
+[^04-data-2]: *09 - Country of Birth of Person by Age by Sex*
+
+To select which variables to extract, literature and journalistic sources were consulted ([@biddle2022], [@votingpatternsbygen], [@jakubowicz]) to inform an initial set of covariates. In total (XYZ) variables were selected, which correspond to below to the following groups:
+
+1.  **Income** : Distribution of population in pre-set income brackets.
+
+2.  **Education Level**: Distribution of educational achievement (from incomplete secondary to vocational education and academic degrees).
+
+3.  **Age**: Distribution of the population in generational cohorts. Taking into account the selected elections, the four groups of interest are Baby Boomers (1946 to 1964), Generation X (1965 to 1980), Generation Y (1981 to 1996) and Generation Z (1997 to 2021).
+
+4.  **Relationship status**: Variables describing civil status (e.g. living alone, married, in a de facto relationship).
+
+5.  **Household type:** Descriptors of type of housing , (e.g. standalone house, semi-detached, flats).
+
+6.  **Household tenure:** Descriptors of house ownership, rental or other arrangement (e.g. public housing).
+
+7.  **Citizenship**: Percentage of the population that hold Australian citizenship. Although non-citizens are not entitled to vote, this variable can be taken as a proxy for relative integration of migrant communities into civic life.
+
+8.  **Religion:** Percentage of the population declaring to profess a religion. For this analysis, largest and high growth religious groups were selected (No religion/secular, Roman Catholic, Anglican-Presbyterian-Uniting, Christian Orthodox, Other Christianity, Islam, Hinduism, Buddhism).
+
+9.  **Language**: Languages spoken in the community. Similar to religion, a selection of relevant language have been included to reflect the historic and current migrant communities.
+
+Apart from those, each electorate has been classified as **metropolitan** if it lies within the boundaries of Australian capital cities or **non-metropolitan** if not. Altogether, these variables try to reflect wealth and education (cited by [@biddle2022] as key factors in deciding political persuasion), as well as stage in life and belonging to a particular migrant community (sometimes cited as an influential factor, for instance in [@jakubowicza]).
+
+## Data Exploration {#eda}
+
+In total, the resulting dataset is made up of 4 response variables and 55 potential predictors, plus identificatory attributes like division mane and election year. As expected, an initial inspection shows that some of the covariates are loosely correlated with primary vote. Also expected, many of the covariates exhibit medium to high correlation levels amongst themselves, e.g. negative correlation between high and low level income groups, and certain age brackets with houselhold type and tenure.
+
+As examples, figure \@ref(fig:coalvsboomers) show a somewhat weak correlation between Coalition primary vote and percentage of baby boomer population. Figure \@ref(fig:corrlanguagereligion) presents the correlation values for religion and language attributes that aside from expected pairings (e.g. Hinduism and South Asian languages or Italian speakers and percentage of declared catholics), there is a almost exclusive positive correlation between membership to Anglican, Presbyterian and Uniting churches and percentage of monolingual English speakers. The percentage of monolingual English speakers is also negative correlated to all other language groups.
+
+```{r include=FALSE}
+dataset <- read_csv(fs::path(project_path,"4. Data","consolidated.csv"))
+
+```
+
+```{r coalvsboomers,fig.cap="Correlation between Coalition vote and Baby boomer population"}
+dataset |>
+  select(DivisionNm,election_year,COAL,Age_Baby_Boomers) |>
+  ggplot(aes(x=Age_Baby_Boomers,y=COAL)) +
+  geom_point(colour=auspol::party_colours()["COAL"]) +
+  facet_wrap(.~ election_year, ncol=2) +
+  labs(title="Coalition Primary vote by baby boomer population",
+       subtitle="as percentage of electorate's population",
+       x= "Baby Boomers (%)",y="Primary vote (%)")
+```
+
+```{r corrlanguagereligion, echo=FALSE,  out.width="110%", fig.cap="Correlation for selected covariates"}
+
+cor_selection <-dataset |>
+  select(matches("Religion"),
+         matches("Language")) |>
+  filter(!is.na(Religion_Catholic))
+
+cor_columns <- colnames(cor_selection)
+names(cor_columns) <- str_replace_all(cor_columns,"_"," ")
+names(cor_columns) <- str_replace_all(names(cor_columns),"Language","Language:")
+names(cor_columns) <- str_replace_all(names(cor_columns),"Religion","Religion:")
+
+cor_columns <- sort(cor_columns)
+
+cor_selection <- cor_selection |>
+                 select(any_of(cor_columns)) |>
+                 rename(any_of(cor_columns)) 
+
+
+col <- colorRampPalette(c("#BB4444", "#EE9988", "#FFFFFF", "#77AADD", "#4477AA"))
+
+cor(cor_selection) |>
+     ggcorrplot::ggcorrplot( hc.order = FALSE, 
+                             type = "lower",
+                             tl.cex=8,
+                             lab = TRUE,
+                             lab_size=1.5) +
+  labs(title="Correlation between Language and Religion") +
+  guides(fill=guide_legend(title="Correlation"))
+  
+```
+
+Besides from this, it is worth noticing that :
+
+-   There is no apparent change in the relationship between a given covariate and the responses when broken down by state or capital city.
+
+-   There are also no obviously distinguishable differences when splitting results by each election.
+
+### Dimensionality reduction using Multiple Factor Analysis  {#data-mfa}
+
+Given the large number of variables and considering their correlation, it is worth exploring if a change of space could help to better identify variation, and whether the number of covariates can be reduced in a meaningful way. For this **multiple factor analysis** (MFA) [@escofier:hal-00382085] was used, given that:
+
+-   MFA allows to use variables that belong to groups.
+
+-   Allows to combine quantitative and qualitative variables.
+
+```{r include=FALSE}
+library(factoextra)
+
+mfa <- readRDS(fs::path(project_path,"6. Modelling",
+                         "clustering_models","MFA.rds"))
+```
+
+```{r mfascree, fig.cap="Scree plot for MFA"}
+fviz_screeplot(mfa) 
+```
+
+```{r}
+mfa$eig |> 
+  as_tibble() |>
+  mutate(across(where(is.numeric), ~ round(.x,3))) |>
+  mutate(Dimension=glue::glue("Dim {row_number()}"), .before=1) |>
+  slice_head(n=10) |>
+  flex_default("hello word","mfacumulative")
+```

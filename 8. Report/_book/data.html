@@ -4,32 +4,32 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 4 Sourcing Data | A Minimal Book Example</title>
+  <title>Chapter 4 Data | A Minimal Book Example</title>
   <meta name="description" content="<p>This is a minimal example of using the bookdown package to write a book.
-The HTML output format for this example is bookdown::gitbook,
-set in the _output.yml file.</p>" />
+set in the _output.yml file.
+The HTML output format for this example is bookdown::gitbook,</p>" />
   <meta name="generator" content="bookdown 0.32 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 4 Sourcing Data | A Minimal Book Example" />
+  <meta property="og:title" content="Chapter 4 Data | A Minimal Book Example" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="<p>This is a minimal example of using the bookdown package to write a book.
-The HTML output format for this example is bookdown::gitbook,
-set in the _output.yml file.</p>" />
+set in the _output.yml file.
+The HTML output format for this example is bookdown::gitbook,</p>" />
   <meta name="github-repo" content="rstudio/bookdown-demo" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 4 Sourcing Data | A Minimal Book Example" />
+  <meta name="twitter:title" content="Chapter 4 Data | A Minimal Book Example" />
   
   <meta name="twitter:description" content="<p>This is a minimal example of using the bookdown package to write a book.
-The HTML output format for this example is bookdown::gitbook,
-set in the _output.yml file.</p>" />
+set in the _output.yml file.
+The HTML output format for this example is bookdown::gitbook,</p>" />
   
 
 <meta name="author" content="John Doe" />
 
 
-<meta name="date" content="2023-05-20" />
+<meta name="date" content="2023-06-07" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -62,72 +62,10 @@ set in the _output.yml file.</p>" />
 <script src="libs/viz-1.8.2/viz.js"></script>
 <link href="libs/DiagrammeR-styles-0.2/styles.css" rel="stylesheet" />
 <script src="libs/grViz-binding-1.0.10/grViz.js"></script>
+<link href="libs/tabwid-1.1.3/tabwid.css" rel="stylesheet" />
+<script src="libs/tabwid-1.1.3/tabwid.js"></script>
 
 
-<style type="text/css">
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-    color: #aaaaaa;
-  }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { color: #008000; } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { color: #008000; font-weight: bold; } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-</style>
 
 <style type="text/css">
 /* Used with Pandoc 2.11+ new --citeproc when CSL is used */
@@ -172,35 +110,37 @@ div.csl-indent {
 <li class="chapter" data-level="2" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>2</b> Introduction</a></li>
 <li class="chapter" data-level="3" data-path="strucure.html"><a href="strucure.html"><i class="fa fa-check"></i><b>3</b> Strucure</a></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
-<li class="chapter" data-level="4" data-path="data.html"><a href="data.html"><i class="fa fa-check"></i><b>4</b> Sourcing Data</a>
+<li class="chapter" data-level="4" data-path="data.html"><a href="data.html"><i class="fa fa-check"></i><b>4</b> Data</a>
 <ul>
-<li class="chapter" data-level="4.1" data-path="data.html"><a href="data.html#extracting-data"><i class="fa fa-check"></i><b>4.1</b> Extracting data</a></li>
+<li class="chapter" data-level="4.1" data-path="data.html"><a href="data.html#data-sources"><i class="fa fa-check"></i><b>4.1</b> Data Sources</a></li>
+<li class="chapter" data-level="4.2" data-path="data.html"><a href="data.html#data-selection"><i class="fa fa-check"></i><b>4.2</b> Data Selection</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="data.html"><a href="data.html#data-selection-years"><i class="fa fa-check"></i><b>4.2.1</b> Census and Election Years</a></li>
+<li class="chapter" data-level="4.2.2" data-path="data.html"><a href="data.html#data-selection-electoral"><i class="fa fa-check"></i><b>4.2.2</b> Electoral Data</a></li>
+<li class="chapter" data-level="4.2.3" data-path="data.html"><a href="data.html#census-data"><i class="fa fa-check"></i><b>4.2.3</b> Census Data</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references-1.html"><a href="references-1.html"><i class="fa fa-check"></i>References</a></li>
-<li class="chapter" data-level="" data-path="references-2.html"><a href="references-2.html"><i class="fa fa-check"></i>References</a></li>
-<li class="chapter" data-level="5" data-path="appendix-extracting-data.html"><a href="appendix-extracting-data.html"><i class="fa fa-check"></i><b>5</b> (APPENDIX) Extracting Data</a>
+<li class="chapter" data-level="5" data-path="appendix-auscensus-vignette.html"><a href="appendix-auscensus-vignette.html"><i class="fa fa-check"></i><b>5</b> (APPENDIX) {auscensus} Vignette</a></li>
+<li class="chapter" data-level="6" data-path="appendix-auspol-vignette.html"><a href="appendix-auspol-vignette.html"><i class="fa fa-check"></i><b>6</b> (APPENDIX) {auspol} Vignette</a>
 <ul>
-<li class="chapter" data-level="5.1" data-path="appendix-extracting-data.html"><a href="appendix-extracting-data.html#package-architecture"><i class="fa fa-check"></i><b>5.1</b> Package Architecture</a></li>
+<li class="chapter" data-level="6.1" data-path="appendix-auspol-vignette.html"><a href="appendix-auspol-vignette.html#what-is-this"><i class="fa fa-check"></i><b>6.1</b> What is this?</a></li>
+<li class="chapter" data-level="6.2" data-path="appendix-auspol-vignette.html"><a href="appendix-auspol-vignette.html#getting-the-data"><i class="fa fa-check"></i><b>6.2</b> Getting the data</a></li>
+<li class="chapter" data-level="6.3" data-path="appendix-auspol-vignette.html"><a href="appendix-auspol-vignette.html#plotting"><i class="fa fa-check"></i><b>6.3</b> Plotting</a>
+<ul>
+<li class="chapter" data-level="6.3.1" data-path="appendix-auspol-vignette.html"><a href="appendix-auspol-vignette.html#historic-trends"><i class="fa fa-check"></i><b>6.3.1</b> Historic Trends</a></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="appendix-auscensus-vignette.html"><a href="appendix-auscensus-vignette.html"><i class="fa fa-check"></i><b>6</b> (APPENDIX) {auscensus} Vignette</a></li>
-<li class="chapter" data-level="7" data-path="appendix-auspol-vignette.html"><a href="appendix-auspol-vignette.html"><i class="fa fa-check"></i><b>7</b> (APPENDIX) {auspol} Vignette</a>
-<ul>
-<li class="chapter" data-level="7.1" data-path="appendix-auspol-vignette.html"><a href="appendix-auspol-vignette.html#what-is-this"><i class="fa fa-check"></i><b>7.1</b> What is this?</a></li>
-<li class="chapter" data-level="7.2" data-path="appendix-auspol-vignette.html"><a href="appendix-auspol-vignette.html#getting-the-data"><i class="fa fa-check"></i><b>7.2</b> Getting the data</a></li>
-<li class="chapter" data-level="7.3" data-path="appendix-auspol-vignette.html"><a href="appendix-auspol-vignette.html#plotting"><i class="fa fa-check"></i><b>7.3</b> Plotting</a>
-<ul>
-<li class="chapter" data-level="7.3.1" data-path="appendix-auspol-vignette.html"><a href="appendix-auspol-vignette.html#historic-trends"><i class="fa fa-check"></i><b>7.3.1</b> Historic Trends</a></li>
+<li class="chapter" data-level="6.4" data-path="appendix-auspol-vignette.html"><a href="appendix-auspol-vignette.html#results-for-one-election"><i class="fa fa-check"></i><b>6.4</b> Results for one election</a></li>
 </ul></li>
-<li class="chapter" data-level="7.4" data-path="appendix-auspol-vignette.html"><a href="appendix-auspol-vignette.html#results-for-one-election"><i class="fa fa-check"></i><b>7.4</b> Results for one election</a></li>
-</ul></li>
-<li class="chapter" data-level="8" data-path="appendix-aussiemaps-vignette.html"><a href="appendix-aussiemaps-vignette.html"><i class="fa fa-check"></i><b>8</b> (APPENDIX) {aussiemaps} Vignette</a>
+<li class="chapter" data-level="7" data-path="appendix-aussiemaps-vignette.html"><a href="appendix-aussiemaps-vignette.html"><i class="fa fa-check"></i><b>7</b> (APPENDIX) {aussiemaps} Vignette</a>
 <ul>
-<li class="chapter" data-level="8.1" data-path="appendix-aussiemaps-vignette.html"><a href="appendix-aussiemaps-vignette.html#aussiemaps---yet-another-maps-package"><i class="fa fa-check"></i><b>8.1</b> {aussiemaps} - Yet another maps package</a></li>
-<li class="chapter" data-level="8.2" data-path="appendix-aussiemaps-vignette.html"><a href="appendix-aussiemaps-vignette.html#getting-started."><i class="fa fa-check"></i><b>8.2</b> Getting started.</a></li>
-<li class="chapter" data-level="8.3" data-path="appendix-aussiemaps-vignette.html"><a href="appendix-aussiemaps-vignette.html#filtering-via-regular-expressions"><i class="fa fa-check"></i><b>8.3</b> Filtering via regular expressions</a></li>
-<li class="chapter" data-level="8.4" data-path="appendix-aussiemaps-vignette.html"><a href="appendix-aussiemaps-vignette.html#even-more-complex-filtering"><i class="fa fa-check"></i><b>8.4</b> Even more complex filtering</a></li>
-<li class="chapter" data-level="8.5" data-path="appendix-aussiemaps-vignette.html"><a href="appendix-aussiemaps-vignette.html#aggregation"><i class="fa fa-check"></i><b>8.5</b> Aggregation</a></li>
-<li class="chapter" data-level="8.6" data-path="appendix-aussiemaps-vignette.html"><a href="appendix-aussiemaps-vignette.html#data-aggregation"><i class="fa fa-check"></i><b>8.6</b> Data Aggregation</a></li>
+<li class="chapter" data-level="7.1" data-path="appendix-aussiemaps-vignette.html"><a href="appendix-aussiemaps-vignette.html#aussiemaps---yet-another-maps-package"><i class="fa fa-check"></i><b>7.1</b> {aussiemaps} - Yet another maps package</a></li>
+<li class="chapter" data-level="7.2" data-path="appendix-aussiemaps-vignette.html"><a href="appendix-aussiemaps-vignette.html#getting-started."><i class="fa fa-check"></i><b>7.2</b> Getting started.</a></li>
+<li class="chapter" data-level="7.3" data-path="appendix-aussiemaps-vignette.html"><a href="appendix-aussiemaps-vignette.html#filtering-via-regular-expressions"><i class="fa fa-check"></i><b>7.3</b> Filtering via regular expressions</a></li>
+<li class="chapter" data-level="7.4" data-path="appendix-aussiemaps-vignette.html"><a href="appendix-aussiemaps-vignette.html#even-more-complex-filtering"><i class="fa fa-check"></i><b>7.4</b> Even more complex filtering</a></li>
+<li class="chapter" data-level="7.5" data-path="appendix-aussiemaps-vignette.html"><a href="appendix-aussiemaps-vignette.html#aggregation"><i class="fa fa-check"></i><b>7.5</b> Aggregation</a></li>
+<li class="chapter" data-level="7.6" data-path="appendix-aussiemaps-vignette.html"><a href="appendix-aussiemaps-vignette.html#using-external-data"><i class="fa fa-check"></i><b>7.6</b> Using external data</a></li>
+<li class="chapter" data-level="7.7" data-path="appendix-aussiemaps-vignette.html"><a href="appendix-aussiemaps-vignette.html#data-aggregation"><i class="fa fa-check"></i><b>7.7</b> Data Aggregation</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -223,37 +163,133 @@ div.csl-indent {
 
             <section class="normal" id="section-">
 <div id="data" class="section level1 hasAnchor" number="4">
-<h1><span class="header-section-number">Chapter 4</span> Sourcing Data<a href="data.html#data" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>Based on the previously explained approach, data had to be source from 2 main sources:</p>
+<h1><span class="header-section-number">Chapter 4</span> Data<a href="data.html#data" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="data-sources" class="section level2 hasAnchor" number="4.1">
+<h2><span class="header-section-number">4.1</span> Data Sources<a href="data.html#data-sources" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The first in the process was to source demographic and electoral data, which has been provided from two sources:</p>
 <ul>
-<li><p>The Australian Electoral Commission (AEC). The AEC contains detailed online records for all federal election held in the 21st century, through their Tally Room websites. All data is presented in CSV format and it is publicly and easily accessible.</p></li>
-<li><p>The Australian Bureau of Statistics (ABS). The ABS provides an extensive repository of statistical data. This project is using Census Data, which is available through their Census Data packs.</p></li>
+<li><p><strong>The Australian Electoral Commission</strong> (AEC) <span class="citation">(<a href="#ref-AEC" role="doc-biblioref">Commission 2023b</a>)</span> . The AEC contains detailed online records for every federal election held in the 21st century, through their Tally Room website <span class="citation">(<a href="#ref-TallyRoom" role="doc-biblioref">Commission 2023a</a>)</span>.</p></li>
+<li><p>The <strong>Australian Bureau of Statistics</strong> (ABS) <span class="citation">(<a href="#ref-ABS" role="doc-biblioref">Statistics 2023b</a>)</span>. The ABS provides a wide number of national statistics and is responsible to conduct a national census of population and housing every 5 years. Comprehensive census data is provided in multiple formats, including csv files through Census Data Packs <span class="citation">(<a href="#ref-CensusDataPack" role="doc-biblioref">Statistics 2023a</a>)</span>, which are available for censuses from 2006 onwards.</p></li>
 </ul>
-<p>In both cases, the data provided is of high quality, trustable and provided in open formats. However, three particular challenges arose:</p>
+<p>Both organisations are the authoritative source for electoral and statistical data in Australia, and the data is provided openly. Although there are no quality issues, the way that data is provided presents other challenges, namely:</p>
 <ul>
-<li>There is a large volume of data: multiple political parties, +100 electoral divisions and a very large number of statistical data collected in each census.</li>
-<li>Not all publicly available Census data is provided by electoral division. Aggregation from statistical collection areas into electorates is not straightforward due to a lack of 1:1 correspondence between the former (defined by the AEC) and the latter (defined by the ABS).</li>
-<li>Despite the best efforts of both organisations, names of electorates, parties, census attributes change over time, requiring work to track a variable across time.</li>
+<li>In both cases, data are provided in large volumes and exhaustive granularity. If not done effectively, data extraction and aggregation can be time-consuming and resource intensive.</li>
+<li>Census data points are provided using the ABS own geographical standard - and only a small selection of census data is provided at the electoral division level. Conversion between ABS geographical structures and electoral divisions is not straightforward as there is no 1:1 correspondence. Both geographical systems change from election to election and census to census.</li>
+<li>Despite the best efforts of both organisations in keeping consistency, names of electorates, parties, and census attributes change over time - to compare similar statistics manual mapping is necessary.</li>
 </ul>
-<p>To better overcome those challenges in a repeatable way, three R packages have been created as part of this projects, namely:</p>
+<p>To address these issues and ensure repeatability, three R packages have been written to undertake this task:</p>
 <ul>
-<li>{auspol}, which extracts and presents electoral results.</li>
-<li>{auscensus}, which allows to interact with Census Data Packs to extract different statistics across geographical units, and across censuses.</li>
-<li>{aussiemaps}, which assists with aggregating census data into electoral divisions, by matching and apportioning different geographical structures.</li>
+<li><strong>{auspol} <span class="citation">(<a href="#ref-R-auspol" role="doc-biblioref">Yáñez Santibáñez 2023b</a>)</span></strong>, which extracts and presents electoral results.</li>
+<li><strong>{auscensus} <span class="citation">(<a href="#ref-R-auscensus" role="doc-biblioref">Yáñez Santibáñez 2023a</a>)</span></strong>, which allows to interact with Census Data Packs to extract different statistics across geographical units, and across censuses.</li>
+<li><strong>{aussiemaps} <span class="citation">(<a href="#ref-R-aussiemaps" role="doc-biblioref">Yáñez Santibáñez 2023c</a>)</span></strong>, which assists with aggregating census data into electoral divisions, by matching and apportioning different geographical structures.</li>
 </ul>
-<p>Each package is further detailed in the appendix.</p>
-<p>Using the above tools, the extraction pipeline can be represented by figure <a href="data.html#fig:data-flow">4.1</a>.</p>
+<p>The appendix contains a vignette for each package, explaining their respective <em>modus operandi</em>. At a higher level, the extraction pipeline for this project is represented by figure <a href="data.html#fig:data-flow">4.1</a>.</p>
 <div class="figure"><span style="display:block;" id="fig:data-flow"></span>
-<div class="grViz html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-142667da2da338869949" style="width:672px;height:480px;"></div>
-<script type="application/json" data-for="htmlwidget-142667da2da338869949">{"x":{"diagram":"\ndigraph G {\n  graph [fontname = \"Roboto\"];\n  node [fontname = \"Roboto\"];\n  edge [fontname = \"Roboto\"];\n  rankdir=\"LR\";\n  \n  bgcolor=transparent;\n  \n  {abs_shapefiles} -> {aussiemaps};\n  {abs_datapack}  -> {auscensus};\n  {aec_election}   -> {auspol};\n  {auspol}    -> {source_dataset};\n  {auscensus} -> {CED_aggregation};\n  {aussiemaps} -> {CED_aggregation};\n  {CED_aggregation} -> {source_dataset};\n  {source_dataset} -> {data_transformation};\n  {data_transformation} -> {data_selection};\n  {data_selection} -> {processed_dataset};\n  \n  auspol [label=\"{auspol}\",shape=ellipse];\n  auscensus [label=\"{auscensus}\",shape=ellipse];\n  aussiemaps [label=\"{aussiemaps}\",shape=ellipse];\n  \n  data_transformation [label=\"Data Transformation\",shape=Square];\n  data_selection [label=\"Data Selection\",shape=Square];\n  CED_aggregation [label=\"Aggregation \\n by CED\",shape=Square];\n  \n  abs_shapefiles [label=\"ABS Boundaries\",shape=cylinder];\n  abs_datapack  [label=\"ABS Census \\n Data Pack\",shape=cylinder];\n  aec_election   [label=\"AEC  \\n Election Tallies\",shape=cylinder];\n  processed_dataset [label=\"Processed \\n Dataset\",shape=cylinder];\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<div class="grViz html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-e20469841fb1e1a838a9" style="width:672px;height:480px;"></div>
+<script type="application/json" data-for="htmlwidget-e20469841fb1e1a838a9">{"x":{"diagram":"\ndigraph G {\n  graph [fontname = \"Roboto\"];\n  node [fontname = \"Roboto\"];\n  edge [fontname = \"Roboto\"];\n  rankdir=\"LR\";\n  \n  bgcolor=transparent;\n  \n  {abs_shapefiles} -> {aussiemaps};\n  {abs_datapack}  -> {auscensus};\n  {aec_election}   -> {auspol};\n  {auspol}    -> {source_dataset};\n  {auscensus} -> {CED_aggregation};\n  {aussiemaps} -> {CED_aggregation};\n  {CED_aggregation} -> {source_dataset};\n  {source_dataset} -> {data_transformation};\n  {data_transformation} -> {data_selection};\n  {data_selection} -> {processed_dataset};\n  \n  auspol [label=\"{auspol}\",shape=ellipse];\n  auscensus [label=\"{auscensus}\",shape=ellipse];\n  aussiemaps [label=\"{aussiemaps}\",shape=ellipse];\n  \n  data_transformation [label=\"Data Transformation\",shape=Square];\n  data_selection [label=\"Data Selection\",shape=Square];\n  CED_aggregation [label=\"Aggregation \\n by CED\",shape=Square];\n  \n  abs_shapefiles [label=\"ABS Boundaries\",shape=cylinder];\n  abs_datapack  [label=\"ABS Census \\n Data Pack\",shape=cylinder];\n  aec_election   [label=\"AEC  \\n Election Tallies\",shape=cylinder];\n  processed_dataset [label=\"Processed \\n Dataset\",shape=cylinder];\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
 <p class="caption">
 Figure 4.1: Flow of data from sources to dataset
 </p>
 </div>
-<p>The main points of the process are explained below.</p>
-<div id="extracting-data" class="section level2 hasAnchor" number="4.1">
-<h2><span class="header-section-number">4.1</span> Extracting data<a href="data.html#extracting-data" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>In summary, the process followed consisted of the below steps:</p>
+<ol style="list-style-type: decimal">
+<li><p>Census data was extracted from the respective Census Data Pack using <strong>{auscensus}</strong>. Using the package workflow, key attributes were identified in each census, extracted from the respective files and given common names. Data were extracted for statistical areas and apportioned into Commonwealth Electoral Divisions by overlapping area, with the help of functions written into <strong>{aussiemaps}</strong></p></li>
+<li><p>Primary vote results for each division were extracted using the <strong>auspol</strong> package.</p></li>
+<li><p>All the data was stored in a local database, from where was extracted and put together in a single dataset.</p></li>
+<li><p>From there, the “raw” data was further processed and stored in a single “consolidated” dataset.</p></li>
+</ol>
 </div>
+<div id="data-selection" class="section level2 hasAnchor" number="4.2">
+<h2><span class="header-section-number">4.2</span> Data Selection<a href="data.html#data-selection" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="data-selection-years" class="section level3 hasAnchor" number="4.2.1">
+<h3><span class="header-section-number">4.2.1</span> Census and Election Years<a href="data.html#data-selection-years" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The first to address when extracting the data is to establish a correspondence between census and election data. Since election the census cycle (5 years) does not match the electoral cycle (determined by the incumbent government, with a 3-year term for the House of Representatives), there is a potential problem of the census data not being completely representative of the population on a given election day. Figure <a href="data.html#fig:elections-and-census">4.2</a> presents the best matches between both events held in the 21st century.</p>
+<div class="figure"><span style="display:block;" id="fig:elections-and-census"></span>
+<img src="_main_files/figure-html/elections-and-census-1.png" alt="Timeline of elections and censuses in the 21st Century" width="672" />
+<p class="caption">
+Figure 4.2: Timeline of elections and censuses in the 21st Century
+</p>
+</div>
+<p>Considering the census data available and selecting the elections closer to each census, four pairs of events were selected for data extraction. there are presented in table <a href="data.html#tab:selected-pairs">4.1</a></p>
+<div class="tabwid"><style>.cl-a3927d42{table-layout:auto;width:80%;}.cl-a3525140{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(102, 102, 102, 1.00);background-color:transparent;}.cl-a3725102{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:3pt;padding-top:3pt;padding-left:3pt;padding-right:3pt;line-height: 1;background-color:transparent;}.cl-a3725116{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:3pt;padding-top:3pt;padding-left:3pt;padding-right:3pt;line-height: 1;background-color:transparent;}.cl-a3731682{background-color:transparent;vertical-align: middle;border-bottom: 0.75pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-a37316a0{background-color:transparent;vertical-align: middle;border-bottom: 0.75pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-a37316a1{background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-a37316b4{background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing='true' class='cl-a3927d42'>
+
+<caption style="display:table-caption;margin:0pt;text-align:center;border-bottom: 0.00pt solid transparent;border-top: 0.00pt solid transparent;border-left: 0.00pt solid transparent;border-right: 0.00pt solid transparent;padding-top:3pt;padding-bottom:3pt;padding-left:3pt;padding-right:3pt;line-height: 1;background-color:transparent;">
+<span id="tab:selected-pairs">Table 4.1: </span><span>Selected Census-Election pairings</span>
+</caption>
+
+<thead><tr style="overflow-wrap:break-word;"><th class="cl-a3731682"><p class="cl-a3725102"><span class="cl-a3525140">Census</span></p></th><th class="cl-a37316a0"><p class="cl-a3725116"><span class="cl-a3525140">Election</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-a37316a1"><p class="cl-a3725102"><span class="cl-a3525140">2006</span></p></td><td class="cl-a37316b4"><p class="cl-a3725116"><span class="cl-a3525140">2007</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-a37316a1"><p class="cl-a3725102"><span class="cl-a3525140">2010</span></p></td><td class="cl-a37316b4"><p class="cl-a3725116"><span class="cl-a3525140">2011</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-a37316a1"><p class="cl-a3725102"><span class="cl-a3525140">2016</span></p></td><td class="cl-a37316b4"><p class="cl-a3725116"><span class="cl-a3525140">2016</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-a37316a1"><p class="cl-a3725102"><span class="cl-a3525140">2021</span></p></td><td class="cl-a37316b4"><p class="cl-a3725116"><span class="cl-a3525140">2022</span></p></td></tr></tbody></table></div>
+<p>Please note that this selection will remove half of the elections within the period, which may have an effect on model accuracy. However, since the objective is not to obtain an accurate prediction this has been accepted as a trade-off to avoid having to interpolate demographic attributes between censuses - which is also subject to inaccuracies given the rapid demographic changes experienced in Australia’s main cities.</p>
+</div>
+<div id="data-selection-electoral" class="section level3 hasAnchor" number="4.2.2">
+<h3><span class="header-section-number">4.2.2</span> Electoral Data<a href="data.html#data-selection-electoral" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>In the case of the electoral data. not much processing was required. The source data already contains records of primary voting for each electorate and only percentages have been calculated. In addition, the number of total votes per party at the national and state level have been calculated. A sample of the extracted data is presented in table <a href="data.html#tab:canberra2022">4.2</a>.</p>
+<div class="tabwid"><style>.cl-a570b462{}.cl-a5079ffe{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(102, 102, 102, 1.00);background-color:transparent;}.cl-a523bbee{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:3pt;padding-top:3pt;padding-left:3pt;padding-right:3pt;line-height: 1;background-color:transparent;}.cl-a523bc02{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:3pt;padding-top:3pt;padding-left:3pt;padding-right:3pt;line-height: 1;background-color:transparent;}.cl-a5245ffe{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0.75pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-a524601c{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0.75pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-a5246026{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-a5246030{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing='true' class='cl-a570b462'>
+
+<caption style="display:table-caption;margin:0pt;text-align:center;border-bottom: 0.00pt solid transparent;border-top: 0.00pt solid transparent;border-left: 0.00pt solid transparent;border-right: 0.00pt solid transparent;padding-top:3pt;padding-bottom:3pt;padding-left:3pt;padding-right:3pt;line-height: 1;background-color:transparent;">
+<span id="tab:canberra2022">Table 4.2: </span><span>Sample extraction - Canberra 2022</span>
+</caption>
+
+<thead><tr style="overflow-wrap:break-word;"><th class="cl-a5245ffe"><p class="cl-a523bbee"><span class="cl-a5079ffe">Year</span></p></th><th class="cl-a5245ffe"><p class="cl-a523bbee"><span class="cl-a5079ffe">Division</span></p></th><th class="cl-a5245ffe"><p class="cl-a523bbee"><span class="cl-a5079ffe">Abbreviation</span></p></th><th class="cl-a5245ffe"><p class="cl-a523bbee"><span class="cl-a5079ffe">Party</span></p></th><th class="cl-a524601c"><p class="cl-a523bc02"><span class="cl-a5079ffe">Votes</span></p></th><th class="cl-a524601c"><p class="cl-a523bc02"><span class="cl-a5079ffe">Percentage</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-a5246026"><p class="cl-a523bbee"><span class="cl-a5079ffe">2022</span></p></td><td class="cl-a5246026"><p class="cl-a523bbee"><span class="cl-a5079ffe">Canberra</span></p></td><td class="cl-a5246026"><p class="cl-a523bbee"><span class="cl-a5079ffe">ALP</span></p></td><td class="cl-a5246026"><p class="cl-a523bbee"><span class="cl-a5079ffe">ALP</span></p></td><td class="cl-a5246030"><p class="cl-a523bc02"><span class="cl-a5079ffe">34,574</span></p></td><td class="cl-a5246030"><p class="cl-a523bc02"><span class="cl-a5079ffe">45.2%</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-a5246026"><p class="cl-a523bbee"><span class="cl-a5079ffe">2022</span></p></td><td class="cl-a5246026"><p class="cl-a523bbee"><span class="cl-a5079ffe">Canberra</span></p></td><td class="cl-a5246026"><p class="cl-a523bbee"><span class="cl-a5079ffe">GRN</span></p></td><td class="cl-a5246026"><p class="cl-a523bbee"><span class="cl-a5079ffe">GRN</span></p></td><td class="cl-a5246030"><p class="cl-a523bc02"><span class="cl-a5079ffe">19,240</span></p></td><td class="cl-a5246030"><p class="cl-a523bc02"><span class="cl-a5079ffe">25.2%</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-a5246026"><p class="cl-a523bbee"><span class="cl-a5079ffe">2022</span></p></td><td class="cl-a5246026"><p class="cl-a523bbee"><span class="cl-a5079ffe">Canberra</span></p></td><td class="cl-a5246026"><p class="cl-a523bbee"><span class="cl-a5079ffe">COAL</span></p></td><td class="cl-a5246026"><p class="cl-a523bbee"><span class="cl-a5079ffe">Liberal (Coalition)</span></p></td><td class="cl-a5246030"><p class="cl-a523bc02"><span class="cl-a5079ffe">16,264</span></p></td><td class="cl-a5246030"><p class="cl-a523bc02"><span class="cl-a5079ffe">21.3%</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-a5246026"><p class="cl-a523bbee"><span class="cl-a5079ffe">2022</span></p></td><td class="cl-a5246026"><p class="cl-a523bbee"><span class="cl-a5079ffe">Canberra</span></p></td><td class="cl-a5246026"><p class="cl-a523bbee"><span class="cl-a5079ffe">Other</span></p></td><td class="cl-a5246026"><p class="cl-a523bbee"><span class="cl-a5079ffe">Other Parties</span></p></td><td class="cl-a5246030"><p class="cl-a523bc02"><span class="cl-a5079ffe">6,417</span></p></td><td class="cl-a5246030"><p class="cl-a523bc02"><span class="cl-a5079ffe">8.4%</span></p></td></tr></tbody></table></div>
+</div>
+<div id="census-data" class="section level3 hasAnchor" number="4.2.3">
+<h3><span class="header-section-number">4.2.3</span> Census Data<a href="data.html#census-data" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>As mentioned in section <a href="data.html#data-sources">4.1</a>, a major challenge with respect of census data is the large volume of data points collected. For instance, the data pack for the 2022 Census contains 62 different tables, ranging from 8 <a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> to 1,590 <a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a> attributes.</p>
+<p>To select which variables to extract, literature and journalistic sources were consulted (<span class="citation">(<a href="#ref-biddle2022" role="doc-biblioref">Biddle and McAllister 2022</a>)</span>, <span class="citation">(<a href="#ref-votingpatternsbygen" role="doc-biblioref">Parliament, n.d.</a>)</span>, <span class="citation">(<a href="#ref-jakubowicz" role="doc-biblioref">Jakubowicz and Ho, n.d.</a>)</span>) to inform an initial set of covariates. In total (XYZ) variables were selected, which correspond to below to the following groups:</p>
+<ol style="list-style-type: decimal">
+<li><p><strong>Income</strong> : Distribution of population in pre-set income brackets.</p></li>
+<li><p><strong>Education Level</strong>: Distribution of educational achievement (from incomplete secondary to vocational education and academic degrees).</p></li>
+<li><p><strong>Age</strong>: Distribution of the population in generational cohorts. Taking into account the selected elections, the four groups of interest are Baby Boomers (1946 to 1964), Generation X (1965 to 1980), Generation Y (1981 to 1996) and Generation Z (1997 to 2021).</p></li>
+<li><p><strong>Relationship status</strong>: Variables describing civil status (e.g. living alone, married, in a de facto relationship).</p></li>
+<li><p><strong>Household type:</strong> Descriptors of type of housing , (e.g. standalone house, semi-detached, flats).</p></li>
+<li><p><strong>Household tenure:</strong> Descriptors of house ownership, rental or other arrangement (e.g. public housing).</p></li>
+<li><p><strong>Citizenship</strong>: Percentage of the population that hold Australian citizenship. Although non-citizens are not entitled to vote, this variable can be taken as a proxy for relative integration of migrant communities into civic life.</p></li>
+<li><p><strong>Religion:</strong> Percentage of the population declaring to profess a religion. For this analysis, largest and high growth religious groups were selected (No religion/secular, Roman Catholic, Anglican-Presbyterian-Uniting, Christian Orthodox, Other Christianity, Islam, Hinduism, Buddhism).</p></li>
+<li><p><strong>Language</strong>: Languages spoken in the community. Similar to religion, a selection of relevant language have been included to reflect the historic and current migrant communities.</p></li>
+</ol>
+<p>Apart from those, each electorate has been classified as <strong>metropolitan</strong> if it lies within the boundaries of Australian capital cities or <strong>non-metropolitan</strong> if not. Altogether, this variables try to reflect wealth and education (cited by <span class="citation">(<a href="#ref-biddle2022" role="doc-biblioref">Biddle and McAllister 2022</a>)</span> as key factors in deciding political persuasion), as well as stage in life and belonging to a particular migrant community (sometimes cited as influential factor, for instance here )</p>
+
+</div>
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-biddle2022" class="csl-entry">
+Biddle, Nicholas, and Ian McAllister. 2022. <span>“Explaining the 2022 Australian Federal Election Result.”</span> <a href="https://apo.org.au/node/318286">https://apo.org.au/node/318286</a>.
+</div>
+<div id="ref-TallyRoom" class="csl-entry">
+Commission, Australian Electoral. 2023a. <span>“Tally Room Archive.”</span> 2023. <a href="https://results.aec.gov.au/">https://results.aec.gov.au/</a>.
+</div>
+<div id="ref-AEC" class="csl-entry">
+———. 2023b. <span>“Website.”</span> 2023. <a href="https://www.aec.gov.au/">https://www.aec.gov.au/</a>.
+</div>
+<div id="ref-jakubowicz" class="csl-entry">
+Jakubowicz, Andrew, and Christina Ho. n.d. <span>“Was There an ’Ethnic Vote’ in the 2019 Election and Did It Make a Difference?”</span> <a href="http://theconversation.com/was-there-an-ethnic-vote-in-the-2019-election-and-did-it-make-a-difference-117911">http://theconversation.com/was-there-an-ethnic-vote-in-the-2019-election-and-did-it-make-a-difference-117911</a>.
+</div>
+<div id="ref-votingpatternsbygen" class="csl-entry">
+Parliament, Commonwealth. n.d. <span>“Voting Patterns by Generation.”</span> <a href="https://www.aph.gov.au/About_Parliament/Parliamentary_Departments/Parliamentary_Library/FlagPost/2022/April/Voting_patterns_by_generation">https://www.aph.gov.au/About_Parliament/Parliamentary_Departments/Parliamentary_Library/FlagPost/2022/April/Voting_patterns_by_generation</a>.
+</div>
+<div id="ref-CensusDataPack" class="csl-entry">
+Statistics, Australian Bureau of. 2023a. <span>“Census Data Packa.”</span> 2023. <a href="https://abs.gov.au/census/find-census-data/datapacks/">https://abs.gov.au/census/find-census-data/datapacks/</a>.
+</div>
+<div id="ref-ABS" class="csl-entry">
+———. 2023b. <span>“Website.”</span> 2023. <a href="https://abs.gov.au/">https://abs.gov.au/</a>.
+</div>
+<div id="ref-R-auscensus" class="csl-entry">
+Yáñez Santibáñez, Carlos. 2023a. <em>Auscensus: Access Australian Census Data (2006-2021)</em>. <a href="https://carlosyanez.github.io/auscensus/">https://carlosyanez.github.io/auscensus/</a>.
+</div>
+<div id="ref-R-auspol" class="csl-entry">
+———. 2023b. <em>Auspol: Australian Federal Election Results (2004-2022)</em>. <a href="https://carlosyanez.github.io/auspol/">https://carlosyanez.github.io/auspol/</a>.
+</div>
+<div id="ref-R-aussiemaps" class="csl-entry">
+———. 2023c. <em>Aussiemaps: Maps of Australia</em>. <a href="https://carlosyanez.github.io/aussiemaps/">https://carlosyanez.github.io/aussiemaps/</a>.
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="1">
+<li id="fn1"><p><em>02 -Selected Medians and Averages</em><a href="data.html#fnref1" class="footnote-back">↩︎</a></p></li>
+<li id="fn2"><p><em>09 - Country of Birth of Person by Age by Sex</em><a href="data.html#fnref2" class="footnote-back">↩︎</a></p></li>
+</ol>
 </div>
             </section>
 
@@ -292,7 +328,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/USERNAME/REPO/edit/BRANCH/03-sourcing-and-processsing-data.Rmd",
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/04-data.Rmd",
 "text": "Edit"
 },
 "history": {

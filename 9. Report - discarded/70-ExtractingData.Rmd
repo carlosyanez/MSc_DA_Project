@@ -1,5 +1,4 @@
 ---
-bibliography: references.bib
 ---
 
 # (APPENDIX) Extracting Data

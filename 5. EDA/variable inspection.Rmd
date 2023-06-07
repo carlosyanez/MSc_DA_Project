@@ -38,7 +38,7 @@ gen_order <- c("Age - Greatest Gen","Age - Silent Gen","Age - Baby Boomers","Age
 
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
-tbl(processed_db,"age_and_sex") |>
+tbl(processed_db,"age") |>
   filter(Year!=2021) |>
   select(Year,Unit,Attribute,Percentage) |>
   collect() |>
@@ -54,7 +54,7 @@ tbl(processed_db,"age_and_sex") |>
 
 ```{r}
 
-tbl(processed_db,"age_and_sex") |>
+tbl(processed_db,"age") |>
   filter(Year!=2021) |>
   ggplot(aes(x=Percentage,y=fct_relevel(Attribute,gen_order))) +
   geom_violin() +
@@ -70,7 +70,7 @@ tbl(processed_db,"age_and_sex") |>
 ```{r}
 tbl(processed_db,"primary_vote") |>
   select(-Percentage) |>
-  left_join(tbl(processed_db,"age_and_sex"), by=c("DivisionNm"="Unit","census_years"="Year")) |>
+  left_join(tbl(processed_db,"age"), by=c("DivisionNm"="Unit","census_years"="Year")) |>
   filter(census_years!=2021)|>
   ggplot(aes(x=Percentage,y=Percentage_Diff_National,colour=as_factor(Year)))+
   geom_point()+
@@ -84,7 +84,7 @@ tbl(processed_db,"primary_vote") |>
 
 tbl(processed_db,"primary_vote") |>
   select(-Percentage) |>
-  left_join(tbl(processed_db,"age_and_sex"), by=c("DivisionNm"="Unit","census_years"="Year")) |>
+  left_join(tbl(processed_db,"age"), by=c("DivisionNm"="Unit","census_years"="Year")) |>
   filter(census_years!=2021)|>
   filter(str_detect(Attribute,"Gen Z")) |>
   ggplot(aes(x=Percentage,y=Percentage_Diff_National,colour=as_factor(Year)))+
@@ -126,7 +126,7 @@ tbl(processed_db,"citizenship") |>
 ```{r}
 tbl(processed_db,"primary_vote") |>
   select(-Percentage) |>
-  left_join(tbl(processed_db,"age_and_sex"), by=c("DivisionNm"="Unit","census_years"="Year")) |>
+  left_join(tbl(processed_db,"age"), by=c("DivisionNm"="Unit","census_years"="Year")) |>
   filter(census_years!=2021)|>
   filter(str_detect(Attribute,"Gen Z")) |>
   ggplot(aes(x=Percentage,y=Percentage_Diff_National,colour=as_factor(Year)))+

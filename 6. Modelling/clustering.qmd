@@ -91,6 +91,12 @@ transform_pred <- MFA(dataset_clustering |>
                        type=c(rep("c",8),"n"),
                        name.group =groups$group,
                        graph=FALSE)
+
+
+saveRDS(transform_pred,here("6. Modelling",
+                            "clustering_models",
+                            "MFA.rds"))
+
 ```
 
 ```{r}

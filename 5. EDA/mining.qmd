@@ -277,6 +277,7 @@ predictors_clustered |>
 
 
 ```{r}
+#
 
 char_cols <- dataset |> select(where(is.character)) |> colnames()
 
@@ -289,6 +290,6 @@ clustered_dataset <- dataset |>
   
   
 
-write_csv(clustered_dataset,here("4. Data","consolidated_clustered.csv"))
+#write_csv(clustered_dataset,here("4. Data","consolidated_clustered.csv"))
 ```
 

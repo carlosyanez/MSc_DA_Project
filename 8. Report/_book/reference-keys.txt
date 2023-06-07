@@ -1,11 +1,16 @@
 fig:data-flow
+fig:elections-and-census
+tab:selected-pairs
+tab:canberra2022
 acknowledgements
 intro
 strucure
 data
-extracting-data
-appendix-extracting-data
-package-architecture
+data-sources
+data-selection
+data-selection-years
+data-selection-electoral
+census-data
 appendix-auscensus-vignette
 appendix-auspol-vignette
 what-is-this
@@ -19,4 +24,5 @@ getting-started.
 filtering-via-regular-expressions
 even-more-complex-filtering
 aggregation
+using-external-data
 data-aggregation
