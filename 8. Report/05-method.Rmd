@@ -1,0 +1,24 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
+# Method {#method}
+
+```{r five-setup,message=FALSE,warning=FALSE,echo=FALSE}
+library(dplyr)
+library(readr)
+library(stringr)
+library(here)
+library(auspol)
+library(flextable)
+library(ggplot2)
+
+source(here::here("formatting_defaults.R"))
+
+project_path <- fs::path(here(),"..")
+
+
+```
+
+Hello workd

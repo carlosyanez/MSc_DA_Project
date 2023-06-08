@@ -7,7 +7,7 @@ bibliography:
 - packages.bib
 ---
 
-```{r seven-setup,message=FALSE,warning=FALSE,echo=FALSE}
+```{r four-setup,message=FALSE,warning=FALSE,echo=FALSE}
 library(DiagrammeR)
 library(dplyr)
 library(readr)
@@ -66,9 +66,9 @@ In summary, the process followed consisted of the below steps:
 
 ### Census and Election Years {#data-selection-years}
 
-The first to address when extracting the data is to establish a correspondence between census and election data. Since election the census cycle (5 years) does not match the electoral cycle (determined by the incumbent government, with a 3-year term for the House of Representatives), there is a potential problem of the census data not being completely representative of the population on a given election day. Figure \@ref(fig:elections-and-census) presents the best matches between both events held in the 21st century.
+The first to address when extracting the data is to establish a correspondence between census and election data. Since election the census cycle (5 years) does not match the electoral cycle (determined by the incumbent government, with a 3-year term for the House of Representatives), there is a potential problem of the census data not being completely representative of the population on a given election day. Figure \@ref(fig:electionsandcensus) presents the best matches between both events held in the 21st century.
 
-```{r elections-and-census}
+```{r electionsandcensus}
  tibble::tribble(~Year, ~Event,
                 2001,"Census",
                 2006,"Census",
@@ -171,16 +171,32 @@ To select which variables to extract, literature and journalistic sources were c
 
 Apart from those, each electorate has been classified as **metropolitan** if it lies within the boundaries of Australian capital cities or **non-metropolitan** if not. Altogether, these variables try to reflect wealth and education (cited by [@biddle2022] as key factors in deciding political persuasion), as well as stage in life and belonging to a particular migrant community (sometimes cited as an influential factor, for instance in [@jakubowicza]).
 
-## Data Exploration {#eda}
-
-In total, the resulting dataset is made up of 4 response variables and 55 potential predictors, plus identificatory attributes like division mane and election year. As expected, an initial inspection shows that some of the covariates are loosely correlated with primary vote. Also expected, many of the covariates exhibit medium to high correlation levels amongst themselves, e.g. negative correlation between high and low level income groups, and certain age brackets with houselhold type and tenure.
-
-As examples, figure \@ref(fig:coalvsboomers) show a somewhat weak correlation between Coalition primary vote and percentage of baby boomer population. Figure \@ref(fig:corrlanguagereligion) presents the correlation values for religion and language attributes that aside from expected pairings (e.g. Hinduism and South Asian languages or Italian speakers and percentage of declared catholics), there is a almost exclusive positive correlation between membership to Anglican, Presbyterian and Uniting churches and percentage of monolingual English speakers. The percentage of monolingual English speakers is also negative correlated to all other language groups.
+A sample of the resulting dataset is present in table \@ref(tab:datasetsample).
 
 ```{r include=FALSE}
 dataset <- read_csv(fs::path(project_path,"4. Data","consolidated.csv"))
 
 ```
+
+```{r}
+dataset |> 
+  slice_sample(n=8) |>
+  select(election_year,DivisionNm,ALP,COAL,GRN,Other,
+         Australian_Citizens,Age_Baby_Boomers,Age_Gen_X,
+         Language_Chinese,Language_Greek) |>
+  mutate(election_year=as.character(election_year)) |>
+  mutate(across(where(is.numeric),~round(.x,2))) |>
+  flex_default("Dataset sample","datasetsample") |>
+  rotate(rotation="btlr",align="bottom", part = "header") |>
+  autofit()
+
+```
+
+## Data Exploration {#eda}
+
+In total, the resulting dataset is made up of 4 response variables and 55 potential predictors, plus identificatory attributes like division mane and election year. As expected, an initial inspection shows that some of the covariates are loosely correlated with primary vote. Also expected, many of the covariates exhibit medium to high correlation levels amongst themselves, e.g. negative correlation between high and low level income groups, and certain age brackets with houselhold type and tenure.
+
+As examples, figure \@ref(fig:coalvsboomers) show a somewhat weak correlation between Coalition primary vote and percentage of baby boomer population. Figure \@ref(fig:corrlanguagereligion) presents the correlation values for religion and language attributes that aside from expected pairings (e.g. Hinduism and South Asian languages or Italian speakers and percentage of declared catholics), there is a almost exclusive positive correlation between membership to Anglican, Presbyterian and Uniting churches and percentage of monolingual English speakers. The percentage of monolingual English speakers is also negative correlated to all other language groups.
 
 ```{r coalvsboomers,fig.cap="Correlation between Coalition vote and Baby boomer population"}
 dataset |>
@@ -231,7 +247,7 @@ Besides from this, it is worth noticing that :
 
 -   There are also no obviously distinguishable differences when splitting results by each election.
 
-### Dimensionality reduction using Multiple Factor Analysis  {#data-mfa}
+### Dimensionality reduction using Multiple Factor Analysis {#data-mfa}
 
 Given the large number of variables and considering their correlation, it is worth exploring if a change of space could help to better identify variation, and whether the number of covariates can be reduced in a meaningful way. For this **multiple factor analysis** (MFA) [@escofier:hal-00382085] was used, given that:
 
@@ -239,22 +255,215 @@ Given the large number of variables and considering their correlation, it is wor
 
 -   Allows to combine quantitative and qualitative variables.
 
+The resulting scree plot and cumulative variance is presented in figure \@ref(fig:mfascree).
+
 ```{r include=FALSE}
 library(factoextra)
+library(patchwork)
 
 mfa <- readRDS(fs::path(project_path,"6. Modelling",
                          "clustering_models","MFA.rds"))
 ```
 
-```{r mfascree, fig.cap="Scree plot for MFA"}
-fviz_screeplot(mfa) 
-```
+```{r mfascree, fig.cap="Scree plot and cumulative variance"}
+screeplot <- fviz_screeplot(mfa)  +
+             labs(y="Percentage of Variance")
 
-```{r}
-mfa$eig |> 
+variance_data <- mfa$eig |> 
   as_tibble() |>
   mutate(across(where(is.numeric), ~ round(.x,3))) |>
-  mutate(Dimension=glue::glue("Dim {row_number()}"), .before=1) |>
-  slice_head(n=10) |>
-  flex_default("hello word","mfacumulative")
+  mutate(Dimension=as.character(row_number()), .before=1) |>
+  select(Dimension,`percentage of variance`)  |>
+   slice_head(n=10)
+
+variance_plot <- variance_data |> 
+  waterfalls::waterfall(calc_total = FALSE,
+                        rect_text_labels  = round(variance_data$`percentage of variance`,2),
+                         put_rect_text_outside_when_value_below=40) +
+  theme(axis.title.y = element_text(),
+        axis.title.x = element_text()) +
+  labs(title="Cumulative Variance",
+       y="Percentage of Variance",
+       x="Dimensions") +
+  ylim(0,100)
+  
+
+screeplot / variance_plot 
+
+```
+
+In terms of interpretability of the new dimensions, figure \@ref(fig:groupbiplot) present group biplots for the 8 most important dimensions. From there, it is possible show that there is not straightforward representation expect with Dimension 2 and Education variables.
+
+```{r groupbiplot,fig.cap="Group plots for first 8 dimensions"}
+mfa_plot <- list()
+for(i in 1:4){
+  mfa_plot[[length(mfa_plot)+1]] <-   fviz_mfa_var(mfa,choice="group",axes=c(2*i-1,2*i)) + 
+                                      xlim(0,1) + ylim(0,1) +
+                                      theme(plot.title = element_blank())
+}
+
+wrap_plots(mfa_plot) + plot_annotation(title="Variable groups - MFA")
+
+
+```
+
+### Electorate segments {#data-clusters}
+
+A common trope of Australian politics is to map voters's political persuasion to whether they live in the inner cities, suburbia or regional areas. Therefore, it is relevant to explore if this can be substantiated by demographic attributes, or if there any other grouping of voters that may influence primary voting.
+
+To explore this, a clustering algorithm has been applied using all electorates for election from 2006 up to 2016. After trial and error, the clustering procedure consists in:
+
+-   Transforming all demographic attributes to represent the difference of each data point and their corresponding national value (for the relevant year).
+-   Using the HDBSCAN [@campello2013], a density-based hierarchical clustering algorithm optimises the number of clusters and assignment
+
+This results in 3 distinct clusters of electorates. When presented in a map, it is possible to obtain something similar to figure \@ref(fig:clustermap2016) for 2016.
+
+```{r clustermap2016, fig.cap="2016 Electorates clustered"}
+library(sf)
+
+
+clusters_colours <- colRoz::colRoz_pal(name = "ngadju", n = 3, type = "discrete")
+names(clusters_colours) <- as.character(0:2)
+
+clusters <- read_csv(fs::path(project_path,"4. Data","clusters.csv")) |>
+            filter(Year==2016) |>
+            mutate(cluster=as.character(cluster))
+map      <- st_read(fs::path(project_path,"4. Data","CED_2016.gpkg")) |>
+            left_join(clusters,by="DivisionNm")
+
+##remove Lord Howe Island in Sydney and Ext. Territories from Lingiari
+syd <- map |> 
+      filter(DivisionNm=="Sydney") |>
+      st_cast("POLYGON")
+syd$area <- st_area(syd)
+syd <- syd |> filter(area==max(area))
+
+lin <- map |> 
+      filter(DivisionNm=="Lingiari") |>
+      st_cast("POLYGON")
+lin$area <- st_area(lin)
+lin <- lin |> filter(area==max(area))
+
+map <- map |>
+      filter(DivisionNm!="Sydney") |>
+      filter(DivisionNm!="Lingiari") |>
+      bind_rows(syd,lin)
+
+
+national <- map |>
+  select(DivisionNm,cluster,Year) |>
+  ggplot(aes(fill=cluster)) +
+  geom_sf(colour="grey70") +
+  theme_void() +
+  scale_fill_manual(values = clusters_colours) +
+  theme(legend.position = "bottom",
+        legend.direction = "horizontal")
+
+melb <-  map |>
+  filter(str_detect(Metro_Area,"Melbourne")) |>
+  select(DivisionNm,cluster,Year) |>
+  ggplot(aes(fill=cluster)) +
+  geom_sf(colour="grey70") +
+  theme_void() +
+  scale_fill_manual(values = clusters_colours) +
+  labs(subtitle = "Melbourne") +
+  theme(legend.position = "none")
+
+syd <-  map |>
+  filter(str_detect(Metro_Area,"Sydney")) |>
+  select(DivisionNm,cluster,Year) |>
+  ggplot(aes(fill=cluster)) +
+  geom_sf(colour="grey70") +
+  theme_void() +
+  scale_fill_manual(values = clusters_colours) +
+  labs(subtitle = "Sydney")  +
+  theme(legend.position = "none")
+  
+can <-  map |>
+  filter(str_detect(Metro_Area,"Capital")) |>
+  select(DivisionNm,cluster,Year) |>
+  ggplot(aes(fill=cluster)) +
+  geom_sf(colour="grey70") +
+  theme_void() +
+  scale_fill_manual(values = clusters_colours) +
+  labs(subtitle = "Canberra")  +
+  theme(legend.position = "none") 
+
+
+bris <-  map |>
+  filter(str_detect(Metro_Area,"Brisbane")) |>
+  select(DivisionNm,cluster,Year) |>
+  ggplot(aes(fill=cluster)) +
+  geom_sf(colour="grey70") +
+  theme_void() +
+  scale_fill_manual(values = clusters_colours) +
+  labs(subtitle = "Brisbane")  +
+  theme(legend.position = "none")
+
+ade <- map |>
+  filter(str_detect(Metro_Area,"Adelaide")) |>
+  select(DivisionNm,cluster,Year) |>
+  ggplot(aes(fill=cluster)) +
+  geom_sf(colour="grey70") +
+  theme_void() +
+  scale_fill_manual(values = clusters_colours) +
+  labs(subtitle = "Adelaide")  +
+  theme(legend.position = "none")
+
+
+perth <- map |>
+  filter(str_detect(Metro_Area,"Perth")) |>
+  select(DivisionNm,cluster,Year) |>
+  ggplot(aes(fill=cluster)) +
+  geom_sf(colour="grey70") +
+  theme_void() +
+  scale_fill_manual(values = clusters_colours) +
+  labs(subtitle = "Perth")  +
+  theme(legend.position = "none")
+
+
+bris + ade + perth +
+  can + syd + melb +
+  national +
+  plot_layout(design = "11225555
+                        33445555
+                        77776666
+                        77776666
+                        77776666") +
+  plot_annotation(title="Clustering of 2016 Electoral Divisions")
+
+
+```
+
+This mapping seems to align with popular political knowledge, where:
+
+-   **cluster 0** seems to mostly contain electorates located in the inner cities, especially in Sydney and Melbourne. These areas tend to be more affluent, either "established" or "gentrified" suburbs. Notably, it also contains the three northernmost, remote electorates.
+
+-   **cluster 1** comprises all regional areas outside state capitals (with the exception of Hobart in Tasmania).
+
+-   **cluster 2** largely represents "suburbia". It it also more prevalent in Brisbane and Perth compared when comparing capital cities.
+
+Revisiting the demographic attributescan help to understand how this clusters differ from each other. A selection of those variables is presented in figure \@ref(fig:clustereddemographics)
+
+```{r}
+
+dataset |>
+  left_join(clusters,by="DivisionNm") |>
+  select(DivisionNm,cluster,all_of(c("Australian_Citizens",
+                           "Age_Gen_Y","Age_Baby_Boomers",
+                           "Language_Chinese",
+                           "Religion_No_Religion_Secular",
+                           "Religion_Anglican_Uniting_Presbyterian",
+                           "Income_2000_or_more",
+                           "Education_Bachelor",
+                           "Education_Diploma_or_Certificate",
+                           "Relationship_Married"))) |>
+  pivot_longer(-c(DivisionNm,cluster),names_to = "Attribute",values_to="Value") |>
+  ggplot(aes(y=Attribute,colour=cluster,x=Value),alpha=0.4) +
+  ggbeeswarm::geom_quasirandom(size=2) +
+  theme_minimal()+
+  scale_colour_manual(values=clusters_colours) +
+  labs(title = "Selected Attributes by cluster")
+
+
 ```
