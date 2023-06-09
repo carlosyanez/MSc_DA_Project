@@ -16,7 +16,7 @@ library(here)
 library(auspol)
 library(flextable)
 library(ggplot2)
-
+library(tidyr)
 source(here::here("formatting_defaults.R"))
 
 project_path <- fs::path(here(),"..")
@@ -368,3 +368,9 @@ dataset |>
 
 
 ```
+
+
+```{r}
+rm(list=ls())
+```
+

@@ -24,4 +24,94 @@ project_path <- fs::path(here(),"..")
 
 ```
 
-Having source the data, selected 
+
+Having obtained the data, it modelling time! Starting from a simple point, research in question can be expressed by equation \@ref(eq:basicequation).
+
+$$\begin{equation}
+
+\textbf{Y} = f(\textbf{X}) 
+
+(\#eq:basicequation)
+\end{equation}
+$$
+
+where $\textbf{Y}$ represents a vector with primary voting for an electorate, and $\textbf{X}$ represents the vector of respective demographic  attributes. 
+
+Considering the problem in question, this model does not consider other factors that may influence voting. These factors may difficult to quantify as they may related to a myriad of factors including the state of the economy, foreign affairs, perceptions about the governing party or any party in the election, or the mood of the times. However, it is possible to make the naive assumption that electoral polling aims to capture all those factors - thus it is possible to restate the objective : instead of calculating the primary vote itself, the aim is to determine how demographics influences the voting when compared to a the national values (as captured by polls). Furthermore, it is possible to redefine the problem once more, to aiming to determine how differences in demographic attributes, when compared against a national baseline makes primary voting in an electoral to differ from the national measure. This is states in \@ref(eq:equation2), which allow accounts to error attributable to polling error and  demographic drift between census and election.
+
+
+$$\begin{equation}
+\begin{split}
+\textbf{Y} &= f(\textbf{X}) + \epsilon \\ \\
+
+\textrm{where} & \\
+\textbf{Y} & = \textbf{Y} - \textbf{Yp} \\
+\textbf{X} & = \textbf{X} - \textbf{Xn} \\ \\
+
+\textrm{and} & \\
+ \textbf{Yp} & : \textrm{Primary voting polling results} \\
+ \textbf{Xn} & : \textrm{Demographic values at national level}
+ \end{split}
+(\#eq:equation2)
+\end{equation}
+$$
+This second iteration does not take into account that in different electorates, different demographic attributes may have a different effect on primary vote. For instance, in more progressive areas a higher proportion of younger people may result in better results for left leaning parties, whereas in other areas younger people may be more conservative and therefore the youth-left leaning effect may be attenuated. Thus, a refinement on the model needs to acknowledge that not all electorates are made equal - this is presented in equation  \@ref(eq:equation3).
+
+$$
+\begin{equation}
+\begin{split}
+\textbf{Y_i} &= f_i(\textbf{X_i}) + \epsilon  i=1,...,n \\ \\
+
+\textrm{where} & \\
+\textbf{Y} & = \textbf{Y} - \textbf{Yp_i} \\
+\textbf{X} & = \textbf{X} - \textbf{Xn_i} \\ \\
+
+ \end{split}
+(\#eq:equation3)
+\end{equation}
+$$
+
+Please note that in this $i$ represents a particular grouping of electorate and for each group predictors can be different, as different attributes may have different impact.
+
+In term of choosing appropriate $f_i$, it would depend on the objective of the model. Considering the large number of predictors and requirements on interpretability and accuracy this could be a complex task. In this particular case, the focus is on understanding the factors that influence vote rather than produce accurate electoral predictions (which is attempted nevertheless), for which the use of **regularised regression** models is an appropriate choice. Thus the task involves using regularised regression to find the coefficients for the set of formulas represented by equation \@ref(eq:equation4)
+
+$$
+\begin{equation}
+\left(\begin{array}{c} 
+y_{i1}\\ 
+y_{i2}\\ 
+... \\
+y_{in}\\ 
+\end{array}\right) =
+\left(\begin{array}{cccc} 
+\beta_{i11} & \beta_{i12} & ... &  \beta_{i1m}\\
+\beta_{i21} & \beta_{i22} & ... &  \beta_{i2m}\\
+...         & ...         & ... & ...         \\
+\beta_{in1} & \beta_{in2} & ... &  \beta_{inm}\\
+\end{array}\right)
+\left(\begin{array}{c} 
+x_{i1} \\
+x_{i2} \\
+...    \\
+x_{im}
+\end{array}\right) +
+\left(\begin{array}{c} 
+\epsilon_{i1}\\ 
+\epsilon_{i2}\\ 
+... \\
+\epsilon_{in}\\ 
+\end{array}\right)
+(\#eq:equation4)
+\end{equation}
+$$
+
+A complication of this approach is that requires to separate the electorates in different segments and potentially have a separate method to place them if assignment is not provided.  In this case the previously identified clusters seem a good choice a multiple step model is needed, comprised of:
+
+- A classification model to identify belonging to cluster of similar electorates.
+- A regularised regression model to predict difference from average vote.
+
+
+
+
+
+

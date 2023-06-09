@@ -1,14 +1,14 @@
-This is XeTeX, Version 3.141592653-2.6-0.999994 (TeX Live 2022) (preloaded format=xelatex 2022.10.15)  8 JUN 2023 20:49
+This is XeTeX, Version 3.141592653-2.6-0.999995 (TeX Live 2023) (preloaded format=xelatex 2023.6.9)  9 JUN 2023 22:42
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
 **_main.tex
 (./_main.tex
-LaTeX2e <2022-06-01> patch level 5
-L3 programming layer <2022-09-28> (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/book.cls
-Document Class: book 2021/10/04 v1.4n Standard LaTeX document class
+LaTeX2e <2022-11-01> patch level 1
+L3 programming layer <2023-06-05> (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/book.cls
+Document Class: book 2022/07/02 v1.4n Standard LaTeX document class
 (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/bk10.clo
-File: bk10.clo 2021/10/04 v1.4n Standard LaTeX file (size option)
+File: bk10.clo 2022/07/02 v1.4n Standard LaTeX file (size option)
 )
 \c@part=\count181
 \c@chapter=\count182
@@ -19,22 +19,22 @@ File: bk10.clo 2021/10/04 v1.4n Standard LaTeX file (size option)
 \c@subparagraph=\count187
 \c@figure=\count188
 \c@table=\count189
-\abovecaptionskip=\skip47
-\belowcaptionskip=\skip48
-\bibindent=\dimen138
+\abovecaptionskip=\skip48
+\belowcaptionskip=\skip49
+\bibindent=\dimen140
 ) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amsmath/amsmath.sty
 Package: amsmath 2022/04/08 v2.17n AMS math features
-\@mathmargin=\skip49
+\@mathmargin=\skip50
 For additional information on amsmath, use the `?' option.
 (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amsmath/amstext.sty
 Package: amstext 2021/08/26 v2.01 AMS text
 (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amsmath/amsgen.sty
 File: amsgen.sty 1999/11/30 v2.0 generic functions
 \@emptytoks=\toks16
-\ex@=\dimen139
+\ex@=\dimen141
 )) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amsmath/amsbsy.sty
 Package: amsbsy 1999/11/29 v1.2d Bold Symbols
-\pmbraise@=\dimen140
+\pmbraise@=\dimen142
 ) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amsmath/amsopn.sty
 Package: amsopn 2022/04/08 v2.04 operator names
 )
@@ -55,7 +55,7 @@ LaTeX Info: Redefining \big on input line 722.
 LaTeX Info: Redefining \Big on input line 723.
 LaTeX Info: Redefining \bigg on input line 724.
 LaTeX Info: Redefining \Bigg on input line 725.
-\big@size=\dimen141
+\big@size=\dimen143
 LaTeX Font Info:    Redeclaring font encoding OML on input line 743.
 LaTeX Font Info:    Redeclaring font encoding OMS on input line 744.
 \macc@depth=\count195
@@ -73,15 +73,15 @@ LaTeX Info: Redefining \Relbar on input line 971.
 \column@=\count266
 \maxfields@=\count267
 \andhelp@=\toks18
-\eqnshift@=\dimen142
-\alignsep@=\dimen143
-\tagshift@=\dimen144
-\tagwidth@=\dimen145
-\totwidth@=\dimen146
-\lineht@=\dimen147
+\eqnshift@=\dimen144
+\alignsep@=\dimen145
+\tagshift@=\dimen146
+\tagwidth@=\dimen147
+\totwidth@=\dimen148
+\lineht@=\dimen149
 \@envbody=\toks19
-\multlinegap=\skip50
-\multlinetaggap=\skip51
+\multlinegap=\skip51
+\multlinetaggap=\skip52
 \mathdisplay@stack=\toks20
 LaTeX Info: Redefining \[ on input line 2953.
 LaTeX Info: Redefining \] on input line 2954.
@@ -131,9 +131,9 @@ LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
 ) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/iftex/iftex.sty
 Package: iftex 2022/02/03 v1.0f TeX engine tests
 ) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/unicode-math/unicode-math.sty (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/l3kernel/expl3.sty
-Package: expl3 2022-09-28 L3 programming layer (loader) 
+Package: expl3 2023-06-05 L3 programming layer (loader) 
 (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/l3backend/l3backend-xetex.def
-File: l3backend-xetex.def 2022-09-28 L3 backend support: XeTeX
+File: l3backend-xetex.def 2023-04-19 L3 backend support: XeTeX
 \g__graphics_track_int=\count268
 \l__pdf_internal_box=\box53
 \g__pdf_backend_object_int=\count269
@@ -144,9 +144,9 @@ Package: unicode-math 2020/01/31 v0.8q Unicode maths in XeLaTeX and LuaLaTeX
 (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/unicode-math/unicode-math-xetex.sty
 Package: unicode-math-xetex 2020/01/31 v0.8q Unicode maths in XeLaTeX and LuaLaTeX
 (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/l3packages/xparse/xparse.sty
-Package: xparse 2022-06-22 L3 Experimental document command parser
+Package: xparse 2023-02-02 L3 Experimental document command parser
 ) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/l3packages/l3keys2e/l3keys2e.sty
-Package: l3keys2e 2022-06-22 LaTeX2e option processing using LaTeX3 keys
+Package: l3keys2e 2023-02-02 LaTeX2e option processing using LaTeX3 keys
 ) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/fontspec/fontspec.sty
 Package: fontspec 2022/01/15 v2.8a Font selection for XeLaTeX and LuaLaTeX
 (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/fontspec/fontspec-xetex.sty
@@ -162,9 +162,9 @@ Package: fontspec-xetex 2022/01/15 v2.8a Font selection for XeLaTeX and LuaLaTeX
 \l__fontspec_emdef_int=\count280
 \l__fontspec_strong_int=\count281
 \l__fontspec_strongdef_int=\count282
-\l__fontspec_tmpa_dim=\dimen148
-\l__fontspec_tmpb_dim=\dimen149
-\l__fontspec_tmpc_dim=\dimen150
+\l__fontspec_tmpa_dim=\dimen150
+\l__fontspec_tmpb_dim=\dimen151
+\l__fontspec_tmpc_dim=\dimen152
 (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/fontenc.sty
 Package: fontenc 2021/04/29 v2.0v Standard LaTeX package
 ) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/fontspec/fontspec.cfg))) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/fix-cm.sty
@@ -182,7 +182,7 @@ Package: upquote 2012/04/19 v1.3 upright-quote and grave-accent glyphs in verbat
 (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/textcomp.sty
 Package: textcomp 2020/02/02 v2.0n Standard LaTeX package
 )) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/microtype/microtype.sty
-Package: microtype 2022/06/23 v3.0f Micro-typographical refinements (RS)
+Package: microtype 2023/03/13 v3.1a Micro-typographical refinements (RS)
 (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/graphics/keyval.sty
 Package: keyval 2022/05/29 v1.15 key=value parser (DPC)
 \KV@toks@=\toks21
@@ -193,20 +193,21 @@ Package: etoolbox 2020/10/05 v2.5k e-TeX tools for LaTeX (JAW)
 \MT@toks=\toks22
 \MT@tempbox=\box54
 \MT@count=\count287
-LaTeX Info: Redefining \noprotrusionifhmode on input line 1045.
-LaTeX Info: Redefining \leftprotrusion on input line 1046.
-LaTeX Info: Redefining \rightprotrusion on input line 1056.
-LaTeX Info: Redefining \textls on input line 1234.
-\MT@outer@kern=\dimen151
-LaTeX Info: Redefining \textmicrotypecontext on input line 1858.
+LaTeX Info: Redefining \noprotrusionifhmode on input line 1059.
+LaTeX Info: Redefining \leftprotrusion on input line 1060.
+\MT@prot@toks=\toks23
+LaTeX Info: Redefining \rightprotrusion on input line 1078.
+LaTeX Info: Redefining \textls on input line 1368.
+\MT@outer@kern=\dimen153
+LaTeX Info: Redefining \textmicrotypecontext on input line 1988.
 \MT@listname@count=\count288
 (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/microtype/microtype-xetex.def
-File: microtype-xetex.def 2022/06/23 v3.0f Definitions specific to xetex (RS)
-LaTeX Info: Redefining \lsstyle on input line 236.
+File: microtype-xetex.def 2023/03/13 v3.1a Definitions specific to xetex (RS)
+LaTeX Info: Redefining \lsstyle on input line 238.
 )
 Package microtype Info: Loading configuration file microtype.cfg.
 (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/microtype/microtype.cfg
-File: microtype.cfg 2022/06/23 v3.0f microtype main configuration file (RS)
+File: microtype.cfg 2023/03/13 v3.1a microtype main configuration file (RS)
 )) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/parskip/parskip.sty
 Package: parskip 2021-03-14 v2.0h non-zero parskip adjustments
 (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/kvoptions/kvoptions.sty
@@ -223,8 +224,6 @@ File: color.cfg 2016/01/02 v1.6 sample color configuration
 Package xcolor Info: Driver file: xetex.def on input line 227.
 (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/graphics-def/xetex.def
 File: xetex.def 2022/09/22 v5.0n Graphics/color driver for xetex
-\stockwidth=\dimen152
-\stockheight=\dimen153
 ) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/graphics/mathcolor.ltx)
 Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1353.
 Package xcolor Info: Model `RGB' extended on input line 1369.
@@ -236,10 +235,10 @@ Package xcolor Info: Model `Gray' substituted by `gray' on input line 1375.
 Package xcolor Info: Model `wave' substituted by `hsb' on input line 1376.
 ) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/tools/longtable.sty
 Package: longtable 2021-09-01 v4.17 Multi-page Table package (DPC)
-\LTleft=\skip52
-\LTright=\skip53
-\LTpre=\skip54
-\LTpost=\skip55
+\LTleft=\skip53
+\LTright=\skip54
+\LTpre=\skip55
+\LTpost=\skip56
 \LTchunksize=\count289
 \LTcapwidth=\dimen154
 \LT@head=\box55
@@ -251,7 +250,7 @@ Package: longtable 2021-09-01 v4.17 Multi-page Table package (DPC)
 \LT@rows=\count291
 \c@LT@tables=\count292
 \c@LT@chunks=\count293
-\LT@p@ftn=\toks23
+\LT@p@ftn=\toks24
 ) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/booktabs/booktabs.sty
 Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
 \heavyrulewidth=\dimen155
@@ -272,13 +271,13 @@ Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
 \@lastruleclass=\count297
 \@thisrulewidth=\dimen167
 ) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/tools/array.sty
-Package: array 2022/03/10 v2.5f Tabular extension package (FMi)
+Package: array 2022/09/04 v2.5g Tabular extension package (FMi)
 \col@sep=\dimen168
 \ar@mcellbox=\box60
 \extrarowheight=\dimen169
-\NC@list=\toks24
-\extratabsurround=\skip56
-\backup@length=\skip57
+\NC@list=\toks25
+\extratabsurround=\skip57
+\backup@length=\skip58
 \ar@cellbox=\box61
 ) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/tools/calc.sty
 Package: calc 2017/05/25 v4.3 Infix arithmetic (KKT,FJ)
@@ -286,12 +285,12 @@ Package: calc 2017/05/25 v4.3 Infix arithmetic (KKT,FJ)
 \calc@Bcount=\count299
 \calc@Adimen=\dimen170
 \calc@Bdimen=\dimen171
-\calc@Askip=\skip58
-\calc@Bskip=\skip59
+\calc@Askip=\skip59
+\calc@Bskip=\skip60
 LaTeX Info: Redefining \setlength on input line 80.
 LaTeX Info: Redefining \addtolength on input line 81.
 \calc@Ccount=\count300
-\calc@Cskip=\skip60
+\calc@Cskip=\skip61
 ) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/mdwtools/footnote.sty
 Package: footnote 1997/01/28 1.13 Save footnotes around boxes
 \fn@notes=\box62
@@ -311,9 +310,9 @@ Package graphics Info: Driver file: xetex.def on input line 107.
 \Gin@req@width=\dimen174
 ) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/multirow/multirow.sty
 Package: multirow 2021/03/15 v2.8 Span multiple rows of a table
-\multirow@colwidth=\skip61
+\multirow@colwidth=\skip62
 \multirow@cntb=\count301
-\multirow@dima=\skip62
+\multirow@dima=\skip63
 \bigstrutjot=\dimen175
 ) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/tools/multicol.sty
 Package: multicol 2021/11/30 v1.9d multicolumn formatting (FMi)
@@ -329,8 +328,8 @@ Package: multicol 2021/11/30 v1.9d multicolumn formatting (FMi)
 \page@free=\dimen178
 \premulticols=\dimen179
 \postmulticols=\dimen180
-\multicolsep=\skip63
-\multicolbaselineskip=\skip64
+\multicolsep=\skip64
+\multicolbaselineskip=\skip65
 \partial@page=\box64
 \last@line=\box65
 \maxbalancingoverflow=\dimen181
@@ -385,16 +384,16 @@ Package: multicol 2021/11/30 v1.9d multicolumn formatting (FMi)
 \mc@col@check@num=\count311
 ) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/colortbl/colortbl.sty
 Package: colortbl 2022/06/20 v1.0f Color table columns (DPC)
-\everycr=\toks25
-\minrowclearance=\skip65
+\everycr=\toks26
+\minrowclearance=\skip66
 \rownum=\count312
 ) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/tools/hhline.sty
 Package: hhline 2020/01/04 v2.04 Table rule package (DPC)
 )
-\Oldarrayrulewidth=\skip66
-\Oldtabcolsep=\skip67
+\Oldarrayrulewidth=\skip67
+\Oldtabcolsep=\skip68
 (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/hyperref/hyperref.sty
-Package: hyperref 2022-09-22 v7.00t Hypertext links for LaTeX
+Package: hyperref 2023-05-16 v7.00y Hypertext links for LaTeX
 (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pdftexcmds/pdftexcmds.sty
 Package: pdftexcmds 2020-06-27 v0.33 Utility functions of pdfTeX for LuaTeX (HO)
 (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/infwarerr/infwarerr.sty
@@ -414,7 +413,7 @@ Package: letltxmacro 2019/12/03 v1.6 Let assignment for LaTeX macros (HO)
 ) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/auxhook/auxhook.sty
 Package: auxhook 2019-12-17 v1.6 Hooks for auxiliary files (HO)
 ) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/hyperref/nameref.sty
-Package: nameref 2022-05-17 v2.50 Cross-referencing by name of section
+Package: nameref 2023-05-16 v2.51 Cross-referencing by name of section
 (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/refcount/refcount.sty
 Package: refcount 2019/12/15 v3.6 Data extraction from label references (HO)
 ) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/gettitlestring/gettitlestring.sty
@@ -426,30 +425,28 @@ Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 \Hy@linkcounter=\count314
 \Hy@pagecounter=\count315
 (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/hyperref/pd1enc.def
-File: pd1enc.def 2022-09-22 v7.00t Hyperref: PDFDocEncoding definition (HO)
+File: pd1enc.def 2023-05-16 v7.00y Hyperref: PDFDocEncoding definition (HO)
 ) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/intcalc/intcalc.sty
 Package: intcalc 2019/12/15 v1.3 Expandable calculations with integers (HO)
-) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/etexcmds/etexcmds.sty
-Package: etexcmds 2019/12/15 v1.7 Avoid name clashes with e-TeX commands (HO)
 )
 \Hy@SavedSpaceFactor=\count316
 (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/hyperref/puenc.def
-File: puenc.def 2022-09-22 v7.00t Hyperref: PDF Unicode definition (HO)
+File: puenc.def 2023-05-16 v7.00y Hyperref: PDF Unicode definition (HO)
 )
-Package hyperref Info: Option `unicode' set `true' on input line 4045.
-Package hyperref Info: Hyper figures OFF on input line 4162.
-Package hyperref Info: Link nesting OFF on input line 4167.
-Package hyperref Info: Hyper index ON on input line 4170.
-Package hyperref Info: Plain pages OFF on input line 4177.
-Package hyperref Info: Backreferencing OFF on input line 4182.
+Package hyperref Info: Option `unicode' set `true' on input line 4050.
+Package hyperref Info: Hyper figures OFF on input line 4167.
+Package hyperref Info: Link nesting OFF on input line 4172.
+Package hyperref Info: Hyper index ON on input line 4175.
+Package hyperref Info: Plain pages OFF on input line 4182.
+Package hyperref Info: Backreferencing OFF on input line 4187.
 Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
-Package hyperref Info: Bookmarks ON on input line 4410.
+Package hyperref Info: Bookmarks ON on input line 4434.
 \c@Hy@tempcnt=\count317
 (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/url/url.sty
 \Urlmuskip=\muskip18
 Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
 )
-LaTeX Info: Redefining \url on input line 4748.
+LaTeX Info: Redefining \url on input line 4772.
 \XeTeXLinkMargin=\dimen186
 (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/bitset/bitset.sty
 Package: bitset 2019/12/09 v1.3 Handle bit-vector datatype (HO)
@@ -459,13 +456,13 @@ Package: bigintcalc 2019/12/15 v1.5 Expandable calculations on big integers (HO)
 \Fld@menulength=\count318
 \Field@Width=\dimen187
 \Fld@charsize=\dimen188
-Package hyperref Info: Hyper figures OFF on input line 6027.
-Package hyperref Info: Link nesting OFF on input line 6032.
-Package hyperref Info: Hyper index ON on input line 6035.
-Package hyperref Info: backreferencing OFF on input line 6042.
-Package hyperref Info: Link coloring OFF on input line 6047.
-Package hyperref Info: Link coloring with OCG OFF on input line 6052.
-Package hyperref Info: PDF/A mode OFF on input line 6057.
+Package hyperref Info: Hyper figures OFF on input line 6051.
+Package hyperref Info: Link nesting OFF on input line 6056.
+Package hyperref Info: Hyper index ON on input line 6059.
+Package hyperref Info: backreferencing OFF on input line 6066.
+Package hyperref Info: Link coloring OFF on input line 6071.
+Package hyperref Info: Link coloring with OCG OFF on input line 6076.
+Package hyperref Info: PDF/A mode OFF on input line 6081.
 (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/atbegshi-ltx.sty
 Package: atbegshi-ltx 2021/01/10 v1.0c Emulation of the original atbegshi
 package with kernel methods
@@ -476,7 +473,7 @@ package with kernel methods
 )
 Package hyperref Info: Driver (autodetected): hxetex.
 (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/hyperref/hxetex.def
-File: hxetex.def 2022-09-22 v7.00t Hyperref driver for XeTeX
+File: hxetex.def 2023-05-16 v7.00y Hyperref driver for XeTeX
 (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/stringenc/stringenc.sty
 Package: stringenc 2019/11/29 v1.12 Convert strings between diff. encodings (HO)
 )
@@ -495,25 +492,25 @@ Package: uniquecounter 2019/12/15 v1.4 Provide unlimited unique counter (HO)
 )
 Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 285.
 )
-\Hy@SectionHShift=\skip68
+\Hy@SectionHShift=\skip69
 ) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/float/float.sty
 Package: float 2001/11/08 v1.3d Float enhancements (AL)
 \c@float@type=\count326
-\float@exts=\toks26
+\float@exts=\toks27
 \float@box=\box109
-\@float@everytoks=\toks27
+\@float@everytoks=\toks28
 \@floatcapt=\box110
 ) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/wrapfig/wrapfig.sty
 \wrapoverhang=\dimen189
 \WF@size=\dimen190
 \c@WF@wrappedlines=\count327
 \WF@box=\box111
-\WF@everypar=\toks28
+\WF@everypar=\toks29
 Package: wrapfig 2003/01/31  v 3.6
 ) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/natbib/natbib.sty
 Package: natbib 2010/09/13 8.31b (PWD, AO)
-\bibhang=\skip69
-\bibsep=\skip70
+\bibhang=\skip70
+\bibsep=\skip71
 LaTeX Info: Redefining \cite on input line 694.
 \c@NAT@ctr=\count328
 ) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/bookmark/bookmark.sty
@@ -521,14 +518,8 @@ Package: bookmark 2020-11-06 v1.29 PDF bookmarks (HO)
 (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/bookmark/bkm-dvipdfm.def
 File: bkm-dvipdfm.def 2020-11-06 v1.29 bookmark driver for dvipdfm (HO)
 \BKM@id=\count329
-)) (./_main.aux
-
-LaTeX Warning: Label `tab:selected-pairs' multiply defined.
-
-
-LaTeX Warning: Label `tab:mfacumulative' multiply defined.
-
-)
+))
+No file _main.aux.
 \openout1 = `_main.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 94.
@@ -788,6 +779,7 @@ Package microtype Info: Applying patch `item' on input line 94.
 Package microtype Info: Applying patch `toc' on input line 94.
 Package microtype Info: Applying patch `eqnum' on input line 94.
 Package microtype Info: Applying patch `footnote' on input line 94.
+Package microtype Info: Applying patch `verbatim' on input line 94.
 Package microtype Info: Character protrusion enabled (level 2).
 Package microtype Info: Using protrusion set `basicmath'.
 Package microtype Info: No adjustment of tracking.
@@ -797,6 +789,9 @@ Package microtype Info: No adjustment of kerning.
 File: mt-LatinModernRoman.cfg 2021/02/21 v1.1 microtype config. file: Latin Modern Roman (RS)
 )
 Package hyperref Info: Link coloring OFF on input line 94.
+
+Package hyperref Warning: Rerun to get /PageLabels entry.
+
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(1)/m/n' will be
 (Font)              scaled to size 12.0pt on input line 96.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(1)/m/n' will be
@@ -835,24 +830,8 @@ File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 
 ] [2
 
-] (./_main.toc
-LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(1)/m/n' will be
-(Font)              scaled to size 7.0pt on input line 5.
-LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(1)/m/n' will be
-(Font)              scaled to size 5.0pt on input line 5.
-LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
-(Font)              scaled to size 10.00092pt on input line 5.
-LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
-(Font)              scaled to size 7.00064pt on input line 5.
-LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
-(Font)              scaled to size 5.00046pt on input line 5.
-LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
-(Font)              scaled to size 9.99893pt on input line 5.
-LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
-(Font)              scaled to size 6.99925pt on input line 5.
-LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
-(Font)              scaled to size 4.99947pt on input line 5.
-)
+]
+No file _main.toc.
 \tf@toc=\write3
 \openout3 = `_main.toc'.
 
@@ -872,15 +851,42 @@ Chapter 3.
 
 ]
 Chapter 4.
+
+Package natbib Warning: Citation `AEC' on page 11 undefined on input line 132.
+
+
+Package natbib Warning: Citation `TallyRoom' on page 11 undefined on input line 132.
+
+
+Package natbib Warning: Citation `ABS' on page 11 undefined on input line 134.
+
+
+Package natbib Warning: Citation `CensusDataPack' on page 11 undefined on input line 134.
+
 [11]
+
+Package natbib Warning: Citation `R-auspol' on page 12 undefined on input line 154.
+
+
+Package natbib Warning: Citation `R-auscensus' on page 12 undefined on input line 156.
+
+
+Package natbib Warning: Citation `R-aussiemaps' on page 12 undefined on input line 158.
+
+
+LaTeX Warning: Reference `fig:data-flow' on page 12 undefined on input line 161.
+
 File: _main_files/figure-latex/data-flow-1.pdf Graphic file (type pdf)
 <use _main_files/figure-latex/data-flow-1.pdf>
 [12]
 
-LaTeX Warning: Reference `fig:elections-and-census' on page 13 undefined on input line 189.
+LaTeX Warning: Reference `fig:electionsandcensus' on page 13 undefined on input line 189.
 
-File: _main_files/figure-latex/elections-and-census-1.pdf Graphic file (type pdf)
-<use _main_files/figure-latex/elections-and-census-1.pdf>
+File: _main_files/figure-latex/electionsandcensus-1.pdf Graphic file (type pdf)
+<use _main_files/figure-latex/electionsandcensus-1.pdf>
+
+LaTeX Warning: Reference `tab:selected-pairs' on page 13 undefined on input line 197.
+
 
 Package fontspec Info: Arial scale = 0.8311536146592658.
 
@@ -933,7 +939,7 @@ Package fontspec Info: Font family 'Arial(0)' created for font 'Arial' with
 (fontspec)             <->s*[1]"Arial/BI/OT:script=latn;language=dflt;+smcp;mapping=tex-text;"
 
 LaTeX Font Info:    Font shape `TU/Arial(0)/m/n' will be
-(Font)              scaled to size 11.0pt on input line 213.
+(Font)              scaled to size 11.0pt on input line 217.
 
 Package fontspec Info: Arial scale = 0.9999973249515148.
 
@@ -986,11 +992,11 @@ Package fontspec Info: Font family 'Arial(1)' created for font 'Arial' with
 (fontspec)             <->s*[0.9999973249515148]"Arial/BI/OT:script=latn;language=dflt;+smcp;"
 
 LaTeX Font Info:    Overwriting math alphabet `\mathrm' in version `normal'
-(Font)                  TU/lmr/m/n --> TU/Arial(1)/m/n on input line 213.
+(Font)                  TU/lmr/m/n --> TU/Arial(1)/m/n on input line 217.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `normal'
-(Font)                  TU/lmr/m/it --> TU/Arial(1)/m/it on input line 213.
+(Font)                  TU/lmr/m/it --> TU/Arial(1)/m/it on input line 217.
 LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `normal'
-(Font)                  TU/lmr/bx/n --> TU/Arial(1)/b/n on input line 213.
+(Font)                  TU/lmr/bx/n --> TU/Arial(1)/b/n on input line 217.
 
 Package fontspec Info: Arial scale = 0.8311536146592658.
 
@@ -1020,7 +1026,7 @@ Package fontspec Info: Arial scale = 0.8311536146592658.
 
 [13]
 
-Package fontspec Info: Arial scale = 0.8311536146592658.
+LaTeX Warning: Reference `tab:canberra2022' on page 14 undefined on input line 264.
 
 
 Package fontspec Info: Arial scale = 0.8311536146592658.
@@ -1029,7 +1035,10 @@ Package fontspec Info: Arial scale = 0.8311536146592658.
 Package fontspec Info: Arial scale = 0.8311536146592658.
 
 
-Overfull \hbox (6.9474pt too wide) in paragraph at lines 280--280
+Package fontspec Info: Arial scale = 0.8311536146592658.
+
+
+Overfull \hbox (6.9474pt too wide) in paragraph at lines 284--284
 []|[]\TU/Arial(0)/m/n/11 Abbreviation[]|  
  []
 
@@ -1043,7 +1052,7 @@ Package fontspec Info: Arial scale = 0.8311536146592658.
 Package fontspec Info: Arial scale = 0.8311536146592658.
 
 
-Overfull \hbox (2.05971pt too wide) in paragraph at lines 280--280
+Overfull \hbox (2.05971pt too wide) in paragraph at lines 284--284
  []|[]\TU/Arial(0)/m/n/11 Percentage[]|
  []
 
@@ -1093,1449 +1102,4 @@ Package fontspec Info: Arial scale = 0.8311536146592658.
 Package fontspec Info: Arial scale = 0.8311536146592658.
 
 
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-[14]
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Overfull \hbox (251.2275pt too wide) in alignment at lines 367--375
- [] [] [] [] [] [] [] [] [] [] [] 
- []
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Overfull \hbox (251.2275pt too wide) in alignment at lines 375--427
- [] [] [] [] [] [] [] [] [] [] [] 
- []
-
-[15]
-File: _main_files/figure-latex/coalvsboomers-1.pdf Graphic file (type pdf)
-<use _main_files/figure-latex/coalvsboomers-1.pdf>
-File: _main_files/figure-latex/corrlanguagereligion-1.pdf Graphic file (type pdf)
-<use _main_files/figure-latex/corrlanguagereligion-1.pdf>
-
-Overfull \hbox (34.50314pt too wide) in paragraph at lines 453--453
-[][]
- []
-
-[16]
-Underfull \hbox (badness 1902) in paragraph at lines 466--466
-[]\TU/lmr/bx/n/12 Dimensionality reduction using Multiple Factor
- []
-
-File: _main_files/figure-latex/mfascree-1.pdf Graphic file (type pdf)
-<use _main_files/figure-latex/mfascree-1.pdf>
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Overfull \hbox (0.84047pt too wide) in paragraph at lines 501--501
- []|[]\TU/Arial(0)/m/n/11 percentage
- []
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Package fontspec Info: Arial scale = 0.8311536146592658.
-
-[17] [18] [19]
-File: _main_files/figure-latex/unnamed-chunk-9-1.pdf Graphic file (type pdf)
-<use _main_files/figure-latex/unnamed-chunk-9-1.pdf>
-[20]
-Chapter 5.
-[21
-
-]
-Underfull \hbox (badness 1874) in paragraph at lines 640--641
-[]\TU/lmr/m/n/10 To aggregate the data, []\TU/lmr/bx/n/10 aussiemaps::geo_aggregate()[] \TU/lmr/m/n/10 can help using
- []
-
-
-Overfull \hbox (1.5pt too wide) in paragraph at lines 657--657
-[]\TU/lmtt/m/n/10 ##    Unit       Year Attribute            Value  Total Percentage[] 
- []
-
-
-Overfull \hbox (1.5pt too wide) in paragraph at lines 657--657
-[]\TU/lmtt/m/n/10 ##    <chr>     <dbl> <chr>                <dbl>  <dbl>      <dbl>[] 
- []
-
-
-Overfull \hbox (1.5pt too wide) in paragraph at lines 657--657
-[]\TU/lmtt/m/n/10 ##  1 Adelaide   2006 Australian Citizens 115908 140151       82.7[] 
- []
-
-
-Overfull \hbox (1.5pt too wide) in paragraph at lines 657--657
-[]\TU/lmtt/m/n/10 ##  2 Aston      2006 Australian Citizens 115010 129463       88.8[] 
- []
-
-
-Overfull \hbox (1.5pt too wide) in paragraph at lines 657--657
-[]\TU/lmtt/m/n/10 ##  3 Ballarat   2006 Australian Citizens 118247 129221       91.5[] 
- []
-
-
-Overfull \hbox (1.5pt too wide) in paragraph at lines 657--657
-[]\TU/lmtt/m/n/10 ##  4 Banks      2006 Australian Citizens 104181 118371       88.0[] 
- []
-
-
-Overfull \hbox (1.5pt too wide) in paragraph at lines 657--657
-[]\TU/lmtt/m/n/10 ##  5 Barker     2006 Australian Citizens 133033 145410       91.5[] 
- []
-
-
-Overfull \hbox (1.5pt too wide) in paragraph at lines 657--657
-[]\TU/lmtt/m/n/10 ##  6 Barton     2006 Australian Citizens 105287 131234       80.2[] 
- []
-
-
-Overfull \hbox (1.5pt too wide) in paragraph at lines 657--657
-[]\TU/lmtt/m/n/10 ##  7 Bass       2006 Australian Citizens  85631  94270       90.8[] 
- []
-
-
-Overfull \hbox (1.5pt too wide) in paragraph at lines 657--657
-[]\TU/lmtt/m/n/10 ##  8 Batman     2006 Australian Citizens 105561 128107       82.4[] 
- []
-
-
-Overfull \hbox (1.5pt too wide) in paragraph at lines 657--657
-[]\TU/lmtt/m/n/10 ##  9 Bendigo    2006 Australian Citizens 121930 131885       92.5[] 
- []
-
-
-Overfull \hbox (1.5pt too wide) in paragraph at lines 657--657
-[]\TU/lmtt/m/n/10 ## 10 Bennelong  2006 Australian Citizens 104473 129340       80.8[] 
- []
-
-[22]
-Chapter 6.
-
-Overfull \hbox (432.0pt too wide) in paragraph at lines 705--705
-[]\TU/lmtt/m/n/10 ##     Year StateAb DivisionID DivisionNm PollingPlaceID PollingPlace CandidateID Surname  GivenNm    BallotPosition Elected HistoricElected PartyAb[] 
- []
-
-
-Overfull \hbox (421.5pt too wide) in paragraph at lines 705--705
-[]\TU/lmtt/m/n/10 ##    <dbl> <chr>        <int> <chr>               <int> <chr>              <int> <chr>    <chr>               <int> <lgl>   <lgl>           <chr>[] 
- []
-
-
-Overfull \hbox (411.0pt too wide) in paragraph at lines 705--705
-[]\TU/lmtt/m/n/10 ##  1  2022 QLD            156 Brisbane            83397 Alderley           37204 KENNEDY  Tiana                   1 FALSE   FALSE           AJP[] 
- []
-
-
-Overfull \hbox (416.25pt too wide) in paragraph at lines 705--705
-[]\TU/lmtt/m/n/10 ##  2  2022 QLD            156 Brisbane            83397 Alderley           35972 KNUDSON  Justin Ma~              2 FALSE   FALSE           UAPP[] 
- []
-
-[23
-
-]
-Overfull \hbox (411.0pt too wide) in paragraph at lines 705--705
-[]\TU/lmtt/m/n/10 ##  3  2022 QLD            156 Brisbane            83397 Alderley           37338 BATES    Stephen                 3 TRUE    FALSE           GRN[] 
- []
-
-
-Overfull \hbox (411.0pt too wide) in paragraph at lines 705--705
-[]\TU/lmtt/m/n/10 ##  4  2022 QLD            156 Brisbane            83397 Alderley           37230 JARRETT  Madonna                 4 FALSE   FALSE           ALP[] 
- []
-
-
-Overfull \hbox (411.0pt too wide) in paragraph at lines 705--705
-[]\TU/lmtt/m/n/10 ##  5  2022 QLD            156 Brisbane            83397 Alderley           37482 EVANS    Trevor                  5 FALSE   TRUE            LNP[] 
- []
-
-
-Overfull \hbox (405.75pt too wide) in paragraph at lines 705--705
-[]\TU/lmtt/m/n/10 ##  6  2022 QLD            156 Brisbane            83397 Alderley           38213 HOLD     Trevor                  6 FALSE   FALSE           ON[] 
- []
-
-
-Overfull \hbox (411.0pt too wide) in paragraph at lines 705--705
-[]\TU/lmtt/m/n/10 ##  7  2022 QLD            156 Brisbane            83397 Alderley           37311 BULL     Anthony                 7 FALSE   FALSE           LDP[] 
- []
-
-
-Overfull \hbox (432.0pt too wide) in paragraph at lines 705--705
-[]\TU/lmtt/m/n/10 ##  8  2022 QLD            156 Brisbane            83397 Alderley             999 Informal Informal              999 FALSE   FALSE           Inform~[] 
- []
-
-
-Overfull \hbox (411.0pt too wide) in paragraph at lines 705--705
-[]\TU/lmtt/m/n/10 ##  9  2022 QLD            156 Brisbane             6017 Ascot              37204 KENNEDY  Tiana                   1 FALSE   FALSE           AJP[] 
- []
-
-
-Overfull \hbox (416.25pt too wide) in paragraph at lines 705--705
-[]\TU/lmtt/m/n/10 ## 10  2022 QLD            156 Brisbane             6017 Ascot              35972 KNUDSON  Justin Ma~              2 FALSE   FALSE           UAPP[] 
- []
-
-
-Overfull \hbox (153.75pt too wide) in paragraph at lines 705--705
-[]\TU/lmtt/m/n/10 ## # i 4 more variables: PartyNm <chr>, OrdinaryVotes <int>, Swing <dbl>, SittingMemberFl <lgl>[] 
- []
-
-
-Overfull \hbox (432.0pt too wide) in paragraph at lines 725--725
-[]\TU/lmtt/m/n/10 ##     Year StateAb DivisionID DivisionNm PollingPlaceID PollingPlace CandidateID Surname  GivenNm    BallotPosition Elected HistoricElected PartyAb[] 
- []
-
-
-Overfull \hbox (421.5pt too wide) in paragraph at lines 725--725
-[]\TU/lmtt/m/n/10 ##    <dbl> <chr>        <int> <chr>               <int> <chr>              <int> <chr>    <chr>               <int> <lgl>   <lgl>           <chr>[] 
- []
-
-
-Overfull \hbox (411.0pt too wide) in paragraph at lines 725--725
-[]\TU/lmtt/m/n/10 ##  1  2022 QLD            156 Brisbane            83397 Alderley           37204 KENNEDY  Tiana                   1 FALSE   FALSE           AJP[] 
- []
-
-
-Overfull \hbox (416.25pt too wide) in paragraph at lines 725--725
-[]\TU/lmtt/m/n/10 ##  2  2022 QLD            156 Brisbane            83397 Alderley           35972 KNUDSON  Justin Ma~              2 FALSE   FALSE           UAPP[] 
- []
-
-
-Overfull \hbox (411.0pt too wide) in paragraph at lines 725--725
-[]\TU/lmtt/m/n/10 ##  3  2022 QLD            156 Brisbane            83397 Alderley           37338 BATES    Stephen                 3 TRUE    FALSE           GRN[] 
- []
-
-
-Overfull \hbox (411.0pt too wide) in paragraph at lines 725--725
-[]\TU/lmtt/m/n/10 ##  4  2022 QLD            156 Brisbane            83397 Alderley           37230 JARRETT  Madonna                 4 FALSE   FALSE           ALP[] 
- []
-
-
-Overfull \hbox (411.0pt too wide) in paragraph at lines 725--725
-[]\TU/lmtt/m/n/10 ##  5  2022 QLD            156 Brisbane            83397 Alderley           37482 EVANS    Trevor                  5 FALSE   TRUE            LNP[] 
- []
-
-
-Overfull \hbox (405.75pt too wide) in paragraph at lines 725--725
-[]\TU/lmtt/m/n/10 ##  6  2022 QLD            156 Brisbane            83397 Alderley           38213 HOLD     Trevor                  6 FALSE   FALSE           ON[] 
- []
-
-
-Overfull \hbox (411.0pt too wide) in paragraph at lines 725--725
-[]\TU/lmtt/m/n/10 ##  7  2022 QLD            156 Brisbane            83397 Alderley           37311 BULL     Anthony                 7 FALSE   FALSE           LDP[] 
- []
-
-
-Overfull \hbox (432.0pt too wide) in paragraph at lines 725--725
-[]\TU/lmtt/m/n/10 ##  8  2022 QLD            156 Brisbane            83397 Alderley             999 Informal Informal              999 FALSE   FALSE           Inform~[] 
- []
-
-
-Overfull \hbox (411.0pt too wide) in paragraph at lines 725--725
-[]\TU/lmtt/m/n/10 ##  9  2022 QLD            156 Brisbane             6017 Ascot              37204 KENNEDY  Tiana                   1 FALSE   FALSE           AJP[] 
- []
-
-
-Overfull \hbox (416.25pt too wide) in paragraph at lines 725--725
-[]\TU/lmtt/m/n/10 ## 10  2022 QLD            156 Brisbane             6017 Ascot              35972 KNUDSON  Justin Ma~              2 FALSE   FALSE           UAPP[] 
- []
-
-
-Overfull \hbox (153.75pt too wide) in paragraph at lines 725--725
-[]\TU/lmtt/m/n/10 ## # i 4 more variables: PartyNm <chr>, OrdinaryVotes <int>, Swing <dbl>, SittingMemberFl <lgl>[] 
- []
-
-
-Overfull \hbox (432.0pt too wide) in paragraph at lines 743--743
-[]\TU/lmtt/m/n/10 ##     Year StateAb DivisionID DivisionNm PollingPlaceID PollingPlace CandidateID Surname  GivenNm    BallotPosition Elected HistoricElected PartyAb[] 
- []
-
-
-Overfull \hbox (421.5pt too wide) in paragraph at lines 743--743
-[]\TU/lmtt/m/n/10 ##    <dbl> <chr>        <int> <chr>               <int> <chr>              <int> <chr>    <chr>               <int> <lgl>   <lgl>           <chr>[] 
- []
-
-
-Overfull \hbox (411.0pt too wide) in paragraph at lines 743--743
-[]\TU/lmtt/m/n/10 ##  1  2022 QLD            156 Brisbane            83397 Alderley           37204 KENNEDY  Tiana                   1 FALSE   FALSE           AJP[] 
- []
-
-
-Overfull \hbox (416.25pt too wide) in paragraph at lines 743--743
-[]\TU/lmtt/m/n/10 ##  2  2022 QLD            156 Brisbane            83397 Alderley           35972 KNUDSON  Justin Ma~              2 FALSE   FALSE           UAPP[] 
- []
-
-
-Overfull \hbox (411.0pt too wide) in paragraph at lines 743--743
-[]\TU/lmtt/m/n/10 ##  3  2022 QLD            156 Brisbane            83397 Alderley           37338 BATES    Stephen                 3 TRUE    FALSE           GRN[] 
- []
-
-
-Overfull \hbox (411.0pt too wide) in paragraph at lines 743--743
-[]\TU/lmtt/m/n/10 ##  4  2022 QLD            156 Brisbane            83397 Alderley           37230 JARRETT  Madonna                 4 FALSE   FALSE           ALP[] 
- []
-
-
-Overfull \hbox (411.0pt too wide) in paragraph at lines 743--743
-[]\TU/lmtt/m/n/10 ##  5  2022 QLD            156 Brisbane            83397 Alderley           37482 EVANS    Trevor                  5 FALSE   TRUE            LNP[] 
- []
-
-
-Overfull \hbox (405.75pt too wide) in paragraph at lines 743--743
-[]\TU/lmtt/m/n/10 ##  6  2022 QLD            156 Brisbane            83397 Alderley           38213 HOLD     Trevor                  6 FALSE   FALSE           ON[] 
- []
-
-
-Overfull \hbox (411.0pt too wide) in paragraph at lines 743--743
-[]\TU/lmtt/m/n/10 ##  7  2022 QLD            156 Brisbane            83397 Alderley           37311 BULL     Anthony                 7 FALSE   FALSE           LDP[] 
- []
-
-
-Overfull \hbox (432.0pt too wide) in paragraph at lines 743--743
-[]\TU/lmtt/m/n/10 ##  8  2022 QLD            156 Brisbane            83397 Alderley             999 Informal Informal              999 FALSE   FALSE           Inform~[] 
- []
-
-
-Overfull \hbox (411.0pt too wide) in paragraph at lines 743--743
-[]\TU/lmtt/m/n/10 ##  9  2022 QLD            156 Brisbane             6017 Ascot              37204 KENNEDY  Tiana                   1 FALSE   FALSE           AJP[] 
- []
-
-
-Overfull \hbox (416.25pt too wide) in paragraph at lines 743--743
-[]\TU/lmtt/m/n/10 ## 10  2022 QLD            156 Brisbane             6017 Ascot              35972 KNUDSON  Justin Ma~              2 FALSE   FALSE           UAPP[] 
- []
-
-
-Overfull \hbox (153.75pt too wide) in paragraph at lines 743--743
-[]\TU/lmtt/m/n/10 ## # i 4 more variables: PartyNm <chr>, OrdinaryVotes <int>, Swing <dbl>, SittingMemberFl <lgl>[] 
- []
-
-[24]
-Overfull \hbox (432.0pt too wide) in paragraph at lines 763--763
-[]\TU/lmtt/m/n/10 ##     Year StateAb DivisionID DivisionNm CandidateID Surname   GivenNm  BallotPosition Elected HistoricElected PartyAb  PartyNm     SittingMemberFl[] 
- []
-
-
-Overfull \hbox (379.5pt too wide) in paragraph at lines 763--763
-[]\TU/lmtt/m/n/10 ##    <dbl> <chr>        <int> <chr>            <int> <chr>     <chr>             <int> <lgl>   <lgl>           <chr>    <chr>       <lgl>[] 
- []
-
-
-Overfull \hbox (379.5pt too wide) in paragraph at lines 763--763
-[]\TU/lmtt/m/n/10 ##  1  2019 QLD            156 Brisbane           999 Informal  Informal            999 FALSE   FALSE           Informal Informal    FALSE[] 
- []
-
-
-Overfull \hbox (379.5pt too wide) in paragraph at lines 763--763
-[]\TU/lmtt/m/n/10 ##  2  2019 QLD            156 Brisbane         32751 PERRY     Anne                  1 FALSE   FALSE           ON       Pauline Ha~ FALSE[] 
- []
-
-
-Overfull \hbox (379.5pt too wide) in paragraph at lines 763--763
-[]\TU/lmtt/m/n/10 ##  3  2019 QLD            156 Brisbane         32946 NEWBURY   Paul                  6 FALSE   FALSE           ALP      Australian~ FALSE[] 
- []
-
-
-Overfull \hbox (379.5pt too wide) in paragraph at lines 763--763
-[]\TU/lmtt/m/n/10 ##  4  2019 QLD            156 Brisbane         32960 WHITTAKER Aaron                 3 FALSE   FALSE           UAPP     United Aus~ FALSE[] 
- []
-
-
-Overfull \hbox (379.5pt too wide) in paragraph at lines 763--763
-[]\TU/lmtt/m/n/10 ##  5  2019 QLD            156 Brisbane         33144 BARTLETT  Andrew                4 FALSE   FALSE           GRN      The Greens  FALSE[] 
- []
-
-
-Overfull \hbox (379.5pt too wide) in paragraph at lines 763--763
-[]\TU/lmtt/m/n/10 ##  6  2019 QLD            156 Brisbane         33206 EVANS     Trevor                2 TRUE    TRUE            LNP      Liberal Na~ FALSE[] 
- []
-
-
-Overfull \hbox (379.5pt too wide) in paragraph at lines 763--763
-[]\TU/lmtt/m/n/10 ##  7  2019 QLD            156 Brisbane         33224 EMANUEL   Kamala                7 FALSE   FALSE           SAL      Socialist ~ FALSE[] 
- []
-
-
-Overfull \hbox (379.5pt too wide) in paragraph at lines 763--763
-[]\TU/lmtt/m/n/10 ##  8  2019 QLD            156 Brisbane         33326 JEANNERET Rod                   5 FALSE   FALSE           FACN     FRASER ANN~ FALSE[] 
- []
-
-
-Overfull \hbox (379.5pt too wide) in paragraph at lines 763--763
-[]\TU/lmtt/m/n/10 ##  9  2019 WA             245 Perth              999 Informal  Informal            999 FALSE   FALSE           Informal Informal    FALSE[] 
- []
-
-
-Overfull \hbox (379.5pt too wide) in paragraph at lines 763--763
-[]\TU/lmtt/m/n/10 ## 10  2019 WA             245 Perth            32155 PERKS     Caroline              6 FALSE   FALSE           GRN      The Greens~ FALSE[] 
- []
-
-
-Overfull \hbox (432.0pt too wide) in paragraph at lines 782--782
-[]\TU/lmtt/m/n/10 ##     Year StateAb DivisionID DivisionNm PollingPlaceID PollingPlace CandidateID Surname     GivenNm BallotPosition Elected HistoricElected PartyAb[] 
- []
-
-
-Overfull \hbox (421.5pt too wide) in paragraph at lines 782--782
-[]\TU/lmtt/m/n/10 ##    <dbl> <chr>        <int> <chr>               <int> <chr>              <int> <chr>       <chr>            <int> <lgl>   <lgl>           <chr>[] 
- []
-
-
-Overfull \hbox (405.75pt too wide) in paragraph at lines 782--782
-[]\TU/lmtt/m/n/10 ##  1  2022 WA             245 Perth                8203 Yokine North       37417 BAILEY      Cameron              1 FALSE   FALSE           ON[] 
- []
-
-
-Overfull \hbox (411.0pt too wide) in paragraph at lines 782--782
-[]\TU/lmtt/m/n/10 ##  2  2022 WA             245 Perth                8203 Yokine North       36515 POWELL      Dean                 2 FALSE   FALSE           AUC[] 
- []
-
-
-Overfull \hbox (411.0pt too wide) in paragraph at lines 782--782
-[]\TU/lmtt/m/n/10 ##  3  2022 WA             245 Perth                8203 Yokine North       37748 CONNOR      Sean                 3 FALSE   FALSE           GAP[] 
- []
-
-
-Overfull \hbox (411.0pt too wide) in paragraph at lines 782--782
-[]\TU/lmtt/m/n/10 ##  4  2022 WA             245 Perth                8203 Yokine North       37803 VOS         Dave                 4 FALSE   FALSE           WAP[] 
- []
-
-
-Overfull \hbox (411.0pt too wide) in paragraph at lines 782--782
-[]\TU/lmtt/m/n/10 ##  5  2022 WA             245 Perth                8203 Yokine North       37233 SZMEKURA-M~ Sarah                5 FALSE   FALSE           AJP[] 
- []
-
-
-Overfull \hbox (411.0pt too wide) in paragraph at lines 782--782
-[]\TU/lmtt/m/n/10 ##  6  2022 WA             245 Perth                8203 Yokine North       37327 GORMAN      Patrick              6 TRUE    TRUE            ALP[] 
- []
-
-
-Overfull \hbox (411.0pt too wide) in paragraph at lines 782--782
-[]\TU/lmtt/m/n/10 ##  7  2022 WA             245 Perth                8203 Yokine North       37273 NICKOLS     Evan                 7 FALSE   FALSE           LDP[] 
- []
-
-
-Overfull \hbox (416.25pt too wide) in paragraph at lines 782--782
-[]\TU/lmtt/m/n/10 ##  8  2022 WA             245 Perth                8203 Yokine North       36507 EBERHART    Sonya ~              8 FALSE   FALSE           UAPP[] 
- []
-
-
-Overfull \hbox (411.0pt too wide) in paragraph at lines 782--782
-[]\TU/lmtt/m/n/10 ##  9  2022 WA             245 Perth                8203 Yokine North       36628 PERKS       Caroli~              9 FALSE   FALSE           GRN[] 
- []
-
-
-Overfull \hbox (405.75pt too wide) in paragraph at lines 782--782
-[]\TU/lmtt/m/n/10 ## 10  2022 WA             245 Perth                8203 Yokine North       36601 DWYER       David               10 FALSE   FALSE           LP[] 
- []
-
-
-Overfull \hbox (411.0pt too wide) in paragraph at lines 782--782
-[]\TU/lmtt/m/n/10 ## 11  2022 WA             245 Perth                8203 Yokine North       37290 GYURU       Aiden               11 FALSE   FALSE           CYA[] 
- []
-
-
-Overfull \hbox (432.0pt too wide) in paragraph at lines 782--782
-[]\TU/lmtt/m/n/10 ## 12  2022 WA             245 Perth                8203 Yokine North         999 Informal    Inform~            999 FALSE   FALSE           Inform~[] 
- []
-
-
-Overfull \hbox (153.75pt too wide) in paragraph at lines 782--782
-[]\TU/lmtt/m/n/10 ## # i 4 more variables: PartyNm <chr>, OrdinaryVotes <int>, Swing <dbl>, SittingMemberFl <lgl>[] 
- []
-
-
-Overfull \hbox (432.0pt too wide) in paragraph at lines 804--804
-[]\TU/lmtt/m/n/10 ##     Year StateAb DivisionID DivisionNm CandidateID Surname  GivenNm    BallotPosition Elected HistoricElected PartyAb  PartyNm    SittingMemberFl[] 
- []
-
-
-Overfull \hbox (379.5pt too wide) in paragraph at lines 804--804
-[]\TU/lmtt/m/n/10 ##    <dbl> <chr>        <int> <chr>            <int> <chr>    <chr>               <int> <lgl>   <lgl>           <chr>    <chr>      <lgl>[] 
- []
-
-
-Overfull \hbox (379.5pt too wide) in paragraph at lines 804--804
-[]\TU/lmtt/m/n/10 ##  1  2019 TAS            192 Bass               999 Informal Informal              999 FALSE   FALSE           Informal Informal   FALSE[] 
- []
-
-
-Overfull \hbox (379.5pt too wide) in paragraph at lines 804--804
-[]\TU/lmtt/m/n/10 ##  2  2019 TAS            192 Bass             32124 ARCHER   Bridget                 4 TRUE    FALSE           LP       Liberal    FALSE[] 
- []
-
-
-Overfull \hbox (379.5pt too wide) in paragraph at lines 804--804
-[]\TU/lmtt/m/n/10 ##  3  2019 TAS            192 Bass             32327 HART     Ross                    2 FALSE   TRUE            ALP      Australia~ FALSE[] 
- []
-
-
-Overfull \hbox (379.5pt too wide) in paragraph at lines 804--804
-[]\TU/lmtt/m/n/10 ##  4  2019 TAS            192 Bass             32379 WOODBURY Susan                   3 FALSE   FALSE           AJP      Animal Ju~ FALSE[] 
- []
-
-
-Overfull \hbox (379.5pt too wide) in paragraph at lines 804--804
-[]\TU/lmtt/m/n/10 ##  5  2019 TAS            192 Bass             32399 COOPER   Carl                    7 FALSE   FALSE           NP       The Natio~ FALSE[] 
- []
-
-
-Overfull \hbox (379.5pt too wide) in paragraph at lines 804--804
-[]\TU/lmtt/m/n/10 ##  6  2019 TAS            192 Bass             32540 HALL     Tom                     1 FALSE   FALSE           GRN      The Greens FALSE[] 
- []
-
-
-Overfull \hbox (379.5pt too wide) in paragraph at lines 804--804
-[]\TU/lmtt/m/n/10 ##  7  2019 TAS            192 Bass             32545 ROARK    Allan John              6 FALSE   FALSE           UAPP     United Au~ FALSE[] 
- []
-
-
-Overfull \hbox (379.5pt too wide) in paragraph at lines 804--804
-[]\TU/lmtt/m/n/10 ##  8  2019 TAS            192 Bass             33590 LAMBERT  Todd                    5 FALSE   FALSE           IND      Independe~ FALSE[] 
- []
-
-[25]
-Overfull \hbox (379.5pt too wide) in paragraph at lines 804--804
-[]\TU/lmtt/m/n/10 ##  9  2019 TAS            193 Braddon            999 Informal Informal              999 FALSE   FALSE           Informal Informal   FALSE[] 
- []
-
-
-Overfull \hbox (379.5pt too wide) in paragraph at lines 804--804
-[]\TU/lmtt/m/n/10 ## 10  2019 TAS            193 Braddon          32094 BRAKEY   Craig                   2 FALSE   FALSE           IND      Independe~ FALSE[] 
- []
-
-
-Overfull \hbox (432.0pt too wide) in paragraph at lines 821--821
-[]\TU/lmtt/m/n/10 ##    Year StateAb DivisionID DivisionNm CandidateID Surname    GivenNm   BallotPosition Elected HistoricElected PartyAb PartyNm     SittingMemberFl[] 
- []
-
-
-Overfull \hbox (379.5pt too wide) in paragraph at lines 821--821
-[]\TU/lmtt/m/n/10 ##   <dbl> <chr>        <int> <chr>            <int> <chr>      <chr>              <int> <lgl>   <lgl>           <chr>   <chr>       <lgl>[] 
- []
-
-
-Overfull \hbox (379.5pt too wide) in paragraph at lines 821--821
-[]\TU/lmtt/m/n/10 ## 1  2019 NT             306 Lingiari         32740 SNOWDON    Warren                 1 TRUE    TRUE            ALP     Australian~ FALSE[] 
- []
-
-
-Overfull \hbox (379.5pt too wide) in paragraph at lines 821--821
-[]\TU/lmtt/m/n/10 ## 2  2019 NT             306 Lingiari         33045 PRICE      Jacinta                6 FALSE   FALSE           CLP     Country Li~ FALSE[] 
- []
-
-
-Overfull \hbox (379.5pt too wide) in paragraph at lines 821--821
-[]\TU/lmtt/m/n/10 ## 3  2019 NT             307 Solomon          32743 GOSLING    Luke John              1 TRUE    TRUE            ALP     Australian~ FALSE[] 
- []
-
-
-Overfull \hbox (379.5pt too wide) in paragraph at lines 821--821
-[]\TU/lmtt/m/n/10 ## 4  2019 NT             307 Solomon          33053 GANLEY     Kathy                  3 FALSE   FALSE           CLP     Country Li~ FALSE[] 
- []
-
-
-Overfull \hbox (379.5pt too wide) in paragraph at lines 821--821
-[]\TU/lmtt/m/n/10 ## 5  2022 NT             306 Lingiari         36968 RYAN       Damien                 1 FALSE   FALSE           CLP     NT CLP      FALSE[] 
- []
-
-
-Overfull \hbox (379.5pt too wide) in paragraph at lines 821--821
-[]\TU/lmtt/m/n/10 ## 6  2022 NT             306 Lingiari         37286 SCRYMGOUR  Marion                 5 TRUE    FALSE           ALP     A.L.P.      FALSE[] 
- []
-
-
-Overfull \hbox (379.5pt too wide) in paragraph at lines 821--821
-[]\TU/lmtt/m/n/10 ## 7  2022 NT             307 Solomon          36937 MACFARLANE Tina                   4 FALSE   FALSE           CLP     NT CLP      FALSE[] 
- []
-
-
-Overfull \hbox (379.5pt too wide) in paragraph at lines 821--821
-[]\TU/lmtt/m/n/10 ## 8  2022 NT             307 Solomon          37280 GOSLING    Luke                   3 TRUE    TRUE            ALP     A.L.P.      FALSE[] 
- []
-
-
-Overfull \hbox (432.0pt too wide) in paragraph at lines 839--839
-[]\TU/lmtt/m/n/10 ##    Year StateAb DivisionNm PartyAb  PartyNm                              OrdinaryVotes GivenNm  Surname Percentage_with_Info~1 Percentage Elected[] 
- []
-
-
-Overfull \hbox (421.5pt too wide) in paragraph at lines 839--839
-[]\TU/lmtt/m/n/10 ##   <dbl> <chr>   <chr>      <chr>    <chr>                                        <int> <chr>    <chr>                    <dbl>      <dbl> <lgl>[] 
- []
-
-
-Overfull \hbox (421.5pt too wide) in paragraph at lines 839--839
-[]\TU/lmtt/m/n/10 ## 1  2022 QLD     Brisbane   AJP      Animal Justice Party                          1235 Tiana    KENNEDY                   1.65       1.68 FALSE[] 
- []
-
-
-Overfull \hbox (421.5pt too wide) in paragraph at lines 839--839
-[]\TU/lmtt/m/n/10 ## 2  2022 QLD     Brisbane   ALP      Australian Labor Party                       20346 Madonna  JARRETT                  27.1       27.7  FALSE[] 
- []
-
-
-Overfull \hbox (416.25pt too wide) in paragraph at lines 839--839
-[]\TU/lmtt/m/n/10 ## 3  2022 QLD     Brisbane   GRN      Queensland Greens                            20985 Stephen  BATES                    28.0       28.6  TRUE[] 
- []
-
-
-Overfull \hbox (421.5pt too wide) in paragraph at lines 839--839
-[]\TU/lmtt/m/n/10 ## 4  2022 QLD     Brisbane   Informal Informal                                      1566 Informal Inform~                   2.09       2.13 FALSE[] 
- []
-
-
-Overfull \hbox (421.5pt too wide) in paragraph at lines 839--839
-[]\TU/lmtt/m/n/10 ## 5  2022 QLD     Brisbane   LDP      Liberal Democrats                             1115 Anthony  BULL                      1.49       1.52 FALSE[] 
- []
-
-
-Overfull \hbox (421.5pt too wide) in paragraph at lines 839--839
-[]\TU/lmtt/m/n/10 ## 6  2022 QLD     Brisbane   LNP      Liberal National Party of Queensland         26801 Trevor   EVANS                    35.7       36.5  FALSE[] 
- []
-
-
-Overfull \hbox (421.5pt too wide) in paragraph at lines 839--839
-[]\TU/lmtt/m/n/10 ## 7  2022 QLD     Brisbane   ON       Pauline Hanson[]s One Nation                   1518 Trevor   HOLD                      2.02       2.07 FALSE[] 
- []
-
-
-Overfull \hbox (421.5pt too wide) in paragraph at lines 839--839
-[]\TU/lmtt/m/n/10 ## 8  2022 QLD     Brisbane   UAPP     United Australia Party                        1430 Justin ~ KNUDSON                   1.91       1.95 FALSE[] 
- []
-
-
-Overfull \hbox (384.75pt too wide) in paragraph at lines 858--858
-[]\TU/lmtt/m/n/10 ##     Year StateAb DivisionNm  PartyAb PartyNm                OrdinaryVotes GivenNm Surname    Percentage_with_Informal Percentage Elected[] 
- []
-
-
-Overfull \hbox (374.25pt too wide) in paragraph at lines 858--858
-[]\TU/lmtt/m/n/10 ##    <dbl> <chr>   <chr>       <chr>   <chr>                          <int> <chr>   <chr>                         <dbl>      <dbl> <lgl>[] 
- []
-
-
-Overfull \hbox (369.0pt too wide) in paragraph at lines 858--858
-[]\TU/lmtt/m/n/10 ##  1  2022 QLD     Blair       ALP     Australian Labor Party         27323 Shayne  NEUMANN                        33.4       35.5 TRUE[] 
- []
-
-
-Overfull \hbox (374.25pt too wide) in paragraph at lines 858--858
-[]\TU/lmtt/m/n/10 ##  2  2022 QLD     Bonner      ALP     Australian Labor Party         20930 Tabatha YOUNG                          29.3       30.0 FALSE[] 
- []
-
-
-Overfull \hbox (374.25pt too wide) in paragraph at lines 858--858
-[]\TU/lmtt/m/n/10 ##  3  2022 QLD     Bowman      ALP     Australian Labor Party         23196 Donisha DUFF                           28.7       29.6 FALSE[] 
- []
-
-
-Overfull \hbox (374.25pt too wide) in paragraph at lines 858--858
-[]\TU/lmtt/m/n/10 ##  4  2022 QLD     Brisbane    ALP     Australian Labor Party         20346 Madonna JARRETT                        27.1       27.7 FALSE[] 
- []
-
-
-Overfull \hbox (374.25pt too wide) in paragraph at lines 858--858
-[]\TU/lmtt/m/n/10 ##  5  2022 QLD     Capricornia ALP     Australian Labor Party         20543 Russell ROBERTSON                      26.9       28.7 FALSE[] 
- []
-
-
-Overfull \hbox (374.25pt too wide) in paragraph at lines 858--858
-[]\TU/lmtt/m/n/10 ##  6  2022 QLD     Dawson      ALP     Australian Labor Party         18921 Shane   HAMILTON                       23.8       24.9 FALSE[] 
- []
-
-
-Overfull \hbox (374.25pt too wide) in paragraph at lines 858--858
-[]\TU/lmtt/m/n/10 ##  7  2022 QLD     Dickson     ALP     Australian Labor Party         22988 Ali     FRANCE                         31.0       32.3 FALSE[] 
- []
-
-[26]
-Overfull \hbox (374.25pt too wide) in paragraph at lines 858--858
-[]\TU/lmtt/m/n/10 ##  8  2022 QLD     Fadden      ALP     Australian Labor Party         18140 Letitia DEL FABBRO                     21.7       22.8 FALSE[] 
- []
-
-
-Overfull \hbox (374.25pt too wide) in paragraph at lines 858--858
-[]\TU/lmtt/m/n/10 ##  9  2022 QLD     Fairfax     ALP     Australian Labor Party         18001 Sue     FERGUSON                       21.0       22.3 FALSE[] 
- []
-
-
-Overfull \hbox (374.25pt too wide) in paragraph at lines 858--858
-[]\TU/lmtt/m/n/10 ## 10  2022 QLD     Fisher      ALP     Australian Labor Party         19804 Judene  ANDREWS                        22.9       23.7 FALSE[] 
- []
-
-
-Overfull \hbox (306.0pt too wide) in paragraph at lines 871--871
-[]\TU/lmtt/m/n/10 ##    Year StateAb DivisionNm PartyAb PartyNm OrdinaryVotes GivenNm      Surname Percentage_with_Informal Percentage Elected[] 
- []
-
-
-Overfull \hbox (295.5pt too wide) in paragraph at lines 871--871
-[]\TU/lmtt/m/n/10 ##   <dbl> <chr>   <chr>      <chr>   <chr>           <int> <chr>        <chr>                      <dbl>      <dbl> <lgl>[] 
- []
-
-
-Overfull \hbox (295.5pt too wide) in paragraph at lines 871--871
-[]\TU/lmtt/m/n/10 ## 1  2004 TAS     Franklin   LP      Liberal         21337 Henry        FINNIS                      37.6       39.0 FALSE[] 
- []
-
-
-Overfull \hbox (295.5pt too wide) in paragraph at lines 871--871
-[]\TU/lmtt/m/n/10 ## 2  2007 TAS     Franklin   LP      Liberal         22616 Vanessa      GOODWIN                     39.8       41.0 FALSE[] 
- []
-
-
-Overfull \hbox (295.5pt too wide) in paragraph at lines 871--871
-[]\TU/lmtt/m/n/10 ## 3  2010 TAS     Franklin   LP      Liberal         18386 Jane         HOWLETT                     32.0       33.3 FALSE[] 
- []
-
-
-Overfull \hbox (295.5pt too wide) in paragraph at lines 871--871
-[]\TU/lmtt/m/n/10 ## 4  2013 TAS     Franklin   LP      Liberal         21867 Bernadette   BLACK                       37.1       38.7 FALSE[] 
- []
-
-
-Overfull \hbox (295.5pt too wide) in paragraph at lines 871--871
-[]\TU/lmtt/m/n/10 ## 5  2016 TAS     Franklin   LP      Liberal         20754 Amanda-Sue   MARKHAM                     33.9       35.1 FALSE[] 
- []
-
-
-Overfull \hbox (295.5pt too wide) in paragraph at lines 871--871
-[]\TU/lmtt/m/n/10 ## 6  2019 TAS     Franklin   LP      Liberal         18591 Dean         YOUNG                       29.9       30.9 FALSE[] 
- []
-
-
-Overfull \hbox (295.5pt too wide) in paragraph at lines 871--871
-[]\TU/lmtt/m/n/10 ## 7  2022 TAS     Franklin   LP      Liberal         14374 Kristy Maree JOHNSON                     24.5       25.9 FALSE[] 
- []
-
-
-Underfull \hbox (badness 1881) in paragraph at lines 879--880
-\TU/lmr/m/n/10 The first plotting convenience function in this package allows compar-
- []
-
-File: _main_files/figure-latex/primvote1-1.pdf Graphic file (type pdf)
-<use _main_files/figure-latex/primvote1-1.pdf>
-[27]
-File: _main_files/figure-latex/primvote2-1.pdf Graphic file (type pdf)
-<use _main_files/figure-latex/primvote2-1.pdf>
-File: _main_files/figure-latex/primvote3-1.pdf Graphic file (type pdf)
-<use _main_files/figure-latex/primvote3-1.pdf>
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-[28]
-File: _main_files/figure-latex/primvote4-1.pdf Graphic file (type pdf)
-<use _main_files/figure-latex/primvote4-1.pdf>
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-[29]
-File: _main_files/figure-latex/primvote5-1.pdf Graphic file (type pdf)
-<use _main_files/figure-latex/primvote5-1.pdf>
-[30]
-Chapter 7.
-[31
-
-]
-Overfull \hbox (12.0pt too wide) in paragraph at lines 967--967
-[]\TU/lmtt/m/n/10 ##    attributes []2006[]         []2011[]         []2016[]         []2021[][] 
- []
-
-
-Overfull \hbox (6.75pt too wide) in paragraph at lines 967--967
-[]\TU/lmtt/m/n/10 ##    <chr>      <chr>          <chr>          <chr>          <chr>[] 
- []
-
-
-Overfull \hbox (1.5pt too wide) in paragraph at lines 967--967
-[]\TU/lmtt/m/n/10 ##  1 CD_CODE    CD_CODE_2006   <NA>           <NA>           <NA>[] 
- []
-
-
-Overfull \hbox (48.75pt too wide) in paragraph at lines 967--967
-[]\TU/lmtt/m/n/10 ##  2 CED_CODE   CED_CODE_2006  CED_CODE_2011  CED_CODE_2016  CED_CODE_2021[] 
- []
-
-
-Overfull \hbox (48.75pt too wide) in paragraph at lines 967--967
-[]\TU/lmtt/m/n/10 ##  3 CED_NAME   CED_NAME_2006  CED_NAME_2011  CED_NAME_2016  CED_NAME_2021[] 
- []
-
-
-Overfull \hbox (54.0pt too wide) in paragraph at lines 967--967
-[]\TU/lmtt/m/n/10 ##  4 IARE_CODE  IARE_CODE_2006 IARE_CODE_2011 IARE_CODE_2016 IARE_CODE_2021[] 
- []
-
-
-Overfull \hbox (54.0pt too wide) in paragraph at lines 967--967
-[]\TU/lmtt/m/n/10 ##  5 IARE_NAME  IARE_NAME_2006 IARE_NAME_2011 IARE_NAME_2016 IARE_NAME_2021[] 
- []
-
-
-Overfull \hbox (54.0pt too wide) in paragraph at lines 967--967
-[]\TU/lmtt/m/n/10 ##  6 ILOC_CODE  ILOC_CODE_2006 ILOC_CODE_2011 ILOC_CODE_2016 ILOC_CODE_2021[] 
- []
-
-
-Overfull \hbox (54.0pt too wide) in paragraph at lines 967--967
-[]\TU/lmtt/m/n/10 ##  7 ILOC_NAME  ILOC_NAME_2006 ILOC_NAME_2011 ILOC_NAME_2016 ILOC_NAME_2021[] 
- []
-
-
-Overfull \hbox (54.0pt too wide) in paragraph at lines 967--967
-[]\TU/lmtt/m/n/10 ##  8 IREG_CODE  IREG_CODE_2006 IREG_CODE_2011 IREG_CODE_2016 IREG_CODE_2021[] 
- []
-
-
-Overfull \hbox (54.0pt too wide) in paragraph at lines 967--967
-[]\TU/lmtt/m/n/10 ##  9 IREG_NAME  IREG_NAME_2006 IREG_NAME_2011 IREG_NAME_2016 IREG_NAME_2021[] 
- []
-
-
-Overfull \hbox (48.75pt too wide) in paragraph at lines 967--967
-[]\TU/lmtt/m/n/10 ## 10 LGA_CODE   LGA_CODE_2006  LGA_CODE_2011  LGA_CODE_2016  LGA_CODE_2021[] 
- []
-
-File: _main_files/figure-latex/unnamed-chunk-31-1.pdf Graphic file (type pdf)
-<use _main_files/figure-latex/unnamed-chunk-31-1.pdf>
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-[32]
-Overfull \hbox (64.5pt too wide) in paragraph at lines 993--993
-[]\TU/lmtt/m/n/10 ## Bounding box:  xmin: 115.6286 ymin: -41.3658 xmax: 152.0004 ymax: -20.34465[] 
- []
-
-
-Overfull \hbox (264.0pt too wide) in paragraph at lines 993--993
-[]\TU/lmtt/m/n/10 ##                SSC_NAME_2016                       UCL_NAME_2016     STE_NAME_2016                           geom[] 
- []
-
-
-Overfull \hbox (264.0pt too wide) in paragraph at lines 993--993
-[]\TU/lmtt/m/n/10 ## 1                   Prestons                              Sydney   New South Wales POLYGON ((150.8737 -33.9276...[] 
- []
-
-
-Overfull \hbox (264.0pt too wide) in paragraph at lines 993--993
-[]\TU/lmtt/m/n/10 ## 2  Preston (Toowoomba - Qld)  Remainder of State/Territory (Qld)        Queensland POLYGON ((151.9873 -27.6787...[] 
- []
-
-
-Overfull \hbox (264.0pt too wide) in paragraph at lines 993--993
-[]\TU/lmtt/m/n/10 ## 3 Preston (Whitsunday - Qld)  Remainder of State/Territory (Qld)        Queensland POLYGON ((148.6227 -20.3747...[] 
- []
-
-
-Overfull \hbox (264.0pt too wide) in paragraph at lines 993--993
-[]\TU/lmtt/m/n/10 ## 4             Preston (Tas.) Remainder of State/Territory (Tas.)          Tasmania POLYGON ((146.0962 -41.2507...[] 
- []
-
-
-Overfull \hbox (264.0pt too wide) in paragraph at lines 993--993
-[]\TU/lmtt/m/n/10 ## 5              South Preston Remainder of State/Territory (Tas.)          Tasmania POLYGON ((146.0302 -41.3338...[] 
- []
-
-
-Overfull \hbox (264.0pt too wide) in paragraph at lines 993--993
-[]\TU/lmtt/m/n/10 ## 6              Preston Beach   Remainder of State/Territory (WA) Western Australia POLYGON ((115.6492 -32.8839...[] 
- []
-
-
-Overfull \hbox (264.0pt too wide) in paragraph at lines 993--993
-[]\TU/lmtt/m/n/10 ## 7         Preston Settlement   Remainder of State/Territory (WA) Western Australia POLYGON ((116.117 -33.40392...[] 
- []
-
-
-Overfull \hbox (264.0pt too wide) in paragraph at lines 993--993
-[]\TU/lmtt/m/n/10 ## 8             Preston (Vic.)                           Melbourne          Victoria POLYGON ((144.9798 -37.7427...[] 
- []
-
-
-Overfull \hbox (64.5pt too wide) in paragraph at lines 1007--1007
-[]\TU/lmtt/m/n/10 ## Bounding box:  xmin: 146.0066 ymin: -41.33851 xmax: 150.8979 ymax: -33.9263[] 
- []
-
-[33]
-Overfull \hbox (201.0pt too wide) in paragraph at lines 1007--1007
-[]\TU/lmtt/m/n/10 ##      SSC_NAME_2016                       UCL_NAME_2016   STE_NAME_2016                           geom[] 
- []
-
-
-Overfull \hbox (201.0pt too wide) in paragraph at lines 1007--1007
-[]\TU/lmtt/m/n/10 ## 1         Prestons                              Sydney New South Wales POLYGON ((150.8737 -33.9276...[] 
- []
-
-
-Overfull \hbox (201.0pt too wide) in paragraph at lines 1007--1007
-[]\TU/lmtt/m/n/10 ## 2 Preservation Bay Remainder of State/Territory (Tas.)        Tasmania POLYGON ((146.0401 -41.0973...[] 
- []
-
-
-Overfull \hbox (201.0pt too wide) in paragraph at lines 1007--1007
-[]\TU/lmtt/m/n/10 ## 3   Preston (Tas.) Remainder of State/Territory (Tas.)        Tasmania POLYGON ((146.0962 -41.2507...[] 
- []
-
-
-Overfull \hbox (463.5pt too wide) in paragraph at lines 1021--1021
-[]\TU/lmtt/m/n/10 ## Reading layer []cache_2021_6766fccc[] from data source []C:\Users\carlo\OneDrive\Documents\.aussiemaps_cache\cache_2021_6766fccc.gpkg[] using driver []GPKG[][] 
- []
-
-
-Overfull \hbox (69.75pt too wide) in paragraph at lines 1021--1021
-[]\TU/lmtt/m/n/10 ## Bounding box:  xmin: 149.9719 ymin: -34.33116 xmax: 151.6306 ymax: -32.99606[] 
- []
-
-File: _main_files/figure-latex/unnamed-chunk-34-1.pdf Graphic file (type pdf)
-<use _main_files/figure-latex/unnamed-chunk-34-1.pdf>
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-[34]
-File: _main_files/figure-latex/unnamed-chunk-35-1.pdf Graphic file (type pdf)
-<use _main_files/figure-latex/unnamed-chunk-35-1.pdf>
-
-Underfull \hbox (badness 10000) in paragraph at lines 1030--1032
-[][]
- []
-
-
-Overfull \hbox (463.5pt too wide) in paragraph at lines 1042--1042
-[]\TU/lmtt/m/n/10 ## Reading layer []cache_2021_4ec18365[] from data source []C:\Users\carlo\OneDrive\Documents\.aussiemaps_cache\cache_2021_4ec18365.gpkg[] using driver []GPKG[][] 
- []
-
-
-Overfull \hbox (69.75pt too wide) in paragraph at lines 1042--1042
-[]\TU/lmtt/m/n/10 ## Bounding box:  xmin: 152.0734 ymin: -28.36387 xmax: 153.5467 ymax: -26.45233[] 
- []
-
-
-Overfull \hbox (6.75pt too wide) in paragraph at lines 1046--1046
-[]\TU/lmtt/m/n/10 ##  [1]  85 109  64 228  44  90 241  87  66 180 267 107  96 223  66[] 
- []
-
-File: _main_files/figure-latex/unnamed-chunk-36-1.pdf Graphic file (type pdf)
-<use _main_files/figure-latex/unnamed-chunk-36-1.pdf>
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-[35]
-File: _main_files/figure-latex/unnamed-chunk-37-1.pdf Graphic file (type pdf)
-<use _main_files/figure-latex/unnamed-chunk-37-1.pdf>
-(./_main.bbl
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-[36] [37] [38
-
-]
-Underfull \hbox (badness 2961) in paragraph at lines 32--37
-[]\TU/lmr/m/n/10 Andrew Jakubowicz and Christina Ho.  Was there an ’ethnic vote’
- []
-
-
-Underfull \hbox (badness 4739) in paragraph at lines 32--37
-\TU/lmr/m/n/10 in the 2019 election and did it make a difference?, a.  URL
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 32--37
-[]$[][][][] [] [] [] [][][][][][][][][][][][][][][] [] [][][] [] [][][] [][] [][][][][] [][] [][] [][] [][][][][][] [][] [][][][] [][] [][] [][] [][][] [][] [][][][] [][] [][][][][][][][] [][]
- []
-
-
-Underfull \hbox (badness 2961) in paragraph at lines 39--44
-[]\TU/lmr/m/n/10 Andrew Jakubowicz and Christina Ho.  Was there an ’ethnic vote’
- []
-
-
-Underfull \hbox (badness 4634) in paragraph at lines 39--44
-\TU/lmr/m/n/10 in the 2019 election and did it make a difference?, b.  URL
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 39--44
-[]$[][][][] [] [] [] [][][][][][][][][][][][][][][] [] [][][] [] [][][] [][] [][][][][] [][] [][] [][] [][][][][][] [][] [][][][] [][] [][] [][] [][][] [][] [][][][] [][] [][][][][][][][] [][]
- []
-
-
-Underfull \hbox (badness 4608) in paragraph at lines 56--63
-[]\TU/lmr/m/n/10 Commonwealth Parliament.  Voting patterns by generation.  URL
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 56--63
-[]$[][][][][] [] [] [] [][][] [] [][][] [] [][][] [] [][] [] [][][][][] [] [][][][][][][][][][] [] [][][][][][][][][][][][][] [] [][][][][][][][][][][] []
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 56--63
-[][][][][][][][][][][][][] [] [][][][][][][] [] [][][][][][][][] [] [][][][] [] [][][][][] [] [][][][][][] [] [][][][][][][][] [] [][] []
- []
-
-
-Underfull \hbox (badness 1642) in paragraph at lines 56--63
-[][][][][][][][][][]$[]\TU/lmr/m/n/10 .  Archive Location: Australia Last Modified: 2022-04-29
- []
-
-[39]) [40] (./_main.aux)
-
-LaTeX Warning: There were undefined references.
-
-
-LaTeX Warning: There were multiply-defined labels.
-
- ) 
-Here is how much of TeX's memory you used:
- 19468 strings out of 477723
- 367220 string characters out of 5841458
- 900123 words of memory out of 5000000
- 40192 multiletter control sequences out of 15000+600000
- 475846 words of font info for 98 fonts, out of 8000000 for 9000
- 14 hyphenation exceptions out of 8191
- 86i,8n,128p,2120b,509s stack positions out of 10000i,1000n,20000p,200000b,200000s
-
-Output written on _main.pdf (40 pages).
+Package fontspec

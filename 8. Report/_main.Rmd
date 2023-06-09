@@ -17,7 +17,7 @@ site: bookdown::bookdown_site
 
 
 ```{r eval=FALSE, include=FALSE}
-#bookdown::serve_book()
+bookdown::serve_book()
 bookdown::render_book("index.Rmd", "bookdown::pdf_book")
 
 ```
@@ -63,7 +63,7 @@ bibliography:
 - packages.bib
 ---
 
-```{r seven-setup,message=FALSE,warning=FALSE,echo=FALSE}
+```{r four-setup,message=FALSE,warning=FALSE,echo=FALSE}
 library(DiagrammeR)
 library(dplyr)
 library(readr)
@@ -72,7 +72,7 @@ library(here)
 library(auspol)
 library(flextable)
 library(ggplot2)
-
+library(tidyr)
 source(here::here("formatting_defaults.R"))
 
 project_path <- fs::path(here(),"..")
@@ -84,7 +84,7 @@ project_path <- fs::path(here(),"..")
 
 ## Data Sources {#data-sources}
 
-The first in the process was to source demographic and electoral data, which has been provided from two sources:
+The first step in the process was to source demographic and electoral data, which has been provided from two sources:
 
 -   **The Australian Electoral Commission** (AEC) [@AEC] . The AEC contains detailed online records for every federal election held in the 21st century, through their Tally Room website [@TallyRoom].
 
@@ -124,7 +124,7 @@ In summary, the process followed consisted of the below steps:
 
 The first to address when extracting the data is to establish a correspondence between census and election data. Since election the census cycle (5 years) does not match the electoral cycle (determined by the incumbent government, with a 3-year term for the House of Representatives), there is a potential problem of the census data not being completely representative of the population on a given election day. Figure \@ref(fig:electionsandcensus) presents the best matches between both events held in the 21st century.
 
-```{r electionsandcensus}
+```{r electionsandcensus, fig.cap="Census and Elections Timeline"}
  tibble::tribble(~Year, ~Event,
                 2001,"Census",
                 2006,"Census",
@@ -229,7 +229,6 @@ Apart from those, each electorate has been classified as **metropolitan** if it 
 
 A sample of the resulting dataset is present in table \@ref(tab:datasetsample).
 
-
 ```{r include=FALSE}
 dataset <- read_csv(fs::path(project_path,"4. Data","consolidated.csv"))
 
@@ -254,7 +253,6 @@ dataset |>
 In total, the resulting dataset is made up of 4 response variables and 55 potential predictors, plus identificatory attributes like division mane and election year. As expected, an initial inspection shows that some of the covariates are loosely correlated with primary vote. Also expected, many of the covariates exhibit medium to high correlation levels amongst themselves, e.g. negative correlation between high and low level income groups, and certain age brackets with houselhold type and tenure.
 
 As examples, figure \@ref(fig:coalvsboomers) show a somewhat weak correlation between Coalition primary vote and percentage of baby boomer population. Figure \@ref(fig:corrlanguagereligion) presents the correlation values for religion and language attributes that aside from expected pairings (e.g. Hinduism and South Asian languages or Italian speakers and percentage of declared catholics), there is a almost exclusive positive correlation between membership to Anglican, Presbyterian and Uniting churches and percentage of monolingual English speakers. The percentage of monolingual English speakers is also negative correlated to all other language groups.
-
 
 ```{r coalvsboomers,fig.cap="Correlation between Coalition vote and Baby boomer population"}
 dataset |>
@@ -350,7 +348,7 @@ screeplot / variance_plot
 
 ```
 
-In terms of interpretability of the new dimensions, figure \@ref(fig:groupbiplot) present group biplots for the 8 most important dimensions. From there, it is possible show that there is not straightforward representation expect with Dimension 2 and Education variables. 
+In terms of interpretability of the new dimensions, figure \@ref(fig:groupbiplot) present group biplots for the 8 most important dimensions. From there, it is possible show that there is not straightforward representation expect with Dimension 2 and Education variables.
 
 ```{r groupbiplot,fig.cap="Group plots for first 8 dimensions"}
 mfa_plot <- list()
@@ -365,6 +363,72 @@ wrap_plots(mfa_plot) + plot_annotation(title="Variable groups - MFA")
 
 ```
 
+### Electorate segments {#data-clusters}
+
+A common trope of Australian politics is to map voters's political persuasion to whether they live in the inner cities, suburbia or regional areas. Therefore, it is relevant to explore if this can be substantiated by demographic attributes, or if there any other grouping of voters that may influence primary voting.
+
+To explore this, a clustering algorithm has been applied using all electorates for election from 2006 up to 2016. After trial and error, the clustering procedure consists in:
+
+-   Transforming all demographic attributes to represent the difference of each data point and their corresponding national value (for the relevant year).
+-   Using the HDBSCAN [@campello2013], a density-based hierarchical clustering algorithm optimises the number of clusters and assignment
+
+This results in 3 distinct clusters of electorates. When presented in a map, it is possible to obtain something similar to figure \@ref(fig:clustermap2016) for 2016.
+
+```{r clustermap2016, echo=FALSE, fig.cap="Clusters for 2016 Election"}
+library(sf)
+
+
+clusters_colours <- colRoz::colRoz_pal(name = "ngadju", n = 3, type = "discrete")
+names(clusters_colours) <- as.character(0:2)
+
+clusters <- read_csv(fs::path(project_path,"4. Data","clusters.csv")) |>
+            filter(Year==2016) |>
+            mutate(cluster=as.character(cluster))
+
+australian_ced_map(clusters,fs::path(project_path,"4. Data","CED_2016.gpkg"),
+                   "cluster",clusters_colours,
+                    "Clustering of 2016 Electoral Divisions")
+
+
+```
+
+This mapping seems to align with popular political knowledge, where:
+
+-   **cluster 0** seems to mostly contain electorates located in the inner cities, especially in Sydney and Melbourne. These areas tend to be more affluent, either "established" or "gentrified" suburbs. Notably, it also contains the three northernmost, remote electorates.
+
+-   **cluster 1** comprises all regional areas outside state capitals (with the exception of Hobart in Tasmania).
+
+-   **cluster 2** largely represents "suburbia". It it also more prevalent in Brisbane and Perth compared when comparing capital cities.
+
+Revisiting the demographic attributescan help to understand how this clusters differ from each other. A selection of those variables is presented in figure \@ref(fig:clustereddemographics).
+
+```{r clustereddemographics, fig.cap="Selected attributes, coloured by cluster."}
+
+dataset |>
+  left_join(clusters,by="DivisionNm") |>
+  select(DivisionNm,cluster,all_of(c("Australian_Citizens",
+                           "Age_Gen_Y","Age_Baby_Boomers",
+                           "Language_Chinese",
+                           "Religion_No_Religion_Secular",
+                           "Religion_Anglican_Uniting_Presbyterian",
+                           "Income_2000_or_more",
+                           "Education_Bachelor",
+                           "Education_Diploma_or_Certificate",
+                           "Relationship_Married"))) |>
+  pivot_longer(-c(DivisionNm,cluster),names_to = "Attribute",values_to="Value") |>
+  ggplot(aes(y=Attribute,colour=cluster,x=Value),alpha=0.4) +
+  ggbeeswarm::geom_quasirandom(size=2) +
+  theme_minimal()+
+  scale_colour_manual(values=clusters_colours) +
+  labs(title = "Selected Attributes by cluster")
+
+
+```
+
+
+```{r}
+rm(list=ls())
+```
 
 
 <!--chapter:end:04-data.Rmd-->
@@ -373,10 +437,13 @@ wrap_plots(mfa_plot) + plot_annotation(title="Variable groups - MFA")
 output:
   pdf_document: default
   html_document: default
+bibliography:
+- book.bib
+- packages.bib
 ---
 # Method {#method}
 
-```{r seven-setup,message=FALSE,warning=FALSE,echo=FALSE}
+```{r five-setup,message=FALSE,warning=FALSE,echo=FALSE}
 library(dplyr)
 library(readr)
 library(stringr)
@@ -392,566 +459,140 @@ project_path <- fs::path(here(),"..")
 
 ```
 
-Hello workd
+
+Having obtained the data, it modelling time! Starting from a simple point, research in question can be expressed by equation \@ref(eq:basicequation).
+
+$$\begin{equation}
+
+\textbf{Y} = f(\textbf{X}) 
+
+(\#eq:basicequation)
+\end{equation}
+$$
+
+where $\textbf{Y}$ represents a vector with primary voting for an electorate, and $\textbf{X}$ represents the vector of respective demographic  attributes. 
+
+Considering the problem in question, this model does not consider other factors that may influence voting. These factors may difficult to quantify as they may related to a myriad of factors including the state of the economy, foreign affairs, perceptions about the governing party or any party in the election, or the mood of the times. However, it is possible to make the naive assumption that electoral polling aims to capture all those factors - thus it is possible to restate the objective : instead of calculating the primary vote itself, the aim is to determine how demographics influences the voting when compared to a the national values (as captured by polls). Furthermore, it is possible to redefine the problem once more, to aiming to determine how differences in demographic attributes, when compared against a national baseline makes primary voting in an electoral to differ from the national measure. This is states in \@ref(eq:equation2), which allow accounts to error attributable to polling error and  demographic drift between census and election.
+
+
+$$\begin{equation}
+\begin{split}
+\textbf{Y} &= f(\textbf{X}) + \epsilon \\ \\
+
+\textrm{where} & \\
+\textbf{Y} & = \textbf{Y} - \textbf{Yp} \\
+\textbf{X} & = \textbf{X} - \textbf{Xn} \\ \\
+
+\textrm{and} & \\
+ \textbf{Yp} & : \textrm{Primary voting polling results} \\
+ \textbf{Xn} & : \textrm{Demographic values at national level}
+ \end{split}
+(\#eq:equation2)
+\end{equation}
+$$
+This second iteration does not take into account that in different electorates, different demographic attributes may have a different effect on primary vote. For instance, in more progressive areas a higher proportion of younger people may result in better results for left leaning parties, whereas in other areas younger people may be more conservative and therefore the youth-left leaning effect may be attenuated. Thus, a refinement on the model needs to acknowledge that not all electorates are made equal - this is presented in equation  \@ref(eq:equation3).
+
+$$
+\begin{equation}
+\begin{split}
+\textbf{Y_i} &= f_i(\textbf{X_i}) + \epsilon  i=1,...,n \\ \\
+
+\textrm{where} & \\
+\textbf{Y} & = \textbf{Y} - \textbf{Yp_i} \\
+\textbf{X} & = \textbf{X} - \textbf{Xn_i} \\ \\
+
+ \end{split}
+(\#eq:equation3)
+\end{equation}
+$$
+
+Please note that in this $i$ represents a particular grouping of electorate and for each group predictors can be different, as different attributes may have different impact.
+
+In term of choosing appropriate $f_i$, it would depend on the objective of the model. Considering the large number of predictors and requirements on interpretability and accuracy this could be a complex task. In this particular case, the focus is on understanding the factors that influence vote rather than produce accurate electoral predictions (which is attempted nevertheless), for which the use of **regularised regression** models is an appropriate choice. Thus the task involves using regularised regression to find the coefficients for the set of formulas represented by equation \@ref(eq:equation4)
+
+$$
+\begin{equation}
+\left(\begin{array}{c} 
+y_{i1}\\ 
+y_{i2}\\ 
+... \\
+y_{in}\\ 
+\end{array}\right) =
+\left(\begin{array}{cccc} 
+\beta_{i11} & \beta_{i12} & ... &  \beta_{i1m}\\
+\beta_{i21} & \beta_{i22} & ... &  \beta_{i2m}\\
+...         & ...         & ... & ...         \\
+\beta_{in1} & \beta_{in2} & ... &  \beta_{inm}\\
+\end{array}\right)
+\left(\begin{array}{c} 
+x_{i1} \\
+x_{i2} \\
+...    \\
+x_{im}
+\end{array}\right) +
+\left(\begin{array}{c} 
+\epsilon_{i1}\\ 
+\epsilon_{i2}\\ 
+... \\
+\epsilon_{in}\\ 
+\end{array}\right)
+(\#eq:equation4)
+\end{equation}
+$$
+
+A complication of this approach is that requires to separate the electorates in different segments and potentially have a separate method to place them if assignment is not provided.  In this case the previously identified clusters seem a good choice a multiple step model is needed, comprised of:
+
+- A classification model to identify belonging to cluster of similar electorates.
+- A regularised regression model to predict difference from average vote.
+
+
+
+
+
+
 
 <!--chapter:end:05-method.Rmd-->
+
+---
+output:
+  pdf_document: default
+  html_document: default
+bibliography:
+- book.bib
+- packages.bib
+---
+# Fitting and analysing a model {#modelling}
+
+```{r six-setup,message=FALSE,warning=FALSE,echo=FALSE}
+library(dplyr)
+library(readr)
+library(stringr)
+library(here)
+library(auspol)
+library(flextable)
+library(ggplot2)
+
+source(here::here("formatting_defaults.R"))
+
+project_path <- fs::path(here(),"..")
+
+
+```
+
+As mentioned in the previous section, this requires fitting both a classification and regularisd regression model.\\
+
+
+## Cluster classification {#clusterclassifier}
+
+
+
+
+
+<!--chapter:end:06-model.Rmd-->
 
 `r if (knitr::is_html_output()) '
 # References {-}
 '`
 
 <!--chapter:end:100-references.Rmd-->
-
-# (APPENDIX) {auscensus} Vignette
-*Extracted from https://carlosyanez.github.io/auscensus/articles/complex_case.html on Sunday 22 January 2023*
-
-```{r}
-library(auscensus)
-library(tidyverse)
-```
-
-
-This vignette shows a more complex use case of auscensus. Let's assume we want to extract the percentage of Australian Citizens for all Commonwealth Electoral Divisions, as measured in last 4 Censuses (2006-2021).
-
-An initial exploration shows that this data can be found in table 01 (across all four censuses) - which provided an statistical summary. However, is not published aggregated by electorate across all censuses.
-
-
-```{r}
-
-#| eval: true
-
-census_tables <- list_census_tables() 
-
-census_tables <- census_tables |>
-                 filter(if_any(any_of(c("Number")),~ .x %in% c("01"))) 
-
-tables_summary <- census_tables |>
-                  select(-contains("Table")) |>
-                  pivot_longer(-Number, names_to="Year",values_to = "Value") |>
-                  filter(!is.na(Value)) |>
-                  select(-Value)
-
-
-list_census_geo_tables(year = tables_summary$Year,geo="CED|CED_2007|CED_2004",table_number = tables_summary$Number) |>
-  mutate(Year=as.character(Year)) |>
-  right_join(tables_summary, by=c("table_number"="Number","Year"="Year"))
-
-```
-
-
-Therefore, we will retrieve the data from the lowest statistical unit. However, SA1 were not available in 2006 - where the smallest area was a "CD".
-
-```{r}
-
-#| eval: true
-
-list_census_geo_tables(year = tables_summary$Year,geo=c("SA1|CD"),table_number = tables_summary$Number) |>
-   mutate(Year=as.character(Year)) |>
-  right_join(tables_summary, by=c("table_number"="Number","Year"="Year")) 
-
-
-```
-
-The next step is to figure the attributes for the numbers of Australian citizen and total population, which are presented below:
-
-
-```{r}
-
-citizenship_attributes <- tibble()
-
-for(i in 1:nrow(tables_summary)){
-
-  table_i <- tables_summary[i,]$Number
-  year_i  <- tables_summary[i,]$Year
-
-  attr_i <- list_census_attributes(table_i) |> 
-             pivot_longer(-c(Table,Attribute),
-                           names_to="Year",values_to = "Value") |>
-              filter(Year==year_i) |>
-              filter(!is.na(Value)) |>
-              select(-Value)
-
-  citizenship_attributes <- bind_rows(attr_i,citizenship_attributes)
-
-}
-
-
-
-citizenship_attributes |>
-  head()
-
-```
-
-```{r}
-
-citizenship_attributes <- citizenship_attributes   |> 
-                       distinct(Attribute,Year) |>
-                      filter(str_detect(Attribute,"[Aa]ustralian")) |>
-                      filter(str_detect(Attribute,"[Pp]erson")) |>
-                      mutate(dummy=TRUE) |>
-                      pivot_wider(names_from = Year, values_from = dummy)  |>
-                      bind_rows(
-                         citizenship_attributes   |> 
-                       distinct(Attribute,Year) |>
-                      filter(str_detect(Attribute,"^[Tt]otal")) |>
-                      filter(str_detect(Attribute,"[Pp]ersons$")) |>
-                      mutate(dummy=TRUE) |>
-                      pivot_wider(names_from = Year, values_from = dummy)
-                      )
-
-
-citizenship_attributes 
-```
-
-Using *attribute_tibble_to_list*, this data frame can be converted into the required format.
-
-```{r}
-
-citizenship_attributes <- citizenship_attributes |>
-                          select(Attribute)      |>
-                          mutate(AttrNew = case_when(
-                            str_detect(Attribute,"Australian") ~ "Australian Citizens",
-                            str_detect(Attribute,"Total")      ~ "Total"
-                          ))
-
-levels <- attribute_tibble_to_list(citizenship_attributes)
-```
-
-
-Now,  we can cycle through the four censuses and extract the data. Please note that CDs and SA1s are not equivalent, but they are stored together for convenience:
-
-
-```{r}
-census_years <- c("2006","2011","2016","2021")
-
-citizenship <- tibble()
-
-for(year in census_years){
-
-  if(year=="2006"){
-    geo_structure_x <- "CD"
-  } else{
-    geo_structure_x <- "SA1"
-  }
-
-  citizenship_i <- get_census_summary(census_table = census_tables,
-                                   selected_years = year,
-                                   geo_structure=geo_structure_x,
-                                   attribute = levels) 
-
-
-  citizenship <- bind_rows(citizenship,citizenship_i)
-
-
-}
-
-rm(citizenship_i,geo_structure_x,levels,citizenship_attributes)
-
-
-
-```
-
-
-To aggregate the data,  **[aussiemaps::geo_aggregate()](https://gh.carlosyanez.id.au/aussiemaps/)** can help using area to apportion on non-overalpping cases. Then, this package's *calculate_percentage()* will take the totals from the list and calculate percentages.
-
-
-```{r}
-
-citizenship_ced<- tibble()
-codes <- c("CD_CODE_2006","SA1_7DIGITCODE_2011","SA1_7DIGITCODE_2016","SA1_CODE_2021")
-ceds  <- c("CED_NAME_2006","CED_NAME_2011","CED_NAME_2016","CED_NAME_2021")
-
- for(i in 1:length(census_years)){
-
-   year <- as.double(census_years[i])
-
-   value_i <- citizenship |> 
-                  filter(Year==year)     |>
-                  select(-Unit)                    |>
-                  rename(!!codes[i]:="Census_Code") |>
-                  collect() |>
-                  aussiemaps::geo_aggregate(
-                              values_col="Value",
-                              original_geo=codes[i],
-                              new_geo=ceds[i],
-                              grouping_col = c("Year","Attribute"),
-                              year=census_years[i]) |>
-              rename("Unit"=ceds[i])  |>
-              filter(!is.na(Unit))    |>
-              filter(str_detect(Unit,"[Ss]hipping",TRUE))|>
-              filter(str_detect(Unit,"[Uu]sual",TRUE))   |>
-              filter(str_detect(Unit,"[Aa]pplicable",TRUE)) 
-
-
-    value_i <- value_i  |> 
-               auscensus::calculate_percentage(key_col = "Attribute",
-                                                value_col = "Value",
-                                                key_value = "Total",
-                                                percentage_scale = 100)
-
-   citizenship_ced <- bind_rows(citizenship_ced,value_i)
-
-
- }
-
-
-citizenship_ced 
-
-```
-
-<!--chapter:end:81-auscensus.Rmd-->
-
-# (APPENDIX) {auspol} Vignette
-*Extracted from https://carlosyanez.github.io/auspol/articles/house_primary_vote.html on Sunday 22 January 2023*
-```{r}
-library(auspol)
-library(tidyverse)
-```
-
-
-**auspol** includes two functions to interact with the preference distribution data:
-
-- get_house_primary_vote()
-- house_primary_vote_summary()
-- house_primary_comparison_plot()
-- house_primary_historic_plot()
-
-## What is this?
-
-If you are unfamiliar with the Australian electoral system and preferential voting, please look at this [explainer(https://www.aec.gov.au/learn/preferential-voting.html) before proceeding.
-
-## Getting the data
-
-*get_house_primary_vote()* is the basic function to retrieve primary vote data published by the AEC. Without any arguments, it will deliver all the results for all elections, but it comes with parameters to facilitate filtering.
-For instance, to get the results for Brisbane for 2022:
-
-```{r}
-get_house_primary_vote(division="Brisbane",year=2022)
-```
-
-Both parameters can include more than one value, e.g.
-
-```{r}
-get_house_primary_vote(division="Brisbane",year=c(2019,2022))
-```
-
-```{r}
-get_house_primary_vote(division=c("Brisbane","Perth"),year=c(2019,2022))
-```
-
-By default, the results are presented by polling place, with the possibility to aggregate them.
-
-```{r}
-get_house_primary_vote(division=c("Brisbane","Perth"),year=c(2019,2022),aggregation = TRUE)
-```
-
-```{r}
-get_house_primary_vote(division=c("Brisbane","Perth"),year=c(2019,2022), polling_places = c("Yokine North"))
-```
-
-It is also possible to restrict the results to selected polling places
-
-
-
-Additionally, it is possible to select one or more states instead of a group of divisions, e.g.:
-
-```{r}
-get_house_primary_vote(state=c("TAS"),year=c(2019,2022),aggregation = TRUE)
-```
-
-It is also possible to filter results by one or more parties:
-
-```{r}
-get_house_primary_vote(state=c("NT"),year=c(2019,2022),aggregation = TRUE, party_abb=c("ALP","CLP"))
-
-```
-
-*house_primary_vote_summary()* builds on the basic function and summarises data
-.
-```{r}
-house_primary_vote_summary(division = "Brisbane", year=2022)
-```
-
-Using the previous filters,  it is possible to get ad-hoc summaries, for instance - all the ALP votes in Queensland in 2022, or the historic Liberal vote in Franklin.
-
-```{r}
-
-house_primary_vote_summary(state = "QLD", year=2022,parties="ALP")
-
-```
-
-
-
-```{r}
-house_primary_vote_summary(division="Franklin",parties="LP")
-```
-
-## Plotting 
-
-### Historic Trends
-
-The first plotting convenience function in this package allows comparing the evolution of primary voting across time. This function relies on house_primary_summary and uses many of its options. Its first use is to represent party trends in one electorate:
-
-```{r primvote1}
-house_primary_historic_plot("Canberra")
-```
-
-As they can be many minor parties, it is sometimes useful just to focus on a number of parties. This function allows filtering by a number of parties or by filtering by the most voted in a certain year. In both cases, it is possible to consolidate others' votes.
-
-
-
-```{r primvote2}
-house_primary_historic_plot("Canberra", parties =3, 
-                            parties_year = 2022, 
-                            include_others = TRUE )
-
-```
-
-Finally, it is possible to aggregate party acronyms - sometimes the same party has changed named or registered differently
-
-```{r primvote3}
-
-house_primary_historic_plot(division="Brisbane",parties=5,
-                            merge_parties = list(LNP=c("LNP","LNQ","LP"),
-                                                 ON=c("HAN","ON"))) 
-
-```
-
-## Results for one election
-
-This package also contains a convenience function to look at the primary vote results for one division. Lile the previous function, this also inherits many of the attributes of *get_house_primary_vote*.
-
-```{r primvote4}
-house_primary_comparison_plot(division = "Kooyong", year=2022,individualise_IND = TRUE)
-
-```
-
-The plots can also be displayed using bars, as shown below
-
-```{r primvote5}
-house_primary_comparison_plot(state="TAS",year=2022,parties=c("LP"),plot_format = "bar")
-```
-
-<!--chapter:end:82-auspol.Rmd-->
-
-# (APPENDIX) {aussiemaps} Vignette
-*Extracted from https://carlosyanez.github.io/aussiemaps/articles/aussiemaps.html on Sunday 22 January 2023*
-```{r}
-library(aussiemaps)
-library(tidyverse)
-```
-
-
-## {aussiemaps} - Yet another maps package
-
-This package has been built to facilitate the use of the geographic boundary files published by the Australian Bureau of Statistics (ABS). The ABS has published several boundary files - i.e. the [Australian Statistical Geography Standard (ASGS)](https://www.abs.gov.au/statistics/statistical-geography/australian-statistical-geography-standard-asgs) from 2006 onwards and the  [Australian Standard Geographical Classification (ASGC)](https://www.abs.gov.au/AUSSTATS/abs@.nsf/Latestproducts/DEDA554E1B6BB78BCA25791F000EEA26) before that - covering both:
-
--   Statistical Geographic Structures created and maintained by the ABS - and used to collect data.
--   Non-ABS structure, e.g Postal Areas, Electoral Divisions, LGA boundaries.
-
-This package has four versions of the above, aligned with Census years 2006, 2011,2016 and 2021. This makes it easy to mix use with Census data packs or the {auscensus} package.
-
-This package provides access to a processed version of those boundaries - as sf objects, allowing it to cater for the following scenarios:
-
-* Get the boundaries of an electoral division across time.
-* Get all the S1 or S1 areas within a Council area.
-* Get all postcodes in a state or territory.
-
-This repository also contains the R script used to process the files. Although not tested, the functions could also accommodate BYO structures for other years.
-
-## Getting started.
-
-The core function of this package is get_map(), which retrieves the sf files. get_map provides several filters to narrow down the data retrieved and avoid getting everything unless is needed. The key parameters for this function are:
-
-- How the data will be filtered (e.g. return only objects in a particular state, council or metro area)
-- Which year/version of the data will be retrieved?
-- Which aggregation will be used (e.g. which will be the resulting objects)
-
-
-
-Filters and column names follow the same name convention used in the original ABS files. The function list_attributes(), will present them in tibble format:
-
-```{r}
-list_attributes() |>
-  head(10)
-```
-
-Let's say we want to retrieve all SA1 in the City of Melbourne for 2016 - this can be done via:
-
-```{r}
-melbourne_sa1 <- get_map(filters=list(LGA_NAME_2016=c("Melbourne")),
-                         year=2016,
-                         aggregation = c("SA1_MAINCODE_2016"))
-
-#just an empty plot
-
-melbourne_sa1 |>
-  ggplot()+
-  geom_sf(fill="azure1") +
-  theme_void() +
-  labs(title="SA1s in the City of Melbourne")
-
-```
-
-## Filtering via regular expressions
-
-The filter arguments are intended to be regular expressions, for instance:
-
-```{r}
-
-preston <- get_map(filters=list(SSC_NAME_2016=c("Preston")),
-                         year=2016,
-                         aggregation = c("SSC_NAME_2016"))
-
-preston |>
-  select(SSC_NAME_2016,UCL_NAME_2016,STE_NAME_2016)
-
-```
-
-Whereas
-
-```{r}
-prestons <- get_map(filters=list(SSC_NAME_2016=c("^Pres"),
-                                 STE_NAME_2016=c("Wales","^T")
-                                 ),
-                         year=2016,
-                         aggregation = c("SSC_NAME_2016"))
-
-prestons |>
-  select(SSC_NAME_2016,UCL_NAME_2016,STE_NAME_2016)
-
-```
-
-## Even more complex filtering
-
-If more complex subsetting is needed, it is possible to pass a table with the elements to be selected. In order to do that, list_structure() comes to help. This function uses the same year and filters parameters than get_map() (actually this function calls the former if no table is provided). Once you have the dataset, you can use any ad-hoc filter to get the needed structures. For example
-
-```{r}
-
-greater_sydney <- list_structure(year=2021,filters=list(GCCSA_NAME_2021="Greater Sydney"))
-
-#use_cache option stores the results/reuses pre-processed results
-sydney_area <- get_map(filter_table = greater_sydney,
-                       year=2021,
-                       aggregation = "GCCSA_NAME_2021",
-                       use_cache = TRUE) 
-
-#outline
-
-# all suburbs starting wit A
-suburbs_a_filter <- greater_sydney |>
-                    filter(str_detect(SAL_NAME_2021,"^A"))
-
-suburbs_a  <- get_map(filter_table = suburbs_a_filter,
-                       year=2021,
-                       aggregation = "SAL_NAME_2021") |>
-                mutate(border="orange",fill="orange")
-
-
-ggplot() +
-  geom_sf(data=sydney_area,fill="white",colour="black")+
-  geom_sf(data=suburbs_a,fill="orange") +
-  labs(title="Suburbs starting with A - Sydney") +
-  theme_void()
-
-```
-
-## Aggregation
-
-It is worth noticing that the *aggregation* parameter accepts more than one variable. Those parameters are passed to dplyr::group_by() before aggregation - thus more variables will impact how sf objects are aggregated. For instance, if we look at the postal areas (ABS approximation of a postcode) in the cities of Melbourne and Port Phillip:
-
-```{r}
-
-poas_inner_melbourne <- get_map(filters=list(LGA_NAME_2021=c("Melbourne","Phillip$")),
-                                year=2021,
-                                aggregation = c("POA_NAME_2021","LGA_NAME_2021"))
-
-poas_inner_melbourne |>
-  mutate(colour=case_when(
-    POA_NAME_2021=="3004" ~ "orange",
-    TRUE ~ "grey"
-  )) |>
-  ggplot()+
-  geom_sf(aes(fill=colour,colour=LGA_NAME_2021)) +
-  scale_fill_identity() +
-  theme_void() +
-  labs(title="Postcode 3004 extends across two LGAs")
-
-```
-## Using external data
-
- This package provides sf data, thus the result can be easily merged with any other data frame. Since data has been taken from the ABS and the output contains both names and **codes** of geographic structures, data can be joined using an un-ambiguous key. Furthermore, with {auscensus}, this package can be used as data filters to retrieve said data in the first place. For example:
- 
-```{r}
-
-# Chileans by Commonwealth Electoral Divisions in Metropolitan Brisbane, 2021
-
-attr <- list_structure(year=2021,filters=list(GCCSA_NAME_2021=c("Brisbane"))) |>
-        distinct(CED_NAME_2021)
-
-chileans <- auscensus::get_census_summary(table_number= "09",
-                                          selected_years = "2021",
-                                          geo_structure = "CED",
-                                          geo_unit_names =   attr$CED_NAME_2021,
-                                          attribute = list(Chileans=c("Persons_chile_total")),
-                                          reference_total = list(Total=c("Persons_total_total")),
-                                          percentage_scale =100)
-
-brisbane_ced <- get_map(filters = list(GCCSA_NAME_2021=c("Brisbane")),
-                        year = 2021,
-                        aggregation = c("CED_NAME_2021"),
-                        use_cache = TRUE)
-
-chileans$Value
-
-brisbane_ced |>
-  left_join(chileans,by=c("CED_NAME_2021"="Unit")) |>
-  ggplot(aes(fill=Value,colour=Value)) +
-  geom_sf() +
-  scale_fill_continuous()+
-  labs(title="Chileans in Bribane's Federal Electorates") +
-  theme_void()
-  
-
-```
- 
-## Data Aggregation
-
-As a bonus function, *geo_aggregate()*  aggregates data, transforming between geographic structures. For instance, let's imagine that for the previous case, it is only possible to get data by SA2. *geo_aggregate()* can aggregate the data to obtain an approximation for each electorate. When an SA1 is not fully contained by an electorate, the function will use the overlapping area as the weighting factor.
-
-```{r}
-
-attr <- list_structure(year=2021,filters=list(GCCSA_NAME_2021=c("Brisbane"))) |>
-        distinct(SA2_CODE_2021)
-
-chileans_sa2 <- auscensus::get_census_summary(table_number= "09",
-                                          selected_years = "2021",
-                                          geo_structure = "SA2",
-                                          geo_unit_codes =     attr$SA2_CODE_2021,
-                                          attribute = list(Chileans=c("Persons_chile_total"))) |>
-                  rename("SA2_CODE_2021"="Census_Code")
-
-# please note these Electoral divisions are not built from SA2s - proportional allocation will result in factional 
-# Therefore - This is an approximation
-chileans <- geo_aggregate(original_data = chileans_sa2,
-                          values_col = "Value",
-                          original_geo = "SA2_CODE_2021",
-                          new_geo      = "CED_NAME_2021",
-                          grouping_col =   c("Year","Attribute"),
-                          year=2021) |>
-            rename("Unit"="CED_NAME_2021")
-
-
-
-brisbane_ced |>
-  left_join(chileans,by=c("CED_NAME_2021"="Unit")) |>
-  ggplot(aes(fill=Value,colour=Value)) +
-  geom_sf() +
-  scale_fill_continuous()+
-  labs(title="Chileans in Bribane's Federal Electorates") +
-  theme_void()
-
-```
-
-<!--chapter:end:83-aussiemaps.Rmd-->
 

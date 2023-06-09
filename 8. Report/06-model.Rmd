@@ -1,0 +1,34 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+bibliography:
+- book.bib
+- packages.bib
+---
+# Fitting and analysing a model {#modelling}
+
+```{r six-setup,message=FALSE,warning=FALSE,echo=FALSE}
+library(dplyr)
+library(readr)
+library(stringr)
+library(here)
+library(auspol)
+library(flextable)
+library(ggplot2)
+
+source(here::here("formatting_defaults.R"))
+
+project_path <- fs::path(here(),"..")
+
+
+```
+
+As mentioned in the previous section, this requires fitting both a classification and regularisd regression model.\\
+
+
+## Cluster classification {#clusterclassifier}
+
+
+
+

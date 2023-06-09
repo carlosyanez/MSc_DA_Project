@@ -17,7 +17,7 @@ site: bookdown::bookdown_site
 
 
 ```{r eval=FALSE, include=FALSE}
-#bookdown::serve_book()
+bookdown::serve_book()
 bookdown::render_book("index.Rmd", "bookdown::pdf_book")
 
 ```
