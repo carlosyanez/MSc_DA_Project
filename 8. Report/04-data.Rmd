@@ -28,7 +28,7 @@ project_path <- fs::path(here(),"..")
 
 ## Data Sources {#data-sources}
 
-The first in the process was to source demographic and electoral data, which has been provided from two sources:
+The first step in the process was to source demographic and electoral data, which has been provided from two sources:
 
 -   **The Australian Electoral Commission** (AEC) [@AEC] . The AEC contains detailed online records for every federal election held in the 21st century, through their Tally Room website [@TallyRoom].
 
@@ -68,7 +68,7 @@ In summary, the process followed consisted of the below steps:
 
 The first to address when extracting the data is to establish a correspondence between census and election data. Since election the census cycle (5 years) does not match the electoral cycle (determined by the incumbent government, with a 3-year term for the House of Representatives), there is a potential problem of the census data not being completely representative of the population on a given election day. Figure \@ref(fig:electionsandcensus) presents the best matches between both events held in the 21st century.
 
-```{r electionsandcensus}
+```{r electionsandcensus, fig.cap="Census and Elections Timeline"}
  tibble::tribble(~Year, ~Event,
                 2001,"Census",
                 2006,"Census",
@@ -318,7 +318,7 @@ To explore this, a clustering algorithm has been applied using all electorates f
 
 This results in 3 distinct clusters of electorates. When presented in a map, it is possible to obtain something similar to figure \@ref(fig:clustermap2016) for 2016.
 
-```{r clustermap2016, fig.cap="2016 Electorates clustered"}
+```{r clustermap2016, echo=FALSE, fig.cap="Clusters for 2016 Election"}
 library(sf)
 
 
@@ -328,109 +328,10 @@ names(clusters_colours) <- as.character(0:2)
 clusters <- read_csv(fs::path(project_path,"4. Data","clusters.csv")) |>
             filter(Year==2016) |>
             mutate(cluster=as.character(cluster))
-map      <- st_read(fs::path(project_path,"4. Data","CED_2016.gpkg")) |>
-            left_join(clusters,by="DivisionNm")
 
-##remove Lord Howe Island in Sydney and Ext. Territories from Lingiari
-syd <- map |> 
-      filter(DivisionNm=="Sydney") |>
-      st_cast("POLYGON")
-syd$area <- st_area(syd)
-syd <- syd |> filter(area==max(area))
-
-lin <- map |> 
-      filter(DivisionNm=="Lingiari") |>
-      st_cast("POLYGON")
-lin$area <- st_area(lin)
-lin <- lin |> filter(area==max(area))
-
-map <- map |>
-      filter(DivisionNm!="Sydney") |>
-      filter(DivisionNm!="Lingiari") |>
-      bind_rows(syd,lin)
-
-
-national <- map |>
-  select(DivisionNm,cluster,Year) |>
-  ggplot(aes(fill=cluster)) +
-  geom_sf(colour="grey70") +
-  theme_void() +
-  scale_fill_manual(values = clusters_colours) +
-  theme(legend.position = "bottom",
-        legend.direction = "horizontal")
-
-melb <-  map |>
-  filter(str_detect(Metro_Area,"Melbourne")) |>
-  select(DivisionNm,cluster,Year) |>
-  ggplot(aes(fill=cluster)) +
-  geom_sf(colour="grey70") +
-  theme_void() +
-  scale_fill_manual(values = clusters_colours) +
-  labs(subtitle = "Melbourne") +
-  theme(legend.position = "none")
-
-syd <-  map |>
-  filter(str_detect(Metro_Area,"Sydney")) |>
-  select(DivisionNm,cluster,Year) |>
-  ggplot(aes(fill=cluster)) +
-  geom_sf(colour="grey70") +
-  theme_void() +
-  scale_fill_manual(values = clusters_colours) +
-  labs(subtitle = "Sydney")  +
-  theme(legend.position = "none")
-  
-can <-  map |>
-  filter(str_detect(Metro_Area,"Capital")) |>
-  select(DivisionNm,cluster,Year) |>
-  ggplot(aes(fill=cluster)) +
-  geom_sf(colour="grey70") +
-  theme_void() +
-  scale_fill_manual(values = clusters_colours) +
-  labs(subtitle = "Canberra")  +
-  theme(legend.position = "none") 
-
-
-bris <-  map |>
-  filter(str_detect(Metro_Area,"Brisbane")) |>
-  select(DivisionNm,cluster,Year) |>
-  ggplot(aes(fill=cluster)) +
-  geom_sf(colour="grey70") +
-  theme_void() +
-  scale_fill_manual(values = clusters_colours) +
-  labs(subtitle = "Brisbane")  +
-  theme(legend.position = "none")
-
-ade <- map |>
-  filter(str_detect(Metro_Area,"Adelaide")) |>
-  select(DivisionNm,cluster,Year) |>
-  ggplot(aes(fill=cluster)) +
-  geom_sf(colour="grey70") +
-  theme_void() +
-  scale_fill_manual(values = clusters_colours) +
-  labs(subtitle = "Adelaide")  +
-  theme(legend.position = "none")
-
-
-perth <- map |>
-  filter(str_detect(Metro_Area,"Perth")) |>
-  select(DivisionNm,cluster,Year) |>
-  ggplot(aes(fill=cluster)) +
-  geom_sf(colour="grey70") +
-  theme_void() +
-  scale_fill_manual(values = clusters_colours) +
-  labs(subtitle = "Perth")  +
-  theme(legend.position = "none")
-
-
-bris + ade + perth +
-  can + syd + melb +
-  national +
-  plot_layout(design = "11225555
-                        33445555
-                        77776666
-                        77776666
-                        77776666") +
-  plot_annotation(title="Clustering of 2016 Electoral Divisions")
+australian_ced_map(clusters,fs::path(project_path,"4. Data","CED_2016.gpkg"),
+                   "cluster",clusters_colours,
+                    "Clustering of 2016 Electoral Divisions")
 
 
 ```
@@ -443,9 +344,9 @@ This mapping seems to align with popular political knowledge, where:
 
 -   **cluster 2** largely represents "suburbia". It it also more prevalent in Brisbane and Perth compared when comparing capital cities.
 
-Revisiting the demographic attributescan help to understand how this clusters differ from each other. A selection of those variables is presented in figure \@ref(fig:clustereddemographics)
+Revisiting the demographic attributescan help to understand how this clusters differ from each other. A selection of those variables is presented in figure \@ref(fig:clustereddemographics).
 
-```{r}
+```{r clustereddemographics, fig.cap="Selected attributes, coloured by cluster."}
 
 dataset |>
   left_join(clusters,by="DivisionNm") |>
