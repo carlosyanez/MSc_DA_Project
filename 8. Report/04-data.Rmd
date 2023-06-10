@@ -321,10 +321,6 @@ This results in 3 distinct clusters of electorates. When presented in a map, it 
 ```{r clustermap2016, echo=FALSE, fig.cap="Clusters for 2016 Election"}
 library(sf)
 
-
-clusters_colours <- colRoz::colRoz_pal(name = "ngadju", n = 3, type = "discrete")
-names(clusters_colours) <- as.character(0:2)
-
 clusters <- read_csv(fs::path(project_path,"4. Data","clusters.csv")) |>
             filter(Year==2016) |>
             mutate(cluster=as.character(cluster))

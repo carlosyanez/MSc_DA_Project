@@ -20,7 +20,11 @@ flextable::theme_alafoli()
 }
 
 
-### map of australian electorates
+## colour palettes ----
+clusters_colours <- colRoz::colRoz_pal(name = "ngadju", n = 3, type = "discrete")
+names(clusters_colours) <- as.character(0:2)
+
+### map of australian electorates -----
 
 australian_ced_map <- function(data, ced_gpkg,fill_col,colour_palette,plot_title){
   

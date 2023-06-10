@@ -160,7 +160,13 @@ enet_grid_plot(results)
 ```{r}
 enet_folder <- fs::dir_create(here("6. Modelling","elastic_net_eval"))
 
-saveRDS(results,fs::path(enet_folder,glue::glue("cluster_delta_cluster_cluster{cluster}.rds")))
+saveRDS(lasso_selection,
+        fs::path(enet_folder,
+                 glue::glue("lasso_selection_cluster_cluster{cluster}.rds")))
+
+saveRDS(results,
+        fs::path(enet_folder,
+                 glue::glue("cluster_delta_cluster_cluster{cluster}.rds")))
 
 ```
 

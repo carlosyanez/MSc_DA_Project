@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Section 6 Fitting and analysing model | Analysing Australian Election Results</title>
-  <meta name="description" content="Section 6 Fitting and analysing model | Analysing Australian Election Results" />
+  <title>Section 6 Fitting and analysing a model | Analysing Australian Election Results</title>
+  <meta name="description" content="Section 6 Fitting and analysing a model | Analysing Australian Election Results" />
   <meta name="generator" content="bookdown 0.32 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Section 6 Fitting and analysing model | Analysing Australian Election Results" />
+  <meta property="og:title" content="Section 6 Fitting and analysing a model | Analysing Australian Election Results" />
   <meta property="og:type" content="book" />
   
   
   <meta name="github-repo" content="carlosyanez/MSc_Project" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Section 6 Fitting and analysing model | Analysing Australian Election Results" />
+  <meta name="twitter:title" content="Section 6 Fitting and analysing a model | Analysing Australian Election Results" />
   
   
   
@@ -92,7 +92,7 @@
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="method.html"><a href="method.html"><i class="fa fa-check"></i><b>5</b> Method</a></li>
-<li class="chapter" data-level="6" data-path="modelling.html"><a href="modelling.html"><i class="fa fa-check"></i><b>6</b> Fitting and analysing model</a>
+<li class="chapter" data-level="6" data-path="modelling.html"><a href="modelling.html"><i class="fa fa-check"></i><b>6</b> Fitting and analysing a model</a>
 <ul>
 <li class="chapter" data-level="6.1" data-path="modelling.html"><a href="modelling.html#clusterclassifier"><i class="fa fa-check"></i><b>6.1</b> Cluster classification</a></li>
 </ul></li>
@@ -118,10 +118,19 @@
 
             <section class="normal" id="section-">
 <div id="modelling" class="section level1 hasAnchor" number="6">
-<h1><span class="header-section-number">Section 6</span> Fitting and analysing model<a href="modelling.html#modelling" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>As mentioned in the previous section, this requires fitting both a classification and regularisd regression model.\</p>
+<h1><span class="header-section-number">Section 6</span> Fitting and analysing a model<a href="modelling.html#modelling" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>As mentioned in the previous section, this requires fitting both a classification and regularised regression model.\</p>
 <div id="clusterclassifier" class="section level2 hasAnchor" number="6.1">
 <h2><span class="header-section-number">6.1</span> Cluster classification<a href="modelling.html#clusterclassifier" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Although in section XXX, clusters were obtained using HDBSCAN, which can be used to map new data points into the existing clusters, a different approach has been taken - to “reverse engineer” the clusters by training a classification model. The intent behind this is to leverage the trained model to identify the main contributors to the classification.</p>
+<p>Different models where tried, starting with a basic tree partitioning. After trial and error, <strong>random forest</strong> was the chosen algorithm. The model training with:</p>
+<ul>
+<li>Census data from 2007 to 2016 (mirroring elections between 2006 to 2016) was used from training and testing.</li>
+<li>Values for demographic attributes where centred around the overall percentage for said attribute, for the respective cluster.</li>
+<li>clusters previously obtained with HDBSCAN were used as the response.</li>
+<li>Since year has been “discounted”, all values will considered one pool to divide, i.e. year will be ignored. An assumption has been made that the period in question is short enough to drastically affect the clustering model. If demographic values change - cluster assignment (for instance because of re-distribution), the effect is similar to being a different electorate.</li>
+</ul>
+<p>The initial fitting produces the results presented in table XXX</p>
 
 </div>
 </div>

@@ -24,7 +24,7 @@ library(glue)
 
 ```{r}
 classification_model <- readRDS(here("6. Modelling","clustering_models","clustering_ranger_redux.rds"))
-
+classification_model <- extract_fit_parsnip(classification_model)
 regression_parameters   <-  list()
 
 for(i in 1:3){

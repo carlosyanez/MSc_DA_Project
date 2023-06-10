@@ -24,6 +24,7 @@ library(glue)
 
 ```{r}
 classification_model <- readRDS(here("6. Modelling","clustering_models","clustering_ranger_redux.rds"))
+classification_model <- extract_fit_parsnip(classification_model)
 
 regression_parameters   <-  list()
 
@@ -36,8 +37,6 @@ names(regression_parameters) <- 0:2
 
 party_cols <- c("ALP","COAL","GRN","Other")
 ```
-
-
 
 ## Forecasting 2021
 
@@ -288,6 +287,7 @@ house_primary_historic_plot("Whitlam", parties =3,
 
 
 ```
+
 ```{r}
 house_primary_historic_plot("Oxley", parties =3, 
                             parties_year = 2022, 
@@ -300,6 +300,7 @@ house_primary_historic_plot("Oxley", parties =3,
              aes(x=Year,y=Predicted,colour=PartyAb),
              inherit.aes = FALSE,shape="X",size=5) 
 ```
+
 ```{r}
 house_primary_historic_plot("Goldstein", parties =4, 
                             parties_year = 2022, 
@@ -312,7 +313,6 @@ house_primary_historic_plot("Goldstein", parties =4,
              aes(x=Year,y=Predicted,colour=PartyAb),
              inherit.aes = FALSE,shape="X",size=5)
 ```
-
 
 ## Does it work
 
@@ -366,8 +366,6 @@ names(s) <- str_c("cluster",0:2)
 
 ```
 
-
 ```{r}
 s
 ```
-
