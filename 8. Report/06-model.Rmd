@@ -132,11 +132,35 @@ Note what are the main influences for each cluster - consolidate for each cluste
 ```{r}
 
 enet_folder <- path(project_path,"6. Modelling","elastic_net_eval")
+regression <- list()
+for(i in 0:2){
+    message(glue::glue("cluster_delta_cluster_cluster{i}.rds"))
+    regression[[length(regression)+1]] <- readRDS(path(enet_folder,glue::glue("cluster_delta_cluster_cluster{i}.rds")))
+}
+names(regression) <- str_c("cluster ",0:2)
 
-regression0 <- readRDS(path(enet_folder,"cluster_delta_cluster_cluster0.rds"))
-regression1 <- readRDS(path(enet_folder,"cluster_delta_cluster_cluster1.rds"))
-regression2 <- readRDS(path(enet_folder,"cluster_delta_cluster_cluster2.rds"))
+```
 
 
+```{r}
+
+plot_data <- tibble()
+for(i in 1:3){
+  plot_data <- bind_rows(plot_data,
+                          (regression[[i]]                        |> 
+                          filter(RMSE_Overall==min(RMSE_Overall)) |>
+                          pull(coefs))[[1]]                       |>
+                          pivot_longer(-covariate,names_to="PartyAb",values_to = "coefficient") |>
+                          mutate(cluster=names(regression)[i],.before=1) 
+                         )
+}
+
+
+plot_data |>
+  ggplot(aes(y=covariate,x=coefficient,colour=PartyAb)) +
+  geom_vline(xintercept = 0) +
+  geom_point(size=3.5,shape=18) +
+  facet_wrap(cluster~.,ncol=1) +
+  scale_colour_manual(values=party_palette,name="Party")
 ```
 

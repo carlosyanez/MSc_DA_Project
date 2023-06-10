@@ -28,7 +28,7 @@ source(here("6. Modelling","glmnet_functions.R"))
 ```{r}
 cluster <- params$cluster
 
-
+cluster
 ```
 
 # Cluster `r cluster`

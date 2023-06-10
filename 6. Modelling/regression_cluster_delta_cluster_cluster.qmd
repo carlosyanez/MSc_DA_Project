@@ -2,8 +2,8 @@
 title: "Regression"
 editor: visual
 params:
-  cluster: 0
-  a_grid: !expr c(0,1)
+  cluster: 2
+  a_grid: !expr  seq(0,1,0.0004)
 format:
   html:
     code-fold: true
@@ -20,18 +20,20 @@ library(tidyverse)
 library(tidymodels)
 library(here)
 library(gt)
-library(glmnet)
 library(ggrepel)
 source(here("6. Modelling","glmnet_functions.R"))
 ```
 
-```{r}
-cluster <- params$cluster
-
-
+``` {library(glmnet)}
 ```
 
-# Cluster `r cluster`
+```{r}
+
+cluster_nbr <- params$cluster
+cluster_nbr
+```
+
+# Cluster `r cluster_nbr`
 
 ```{r}
 dataset <- read_csv(here("4. Data","consolidated_cluster.csv"))      |>
@@ -75,24 +77,31 @@ rest <- dataset |>
           pivot_wider(names_from = Attribute, values_from = Value)
 
 
+
+```
+
+```{r}
 dataset <- vote |>
            left_join(rest,by=c("DivisionNm","Year")) |>
            mutate(Division=str_c(DivisionNm,"-",election_year),.keep="unused") |>
-          filter(cluster==cluster) |>
-          select(-any_of(c("cluster","Year","Household_Semi_detached")))
+          filter(cluster==cluster_nbr) |>
+          select(-any_of(c("Year","Household_Semi_detached")))
 
 
-
-dataset |>
-  count(Metro,StateAb) |>
-  pivot_wider(names_from = StateAb,values_from = n) |>
-  gt() |>
-  gt::data_color(columns = 2:9,palette = c("yellow","orange"),
-                 domain = c(0,100))
+dataset |> distinct(cluster)
+# dataset |>
+#   count(Metro,StateAb) |>
+#   pivot_wider(names_from = StateAb,values_from = n) |>
+#   gt() |>
+#   gt::data_color(columns = 2:9,palette = c("yellow","orange"),
+#                  domain = c(0,100))
 
 
 dataset <- dataset |>
-          select(-any_of(c("StateAb","Metro")))
+          select(-any_of(c("StateAb","Metro","cluster")))
+
+
+rm(nationals,rest,vote)
 
 ```
 
@@ -103,27 +112,27 @@ split <- split_dataset(dataset,train_perc = 0.8,id_col = "Division")
 ```
 
 ```{r}
-lasso_selection <-  lasso_selection(split,"Division",party_cols)
+lasso_sel <-  lasso_selection(split,"Division",party_cols)
 
 ```
 
 ```{r}
-lambda_penalty_plot(lasso_selection$cv,lasso_selection$cv$lambda.1se,legend_y=20)
+lambda_penalty_plot(lasso_sel$cv,lasso_sel$cv$lambda.1se,legend_y=20)
 ```
 
 ```{r}
-p <- coef_plot(lasso_selection$cv)
+p <- coef_plot(lasso_sel$cv)
 
 p
 ```
 
 ```{r}
-p <- coef_lollipop(lasso_selection$cv)
+p <- coef_lollipop(lasso_sel$cv)
 p
 ```
 
 ```{r}
-coefficients <- extract_coefs(lasso_selection$cv)
+coefficients <- extract_coefs(lasso_sel$cv)
 coef_min_max <- coefficients |>
                 pivot_longer(-variable,names_to="r",values_to = "value") |>
                 summarise(min=min(value),max=max(value))
@@ -150,7 +159,7 @@ results <- assess_net(split,
            responses= c("ALP","GRN","COAL","Other"),
            predictors=coefficients$variable,
            family = "mgaussian")
-results$coefs
+
 ```
 
 ```{r}
@@ -160,13 +169,15 @@ enet_grid_plot(results)
 ```{r}
 enet_folder <- fs::dir_create(here("6. Modelling","elastic_net_eval"))
 
-saveRDS(lasso_selection,
+model_file <- glue::glue("cluster_delta_cluster_cluster{cluster_nbr}.rds")
+model_file
+saveRDS(lasso_sel,
         fs::path(enet_folder,
-                 glue::glue("lasso_selection_cluster_cluster{cluster}.rds")))
+                 glue::glue("lasso_sel_cluster_cluster{cluster_nbr}.rds")))
 
 saveRDS(results,
         fs::path(enet_folder,
-                 glue::glue("cluster_delta_cluster_cluster{cluster}.rds")))
+                 glue::glue("cluster_delta_cluster_cluster{cluster_nbr}.rds")))
 
 ```
 
