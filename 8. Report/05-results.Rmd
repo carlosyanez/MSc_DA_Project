@@ -18,7 +18,7 @@ library(flextable)
 library(ggplot2)
 library(glue)
 
-source(here::here("formatting_defaults.R"))
+source(here("formatting_defaults.R"))
 
 project_path <- fs::path(here(),"..")
 
@@ -119,8 +119,49 @@ kooyong <- compare_results("Kooyong",parties=4)
 The answer is this case seems to indicate that dwindling Coalition vote is not entirely related to a new teal offering. Observing figure \@ref(fig:tealdemographics), demographic changes in figure Liberal (Coalition) voting decline aligns with increase in higher income population and secular views - trend that predates the emergence of the teal movement. Thus, it is valid to assume that these new candidates growth is largely attributable to the same growing group of people that voted Green in the past, plus Labor voters.
 
 ```{r}
-demographic_data <- read_csv(path(project_path,"4. Data","consolidated.csv"))
+dataset <- read_csv(path(project_path,"4. Data","consolidated.csv"))
+clusters <- read_csv(path(project_path,"4. Data","clusters.csv"))         |>
+            select(-any_of(c("Metro_Area")))
 
+
+dataset <- dataset |>
+           left_join(clusters,by=c("DivisionNm"="DivisionNm","election_year"="Year"))
+
+rm(clusters)
+
+
+nationals <- read_csv(path(project_path,"4. Data","cluster_values.csv")) |>
+             pivot_longer(-c(Year,cluster),
+                          names_to = "Attribute",values_to="National") |>
+             mutate(Attribute=str_replace_all(Attribute," - ","_"),
+                    Attribute=str_replace_all(Attribute,"-","_"),
+                    Attribute=str_squish(Attribute),
+                    Attribute=str_replace_all(Attribute," ","_")) 
+
+
+
+demographic_data <- dataset |> 
+        select(-all_of(party_cols)) |>
+        select(-Metro_Area) |>
+        select(-Metro,-StateAb,-election_year) |>
+         pivot_longer(-c(DivisionNm,Year,cluster),
+               names_to = "Attribute",values_to = "CED") |>
+         mutate(Year=as.numeric(Year))                   |>
+         left_join(nationals,
+            by=c("Year","Attribute","cluster")) |>
+          select(-cluster) |>
+          mutate(Value=CED-National,.keep="unused") |>
+          pivot_wider(names_from = Attribute, values_from = Value)
+
+rm(dataset, nationals)
+
+demographic_2021 <- read_csv(path(project_path,"4. Data","cluster_values_2021.csv")) |>
+                     select(-Metro_Area, -cluster) |>
+                     select(-Metro,-StateAb)
+
+demographic_data <- demographic_data |>
+                    filter(Year!=2021) |>
+                    bind_rows(demographic_2021)
 
 ```
 
@@ -184,14 +225,14 @@ plot_grid(p,ncol=2,nrow=2,titletext = "Census attributes in green hopefuls")
 
 ```
 
-From the carts, three is clear correlation between demographic attributes and primary vote. This is clear for Griffith and Ryan, but also for Brisbane - where Greens didn't win the seat. In wills, this effect is more difficult to visually inspect in Wills, however actual results lies very closed to the predictions.
+From the charts, three is clear correlation between demographic attributes and primary vote. This is clear for Griffith and Ryan, but also for Brisbane - where Greens didn't win the seat. In wills, this effect is more difficult to visually inspect in Wills, however actual results lies very closed to the predictions.
 
 
 ## The Changing face of suburbia
 
-For a comparison outside inner city areas, lets compare four suburban electorates: Hasluck (Perth), Menzies (Melbourne), Fowler (Sydney) and Kingston (Adelaide). Their respective predictions and results are presented in figure \@ref(fig:suburbia1). A selection of ket 
+For a comparison outside inner city areas, lets compare four suburban electorates: Hasluck (Perth), Menzies (Melbourne), Fowler (Sydney) and Kingston (Adelaide). Their respective predictions and results are presented in figure \@ref(fig:suburbia1). A selection of key demographic variables is presented in figure \@ref(fig:suburbia2).
 
-```{r suburbia1, fig.cap="Green Voting"}
+```{r suburbia1, fig.cap="Suburban Voting"}
 
 hasluck <- compare_results("Hasluck",parties=3) 
 menzies     <- compare_results("Menzies",parties=3) 
@@ -206,15 +247,14 @@ kingston <- compare_results("Kingston",parties=3)
 
 ```
 
-
-
-```{r suburbia2, fig.cap="Demographics in Green seats"}
+```{r suburbia2, fig.cap="Demographics in suburban seats"}
 
 selected_demographics <- c("Age_Baby_Boomers",
-                           "Religion_Catholic",
+                           "Religion_Anglican_Uniting_Presbyterian",
                            "Religion_Islam",
                            "Household_Standalone",
-                           "Age_Gen_Y")
+                           "Age_Gen_Y",
+                           "Relationship_Married")
 
 electorates <- c("Hasluck","Menzies","Fowler","Kingston")
 
@@ -230,3 +270,8 @@ plot_grid(p,ncol=2,nrow=2,titletext = "Suburban electorates")
     
 
 ```
+
+
+* In Hasluck voting for 2022 roughly matches the predictions. Since the relevant demographic attributes have stayed constant, it is not possible to use to explain the change in the top spot. 
+* In Menzies, urban densification shown by the decrease in number of standalone houses goes in par with a decrease in Coalition vote and and increase in Labor and Green numbers. A point to take into account in this case is that the electorate may start to look like an inner city area - which means that other variables may be contributing towards the change.
+* In Kingston, it is also difficult to attach the results to a particular demographic trend.

@@ -5,6 +5,7 @@ knitr::knit_hooks$set(inline = function(x) { if(!is.numeric(x)){ x }else{ format
 ##ggplot default theming ----
 
 ggplot2::theme_set(ggplot2:::theme_minimal())
+customthemes::set_plot_colours()
 ##use theme_update to add things
 
 ##default flextable theming -----
