@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en-GB" xml:lang="en-GB">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Section 6 Results | Analysing Australian Election Results</title>
+  <meta name="description" content="Section 6 Results | Analysing Australian Election Results" />
+  <meta name="generator" content="bookdown 0.32 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Section 6 Results | Analysing Australian Election Results" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Section 6 Results | Analysing Australian Election Results" />
+  
+  
+  
+
+<meta name="author" content="Carlos Yanez Santibanez" />
+
+
+<meta name="date" content="2023-06-12" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="modelling.html"/>
+<link rel="next" href="references.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<link href="libs/tabwid-1.1.3/tabwid.css" rel="stylesheet" />
+<script src="libs/tabwid-1.1.3/tabwid.js"></script>
+
+
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">MSc's Report</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Acknowledgements</a></li>
+<li class="chapter" data-level="2" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>2</b> Introduction</a></li>
+<li class="chapter" data-level="3" data-path="data.html"><a href="data.html"><i class="fa fa-check"></i><b>3</b> Data</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="data.html"><a href="data.html#data-sources"><i class="fa fa-check"></i><b>3.1</b> Data Sources</a></li>
+<li class="chapter" data-level="3.2" data-path="data.html"><a href="data.html#data-selection"><i class="fa fa-check"></i><b>3.2</b> Data Selection</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="data.html"><a href="data.html#data-selection-years"><i class="fa fa-check"></i><b>3.2.1</b> Census and Election Years</a></li>
+<li class="chapter" data-level="3.2.2" data-path="data.html"><a href="data.html#data-selection-electoral"><i class="fa fa-check"></i><b>3.2.2</b> Electoral Data</a></li>
+<li class="chapter" data-level="3.2.3" data-path="data.html"><a href="data.html#census-data"><i class="fa fa-check"></i><b>3.2.3</b> Census Data</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="data.html"><a href="data.html#eda"><i class="fa fa-check"></i><b>3.3</b> Data Exploration</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="data.html"><a href="data.html#data-mfa"><i class="fa fa-check"></i><b>3.3.1</b> Dimensionality reduction using Multiple Factor Analysis</a></li>
+<li class="chapter" data-level="3.3.2" data-path="data.html"><a href="data.html#data-clusters"><i class="fa fa-check"></i><b>3.3.2</b> Electorate segments</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="method.html"><a href="method.html"><i class="fa fa-check"></i><b>4</b> Method</a></li>
+<li class="chapter" data-level="5" data-path="modelling.html"><a href="modelling.html"><i class="fa fa-check"></i><b>5</b> Fitting and analysing a model</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="modelling.html"><a href="modelling.html#clusterclassifier"><i class="fa fa-check"></i><b>5.1</b> Cluster classification</a></li>
+<li class="chapter" data-level="5.2" data-path="modelling.html"><a href="modelling.html#glmnet-regression"><i class="fa fa-check"></i><b>5.2</b> Regularised regression</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="results.html"><a href="results.html"><i class="fa fa-check"></i><b>6</b> Results</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="results.html"><a href="results.html#id_2021prediction"><i class="fa fa-check"></i><b>6.1</b> Forecasting the 2022 Federal Election</a></li>
+<li class="chapter" data-level="6.2" data-path="results.html"><a href="results.html#the-teal-wave"><i class="fa fa-check"></i><b>6.2</b> The Teal Wave</a></li>
+<li class="chapter" data-level="6.3" data-path="results.html"><a href="results.html#green-wave"><i class="fa fa-check"></i><b>6.3</b> The Green Wave</a></li>
+<li class="chapter" data-level="6.4" data-path="results.html"><a href="results.html#the-changing-face-of-suburbia"><i class="fa fa-check"></i><b>6.4</b> The Changing face of suburbia</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Analysing Australian Election Results</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="results" class="section level1 hasAnchor" number="6">
+<h1><span class="header-section-number">Section 6</span> Results<a href="results.html#results" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="id_2021prediction" class="section level2 hasAnchor" number="6.1">
+<h2><span class="header-section-number">6.1</span> Forecasting the 2022 Federal Election<a href="results.html#id_2021prediction" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The previously fitted model can be used to attempt to retroactively forecast the 2022 Federal Election. Through this process it is possible to illustrate the model’s strength and shortcomings at capturing how demographic factors succeed and fail to capture the change in voting patterns.</p>
+<p>This exercise uses the results from the 2021 Census of Population and Housing. The base voting percentages are taken from the last Newspoll prior to the election <span class="citation">(<a href="#ref-NewsPoll" role="doc-biblioref">Benson 2023</a>)</span> . Newspoll is usually considered a good predictor of the Australian election. The values are shown in table <a href="results.html#tab:newspoll">6.1</a>. Please note these values are national - but since there is no data at cluster level these are anyway.</p>
+<div class="tabwid"><style>.cl-15d05ca8{}.cl-15ba110a{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-15c4a232{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-15c4d892{width:0.701in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-15c4d89c{width:0.88in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-15c4d8a6{width:0.701in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-15c4d8b0{width:0.88in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-15c4d8ba{width:0.701in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-15c4d8c4{width:0.88in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing='true' class='cl-15d05ca8'>
+
+<caption style="display:table-caption;margin:0pt;text-align:center;border-bottom: 0.00pt solid transparent;border-top: 0.00pt solid transparent;border-left: 0.00pt solid transparent;border-right: 0.00pt solid transparent;padding-top:3pt;padding-bottom:3pt;padding-left:3pt;padding-right:3pt;line-height: 1;background-color:transparent;">
+<span id="tab:newspoll">Table 6.1: </span><span>Newspoll Primary Vote Forecast, 20 May 2022</span>
+</caption>
+
+<thead><tr style="overflow-wrap:break-word;"><th class="cl-15c4d892"><p class="cl-15c4a232"><span class="cl-15ba110a">Party</span></p></th><th class="cl-15c4d89c"><p class="cl-15c4a232"><span class="cl-15ba110a">Forecast</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-15c4d8a6"><p class="cl-15c4a232"><span class="cl-15ba110a">COAL</span></p></td><td class="cl-15c4d8b0"><p class="cl-15c4a232"><span class="cl-15ba110a">35%</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-15c4d8a6"><p class="cl-15c4a232"><span class="cl-15ba110a">ALP</span></p></td><td class="cl-15c4d8b0"><p class="cl-15c4a232"><span class="cl-15ba110a">36%</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-15c4d8a6"><p class="cl-15c4a232"><span class="cl-15ba110a">GRN</span></p></td><td class="cl-15c4d8b0"><p class="cl-15c4a232"><span class="cl-15ba110a">12%</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-15c4d8ba"><p class="cl-15c4a232"><span class="cl-15ba110a">Other</span></p></td><td class="cl-15c4d8c4"><p class="cl-15c4a232"><span class="cl-15ba110a">17%</span></p></td></tr></tbody></table></div>
+<p>The first step in the forecasting process is to map the electorates into the 3 clusters. The result is presented in figure <a href="results.html#fig:2022cluster">6.1</a>.</p>
+<div class="figure"><span style="display:block;" id="fig:2022cluster"></span>
+<img src="_main_files/figure-html/2022cluster-1.png" alt="Cluster in 2022 Election" width="672" />
+<p class="caption">
+Figure 6.1: Cluster in 2022 Election
+</p>
+</div>
+<p>After clustering, the regression models have been used to calculate a predicted outcome. Results have been transformed back to absolute values and then compared against actual results. This is presented in figure <a href="results.html#fig:electionresult">6.2</a>. The RMSE values are presened in table <a href="results.html#tab:2022rmse">6.2</a>.</p>
+<div class="figure"><span style="display:block;" id="fig:electionresult"></span>
+<img src="_main_files/figure-html/electionresult-1.png" alt="Comparison between prediction and election results" width="672" />
+<p class="caption">
+Figure 6.2: Comparison between prediction and election results
+</p>
+</div>
+<div class="tabwid"><style>.cl-1da86c9a{}.cl-1d8c42e0{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-1d9aabbe{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-1d9ad788{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-1d9ad792{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-1d9ad79c{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing='true' class='cl-1da86c9a'>
+
+<caption style="display:table-caption;margin:0pt;text-align:center;border-bottom: 0.00pt solid transparent;border-top: 0.00pt solid transparent;border-left: 0.00pt solid transparent;border-right: 0.00pt solid transparent;padding-top:3pt;padding-bottom:3pt;padding-left:3pt;padding-right:3pt;line-height: 1;background-color:transparent;">
+<span id="tab:2022rmse">Table 6.2: </span><span>RMSE Values for 2022 Forecast</span>
+</caption>
+
+<thead><tr style="overflow-wrap:break-word;"><th class="cl-1d9ad788"><p class="cl-1d9aabbe"><span class="cl-1d8c42e0">cluster</span></p></th><th class="cl-1d9ad788"><p class="cl-1d9aabbe"><span class="cl-1d8c42e0">Overall</span></p></th><th class="cl-1d9ad788"><p class="cl-1d9aabbe"><span class="cl-1d8c42e0">GRN</span></p></th><th class="cl-1d9ad788"><p class="cl-1d9aabbe"><span class="cl-1d8c42e0">ALP</span></p></th><th class="cl-1d9ad788"><p class="cl-1d9aabbe"><span class="cl-1d8c42e0">COAL</span></p></th><th class="cl-1d9ad788"><p class="cl-1d9aabbe"><span class="cl-1d8c42e0">Other</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-1d9ad792"><p class="cl-1d9aabbe"><span class="cl-1d8c42e0">0</span></p></td><td class="cl-1d9ad792"><p class="cl-1d9aabbe"><span class="cl-1d8c42e0">10.56</span></p></td><td class="cl-1d9ad792"><p class="cl-1d9aabbe"><span class="cl-1d8c42e0">9.48</span></p></td><td class="cl-1d9ad792"><p class="cl-1d9aabbe"><span class="cl-1d8c42e0">9.42</span></p></td><td class="cl-1d9ad792"><p class="cl-1d9aabbe"><span class="cl-1d8c42e0">8.43</span></p></td><td class="cl-1d9ad792"><p class="cl-1d9aabbe"><span class="cl-1d8c42e0">15.04</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-1d9ad792"><p class="cl-1d9aabbe"><span class="cl-1d8c42e0">1</span></p></td><td class="cl-1d9ad792"><p class="cl-1d9aabbe"><span class="cl-1d8c42e0">10.37</span></p></td><td class="cl-1d9ad792"><p class="cl-1d9aabbe"><span class="cl-1d8c42e0">4.16</span></p></td><td class="cl-1d9ad792"><p class="cl-1d9aabbe"><span class="cl-1d8c42e0">10.21</span></p></td><td class="cl-1d9ad792"><p class="cl-1d9aabbe"><span class="cl-1d8c42e0">14.35</span></p></td><td class="cl-1d9ad792"><p class="cl-1d9aabbe"><span class="cl-1d8c42e0">10.11</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-1d9ad79c"><p class="cl-1d9aabbe"><span class="cl-1d8c42e0">2</span></p></td><td class="cl-1d9ad79c"><p class="cl-1d9aabbe"><span class="cl-1d8c42e0">8.26</span></p></td><td class="cl-1d9ad79c"><p class="cl-1d9aabbe"><span class="cl-1d8c42e0">3.16</span></p></td><td class="cl-1d9ad79c"><p class="cl-1d9aabbe"><span class="cl-1d8c42e0">7.51</span></p></td><td class="cl-1d9ad79c"><p class="cl-1d9aabbe"><span class="cl-1d8c42e0">6.05</span></p></td><td class="cl-1d9ad79c"><p class="cl-1d9aabbe"><span class="cl-1d8c42e0">13.40</span></p></td></tr></tbody></table></div>
+<p>As expected, the results fail to adequately forecast election results, especially when it comes to Other parties and independents. However, it can be used as a tool to analyse the vote dynamics.</p>
+</div>
+<div id="the-teal-wave" class="section level2 hasAnchor" number="6.2">
+<h2><span class="header-section-number">6.2</span> The Teal Wave<a href="results.html#the-teal-wave" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>A particular phenomenon of the last election consisted in the so called “Teal Wave”, where centrist independents campaigned in traditional Coalition electorates. Most of these electorates are located in inner city, wealthy areas of Melbourne and Sydney, where voters have consistently voted Coalition since the Australian Federation. Right leaning voters in these areas are perceived as moderate, socially liberal (“little-l liberals”) who were dissatisfied with a perceived conservative turn in Coalition politics. Teal candidates managed to unseat incumbent MPs - did they in effect capture the dissatisfied Coalition base? The results and predictions for 4 cases are presented in figure <a href="results.html#fig:tealsplot">6.3</a>.</p>
+<div class="figure"><span style="display:block;" id="fig:tealsplot"></span>
+<img src="_main_files/figure-html/tealsplot-1.png" alt="Example 1: Teal Wave" width="672" />
+<p class="caption">
+Figure 6.3: Example 1: Teal Wave
+</p>
+</div>
+<p>The answer is this case seems to indicate that dwindling Coalition vote is not entirely related to a new teal offering. Observing figure <a href="results.html#fig:tealdemographics">6.4</a>, demographic changes in figure Liberal (Coalition) voting decline aligns with increase in higher income population and secular views - trend that predates the emergence of the teal movement. Thus, it is valid to assume that these new candidates growth is largely attributable to the same growing group of people that voted Green in the past, plus Labor voters.</p>
+<div class="figure"><span style="display:block;" id="fig:tealdemographics"></span>
+<img src="_main_files/figure-html/tealdemographics-1.png" alt="Selected demographics for teal seats" width="672" />
+<p class="caption">
+Figure 6.4: Selected demographics for teal seats
+</p>
+</div>
+</div>
+<div id="green-wave" class="section level2 hasAnchor" number="6.3">
+<h2><span class="header-section-number">6.3</span> The Green Wave<a href="results.html#green-wave" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Another feature of the past election was the increase in the number of Green Party MPs. In addition to the division of Melbourne, green candidates also won the seats of Griffith and Ryan in Brisbane. Again, do these victories have a demographic driver? Are there any differences between these electorates and contigous divisions, and between them and other electorates where the Green have been strong contender? <a href="results.html#fig:greenvoting">6.5</a> shows the prediction the latest and historic election results. figure <a href="results.html#fig:green">6.6</a> presents selected demographic attributes for those areas.</p>
+<div class="figure"><span style="display:block;" id="fig:greenvoting"></span>
+<img src="_main_files/figure-html/greenvoting-1.png" alt="Green Voting" width="672" />
+<p class="caption">
+Figure 6.5: Green Voting
+</p>
+</div>
+<div class="figure"><span style="display:block;" id="fig:green"></span>
+<img src="_main_files/figure-html/green-1.png" alt="Demographics in Green seats" width="672" />
+<p class="caption">
+Figure 6.6: Demographics in Green seats
+</p>
+</div>
+<p>From the carts, three is clear correlation between demographic attributes and primary vote. This is clear for Griffith and Ryan, but also for Brisbane - where Greens didn’t win the seat. In wills, this effect is more difficult to visually inspect in Wills, however actual results lies very closed to the predictions.</p>
+</div>
+<div id="the-changing-face-of-suburbia" class="section level2 hasAnchor" number="6.4">
+<h2><span class="header-section-number">6.4</span> The Changing face of suburbia<a href="results.html#the-changing-face-of-suburbia" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>For a comparison outside inner city areas, lets compare four suburban electorates: Hasluck (Perth), Menzies (Melbourne), Fowler (Sydney) and Kingston (Adelaide). Their respective predictions and results are presented in figure <a href="results.html#fig:suburbia1">6.7</a>. A selection of ket</p>
+<div class="figure"><span style="display:block;" id="fig:suburbia1"></span>
+<img src="_main_files/figure-html/suburbia1-1.png" alt="Green Voting" width="672" />
+<p class="caption">
+Figure 6.7: Green Voting
+</p>
+</div>
+<div class="figure"><span style="display:block;" id="fig:suburbia2"></span>
+<img src="_main_files/figure-html/suburbia2-1.png" alt="Demographics in Green seats" width="672" />
+<p class="caption">
+Figure 6.8: Demographics in Green seats
+</p>
+</div>
+
+</div>
+</div>
+<h3>References<a href="references.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-NewsPoll" class="csl-entry">
+Benson, Simon. 2023. <span>‘Newspoll: Labor Lead over Coalition Narrows’</span>. 2023. <a href="https://www.theaustralian.com.au/nation/politics/newspoll-labor-lead-over-coalition-narrows/news-story/937dbfe8479e9380d93da4121f63c09d">https://www.theaustralian.com.au/nation/politics/newspoll-labor-lead-over-coalition-narrows/news-story/937dbfe8479e9380d93da4121f63c09d</a>.
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="modelling.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="references.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

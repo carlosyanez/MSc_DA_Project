@@ -92,6 +92,8 @@ dataset <- vote |>
 rm(rest,vote)
 
 
+
+
 ```
 
 ```{r}
@@ -251,6 +253,7 @@ prediction_compared <- prediction |>
                names_to="PartyAb",
                values_to = "VoteDiff") |>
   mutate(DivisionNm=str_remove(Division,"-2022")) |>
+  mutate(DivisionNm=str_remove(DivisionNm," \\(II\\)")) |>
   left_join(primary_vote,by="PartyAb") |>
   mutate(Predicted=Avg.Vote+VoteDiff) |>
   left_join(actual_vote,by=c("DivisionNm","PartyAb")) |>
@@ -288,6 +291,21 @@ prediction_compared |>
   mutate(Error=Error^2) |>
   group_by(PartyAb) |>
   summarise(RMSE=sqrt(mean(Error,na.rm=TRUE)),.groups="drop")
+```
+
+Save models
+
+```{r}
+output <- list()
+output$new_data <- new_data
+output$prediction <- prediction
+output$prediction_compared <- prediction_compared
+output$newspoll <- primary_vote
+output$classification_model <- classification_model
+output$regression_models <- regression_models
+
+
+saveRDS(output,here("7. Forecast","results.rds"))
 ```
 
 Samples

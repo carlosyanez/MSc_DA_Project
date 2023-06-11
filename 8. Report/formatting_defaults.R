@@ -16,7 +16,7 @@ x |>
     flextable::set_caption(caption, 
                 autonum = officer::run_autonum(seq_id = "tab",
                                                bkm = id))|>
-flextable::theme_alafoli()
+flextable::theme_booktabs()
 }
 
 
@@ -24,8 +24,8 @@ flextable::theme_alafoli()
 clusters_colours <- colRoz::colRoz_pal(name = "ngadju", n = 3, type = "discrete")
 names(clusters_colours) <- as.character(0:2)
 
-
-party_palette <- auspol::party_colours()[c("ALP","COAL","GRN","Other")]
+party_cols <- c("GRN","ALP","COAL","Other")
+party_palette <- auspol::party_colours()[party_cols]
 
 ### map of australian electorates -----
 
@@ -34,7 +34,7 @@ australian_ced_map <- function(data, ced_gpkg,fill_col,colour_palette,plot_title
   map      <- st_read(ced_gpkg,quiet=TRUE) |>
               left_join(data,by="DivisionNm")
   
-  ##remove Lord Howe Island in Sydney and Ext. Territories from Lingiari
+  ##remove Lord Howe Island in Sydney and Ext. Territories from Lingiari, Fenner, Bean
   syd <- map |> 
     filter(DivisionNm=="Sydney") |>
     st_cast("POLYGON")
@@ -47,10 +47,24 @@ australian_ced_map <- function(data, ced_gpkg,fill_col,colour_palette,plot_title
   lin$area <- st_area(lin)
   lin <- lin |> filter(area==max(area))
   
+  fen <- map |> 
+    filter(DivisionNm=="Fenner") |>
+    st_cast("POLYGON")
+  lin$area <- st_area(lin)
+  lin <- lin |> filter(area==max(area))
+
+  bean <- map |> 
+    filter(DivisionNm=="Bean") |>
+    st_cast("POLYGON")
+  lin$area <- st_area(lin)
+  lin <- lin |> filter(area==max(area))
+  
   map <- map |>
     filter(DivisionNm!="Sydney") |>
     filter(DivisionNm!="Lingiari") |>
-    bind_rows(syd,lin)
+    filter(DivisionNm!="Fenner") |>
+    filter(DivisionNm!="Bean") |>
+    bind_rows(syd,lin,fen,bean)
   
   national <- map |>
     select(any_of(c("DivisionNm",fill_col))) |>
@@ -141,4 +155,64 @@ australian_ced_map <- function(data, ced_gpkg,fill_col,colour_palette,plot_title
                         77776666") +
     plot_annotation(title="Clustering of 2016 Electoral Divisions")
   
+}
+
+
+## cluster names ----
+cluster_names <- tibble::tribble(~cluster, ~name_simple,~name_composite,
+                                 0,       "Inner Metropolitan","Cluster 0: Inner Metropolitan",
+                                 1,        "Regional","Cluster 1: Regional",
+                                 2,        "Suburban","Cluster 2: Suburban")
+
+
+##compare results ----
+compare_results <- function(ced_name,...){
+  auspol::house_primary_historic_plot(ced_name,
+                                      include_others = TRUE,
+                                      ...) +
+    ggnewscale::new_scale("colour") +
+    geom_point(data=results$prediction_compared |>
+                 filter(str_detect(DivisionNm,ced_name)) |>
+                 select(PartyAb,Predicted) |>
+                 mutate(Year=2022),
+               aes(x=Year,y=Predicted,colour=PartyAb),
+               shape=18,
+               size=3,
+               inherit.aes = FALSE) +
+    scale_colour_manual(values=party_palette,name="Predictions") +
+    labs(subtitle = ced_name)
+}
+
+census_plot <- function(demographic_data,ced_name,attributes){
+  demographic_data |>
+    filter(DivisionNm==ced_name) |>
+    select(any_of(c("DivisionNm","Year",attributes)))                     |>
+    pivot_longer(-c(DivisionNm,Year),names_to = "Attribute",values_to="Percentage") |>
+    ggplot(aes(x=Year, y=Percentage,colour=Attribute)) +
+    geom_point()+
+    geom_line() +
+    labs(subtitle = ced_name)
+}
+
+
+plot_grid <- function(p,titletext=NULL,...){  
+  
+  max_y <-c()
+  min_y <-c()
+  
+  for(i in 1:length(p)){
+    max_y <- max(p[[i]]$data$Percentage)
+    min_y <- min(p[[i]]$data$Percentage)
+  }
+  
+  max_y <- ceiling(max(max_y))
+  min_y <- floor(min(min_y))
+  
+  for(i in 1:length(p)){
+    p[[i]] <- p[[i]] + ylim(min_y,max_y)
+    
+  }
+  
+  wrap_plots(p,guides = 'collect',widths = c(3,3,1),...) +
+    plot_annotation(title=titletext)
 }

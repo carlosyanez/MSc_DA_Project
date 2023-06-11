@@ -3,21 +3,29 @@ title: "Analysing Australian Election Results"
 author: "Carlos Yanez Santibanez"
 date: "`r Sys.Date()`"
 output: pdf_document
-documentclass: book
+documentclass   : article   # article (default) report
+fontsize        : 11pt      # 10pt 11pt (default) 12pt
+lang            : en-GB
 bibliography:
 - book.bib
 - packages.bib
 link-citations: yes
-github-repo: "carlosyanez/MSc_Project"
-site: bookdown::bookdown_site
 ---
 
+```{r}
+uofgdataanalyticsreport::cd_page_title()
+```
+ 
 # Acknowledgements
 
 
+```{r}
+uofgdataanalyticsreport::cd_toc()
+```
+
 
 ```{r eval=FALSE, include=FALSE}
-bookdown::serve_book()
+bookdown::render_book("index.Rmd", "bookdown::gitbook")
 bookdown::render_book("index.Rmd", "bookdown::pdf_book")
 
 ```

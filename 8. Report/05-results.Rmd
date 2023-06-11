@@ -1,0 +1,232 @@
+---
+output:
+  pdf_document: default
+bibliography:
+- book.bib
+- packages.bib
+---
+
+# Results {#results}
+
+```{r hundred-setup,message=FALSE,warning=FALSE,echo=FALSE}
+library(dplyr)
+library(readr)
+library(stringr)
+library(here)
+library(auspol)
+library(flextable)
+library(ggplot2)
+library(glue)
+
+source(here::here("formatting_defaults.R"))
+
+project_path <- fs::path(here(),"..")
+
+results <- readRDS(path(project_path,"7. Forecast","results.rds"))
+```
+
+## Forecasting the 2022 Federal Election {#2021prediction}
+
+The previously fitted model can be used to attempt to retroactively forecast the 2022 Federal Election. Through this process it is possible to illustrate the model's strength and shortcomings at capturing how demographic factors succeed and fail to capture the change in voting patterns.
+
+This exercise uses the results from the 2021 Census of Population and Housing. The base voting percentages are taken from the last Newspoll prior to the election [@NewsPoll] . Newspoll is usually considered a good predictor of the Australian election. The values are shown in table \@ref(tab:newspoll). Please note these values are national - but since there is no data at cluster level these are anyway.
+
+```{r}
+results$newspoll |>
+  rename("Party"="PartyAb","Forecast"="Avg.Vote") |>
+  mutate(Forecast=glue("{Forecast}%")) |>
+  flex_default("Newspoll Primary Vote Forecast, 20 May 2022","newspoll") |>
+  theme_booktabs() |>
+  autofit()
+```
+
+The first step in the forecasting process is to map the electorates into the 3 clusters. The result is presented in figure \@ref(fig:2022cluster).
+
+```{r 2022cluster,fig.cap="Cluster in 2022 Election",warning=FALSE,message=FALSE}
+results$new_data |> 
+  select(Division,cluster,Metro_Area) |>
+  mutate(DivisionNm=str_remove(Division,"-2022"),.keep="unused") |>
+  mutate(DivisionNm=str_remove(DivisionNm," \\(II\\)")) |>
+  australian_ced_map(
+                   path(project_path,"4. Data","CED_2021.gpkg"),
+                   "cluster",
+                   clusters_colours,
+                   "Divisions by clusters - 2022 Federal Election")
+
+```
+
+After clustering, the regression models have been used to calculate a predicted outcome. Results have been transformed back to absolute values and then compared against actual results. This is presented in figure \@ref(fig:electionresult). The RMSE values are presened in table \@ref(tab:2022rmse).
+
+```{r electionresult, fig.cap="Comparison between prediction and election results"}
+results$prediction_compared |>
+  mutate(cluster=as.character(cluster)) |>
+  mutate(across(any_of(c("Predicted","Actual")), ~ .x/100)) |>
+  mutate(PartyAb=forcats::fct_relevel(PartyAb,party_cols)) |>
+  ggplot(aes(x=Predicted,y=Actual,colour=cluster)) +
+  geomtextpath::geom_textabline(slope=1,intercept = 0, label="0%",colour="gray50",linetype = 2,hjust=0.8,alpha=0.4) +
+  geomtextpath::geom_textabline(slope=1,intercept = 0.05, label="5%",colour="orange",linetype = 2,hjust=0.8,alpha=0.4) +
+  geomtextpath::geom_textabline(slope=1,intercept = -0.05, label="-5%",colour="orange",linetype = 2,hjust=0.8,alpha=0.4) +
+  geomtextpath::geom_textabline(slope=1,intercept = 0.1, label="10%",colour="red",linetype = 2,hjust=0.8,alpha=0.4) +
+  geomtextpath::geom_textabline(slope=1,intercept = -0.1, label="-10%",colour="red",linetype = 2,hjust=0.8,alpha=0.4) +
+  geom_point(alpha=0.7) +
+  facet_wrap(vars(PartyAb),ncol=2) +
+  scale_colour_manual(values=clusters_colours) +
+  scale_x_continuous(labels =  scales::label_percent()) +
+  scale_y_continuous(labels =  scales::label_percent()) +
+  labs(title="Election Forecast and Results compared")
+```
+```{r}
+results$prediction_compared |>
+  group_by(PartyAb,cluster) |>
+  summarise(RMSE=sqrt(mean(Error^2,na.rm=TRUE))) |>
+  bind_rows(
+    results$prediction_compared |>
+  group_by(cluster) |>
+  summarise(RMSE=sqrt(mean(Error^2,na.rm=TRUE))) |>
+  mutate(PartyAb="Overall")
+  ) |>
+  mutate(RMSE=round(RMSE,2)) |>
+  arrange(cluster,PartyAb)   |>
+  pivot_wider(names_from =PartyAb, values_from=RMSE)  |>
+  select(all_of(c("cluster","Overall",party_cols)))   |>
+  flex_default("RMSE Values for 2022 Forecast","2022rmse") |>
+  theme_booktabs()
+  
+```
+
+
+As expected, the results fail to adequately forecast election results, especially when it comes to Other parties and independents. However, it can be used as a tool to analyse the vote dynamics.
+
+## The Teal Wave
+
+A particular phenomenon of the last election consisted in the so called "Teal Wave", where centrist independents campaigned in traditional Coalition electorates. Most of these electorates are located in inner city, wealthy areas of Melbourne and Sydney, where voters have consistently voted Coalition since the Australian Federation. Right leaning voters in these areas are perceived as moderate, socially liberal ("little-l liberals") who were dissatisfied with a perceived conservative turn in Coalition politics. Teal candidates managed to unseat incumbent MPs - did they  in effect capture the dissatisfied Coalition base? The results and predictions for 4 cases are presented in figure \@ref(fig:tealsplot). 
+
+
+```{r tealsplot, fig.cap="Example 1: Teal Wave"}
+
+warringah <- compare_results("Warringah",parties=4) 
+wentworh <- compare_results("Wentworth",parties=4)
+goldstein <- compare_results("Goldstein",parties=4)
+kooyong <- compare_results("Kooyong",parties=4)
+
+(warringah + wentworh) / (goldstein + kooyong) +  
+  plot_layout(guides = 'collect') +
+  plot_annotation(title="Teal voting in Melbourne and Sydney")
+
+
+```
+
+The answer is this case seems to indicate that dwindling Coalition vote is not entirely related to a new teal offering. Observing figure \@ref(fig:tealdemographics), demographic changes in figure Liberal (Coalition) voting decline aligns with increase in higher income population and secular views - trend that predates the emergence of the teal movement. Thus, it is valid to assume that these new candidates growth is largely attributable to the same growing group of people that voted Green in the past, plus Labor voters.
+
+```{r}
+demographic_data <- read_csv(path(project_path,"4. Data","consolidated.csv"))
+
+
+```
+
+
+```{r tealdemographics, fig.cap="Selected demographics for teal seats"}
+
+selected_demographics <- c("Age_Baby_Boomers","Age_Gen_Y","Income_2000_or_more","Religion_No_Religion_Secular")
+electorates <- c("Warringah","Wentworth","Goldstein","Kooyong")
+
+p <- list()
+for(electorate in electorates){
+p[[length(p)+1]] <- census_plot(demographic_data,
+                                electorate,
+                                selected_demographics) + 
+                    paletteer::scale_color_paletteer_d("colRoz::uluru")
+}
+
+plot_grid(p,ncol=2,nrow=2,titletext = "Census attributes in teal seats")    
+    
+  
+```
+
+## The Green Wave {#green-wave}
+
+Another feature of the past election was the increase in the number of Green Party MPs. In addition to the division of Melbourne, green candidates also won the seats of Griffith and Ryan in Brisbane. Again, do these victories have a demographic driver? Are there any differences between these electorates and contigous divisions, and between them and other electorates where the Green have been strong contender? \@ref(fig:greenvoting) shows the prediction the latest and historic election results. figure \@ref(fig:green) presents selected demographic attributes for those areas.
+
+```{r greenvoting, fig.cap="Green Voting"}
+
+griffith <- compare_results("Griffith",parties=3) 
+ryan     <- compare_results("Ryan",parties=3) 
+brisbane    <- compare_results("Brisbane",parties=3) 
+wills <- compare_results("Wills",parties=3) 
+
+
+(griffith + ryan) / (brisbane + wills) +  
+  plot_layout(guides = 'collect') +
+  plot_annotation(title="Green Voting ")
+
+
+```
+
+```{r green, fig.cap="Demographics in Green seats"}
+
+selected_demographics <- c("Age_Baby_Boomers",
+                           "Religion_Catholic",
+                           "Income_2000_or_more",
+                           "Religion_No_Religion_Secular",
+                           "Religion_Anglican_Uniting_Presbyterian")
+
+electorates <- c("Griffith","Ryan","Brisbane","Wills")
+
+p <- list()
+for(electorate in electorates){
+p[[length(p)+1]] <- census_plot(demographic_data,
+                                electorate,
+                                selected_demographics) + 
+                    paletteer::scale_color_paletteer_d("colRoz::uluru")
+}
+
+plot_grid(p,ncol=2,nrow=2,titletext = "Census attributes in green hopefuls")   
+
+```
+
+From the carts, three is clear correlation between demographic attributes and primary vote. This is clear for Griffith and Ryan, but also for Brisbane - where Greens didn't win the seat. In wills, this effect is more difficult to visually inspect in Wills, however actual results lies very closed to the predictions.
+
+
+## The Changing face of suburbia
+
+For a comparison outside inner city areas, lets compare four suburban electorates: Hasluck (Perth), Menzies (Melbourne), Fowler (Sydney) and Kingston (Adelaide). Their respective predictions and results are presented in figure \@ref(fig:suburbia1). A selection of ket 
+
+```{r suburbia1, fig.cap="Green Voting"}
+
+hasluck <- compare_results("Hasluck",parties=3) 
+menzies     <- compare_results("Menzies",parties=3) 
+fowler    <- compare_results("Fowler",parties=3) 
+kingston <- compare_results("Kingston",parties=3) 
+
+
+(hasluck + menzies) / (fowler + kingston) +  
+  plot_layout(guides = 'collect') +
+  plot_annotation(title="Suburban electorates")
+
+
+```
+
+
+
+```{r suburbia2, fig.cap="Demographics in Green seats"}
+
+selected_demographics <- c("Age_Baby_Boomers",
+                           "Religion_Catholic",
+                           "Religion_Islam",
+                           "Household_Standalone",
+                           "Age_Gen_Y")
+
+electorates <- c("Hasluck","Menzies","Fowler","Kingston")
+
+p <- list()
+for(electorate in electorates){
+p[[length(p)+1]] <- census_plot(demographic_data,
+                                electorate,
+                                selected_demographics) + 
+                    paletteer::scale_color_paletteer_d("colRoz::uluru")
+}
+
+plot_grid(p,ncol=2,nrow=2,titletext = "Suburban electorates")    
+    
+
+```

@@ -1,21 +1,21 @@
 <!DOCTYPE html>
-<html lang="" xml:lang="">
+<html lang="en-GB" xml:lang="en-GB">
 <head>
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Section 5 Method | Analysing Australian Election Results</title>
-  <meta name="description" content="Section 5 Method | Analysing Australian Election Results" />
+  <title>Section 4 Method | Analysing Australian Election Results</title>
+  <meta name="description" content="Section 4 Method | Analysing Australian Election Results" />
   <meta name="generator" content="bookdown 0.32 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Section 5 Method | Analysing Australian Election Results" />
+  <meta property="og:title" content="Section 4 Method | Analysing Australian Election Results" />
   <meta property="og:type" content="book" />
   
   
-  <meta name="github-repo" content="carlosyanez/MSc_Project" />
+  
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Section 5 Method | Analysing Australian Election Results" />
+  <meta name="twitter:title" content="Section 4 Method | Analysing Australian Election Results" />
   
   
   
@@ -23,7 +23,7 @@
 <meta name="author" content="Carlos Yanez Santibanez" />
 
 
-<meta name="date" content="2023-06-09" />
+<meta name="date" content="2023-06-12" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -52,9 +52,101 @@
 <link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
 <link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/htmlwidgets-1.6.1/htmlwidgets.js"></script>
+<script src="libs/viz-1.8.2/viz.js"></script>
+<link href="libs/DiagrammeR-styles-0.2/styles.css" rel="stylesheet" />
+<script src="libs/grViz-binding-1.0.10/grViz.js"></script>
+<link href="libs/tabwid-1.1.3/tabwid.css" rel="stylesheet" />
+<script src="libs/tabwid-1.1.3/tabwid.js"></script>
 
 
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
 
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
@@ -74,29 +166,35 @@
 <li class="divider"></li>
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Acknowledgements</a></li>
 <li class="chapter" data-level="2" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>2</b> Introduction</a></li>
-<li class="chapter" data-level="3" data-path="strucure.html"><a href="strucure.html"><i class="fa fa-check"></i><b>3</b> Strucure</a></li>
+<li class="chapter" data-level="3" data-path="data.html"><a href="data.html"><i class="fa fa-check"></i><b>3</b> Data</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="data.html"><a href="data.html#data-sources"><i class="fa fa-check"></i><b>3.1</b> Data Sources</a></li>
+<li class="chapter" data-level="3.2" data-path="data.html"><a href="data.html#data-selection"><i class="fa fa-check"></i><b>3.2</b> Data Selection</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="data.html"><a href="data.html#data-selection-years"><i class="fa fa-check"></i><b>3.2.1</b> Census and Election Years</a></li>
+<li class="chapter" data-level="3.2.2" data-path="data.html"><a href="data.html#data-selection-electoral"><i class="fa fa-check"></i><b>3.2.2</b> Electoral Data</a></li>
+<li class="chapter" data-level="3.2.3" data-path="data.html"><a href="data.html#census-data"><i class="fa fa-check"></i><b>3.2.3</b> Census Data</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="data.html"><a href="data.html#eda"><i class="fa fa-check"></i><b>3.3</b> Data Exploration</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="data.html"><a href="data.html#data-mfa"><i class="fa fa-check"></i><b>3.3.1</b> Dimensionality reduction using Multiple Factor Analysis</a></li>
+<li class="chapter" data-level="3.3.2" data-path="data.html"><a href="data.html#data-clusters"><i class="fa fa-check"></i><b>3.3.2</b> Electorate segments</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="method.html"><a href="method.html"><i class="fa fa-check"></i><b>4</b> Method</a></li>
+<li class="chapter" data-level="5" data-path="modelling.html"><a href="modelling.html"><i class="fa fa-check"></i><b>5</b> Fitting and analysing a model</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="modelling.html"><a href="modelling.html#clusterclassifier"><i class="fa fa-check"></i><b>5.1</b> Cluster classification</a></li>
+<li class="chapter" data-level="5.2" data-path="modelling.html"><a href="modelling.html#glmnet-regression"><i class="fa fa-check"></i><b>5.2</b> Regularised regression</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="results.html"><a href="results.html"><i class="fa fa-check"></i><b>6</b> Results</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="results.html"><a href="results.html#id_2021prediction"><i class="fa fa-check"></i><b>6.1</b> Forecasting the 2022 Federal Election</a></li>
+<li class="chapter" data-level="6.2" data-path="results.html"><a href="results.html#the-teal-wave"><i class="fa fa-check"></i><b>6.2</b> The Teal Wave</a></li>
+<li class="chapter" data-level="6.3" data-path="results.html"><a href="results.html#green-wave"><i class="fa fa-check"></i><b>6.3</b> The Green Wave</a></li>
+<li class="chapter" data-level="6.4" data-path="results.html"><a href="results.html#the-changing-face-of-suburbia"><i class="fa fa-check"></i><b>6.4</b> The Changing face of suburbia</a></li>
+</ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
-<li class="chapter" data-level="4" data-path="data.html"><a href="data.html"><i class="fa fa-check"></i><b>4</b> Data</a>
-<ul>
-<li class="chapter" data-level="4.1" data-path="data.html"><a href="data.html#data-sources"><i class="fa fa-check"></i><b>4.1</b> Data Sources</a></li>
-<li class="chapter" data-level="4.2" data-path="data.html"><a href="data.html#data-selection"><i class="fa fa-check"></i><b>4.2</b> Data Selection</a>
-<ul>
-<li class="chapter" data-level="4.2.1" data-path="data.html"><a href="data.html#data-selection-years"><i class="fa fa-check"></i><b>4.2.1</b> Census and Election Years</a></li>
-<li class="chapter" data-level="4.2.2" data-path="data.html"><a href="data.html#data-selection-electoral"><i class="fa fa-check"></i><b>4.2.2</b> Electoral Data</a></li>
-<li class="chapter" data-level="4.2.3" data-path="data.html"><a href="data.html#census-data"><i class="fa fa-check"></i><b>4.2.3</b> Census Data</a></li>
-</ul></li>
-<li class="chapter" data-level="4.3" data-path="data.html"><a href="data.html#eda"><i class="fa fa-check"></i><b>4.3</b> Data Exploration</a>
-<ul>
-<li class="chapter" data-level="4.3.1" data-path="data.html"><a href="data.html#data-mfa"><i class="fa fa-check"></i><b>4.3.1</b> Dimensionality reduction using Multiple Factor Analysis</a></li>
-<li class="chapter" data-level="4.3.2" data-path="data.html"><a href="data.html#data-clusters"><i class="fa fa-check"></i><b>4.3.2</b> Electorate segments</a></li>
-</ul></li>
-</ul></li>
-<li class="chapter" data-level="5" data-path="method.html"><a href="method.html"><i class="fa fa-check"></i><b>5</b> Method</a></li>
-<li class="chapter" data-level="6" data-path="modelling.html"><a href="modelling.html"><i class="fa fa-check"></i><b>6</b> Fitting and analysing a model</a>
-<ul>
-<li class="chapter" data-level="6.1" data-path="modelling.html"><a href="modelling.html#clusterclassifier"><i class="fa fa-check"></i><b>6.1</b> Cluster classification</a></li>
-</ul></li>
-<li class="chapter" data-level="" data-path="references-1.html"><a href="references-1.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 
@@ -117,45 +215,36 @@
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="method" class="section level1 hasAnchor" number="5">
-<h1><span class="header-section-number">Section 5</span> Method<a href="method.html#method" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>Having obtained the data, it modelling time! Starting from a simple point, research in question can be expressed by equation <a href="method.html#eq:basicequation">(5.1)</a>.</p>
-<p><span class="math display" id="eq:basicequation">\[\begin{equation}
-
-\textbf{Y} = f(\textbf{X})
-
-\tag{5.1}
-\end{equation}\]</span></p>
-<p>where <span class="math inline">\(\textbf{Y}\)</span> represents a vector with primary voting for an electorate, and <span class="math inline">\(\textbf{X}\)</span> represents the vector of respective demographic attributes.</p>
-<p>Considering the problem in question, this model does not consider other factors that may influence voting. These factors may difficult to quantify as they may related to a myriad of factors including the state of the economy, foreign affairs, perceptions about the governing party or any party in the election, or the mood of the times. However, it is possible to make the naive assumption that electoral polling aims to capture all those factors - thus it is possible to restate the objective : instead of calculating the primary vote itself, the aim is to determine how demographics influences the voting when compared to a the national values (as captured by polls). Furthermore, it is possible to redefine the problem once more, to aiming to determine how differences in demographic attributes, when compared against a national baseline makes primary voting in an electoral to differ from the national measure. This is states in <a href="method.html#eq:equation2">(5.2)</a>, which allow accounts to error attributable to polling error and demographic drift between census and election.</p>
-<p><span class="math display" id="eq:equation2">\[\begin{equation}
-
-\textbf{Y} = f(\textbf{X}) + \epsilon \\ \\
-
+<div id="method" class="section level1 hasAnchor" number="4">
+<h1><span class="header-section-number">Section 4</span> Method<a href="method.html#method" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>Having obtained the data, it modelling time! Starting from a simple point, research in question can be expressed by equation <a href="method.html#eq:equation1">(4.1)</a>.</p>
+<span class="math display" id="eq:equation1">\[\begin{align}
+\mathbf{Y} = f(\mathbf{X})
+\tag{4.1}
+\end{align}\]</span>
+<p>where <span class="math inline">\(\mathbf{Y}\)</span> represents a vector with primary voting for an electorate, and <span class="math inline">\(\mathbf{X}\)</span> represents the vector of respective demographic attributes.</p>
+<p>Considering the problem in question, this model does not consider other factors that may influence voting. These factors may difficult to quantify as they may related to a myriad of factors including the state of the economy, foreign affairs, perceptions about the governing party or any party in the election, or the mood of the times. However, it is possible to make the naive assumption that electoral polling aims to capture all those factors - thus it is possible to restate the objective : instead of calculating the primary vote itself, the aim is to determine how demographics influences the voting when compared to a the national values (as captured by polls). Furthermore, it is possible to redefine the problem once more, to aiming to determine how differences in demographic attributes, when compared against a national baseline makes primary voting in an electoral to differ from the national measure. This is states in <a href="method.html#eq:equation2">(4.2)</a>, which allow accounts to error attributable to polling error and demographic drift between census and election.</p>
+<span class="math display" id="eq:equation2">\[\begin{align}
+\mathbf{Y} = f(\mathbf{X}) + \epsilon \\ \\
 \textrm{where}  \\
-\textbf{Y}  = \textbf{Y} - \textbf{Yp} \\
-\textbf{X}  = \textbf{X} - \textbf{Xn} \\ \\
-
+\mathbf{Y}  = \mathbf{Y} - \mathbf{Yp} \\
+\mathbf{X}  = \mathbf{X} - \mathbf{Xn} \\ \\
 \textrm{and}  \\
-\textbf{Yp} : \textrm{Primary voting polling results} \\
-\textbf{Xn} : \textrm{Demographic values at national level}
-
-\tag{5.2}
-\end{equation}\]</span></p>
-<p>This second iteration does not take into account that in different electorates, different demographic attributes may have a different effect on primary vote. For instance, in more progressive areas a higher proportion of younger people may result in better results for left leaning parties, whereas in other areas younger people may be more conservative and therefore the youth-left leaning effect may be attenuated. Thus, a refinement on the model needs to acknowledge that not all electorates are made equal - this is presented in equation <a href="method.html#eq:equation3">(5.3)</a>.</p>
-<p><span class="math display" id="eq:equation3">\[\begin{equation}
-
-\textbf{Y_i} = f_i(\textbf{X_i}) + \epsilon \\
-
+\mathbf{Yp} : \textrm{Primary voting polling results} \\
+\mathbf{Xn} : \textrm{Demographic values at national level}
+\tag{4.2}
+\end{align}\]</span>
+<p>This second iteration does not take into account that in different electorates, different demographic attributes may have a different effect on primary vote. For instance, in more progressive areas a higher proportion of younger people may result in better results for left leaning parties, whereas in other areas younger people may be more conservative and therefore the youth-left leaning effect may be attenuated. Thus, a refinement on the model needs to acknowledge that not all electorates are made equal - this is presented in equation <a href="method.html#eq:equation3">(4.3)</a>.</p>
+<span class="math display" id="eq:equation3">\[\begin{align}
+\mathbf{Y_i} = f_i(\mathbf{X_i}) + \epsilon \\
 \textrm{where}  \\
-\textbf{Y}  = \textbf{Y} - \textbf{Yp_i} \\
-\textbf{X}  = \textbf{X} - \textbf{Xn_i} \\ \\
-
-\tag{5.3}
-\end{equation}\]</span></p>
+\mathbf{Y}  = \mathbf{Y} - \mathbf{Yp_i} \\
+\mathbf{X}  = \mathbf{X} - \mathbf{Xn_i} \\ \\
+\tag{4.3}
+\end{align}\]</span>
 <p>Please note that in this <span class="math inline">\(i\)</span> represents a particular grouping of electorate and for each group predictors can be different, as different attributes may have different impact.</p>
-<p>In term of choosing appropriate <span class="math inline">\(f_i\)</span>, it would depend on the objective of the model. Considering the large number of predictors and requirements on interpretability and accuracy this could be a complex task. In this particular case, the focus is on understanding the factors that influence vote rather than produce accurate electoral predictions (which is attempted nevertheless), for which the use of <strong>regularised regression</strong> models is an appropriate choice. Thus the task involves using regularised regression to find the coefficients for the set of formulas represented by equation <a href="method.html#eq:equation4">(5.4)</a></p>
-<p><span class="math display" id="eq:equation4">\[\begin{equation}
+<p>In term of choosing appropriate <span class="math inline">\(f_i\)</span>, it would depend on the objective of the model. Considering the large number of predictors and requirements on interpretability and accuracy this could be a complex task. In this particular case, the focus is on understanding the factors that influence vote rather than produce accurate electoral predictions (which is attempted nevertheless), for which the use of <strong>regularised regression</strong> models is an appropriate choice. Thus the task involves using regularised regression to find the coefficients for the set of formulas represented by equation <a href="method.html#eq:equation4">(4.4)</a></p>
+<span class="math display" id="eq:equation4">\[\begin{align}
 \left(\begin{array}{c}
 y_{i1}\\
 y_{i2}\\
@@ -180,8 +269,8 @@ x_{im}
 ... \\
 \epsilon_{in}\\
 \end{array}\right)
-\tag{5.4}
-\end{equation}\]</span></p>
+\tag{4.4}
+\end{align}\]</span>
 <p>A complication of this approach is that requires to separate the electorates in different segments and potentially have a separate method to place them if assignment is not provided. In this case the previously identified clusters seem a good choice a multiple step model is needed, comprised of:</p>
 <ul>
 <li>A classification model to identify belonging to cluster of similar electorates.</li>
@@ -226,8 +315,8 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/USERNAME/REPO/edit/BRANCH/05-method.Rmd",
-"text": "Edit"
+"link": null,
+"text": null
 },
 "history": {
 "link": null,

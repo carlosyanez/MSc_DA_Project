@@ -1,25 +1,7 @@
 ---
 output:
   pdf_document: default
-  html_document: default
 ---
 # Introduction {#intro}
 
-# Strucure
-_ Problem statement
-- Obtaining the data
-- EDA
-- Modelling
-- Conclusions
-
-APPENDICES
-- HOW we waht the data obtained
-- Detailed EDa
-- TEchnical note on buulding packages
-- vignettes
-
-
-`r if (knitr::is_html_output()) '
-# References {-}
-'`
 
