@@ -1,3 +1,22 @@
+fig:data-flow
+fig:electionsandcensus
+tab:selected-pairs
+tab:canberra2022
+tab:datasetsample
+fig:coalvsboomers
+fig:corrlanguagereligion
+fig:mfascree
+fig:groupbiplot
+fig:clustermap2016
+fig:clustereddemographics
+eq:equation1
+eq:equation2
+eq:equation3
+eq:equation4
+tab:ranger11
+tab:ranger12
+tab:bestresults
+fig:betacoefficients
 tab:newspoll
 fig:2022cluster
 fig:electionresult
@@ -8,7 +27,6 @@ fig:greenvoting
 fig:green
 fig:suburbia1
 fig:suburbia2
-acknowledgements
 intro
 data
 data-sources
@@ -28,3 +46,6 @@ id_2021prediction
 the-teal-wave
 green-wave
 the-changing-face-of-suburbia
+conclusion
+how-to-present-the-numbers
+training-validation-and-testing-split

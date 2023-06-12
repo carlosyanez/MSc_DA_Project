@@ -9,41 +9,20 @@ bibliography:
 
 # Fitting and analysing a model {#modelling}
 
-```{r six-setup,message=FALSE,warning=FALSE,echo=FALSE}
-library(dplyr)
-library(readr)
-library(stringr)
-library(here)
-library(auspol)
-library(flextable)
-library(ggplot2)
-library(fs)
-library(tidymodels)
-library(flextable)
-library(vip)
-
-source(here::here("formatting_defaults.R"))
-project_path <- fs::path(here(),"..")
-
-vars_to_keep <- c(ls(),"vars_to_keep")
-
-
-```
-
-As mentioned in the previous section, this requires fitting both a classification and regularised regression model.
+As mentioned in the previous section, this exercise requires fitting both a classification and regularised regression model.
 
 ## Cluster classification {#clusterclassifier}
 
-Although in section XXX, clusters were obtained using HDBSCAN, which can be used to map new data points into the existing clusters, a different approach has been taken - to "reverse engineer" the clusters by training a classification model. The intent behind this is to leverage the trained model to identify the main contributors to the classification.
+Although HDBSCAN can be used to map new data points into the existing clusters, a different approach has been taken: to "reverse engineer" the clusters by training a classification model. The intent behind this is to leverage the trained model to identify the main contributors to the classification.
 
-Different models where tried, starting with a basic tree partitioning. After trial and error, **random forest** was the chosen algorithm. The model training with:
+Different models were tried, starting with basic tree partitioning. After a couple of trials, a **random forest** model was selected. The algorithm was trained with:
 
--   Census data from 2007 to 2016 (mirroring elections between 2006 to 2016) was used from training and testing.
--   Values for demographic attributes where centred around the overall percentage for said attribute, for the respective cluster.
--   clusters previously obtained with HDBSCAN were used as the response.
--   Since year has been "discounted", all values will considered one pool to divide, i.e. year will be ignored. An assumption has been made that the period in question is short enough to drastically affect the clustering model. If demographic values change - cluster assignment (for instance because of re-distribution), the effect is similar to being a different electorate.
+-   Census data from 2007 to 2016 (mirroring elections between 2006 to 2016),wich was used for training and validation.
+-   Values for demographic attributes, which were centred around the overall percentage for said attribute, for the respective cluster.
+-   Clusters previously obtained with HDBSCAN, used as the response variable.
+-   Since the year has been "discounted", all values will be considered as one pool. An assumption has been made that the period in question is short enough to drastically affect the clustering model. If demographic values change - cluster assignment (for instance because of re-distribution), the effect is similar to being a different electorate.
 
-The initial fitting produces the results presented in table XXX
+The initial fitting produces the results presented in tables \@ref(tab:ranger11) and \@ref(tab:range12). A variable importance plot is also presented in figure \@ref(fig:vipranger1)
 
 ```{r}
 clustering_folder <-path(project_path,"6. Modelling","clustering_models")
@@ -73,7 +52,7 @@ extract_workflow(ranger1) |>
   vip()
 ```
 
-From the chart above, it is possible to see that only a handful of variables have a significant contribution to the cluster selection. Aiming for simplification , a random forest model with reduced variables was also trained , achieving similar results in accuracy and variable importance.
+From the chart above, it is possible to see that only a handful of variables significantly contribute to the cluster selection. Aiming for simplification, a random forest model with reduced variables was also trained, achieving similar results in accuracy and variable importance (shown in tables \@ref(tab: ranger21) and  \@ref(tab:ranger22), and figure \@ref(fig:vipranger2).
 
 ```{r}
 ranger2 <- readRDS(path(clustering_folder,"clustering_ranger_redux.rds"))
@@ -102,19 +81,23 @@ extract_workflow(ranger2) |>
   vip()
 ```
 
-Looking at variable importance , it is possible to appreciate that cluster placement can be driven:
+Looking at variable importance, it is possible to appreciate that cluster placement can be driven by :
 
-Location in a large metropolitan area or the regions. Population density, (type of household) Life stage (relationship) Wealth (type of household ownership) Multicultural make up of the area - first and second generation migrants are more likely to be bilingual - thus the proportion of monolingual people is a proxy variable for this.
+-Location in a large metropolitan area or the regions. 
+-Population density, (type of household) 
+-Life stage (relationship)
+-Wealth (type of household ownership)
+-Multicultural makeup of the area - first and second-generation migrants are more likely to be bilingual - thus the proportion of monolingual people is a proxy variable for this.
 
 This picture fits with the media narrative about differences in the electorate (quote).
 
 ```{r}
- rm(list=ls()[!(ls() %in% vars_to_keep)])
+ rm(list=ls()[!(ls() %in% keep_vars)])
 ```
 
 ## Regularised regression {#glmnet-regression}
 
-Due to the large number of variables, the first step is to see if it is possible to identify which factor may influence. For this, a Lasso regression was conducted with the sole intent of variable selection. Then an elastic net was fitted, with the goal to optimise the root square mean error (RMSE). This process was done separately for each cluster. Although precision is not a key objective of this exercise, table \@ref(tab:bestresults) presents the best RMSE result per cluster, alongside the selected tuning parameters.
+Due to the large number of variables, the first step is to see if it is possible to identify which factors may be of influence. For this, a Lasso regression was conducted with the sole intent of variable selection. Then an elastic net was fitted, with the goal to optimise the root square mean error (RMSE). This process was done separately for each cluster. Although precision is not a key objective of this exercise, table \@ref(tab:bestresults) presents the best RMSE result per cluster, alongside the selected tuning parameters.
 
 ```{r}
 
@@ -160,7 +143,6 @@ header_key <- tibble(col_keys = colnames(best_parameters)) |>
             select(col_keys,first_row,second_row) 
 
 
-
 best_parameters |>
   mutate(cluster=as.character(cluster)) |>
   mutate(across(where(is.numeric), ~ round(.x,4))) |>
@@ -175,27 +157,23 @@ best_parameters |>
 
 ```
 
-However, the main objective is to undestand the coefficients for each covariate, which are presented in figure \@ref(fig:betacoefficients).
+However, the main objective is to understand the coefficients for each covariate, which are presented in figure \@ref(fig:betacoefficients).
 
 ```{r}
 #load data
-
 
 dataset <- read_csv(path(project_path,"4. Data","consolidated_cluster.csv"))      |>
            filter(election_year!=2022)                       |>
            select(-any_of(c("Metro_Area")))              |>
             mutate(across(where(is.numeric), ~ replace_na(.x,0)))
 
-
 clusters <- read_csv(path(project_path,"4. Data","clusters.csv"))         |>
             select(-any_of(c("Metro_Area")))
-
 
 dataset <- dataset |>
            left_join(clusters,by=c("DivisionNm"="DivisionNm","election_year"="Year"))
 
 rm(clusters)
-
 
 vote <- dataset |> select(DivisionNm,Year,election_year,StateAb,Metro,cluster,all_of(party_cols))
 
@@ -207,7 +185,6 @@ cluster_avg <- read_csv(path(project_path,"4. Data","cluster_values.csv")) |>
                     Attribute=str_replace_all(Attribute,"-","_"),
                     Attribute=str_squish(Attribute),
                     Attribute=str_replace_all(Attribute," ","_")) 
-
 
 rest <- dataset |> 
         select(-all_of(party_cols)) |>
@@ -221,13 +198,11 @@ rest <- dataset |>
           mutate(Value=CED-National,.keep="unused") |>
           pivot_wider(names_from = Attribute, values_from = Value)
 
-
 dataset <- vote |>
            left_join(rest,by=c("DivisionNm","Year")) |>
            mutate(Division=str_c(DivisionNm,"-",election_year),.keep="unused") |>
           select(-any_of(c("Year","Household_Semi_detached"))) |>
           select(-any_of(c("StateAb","Metro")))
-
 
 variances <- dataset |>
   select(-all_of(c(party_cols,"Division"))) |>
@@ -241,7 +216,6 @@ rm(rest,vote,dataset)
 
 ```{r betacoefficients,fig.cap="Resulting coefficients per cluster", fig.height=20, message=FALSE, warning=TRUE}
 library(patchwork)
-
 
 p <- list()
 for(i in 1:3){
@@ -295,27 +269,25 @@ wrap_plots(p,ncol=1) +
 
 ```
 
-It is worth noticing that some of the selected covariates may not relevant in all electorates, by account of their small absolute various or being relative uniform across the segment . For this reason, the covariates in figure \@ref(fig:betacoefficients) have been ordered by their respective variance - when assessing their overall effect / relevance this must also be taken into account.
+It is worth noticing that some of the selected covariates may not be relevant in all electorates, by account of their small absolute various or being relatively uniform across the segment. For this reason, the covariates in figure \@ref(fig:betacoefficients) have been ordered by their respective variance - when assessing their overall effect / relevance this must also be taken into account.
 
 When looking at each cluster, it is possible to summarise the different demographic effects as follows:
 
 -   In **cluster 0** (mostly inner metropolitan areas) political divides are drawn across wealth, religiosity (i.e. values) and generational lines.
 
     -    In these areas, coalition vote is associated with higher percentages of followers of Anglican, Uniting and Presbyterian churches, people on higher income and Baby Boomers.
-    -   Labor vote is turn driven by followers of the Catholic Church (partially a reflection of the historic association between the Australian Catholic Church and the labour movement, and Irish and Italian migration) and Millennials. There is some association with less-advantaged population by social and community housing.
-    -   Green vote is also driven by Millennials, but unlike Labor there is positive association with higher income groups. Green votes are also related to irreligiosity o secular population groups.
+    -   Labor vote is turn driven by followers of the Catholic Church (partially a reflection of the historic association between the Australian Catholic Church and the labour movement, and Irish and Italian migration) and Millennials. There is some association between less-advantaged populations and social and community housing.
+    -   Green vote is also driven by Millennials, but unlike Labor there is a positive association with higher income groups. Green votes are also related to the irreligiosity o secular population groups.
 
--   In **cluster 1** (regional areas, including midsize cities and rural areas), demographic variance is smaller. However when it happens, it follows a different pattern from the main cities.
+-   In **cluster 1** (regional areas, including midsize cities and rural areas), demographic variance is smaller. However, when it happens, it follows a different pattern from the main cities.
 
-    -   In this area Coalition vote has also a positive association with religiosity - this is not disimilar to cluster 1, especially when considering that Anglicanism/Presbytiarism/Unitiarism are the largest religious groups in the area) . However, a key difference with the cities is that in case higher wealth groups have a negative association with Coalition vote.
-    -   Labor vote in these areas is driven by a larger roportion of Australian citizens and higher income voters.
+    -   In this area, the Coalition vote has also a positive association with religiosity - this is not dissimilar to cluster 1, especially when considering that Anglicanism/Presbytiarism/Unitiarism are the largest religious groups in the area). However, a key difference with the cities is that in case higher wealth groups have a negative association with Coalition vote.
+    -   Labor vote in these areas is driven by a larger proportion of Australian citizens and higher-income voters.
     -   Overall, it seems there are no demographic factors influencing Green votes in these areas.
     -   Interestingly, age does not rank as a variable of importance.
 
--   As expected, **cluster 2** (metropolitian suburbia) , shares some traits with their inner city counterparts, showing the same associations along religious, age and wealth lines. However, there are larger number of predictors associated to the multicultural makeup of the electorates. Those covariates tend to have a positive effect on Labor vote and negative influence on Coalition and Green voting. This difference is interesting specially considering inner city areas are as multicultural as the suburbs.
-
+-   As expected, **cluster 2** (metropolitian suburbia), shares some traits with their inner-city counterparts, showing the same associations along religious, age and wealth lines. However, there are a larger number of predictors associated with the multicultural makeup of the electorates. Those covariates tend to have a positive effect on Labor vote and a negative influence on Coalition and Green voting. This difference is interesting, especially considering inner city areas are as multicultural as the suburbs.
 
 ```{r}
-rm(list=ls())
+rm(list=ls()[!(ls() %in% keep_vars)])
 ```
-

@@ -189,7 +189,7 @@ census_plot <- function(demographic_data,ced_name,attributes){
     filter(DivisionNm==ced_name) |>
     select(any_of(c("DivisionNm","Year",attributes)))                     |>
     pivot_longer(-c(DivisionNm,Year),names_to = "Attribute",values_to="Percentage") |>
-    ggplot(aes(x=Year, y=Percentage,colour=Attribute)) +
+    ggplot(aes(x=Year, y=Percentage,colour=Attribute,linetype=Attribute,shape=Attribute)) +
     geom_point()+
     geom_line() +
     labs(subtitle = ced_name)

@@ -7,25 +7,7 @@ bibliography:
 ---
 # Method {#method}
 
-```{r five-setup,message=FALSE,warning=FALSE,echo=FALSE}
-library(dplyr)
-library(readr)
-library(stringr)
-library(here)
-library(auspol)
-library(flextable)
-library(ggplot2)
-
-source(here::here("formatting_defaults.R"))
-
-project_path <- fs::path(here(),"..")
-
-
-```
-
-
-Having obtained the data, it modelling time! Starting from a simple point, research in question can be expressed by equation \@ref(eq:equation1).
-
+Going back to the introduction, the objective of the exercise is to determine if demographic attributes can influence or explain voting patterns. This can be restated into determining if demographic attributes can serve as predictors of primary voting. In mathematical terms, this can be expressed in a simple way by  S equation \@ref(eq:equation1).
 
 ```{=tex}
 \begin{align}
@@ -33,9 +15,11 @@ Having obtained the data, it modelling time! Starting from a simple point, resea
 (\#eq:equation1)
 \end{align}
 ```
-where $\mathbf{Y}$ represents a vector with primary voting for an electorate, and $\mathbf{X}$ represents the vector of respective demographic  attributes. 
+where $\mathbf{Y}$ represents a vector with primary voting for an electorate, and $\mathbf{X}$ represents the vector of respective demographic attributes. 
 
-Considering the problem in question, this model does not consider other factors that may influence voting. These factors may difficult to quantify as they may related to a myriad of factors including the state of the economy, foreign affairs, perceptions about the governing party or any party in the election, or the mood of the times. However, it is possible to make the naive assumption that electoral polling aims to capture all those factors - thus it is possible to restate the objective : instead of calculating the primary vote itself, the aim is to determine how demographics influences the voting when compared to a the national values (as captured by polls). Furthermore, it is possible to redefine the problem once more, to aiming to determine how differences in demographic attributes, when compared against a national baseline makes primary voting in an electoral to differ from the national measure. This is states in \@ref(eq:equation2), which allow accounts to error attributable to polling error and  demographic drift between census and election.
+In this simple form, other factors that may influence voting are not explicitly shown in the equation. However, these factors may be difficult to quantify as they potentially relate to a myriad of factors including the state of the economy, foreign affairs, perceptions about the governing party or any party in the election, or the mood of the times.
+
+To solve this challenge, it is possible to naively assume tools like polling can effectively capture the *zeitgeist*. If that is the case, it is possible to split the original function $f()$ into a poll component and a demographic component. Since it is not in the scope of this project, we can also ignore the polling component and focus on the difference between the absolute value and polling results. To further simplify things, we can temporarily assume that polling results are uniform across the country, thus demographic statistics only influence the difference between the electorates' primary vote and the respective national percentage. This is expressed by equation  \@ref(eq:equation2), which also accounts for general error.
 
 ```{=tex}
 \begin{align}
@@ -49,7 +33,7 @@ Considering the problem in question, this model does not consider other factors 
 (\#eq:equation2)
 \end{align}
 ```
-This second iteration does not take into account that in different electorates, different demographic attributes may have a different effect on primary vote. For instance, in more progressive areas a higher proportion of younger people may result in better results for left leaning parties, whereas in other areas younger people may be more conservative and therefore the youth-left leaning effect may be attenuated. Thus, a refinement on the model needs to acknowledge that not all electorates are made equal - this is presented in equation  \@ref(eq:equation3).
+This second iteration does not take into account that in different electorates, different demographic attributes may have a different effect on the primary vote. For instance, in more progressive areas, a higher proportion of younger people may have a greater effect on left-leaning preferences when compared with similar proportions of younger people in rural electorates.  Equation  \@ref(eq:equation3) is intended to acknowledge those differences.
   
 ```{=tex}
 \begin{align}
@@ -61,9 +45,11 @@ This second iteration does not take into account that in different electorates, 
 \end{align}
 ```
       
-Please note that in this $i$ represents a particular grouping of electorate and for each group predictors can be different, as different attributes may have different impact.
+Please note that $i$ represents a particular grouping of electorates,  and for each group predictors can be different - as different attributes may have different impacts.
     
-In term of choosing appropriate $f_i$, it would depend on the objective of the model. Considering the large number of predictors and requirements on interpretability and accuracy this could be a complex task. In this particular case, the focus is on understanding the factors that influence vote rather than produce accurate electoral predictions (which is attempted nevertheless), for which the use of **regularised regression** models is an appropriate choice. Thus the task involves using regularised regression to find the coefficients for the set of formulas represented by equation \@ref(eq:equation4)
+In terms of choosing an appropriate $f_i$, it would depend on the objective of the model. Given the large number of predictors and requirements on interpretability and accuracy, this could be a complex task. In this particular case, the focus is on understanding the factors that influence voting rather than producing accurate electoral predictions (which is attempted nevertheless), for which the use of **regularised regression** models is an appropriate choice. 
+
+Consequently,  the task at hand consists in finding the regularised regression coefficients for the set of formulas represented by equation \@ref(eq:equation4)
     
 ```{=tex}
 \begin{align}
@@ -95,14 +81,13 @@ x_{im}
 \end{align}
 ```
         
-A complication of this approach is that requires to separate the electorates in different segments and potentially have a separate method to place them if assignment is not provided.  In this case the previously identified clusters seem a good choice a multiple step model is needed, comprised of:
+A complication of this approach is that requires separating the electorates into different segments. This requires having a method to map electorates into clusters if such an assignment is not provided. Thus, the modelling task consists of:
         
-- A classification model to identify belonging to cluster of similar electorates.
-- A regularised regression model to predict difference from average vote.
-      
+- A classification model map new records into clusters with similar electorates.
+- A regularised regression model to determine how demographic factors influence primary voting for each party.      
 
 
 
-
-
-
+```{r}
+rm(list=ls()[!(ls() %in% keep_vars)])
+```

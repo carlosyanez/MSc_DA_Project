@@ -1,0 +1,23 @@
+---
+output:
+  pdf_document: default
+bibliography:
+- book.bib
+- packages.bib
+---
+# Conclusion {#conclusion}
+
+In summary, this document present an attempt understand and explain changes primary voting through the influence of demographic composition Australian federal electorates. Seeking easy interpretability, the approach involved the use of clustering to identify groups of electorates with similar composition, for which simple regularised regression models where developed with with aim to identify the main demographic drivers of voting.
+
+In general terms, the model presented in this document achieves the goal of identifying key demographic characteristics the affect primary voting for a particular political party. 
+
+Although accuracy was not a key consideration, the model managed to produce moderately accurately results. Nevertheless, this could be improved by exploring the following:
+
+* Further refining the segmentation into a recommender-type model, where not only similarity clusters are refined by other factors like State, degree of rurality are considered.
+* Consider the introduction of longitudinality to account for the electorate's history and the influence of incumbency.
+* Explore how to address the mismatch between election and census cycles to use the data from all the elections.
+* Explore how federal and state elections influence each other.
+
+Taking aside issues regarding the effectiveness of this model, it is also relevant to raise a note of caution about how to interpret the model correctly. By using demographic data is important to keep in mind that certain attributes must be interpreted as proxies of attitudes and values that have an effect on how voters choose. It is very important to make this distinction and avoid statement such as "Community XYZ votes/doesn't vote for Party A". This is definitely not an aim behind this exercise and it should not be interpreted this way.
+
+Finally, it is also important to recognise that "all models are wrong but some are useful". Capturing and quantifying human behaviour can be challenging task, but in this case, having a tool for analysis can prove value for parties, the media and the voters to check the accuracy of political narratives.

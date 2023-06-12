@@ -6,66 +6,56 @@ bibliography:
 - packages.bib
 ---
 
-```{r four-setup,message=FALSE,warning=FALSE,echo=FALSE}
-library(DiagrammeR)
-library(dplyr)
-library(readr)
-library(stringr)
-library(here)
-library(auspol)
-library(flextable)
-library(ggplot2)
-library(tidyr)
-source(here::here("formatting_defaults.R"))
-
-project_path <- fs::path(here(),"..")
-
-
-```
-
 # Data {#data}
 
 ## Data Sources {#data-sources}
 
-The first step in the process was to source demographic and electoral data, which has been provided from two sources:
+Data used in this project comes from two sources, namely:
 
--   **The Australian Electoral Commission** (AEC) [@AEC] . The AEC contains detailed online records for every federal election held in the 21st century, through their Tally Room website [@TallyRoom].
+-   The **Australian Electoral Commission** (AEC) [@AEC] . The national body overseeing and running federal elections, the AEC contains detailed election result records. All results for federal elections held in the 21st century are available online, through their Tally Room website [@TallyRoom].
 
--   The **Australian Bureau of Statistics** (ABS) [@ABS]. The ABS provides a wide number of national statistics and is responsible to conduct a national census of population and housing every 5 years. Comprehensive census data is provided in multiple formats, including csv files through Census Data Packs [@CensusDataPack], which are available for censuses from 2006 onwards.
+-   The **Australian Bureau of Statistics** (ABS) [@ABS]. The ABS provides a wide number of national statistics and is responsible to conduct a national census of population and housing every 5 years. Comprehensive census data is provided in multiple formats, including CSV files through Census Data Packs [@CensusDataPack], available for censuses from 2006 onwards.
 
-Both organisations are the authoritative source for electoral and statistical data in Australia, and the data is provided openly. Although there are no quality issues, the way that data is provided presents other challenges, namely:
+Both organisations are the authoritative source for electoral and statistical data in Australia, and the data is provided openly. Although there are no quality issues, the way that data is provided presents other challenges:
 
--   In both cases, data are provided in large volumes and exhaustive granularity. If not done effectively, data extraction and aggregation can be time-consuming and resource intensive.
--   Census data points are provided using the ABS own geographical standard - and only a small selection of census data is provided at the electoral division level. Conversion between ABS geographical structures and electoral divisions is not straightforward as there is no 1:1 correspondence. Both geographical systems change from election to election and census to census.
--   Despite the best efforts of both organisations in keeping consistency, names of electorates, parties, and census attributes change over time - to compare similar statistics manual mapping is necessary.
+-   In both cases, data are provided in large volumes and exhaustive granularity. Data extraction and aggregation can be time-consuming and resource-intensive if not done effectively.
+-   Census data points are provided using the ABS own geographical standard - and only a small selection of census data is provided already aggregated for each Commonwealth Electoral Division. Conversion between ABS geographical structures and electoral divisions is not straightforward as there is no 1:1 correspondence. Both geographical reference systems are modified at each election and each census.
+-   Despite the best efforts of both organisations in keeping consistency, names of electorates, parties, and census attributes change over time, which requires keeping track of all those changes and mapping them accordingly.
 
-To address these issues and ensure repeatability, three R packages have been written to undertake this task:
+To assist in dealing with these issues and ensure repeatability,  it was necessary to write code to guarantee some level of repeatability and consistency when extracting and transforming data. This resulted in three R packages being written to undertake this task:
 
 -   **{auspol} [@R-auspol]**, which extracts and presents electoral results.
 -   **{auscensus} [@R-auscensus]**, which allows to interact with Census Data Packs to extract different statistics across geographical units, and across censuses.
 -   **{aussiemaps} [@R-aussiemaps]**, which assists with aggregating census data into electoral divisions, by matching and apportioning different geographical structures.
 
-The appendix contains a vignette for each package, explaining their respective *modus operandi*. At a higher level, the extraction pipeline for this project is represented by figure \@ref(fig:data-flow).
+The way each package operates is described on their respective websites Using them, it was possible to build a basic data extraction and transformation pipeline, which is represented by figure \@ref(fig:data-flow).
 
 ```{r data-flow, fig.cap="Flow of data from sources to dataset", echo=FALSE}
 DiagrammeR::grViz(here("img","02_data_flow.gv"))
 ```
 
-In summary, the process followed consisted of the below steps:
+In four steps, the extraction process consists of:
 
 1.  Census data was extracted from the respective Census Data Pack using **{auscensus}**. Using the package workflow, key attributes were identified in each census, extracted from the respective files and given common names. Data were extracted for statistical areas and apportioned into Commonwealth Electoral Divisions by overlapping area, with the help of functions written into **{aussiemaps}**
 
-2.  Primary vote results for each division were extracted using the **auspol** package.
+2.  Primary vote results for each division were extracted using the **{auspol}** package.
 
-3.  All the data was stored in a local database, from where was extracted and put together in a single dataset.
+3.  All the data was stored in a local database, from where it was extracted and put together in a single dataset.
 
-4.  From there, the "raw" data was further processed and stored in a single "consolidated" dataset.
+4.  From there, the "raw" data was further processed and stored in a single "consolidated" dataset. This dataset has been further refined throughout the data exploration and modelling steps.
 
-## Data Selection {#data-selection}
+## Data Selection and Initial Transformation {#data-selection}
 
-### Census and Election Years {#data-selection-years}
+There were a number of considerations that were taken to obtain the dataset that was eventually used, including what and how to represent the statistics and how to best align census and election data.
 
-The first to address when extracting the data is to establish a correspondence between census and election data. Since election the census cycle (5 years) does not match the electoral cycle (determined by the incumbent government, with a 3-year term for the House of Representatives), there is a potential problem of the census data not being completely representative of the population on a given election day. Figure \@ref(fig:electionsandcensus) presents the best matches between both events held in the 21st century.
+### How to present the numbers
+
+The first point to consider was how to represent the data in a way that is consistent across electorates and time.
+Although the aim behind the creation and geographical distribution of Commonwealth Electoral Division is to provide equal representation in Parliament for every Australian, this is not completely possible in practice, resulting in electorates varying in population (between 72,345 and 138,836 voters). This is mainly due to the large variation in population density across Australia, combined with a constitutional mandate to guarantee a minimum number of seats per state or territory. For this reason, it is deemed necessary to represent all voting and demographic statistics as a percentage of each electorate's roll or population. This is also useful when comparing statistics across time.
+
+
+
+The second point to address is the correspondence between census and election data. Since the election the census cycle (5 years) does not match the electoral cycle (determined by the incumbent government, with a 3-year term for the House of Representatives), there is a potential problem of the census data not being completely representative of the population on a given election day. Figure \@ref(fig:electionsandcensus) presents the best matches between both events held in the 21st century.
 
 ```{r electionsandcensus, fig.cap="Census and Elections Timeline"}
  tibble::tribble(~Year, ~Event,
@@ -89,7 +79,7 @@ vistime::gg_vistime(col.event="Year",col.group = "Event", title = "Timeline of C
 
 ```
 
-Considering the census data available and selecting the elections closer to each census, four pairs of events were selected for data extraction. there are presented in table \@ref(tab:selected-pairs)
+Considering the census data available and selecting the elections closer to each census, four sets of events were selected for data extraction. there are presented in table \@ref(tab:selected-pairs)
 
 ```{r }
 
@@ -102,14 +92,22 @@ tibble::tribble(~Census,~Election,
    set_table_properties( width = .8, layout = "autofit") |>
    align(j=1, align = "right", part = "all")
 
-
 ```
 
-Please note that this selection will remove half of the elections within the period, which may have an effect on model accuracy. However, since the objective is not to obtain an accurate prediction this has been accepted as a trade-off to avoid having to interpolate demographic attributes between censuses - which is also subject to inaccuracies given the rapid demographic changes experienced in Australia's main cities.
+Please note that this selection will remove half of the election events within the period, which may affect model accuracy. However, since the objective is not to obtain an accurate prediction this has been accepted as an acceptable trade-off to avoid, instead of having to interpolate demographic statistics.
 
 ### Electoral Data {#data-selection-electoral}
 
-In the case of the electoral data. not much processing was required. The source data already contains records of primary voting for each electorate and only percentages have been calculated. In addition, the number of total votes per party at the national and state level have been calculated. A sample of the extracted data is presented in table \@ref(tab:canberra2022).
+In the case of the electoral data. not much processing was required. The source data already contains records of primary voting for each electorate.  The only adjustment was to reclassify the vote into four groups (referred to as parties in this document):
+
+* **ALP** for the Australian Labor Party.
+**COAL** representing the Coalition, made of the Liberal Party, the National Party, the Liberal National Party of Queensland [^04-data-lnp] and the Country Liberal Party in the Northern Territory [^04-data-lnp] .
+
+[^04-data-lnp]: In Queensland and the Northern Territory, the Liberal and National branches have merged. Elected federal MPs and senators sit with Liberals if they come from an urban area, or the Nationals when they represent a regional/rural/remote electorate.
+
+
+
+ A data sample is presented in table \@ref(tab:canberra2022).
 
 ```{r}
 
@@ -138,38 +136,50 @@ auspol::house_primary_vote_summary(division="Canberra",
     set_formatter( Percentage = function(x) sprintf( "%.1f%%", x*100 ) ) |>
   autofit()
 
-
 ```
 
 ### Census Data
 
-As mentioned in section \@ref(data-sources), a major challenge with respect of census data is the large volume of data points collected. For instance, the data pack for the 2022 Census contains 62 different tables, ranging from 8 [^04-data-1] to 1,590 [^04-data-2] attributes.
+```{r include=FALSE}
+dataset <- read_csv(fs::path(project_path,"4. Data","consolidated.csv"))
+census_cols <- dataset[1,] |> select(-any_of(c(party_cols,"DivisionNm",
+                                               "StateAb","")),
+                                     -matches("[Yy]ear"),-starts_with("Metro")) 
 
-[^04-data-1]: *02 -Selected Medians and Averages*
+census_cols <- ncol(census_cols)
+
+```
+
+When it comes to Census data, a number of considerations had to be tackled during extractions, namely:
+* **Large volumes of data**. Each census collected a large number of statistics. For instance, the data release for the 2022 Census contains 62 different tables, ranging from 8 [^04-data-1] to 1,590 [^04-data-2] attributes.
+* **Data aggregated per electorate**. Although the ABS provides statistics for *non ABS* geographical structures, this only includes a subset of all data points collected. Thus, in many cases is necessary to extract data for granular-level ABS units (*SA1* in 2022) and aggregate them into electoral divisions. Without knowing the population density for each SA1, values have been approximately apportioned using areas.
+* **Consistency across time**. Due to the changing nature of a Census (to better serve its purpose), there are some minor variations in how data is collected and aggregated from Census to Census. 
+
+[^04-data-1]: *02 -Selected Medians and Averages*
 
 [^04-data-2]: *09 - Country of Birth of Person by Age by Sex*
 
-To select which variables to extract, literature and journalistic sources were consulted ([@biddle2022], [@votingpatternsbygen], [@jakubowicz]) to inform an initial set of covariates. In total (XYZ) variables were selected, which correspond to below to the following groups:
+To obtain a first selection of potentially relevant demographic variables to extract, existing literature and journalistic sources were consulted ([@biddle2022], [@votingpatternsbygen], [@jakubowicz]). Since many variables are colinear by definition (e.g. income groups) or they are closely related (e.g age and relationship status), the initial selection was inspected. After iteration, a resulting set of `r census_cols` attributes was chosen, which can be classed into the following categories:
 
-1.  **Income** : Distribution of population in pre-set income brackets.
+1.  **Income**: Distribution of the population in pre-set income brackets. The highest income bracket includes everyone earning 2,000 dollars or more each week.
 
 2.  **Education Level**: Distribution of educational achievement (from incomplete secondary to vocational education and academic degrees).
 
-3.  **Age**: Distribution of the population in generational cohorts. Taking into account the selected elections, the four groups of interest are Baby Boomers (1946 to 1964), Generation X (1965 to 1980), Generation Y (1981 to 1996) and Generation Z (1997 to 2021).
+3.  **Age**:  Year of birth is captured in the census, which was grouped into generational cohorts. The four groups of interest are Baby Boomers (1946 to 1964), Generation X (1965 to 1980), Generation Y (1981 to 1996) and Generation Z (1997 to 2021).
 
 4.  **Relationship status**: Variables describing civil status (e.g. living alone, married, in a de facto relationship).
 
-5.  **Household type:** Descriptors of type of housing , (e.g. standalone house, semi-detached, flats).
+5.  **Household type:** Descriptors of type of housing, (e.g. standalone house, semi-detached, flats).
 
-6.  **Household tenure:** Descriptors of house ownership, rental or other arrangement (e.g. public housing).
+6.  **Household tenure:** Descriptors of house ownership, rental or another arrangement (e.g. public housing).
 
-7.  **Citizenship**: Percentage of the population that hold Australian citizenship. Although non-citizens are not entitled to vote, this variable can be taken as a proxy for relative integration of migrant communities into civic life.
+7.  **Citizenship**: Percentage of the population that hold Australian citizenship. Although non-citizens are not entitled to vote, this variable can be taken as a proxy for the relative integration of migrant communities into civic life.
 
-8.  **Religion:** Percentage of the population declaring to profess a religion. For this analysis, largest and high growth religious groups were selected (No religion/secular, Roman Catholic, Anglican-Presbyterian-Uniting, Christian Orthodox, Other Christianity, Islam, Hinduism, Buddhism).
+8.  **Religion:** Percentage of the population declaring to profess a religion. For this analysis, large and high-growth religious groups were selected. For practical reasons and to use as a potential community proxy, the values of Anglican, Presbyterian and Uniting followers were merged into a single statistic.
 
-9.  **Language**: Languages spoken in the community. Similar to religion, a selection of relevant language have been included to reflect the historic and current migrant communities.
+9.  **Language**: Languages spoken in the community. Similar to religion, a selection of relevant languages have been included to reflect the historic and current migrant communities.
 
-Apart from those, each electorate has been classified as **metropolitan** if it lies within the boundaries of Australian capital cities or **non-metropolitan** if not. Altogether, these variables try to reflect wealth and education (cited by [@biddle2022] as key factors in deciding political persuasion), as well as stage in life and belonging to a particular migrant community (sometimes cited as an influential factor, for instance in [@jakubowicza]).
+Additionally, each electorate was classified as **metropolitan** if it lies within the boundaries of Australian capital cities or **non-metropolitan**, when it is not the case. Altogether, these variables try to reflect wealth and education (cited by [@biddle2022] as key factors influencing political persuasion), as well as the stage in life and belonging to a particular migrant community (sometimes cited as an influential factor, for instance in [@jakubowicza]).
 
 A sample of the resulting dataset is present in table \@ref(tab:datasetsample).
 
@@ -192,11 +202,17 @@ dataset |>
 
 ```
 
+## Training, Validation and Testing Split
+
+After obtaining the data, the election results and census statistics for the 2021/2022 cycle were set aside, since they have been used as testing dataset, in a election forecast attempt. The remaining data has been used in exploratory analysis, data mining and creating and fitting models.
+
 ## Data Exploration {#eda}
 
-In total, the resulting dataset is made up of 4 response variables and 55 potential predictors, plus identificatory attributes like division mane and election year. As expected, an initial inspection shows that some of the covariates are loosely correlated with primary vote. Also expected, many of the covariates exhibit medium to high correlation levels amongst themselves, e.g. negative correlation between high and low level income groups, and certain age brackets with houselhold type and tenure.
+In total, the resulting dataset is made up of 4 response variables and `r census_cols` potential predictors, plus identification attributes like division name and election year. As expected the many covariates exhibit moderate to high collinearity. Also, it is possible to observe some loose correlation between some of the covariates and some of the responses
 
-As examples, figure \@ref(fig:coalvsboomers) show a somewhat weak correlation between Coalition primary vote and percentage of baby boomer population. Figure \@ref(fig:corrlanguagereligion) presents the correlation values for religion and language attributes that aside from expected pairings (e.g. Hinduism and South Asian languages or Italian speakers and percentage of declared catholics), there is a almost exclusive positive correlation between membership to Anglican, Presbyterian and Uniting churches and percentage of monolingual English speakers. The percentage of monolingual English speakers is also negative correlated to all other language groups.
+As an example, figure \@ref(fig:coalvsboomers) shows a somewhat weak correlation between Coalition primary vote and the percentage of the Baby Boomers. Figure \@ref(fig:corrlanguagereligion) presents the correlation values for religion and language variables, where is possible to see:
+* A positive correlation between monolingual English speakers and membership in Anglican, Presbyterian and Uniting churches. Together, they are likely proxies for Anglo-Celtic population.
+* Similarly, there are somewhat expecting origins that most likely indicate concentrations of linguistically and culturally diverse pockets, e.g. Hinduism and South Asian languages, Catholicism and Italian, and Buddhism and East Asian languages. 
 
 ```{r coalvsboomers,fig.cap="Correlation between Coalition vote and Baby boomer population"}
 dataset |>
@@ -227,7 +243,6 @@ cor_selection <- cor_selection |>
                  select(any_of(cor_columns)) |>
                  rename(any_of(cor_columns)) 
 
-
 col <- colorRampPalette(c("#BB4444", "#EE9988", "#FFFFFF", "#77AADD", "#4477AA"))
 
 cor(cor_selection) |>
@@ -241,21 +256,17 @@ cor(cor_selection) |>
   
 ```
 
-Besides from this, it is worth noticing that :
+Additionally, after a detailed inspection, it is worth noticing that :
 
 -   There is no apparent change in the relationship between a given covariate and the responses when broken down by state or capital city.
 
--   There are also no obviously distinguishable differences when splitting results by each election.
+-   There are no obviously distinguishable differences when splitting results by each election.
 
 ### Dimensionality reduction using Multiple Factor Analysis {#data-mfa}
 
-Given the large number of variables and considering their correlation, it is worth exploring if a change of space could help to better identify variation, and whether the number of covariates can be reduced in a meaningful way. For this **multiple factor analysis** (MFA) [@escofier:hal-00382085] was used, given that:
+Given the large number of colinear covariates, it is worth exploring if a change of space could help to better measure variation in a meaningful way and in a more manageable number. To achieve this,  **multiple factor analysis* (MFA) [@escofier:hal-00382085] was used as  the clustering algorithm. MFA is essentially an extension of Principal Component Analysis that can deal with variables that belong to groups (like this case). It can also combine quantitative and qualitative variables (such as belonging to a metropolitan area). 
 
--   MFA allows to use variables that belong to groups.
-
--   Allows to combine quantitative and qualitative variables.
-
-The resulting scree plot and cumulative variance is presented in figure \@ref(fig:mfascree).
+The resulting scree plot and cumulative variance are presented in figure \@ref(fig:mfascree).
 
 ```{r include=FALSE}
 library(factoextra)
@@ -292,7 +303,7 @@ screeplot / variance_plot
 
 ```
 
-In terms of interpretability of the new dimensions, figure \@ref(fig:groupbiplot) present group biplots for the 8 most important dimensions. From there, it is possible show that there is not straightforward representation expect with Dimension 2 and Education variables.
+Figure \@ref(fig:groupbiplot) presents group biplots for the 8 most important dimensions. Unfortunately, there is no straightforward representation except with Dimension 2 and Education variables.
 
 ```{r groupbiplot,fig.cap="Group plots for first 8 dimensions"}
 mfa_plot <- list()
@@ -304,19 +315,19 @@ for(i in 1:4){
 
 wrap_plots(mfa_plot) + plot_annotation(title="Variable groups - MFA")
 
-
 ```
 
 ### Electorate segments {#data-clusters}
 
-A common trope of Australian politics is to map voters's political persuasion to whether they live in the inner cities, suburbia or regional areas. Therefore, it is relevant to explore if this can be substantiated by demographic attributes, or if there any other grouping of voters that may influence primary voting.
+Normally when characterising votes, Australian politicians and political media make a distinction between inner-city voters (touted as wealthy and progressive), suburbia (“middle Australia”), and the bush and outback areas (conservative, “battlers”, “real Australia”). Therefore, it is of interest to explore if this can be substantiated by demographic attributes, as it may have an impact on primary voting. 
 
-To explore this, a clustering algorithm has been applied using all electorates for election from 2006 up to 2016. After trial and error, the clustering procedure consists in:
+Using all demographic variables a clustering algorithm has been applied to identify those clusters. Different clustering approaches were, eventually choosing to:
 
--   Transforming all demographic attributes to represent the difference of each data point and their corresponding national value (for the relevant year).
--   Using the HDBSCAN [@campello2013], a density-based hierarchical clustering algorithm optimises the number of clusters and assignment
+- ignore Census years and pool all records in a single pool.   
+- transform all demographic attributes to represent the difference between each data point and their corresponding national value (in the same year).
+-  use HDBSCAN [@campello2013], a density-based hierarchical clustering algorithm. Instead of pre-setting a target number of clusters, HDBSCAN determines the optimal number of clusters based on its tuning parameters. 
 
-This results in 3 distinct clusters of electorates. When presented in a map, it is possible to obtain something similar to figure \@ref(fig:clustermap2016) for 2016.
+This results in 3 distinct clusters of electorates. When presented in a map, it is possible to obtain  figure \@ref(fig:clustermap2016) for 2016.
 
 ```{r clustermap2016, echo=FALSE, fig.cap="Clusters for 2016 Election"}
 library(sf)
@@ -329,18 +340,17 @@ australian_ced_map(clusters,fs::path(project_path,"4. Data","CED_2016.gpkg"),
                    "cluster",clusters_colours,
                     "Clustering of 2016 Electoral Divisions")
 
-
 ```
 
-This mapping seems to align with popular political knowledge, where:
+These three clusters are: 
 
 -   **cluster 0** seems to mostly contain electorates located in the inner cities, especially in Sydney and Melbourne. These areas tend to be more affluent, either "established" or "gentrified" suburbs. Notably, it also contains the three northernmost, remote electorates.
 
 -   **cluster 1** comprises all regional areas outside state capitals (with the exception of Hobart in Tasmania).
 
--   **cluster 2** largely represents "suburbia". It it also more prevalent in Brisbane and Perth compared when comparing capital cities.
+-   **cluster 2** largely represents "suburbia". It is also more prevalent in Brisbane and Perth compared when comparing capital cities.
 
-Revisiting the demographic attributescan help to understand how this clusters differ from each other. A selection of those variables is presented in figure \@ref(fig:clustereddemographics).
+Revisiting the demographic attributes can help to understand how these clusters differ from each other. A selection of those variables is presented in figure \@ref(fig:clustereddemographics).
 
 ```{r clustereddemographics, fig.cap="Selected attributes, coloured by cluster."}
 
@@ -362,11 +372,10 @@ dataset |>
   scale_colour_manual(values=clusters_colours) +
   labs(title = "Selected Attributes by cluster")
 
-
 ```
 
+Even though it is possible to find electorates from every country across the spectrum for every attribute, it is possible to observe that cluster 0 tends to concentrate areas with significant Millenial, highly educated, and relatively affluent populations. These areas also tend to attract newer migrants (lower numbers of citizens) and therefore they possess higher percentages of multicultural populations (such as Chinese speakers). Cluster 1 tends to concentrate older people, with lower percentages of tertiary and vocational education and possibly higher proportions of Anglo-Celtic Australians.  Cluster 2 seems to be sitting in the middle of the other two clusters. Adding these findings to the geographical locations seems to confirm there is some element of truth in the stereotypical classification of voters.
 
 ```{r}
-rm(list=ls())
+rm(list=ls()[!(ls() %in% keep_vars)])
 ```
-
