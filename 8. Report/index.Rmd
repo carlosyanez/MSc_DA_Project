@@ -35,7 +35,7 @@ library(fs)
 library(tidymodels)
 library(vip)
 library(glue)
-
+flextable::add_latex_dep(TRUE,TRUE)
 source(here::here("formatting_defaults.R"))
 
 project_path <- fs::path(here(),"..")
