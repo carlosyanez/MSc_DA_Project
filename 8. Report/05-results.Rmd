@@ -23,11 +23,13 @@ This exercise uses the results from the 2021 Census of Population and Housing. T
 results$newspoll |>
   rename("Party"="PartyAb","Forecast"="Avg.Vote") |>
   mutate(Forecast=glue("{Forecast}%")) |>
-  flex_default("Newspoll Primary Vote Forecast, 20 May 2022","newspoll") |>
-  theme_booktabs() |>
-  width(j=1,10,"mm") |>
-  width(j=2,20,"mm") |>
-  align(j=2,align="right")
+    gt::gt()
+
+  # flex_default("Newspoll Primary Vote Forecast, 20 May 2022","newspoll") |>
+  # theme_booktabs() |>
+  # width(j=1,10,"mm") |>
+  # width(j=2,20,"mm") |>
+  # align(j=2,align="right")
 ```
 
 The first step in the forecasting process is to map the electorates into three clusters. The result is presented in figure \@ref(fig:2022cluster).
@@ -80,9 +82,11 @@ results$prediction_compared |>
   arrange(cluster,PartyAb)   |>
   pivot_wider(names_from =PartyAb, values_from=RMSE)  |>
   select(all_of(c("cluster","Overall",party_cols)))   |>
-  flex_default("RMSE Values for 2022 Forecast","2022rmse") |>
-  theme_booktabs() |>
-  align(j=1,align="center")
+    gt::gt()
+# 
+#   flex_default("RMSE Values for 2022 Forecast","2022rmse") |>
+#   theme_booktabs() |>
+#   align(j=1,align="center")
   
 ```
 
@@ -257,7 +261,7 @@ From both figures, there are perhaps four different stories in these electorates
 -   In **Hasluck** (WA) [@hasluckresults], the changes have the top maybe be driven by generational renewal. The "Other" vote increase includes progressive independents and localist parties, which may have influenced the lower-than-predicted results for the Greens.
 -   In **Menzies** (VIC) [@menziesresults], Coalition numbers decline influenced by generational change and a large decrease in the percentage of standalone houses. This abrupt change took place as an effect of the 2021 redistribution, where semi-rural areas moved into another electorate [@vicredist]. This a good example where the existing model was able to effectively predict the primary vote based on those demographic changes.
 -   In **Fowler** (NSW) [@fowlerresults], an independent candidate altered Labor's trend. In these cases, a community-based candidate captured the multicultural vote from a "parachuted" Labor nominee - which is a variable not considered in the model. [@https://www.abc.net.au/news/catherine-hanrahan/79018522022]
-- Although the predictions for **Kingston (SA) [@kingstonresults]**, are no far off the actual results, it seems more difficult to explain them in terms of demographic changes - it is worth noticing that the model for cluster 2 uses 17 different variables.
+-   Although the predictions for **Kingston (SA) [@kingstonresults]**, are no far off the actual results, it seems more difficult to explain them in terms of demographic changes - it is worth noticing that the model for cluster 2 uses 17 different variables.
 
 ```{r}
 rm(list=ls()[!(ls() %in% keep_vars)])

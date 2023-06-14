@@ -31,7 +31,9 @@ ranger1 <- readRDS(path(clustering_folder,"clustering_ranger.rds"))
 ranger1 |>
     collect_metrics() |>
   select(.metric,.estimate) |>
-  flex_default("First Model","ranger11")
+  gt::gt()
+
+  #flex_default("First Model","ranger11")
 ```
 
 ```{r}
@@ -42,7 +44,9 @@ ranger1$.predictions[[1]] |>
   group_by(cluster)      |>
   mutate(n=n/sum(n))     |>
   pivot_wider(names_from="correct",values_from=n) |>
-   flex_default("First Model","ranger12")
+  gt::gt()
+
+#   flex_default("First Model","ranger12")
 ```
 
 ```{r}
@@ -52,7 +56,7 @@ extract_workflow(ranger1) |>
   vip()
 ```
 
-From the chart above, it is possible to see that only a handful of variables significantly contribute to the cluster selection. Aiming for simplification, a random forest model with reduced variables was also trained, achieving similar results in accuracy and variable importance (shown in tables \@ref(tab: ranger21) and  \@ref(tab:ranger22), and figure \@ref(fig:vipranger2).
+From the chart above, it is possible to see that only a handful of variables significantly contribute to the cluster selection. Aiming for simplification, a random forest model with reduced variables was also trained, achieving similar results in accuracy and variable importance (shown in tables \@ref(tab: ranger21) and \@ref(tab:ranger22), and figure \@ref(fig:vipranger2).
 
 ```{r}
 ranger2 <- readRDS(path(clustering_folder,"clustering_ranger_redux.rds"))
@@ -60,7 +64,9 @@ ranger2 <- readRDS(path(clustering_folder,"clustering_ranger_redux.rds"))
 ranger2 |>
     collect_metrics() |>
   select(.metric,.estimate) |>
-  flex_default("First Model","ranger11")
+  gt::gt()
+
+  #flex_default("First Model","ranger11")
 ```
 
 ```{r}
@@ -70,8 +76,10 @@ ranger1$.predictions[[1]] |>
   count(cluster,correct) |>
   group_by(cluster)      |>
   mutate(n=n/sum(n))     |>
-  pivot_wider(names_from="correct",values_from=n) |>
-   flex_default("First Model","ranger12")
+  pivot_wider(names_from="correct",values_from="n") |>
+ gt::gt()
+
+ #  flex_default("First Model","ranger12")
 ```
 
 ```{r}
@@ -83,11 +91,7 @@ extract_workflow(ranger2) |>
 
 Looking at variable importance, it is possible to appreciate that cluster placement can be driven by :
 
--Location in a large metropolitan area or the regions. 
--Population density, (type of household) 
--Life stage (relationship)
--Wealth (type of household ownership)
--Multicultural makeup of the area - first and second-generation migrants are more likely to be bilingual - thus the proportion of monolingual people is a proxy variable for this.
+-Location in a large metropolitan area or the regions. -Population density, (type of household) -Life stage (relationship) -Wealth (type of household ownership) -Multicultural makeup of the area - first and second-generation migrants are more likely to be bilingual - thus the proportion of monolingual people is a proxy variable for this.
 
 This picture fits with the media narrative about differences in the electorate (quote).
 
@@ -146,14 +150,16 @@ header_key <- tibble(col_keys = colnames(best_parameters)) |>
 best_parameters |>
   mutate(cluster=as.character(cluster)) |>
   mutate(across(where(is.numeric), ~ round(.x,4))) |>
-  flex_default("Best Results for each cluster","bestresults") |>
-  set_header_df( mapping = header_key, key = "col_keys" )     |>
-  merge_v(part = "header", j = 1:3) |>
-  merge_h(part = "header", i = 1) |>
-  theme_booktabs(bold_header = TRUE) |>
-  align(align = "center", part = "header") |>
-  vline(j = c(1, 3), border = fp_border_default()) 
-  
+    gt::gt()
+
+  # flex_default("Best Results for each cluster","bestresults") |>
+  # set_header_df( mapping = header_key, key = "col_keys" )     |>
+  # merge_v(part = "header", j = 1:3) |>
+  # merge_h(part = "header", i = 1) |>
+  # theme_booktabs(bold_header = TRUE) |>
+  # align(align = "center", part = "header") |>
+  # vline(j = c(1, 3), border = fp_border_default()) 
+  # 
 
 ```
 
@@ -275,7 +281,7 @@ When looking at each cluster, it is possible to summarise the different demograp
 
 -   In **cluster 0** (mostly inner metropolitan areas) political divides are drawn across wealth, religiosity (i.e. values) and generational lines.
 
-    -    In these areas, coalition vote is associated with higher percentages of followers of Anglican, Uniting and Presbyterian churches, people on higher income and Baby Boomers.
+    -   In these areas, coalition vote is associated with higher percentages of followers of Anglican, Uniting and Presbyterian churches, people on higher income and Baby Boomers.
     -   Labor vote is turn driven by followers of the Catholic Church (partially a reflection of the historic association between the Australian Catholic Church and the labour movement, and Irish and Italian migration) and Millennials. There is some association between less-advantaged populations and social and community housing.
     -   Green vote is also driven by Millennials, but unlike Labor there is a positive association with higher income groups. Green votes are also related to the irreligiosity o secular population groups.
 

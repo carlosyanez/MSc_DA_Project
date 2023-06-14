@@ -79,19 +79,20 @@ vistime::gg_vistime(col.event="Year",col.group = "Event", title = "Timeline of C
 
 ```
 
-Considering the census data available and selecting the elections closer to each census, four sets of events were selected for data extraction. there are presented in table \@ref(tab:selected-pairs)
+Considering the census data available and selecting the elections closer to each census, four sets of events were selected for data extraction. there are presented in table \@ref(tab:selected-pairs).
 
-```{r }
+```{r selected-pairs}
 
 tibble::tribble(~Census,~Election,
                 "2006","2007",
                 "2010","2011",
                 "2016","2016",
                 "2021","2022") |>
-   flex_default("Selected Census-Election pairings","selected-pairs") |>
-   set_table_properties( width = .8, layout = "autofit") |>
-   align(j=1, align = "right", part = "all")
-
+   kbl(booktabs = T,caption="Census-Election pairings",align = "cc") |>
+   kable_styling(latex_options = c("HOLD_position", "striped"),
+                 bootstrap_options="responsive",
+                 full_width=FALSE)
+  
 ```
 
 Please note that this selection will remove half of the election events within the period, which may affect model accuracy. However, since the objective is not to obtain an accurate prediction this has been accepted as an acceptable trade-off to avoid, instead of having to interpolate demographic statistics.
@@ -109,7 +110,7 @@ In the case of the electoral data. not much processing was required. The source 
 
  A data sample is presented in table \@ref(tab:canberra2022).
 
-```{r}
+```{r canberra2022}
 
 auspol::house_primary_vote_summary(division="Canberra",
                                    year=2022,
@@ -119,22 +120,26 @@ auspol::house_primary_vote_summary(division="Canberra",
   mutate(PartyNm=case_when(
     PartyAb =="Other" ~ "Other Parties",
     PartyAb =="LP" ~ glue::glue("{PartyNm} (Coalition)"),
-    TRUE ~ PartyAb
+    TRUE ~ PartyNm
   ),
   PartyAb = case_when(
     stringr::str_detect(PartyNm,"Coalition") ~"COAL",
     TRUE ~ PartyAb
   )) |>
-  mutate(Percentage=OrdinaryVotes/sum(OrdinaryVotes)) |>
+  mutate(Percentage=100*OrdinaryVotes/sum(OrdinaryVotes)) |>
   select(Year=Year,
          Division=DivisionNm,
         Abbreviation=PartyAb,
         Party=PartyNm,
         Votes=OrdinaryVotes,
-        Percentage=Percentage) |>
-  flex_default("Sample extraction - Canberra 2022","canberra2022") |>
-    set_formatter( Percentage = function(x) sprintf( "%.1f%%", x*100 ) ) |>
-  autofit()
+        Percentage=Percentage)  |>
+   mutate(Votes=formatC(Votes,digits=0,big.mark = ","),
+          Percentage = formatC(Percentage,digits=2,format="f")) |>
+   kbl(booktabs = T,caption="Sample extraction - Canberra 2022",align = "clllrr") |>
+   kable_styling(latex_options = c("HOLD_position", "striped"),
+                 bootstrap_options="responsive",
+                 full_width=FALSE)
+  
 
 ```
 
@@ -151,8 +156,11 @@ census_cols <- ncol(census_cols)
 ```
 
 When it comes to Census data, a number of considerations had to be tackled during extractions, namely:
+
 * **Large volumes of data**. Each census collected a large number of statistics. For instance, the data release for the 2022 Census contains 62 different tables, ranging from 8 [^04-data-1] to 1,590 [^04-data-2] attributes.
+
 * **Data aggregated per electorate**. Although the ABS provides statistics for *non ABS* geographical structures, this only includes a subset of all data points collected. Thus, in many cases is necessary to extract data for granular-level ABS units (*SA1* in 2022) and aggregate them into electoral divisions. Without knowing the population density for each SA1, values have been approximately apportioned using areas.
+
 * **Consistency across time**. Due to the changing nature of a Census (to better serve its purpose), there are some minor variations in how data is collected and aggregated from Census to Census. 
 
 [^04-data-1]: *02 -Selected Medians and Averages*
@@ -188,7 +196,7 @@ dataset <- read_csv(fs::path(project_path,"4. Data","consolidated.csv"))
 
 ```
 
-```{r}
+```{r datasetsample}
 dataset |> 
   slice_sample(n=8) |>
   select(election_year,DivisionNm,ALP,COAL,GRN,Other,
@@ -196,9 +204,10 @@ dataset |>
          Language_Chinese,Language_Greek) |>
   mutate(election_year=as.character(election_year)) |>
   mutate(across(where(is.numeric),~round(.x,2))) |>
-  flex_default("Dataset sample","datasetsample") |>
-  rotate(rotation="btlr",align="bottom", part = "header") |>
-  autofit()
+   kbl(booktabs = T,caption="datasetsample") |>
+   kable_styling(latex_options = c("HOLD_position", "striped"),
+                 bootstrap_options="responsive",
+                 full_width=FALSE)
 
 ```
 

@@ -23,7 +23,7 @@
 <meta name="author" content="Carlos Yanez Santibanez" />
 
 
-<meta name="date" content="2023-06-12" />
+<meta name="date" content="2023-06-14" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -56,10 +56,74 @@
 <script src="libs/viz-1.8.2/viz.js"></script>
 <link href="libs/DiagrammeR-styles-0.2/styles.css" rel="stylesheet" />
 <script src="libs/grViz-binding-1.0.10/grViz.js"></script>
-<link href="libs/tabwid-1.1.3/tabwid.css" rel="stylesheet" />
-<script src="libs/tabwid-1.1.3/tabwid.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 
 
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
 
 <style type="text/css">
 /* Used with Pandoc 2.11+ new --citeproc when CSL is used */
@@ -129,7 +193,7 @@ div.csl-indent {
 <li class="chapter" data-level="5.1" data-path="results.html"><a href="results.html#id_2021prediction"><i class="fa fa-check"></i><b>5.1</b> Forecasting the 2022 Federal Election</a></li>
 <li class="chapter" data-level="5.2" data-path="results.html"><a href="results.html#the-teal-wave"><i class="fa fa-check"></i><b>5.2</b> The Teal Wave</a></li>
 <li class="chapter" data-level="5.3" data-path="results.html"><a href="results.html#green-wave"><i class="fa fa-check"></i><b>5.3</b> The Green Wave</a></li>
-<li class="chapter" data-level="5.4" data-path="results.html"><a href="results.html#the-changing-face-of-suburbia"><i class="fa fa-check"></i><b>5.4</b> The Changing face of suburbia</a></li>
+<li class="chapter" data-level="5.4" data-path="results.html"><a href="results.html#the-changing-face-of-suburbia"><i class="fa fa-check"></i><b>5.4</b> The Changing Face of Suburbia</a></li>
 </ul></li>
 <li class="chapter" data-level="6" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i><b>6</b> Conclusion</a></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
@@ -176,8 +240,8 @@ div.csl-indent {
 </ul>
 <p>The way each package operates is described on their respective websites Using them, it was possible to build a basic data extraction and transformation pipeline, which is represented by figure <a href="data.html#fig:data-flow">2.1</a>.</p>
 <div class="figure"><span style="display:block;" id="fig:data-flow"></span>
-<div class="grViz html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-8c9b6068cde3700dd9ed" style="width:672px;height:480px;"></div>
-<script type="application/json" data-for="htmlwidget-8c9b6068cde3700dd9ed">{"x":{"diagram":"\ndigraph G {\n  graph [fontname = \"Roboto\"];\n  node [fontname = \"Roboto\"];\n  edge [fontname = \"Roboto\"];\n  rankdir=\"LR\";\n  \n  bgcolor=transparent;\n  \n  {abs_shapefiles} -> {aussiemaps};\n  {abs_datapack}  -> {auscensus};\n  {aec_election}   -> {auspol};\n  {auspol}    -> {source_dataset};\n  {auscensus} -> {CED_aggregation};\n  {aussiemaps} -> {CED_aggregation};\n  {CED_aggregation} -> {source_dataset};\n  {source_dataset} -> {data_transformation};\n  {data_transformation} -> {data_selection};\n  {data_selection} -> {processed_dataset};\n  \n  auspol [label=\"{auspol}\",shape=ellipse];\n  auscensus [label=\"{auscensus}\",shape=ellipse];\n  aussiemaps [label=\"{aussiemaps}\",shape=ellipse];\n  \n  data_transformation [label=\"Data Transformation\",shape=Square];\n  data_selection [label=\"Data Selection\",shape=Square];\n  CED_aggregation [label=\"Aggregation \\n by CED\",shape=Square];\n  \n  abs_shapefiles [label=\"ABS Boundaries\",shape=cylinder];\n  abs_datapack  [label=\"ABS Census \\n Data Pack\",shape=cylinder];\n  aec_election   [label=\"AEC  \\n Election Tallies\",shape=cylinder];\n  processed_dataset [label=\"Processed \\n Dataset\",shape=cylinder];\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<div class="grViz html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-5320b98787d0689317db" style="width:672px;height:480px;"></div>
+<script type="application/json" data-for="htmlwidget-5320b98787d0689317db">{"x":{"diagram":"\ndigraph G {\n  graph [fontname = \"Roboto\"];\n  node [fontname = \"Roboto\"];\n  edge [fontname = \"Roboto\"];\n  rankdir=\"LR\";\n  \n  bgcolor=transparent;\n  \n  {abs_shapefiles} -> {aussiemaps};\n  {abs_datapack}  -> {auscensus};\n  {aec_election}   -> {auspol};\n  {auspol}    -> {source_dataset};\n  {auscensus} -> {CED_aggregation};\n  {aussiemaps} -> {CED_aggregation};\n  {CED_aggregation} -> {source_dataset};\n  {source_dataset} -> {data_transformation};\n  {data_transformation} -> {data_selection};\n  {data_selection} -> {processed_dataset};\n  \n  auspol [label=\"{auspol}\",shape=ellipse];\n  auscensus [label=\"{auscensus}\",shape=ellipse];\n  aussiemaps [label=\"{aussiemaps}\",shape=ellipse];\n  \n  data_transformation [label=\"Data Transformation\",shape=Square];\n  data_selection [label=\"Data Selection\",shape=Square];\n  CED_aggregation [label=\"Aggregation \\n by CED\",shape=Square];\n  \n  abs_shapefiles [label=\"ABS Boundaries\",shape=cylinder];\n  abs_datapack  [label=\"ABS Census \\n Data Pack\",shape=cylinder];\n  aec_election   [label=\"AEC  \\n Election Tallies\",shape=cylinder];\n  processed_dataset [label=\"Processed \\n Dataset\",shape=cylinder];\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
 <p class="caption">
 Figure 2.1: Flow of data from sources to dataset
 </p>
@@ -198,20 +262,89 @@ Figure 2.1: Flow of data from sources to dataset
 <p>The first point to consider was how to represent the data in a way that is consistent across electorates and time.
 Although the aim behind the creation and geographical distribution of Commonwealth Electoral Division is to provide equal representation in Parliament for every Australian, this is not completely possible in practice, resulting in electorates varying in population (between 72,345 and 138,836 voters). This is mainly due to the large variation in population density across Australia, combined with a constitutional mandate to guarantee a minimum number of seats per state or territory. For this reason, it is deemed necessary to represent all voting and demographic statistics as a percentage of each electorate’s roll or population. This is also useful when comparing statistics across time.</p>
 <p>The second point to address is the correspondence between census and election data. Since the election the census cycle (5 years) does not match the electoral cycle (determined by the incumbent government, with a 3-year term for the House of Representatives), there is a potential problem of the census data not being completely representative of the population on a given election day. Figure <a href="data.html#fig:electionsandcensus">2.2</a> presents the best matches between both events held in the 21st century.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="data.html#cb1-1" aria-hidden="true" tabindex="-1"></a> tibble<span class="sc">::</span><span class="fu">tribble</span>(<span class="sc">~</span>Year, <span class="sc">~</span>Event,</span>
+<span id="cb1-2"><a href="data.html#cb1-2" aria-hidden="true" tabindex="-1"></a>                <span class="dv">2001</span>,<span class="st">&quot;Census&quot;</span>,</span>
+<span id="cb1-3"><a href="data.html#cb1-3" aria-hidden="true" tabindex="-1"></a>                <span class="dv">2006</span>,<span class="st">&quot;Census&quot;</span>,</span>
+<span id="cb1-4"><a href="data.html#cb1-4" aria-hidden="true" tabindex="-1"></a>                <span class="dv">2011</span>,<span class="st">&quot;Census&quot;</span>,</span>
+<span id="cb1-5"><a href="data.html#cb1-5" aria-hidden="true" tabindex="-1"></a>                <span class="dv">2016</span>,<span class="st">&quot;Census&quot;</span>,</span>
+<span id="cb1-6"><a href="data.html#cb1-6" aria-hidden="true" tabindex="-1"></a>                <span class="dv">2021</span>,<span class="st">&quot;Census&quot;</span>,</span>
+<span id="cb1-7"><a href="data.html#cb1-7" aria-hidden="true" tabindex="-1"></a>                <span class="dv">2001</span>,<span class="st">&quot;Election&quot;</span>,</span>
+<span id="cb1-8"><a href="data.html#cb1-8" aria-hidden="true" tabindex="-1"></a>                <span class="dv">2004</span>,<span class="st">&quot;Election&quot;</span>,</span>
+<span id="cb1-9"><a href="data.html#cb1-9" aria-hidden="true" tabindex="-1"></a>                <span class="dv">2007</span>,<span class="st">&quot;Election&quot;</span>,</span>
+<span id="cb1-10"><a href="data.html#cb1-10" aria-hidden="true" tabindex="-1"></a>                <span class="dv">2010</span>,<span class="st">&quot;Election&quot;</span>,</span>
+<span id="cb1-11"><a href="data.html#cb1-11" aria-hidden="true" tabindex="-1"></a>                <span class="dv">2013</span>,<span class="st">&quot;Election&quot;</span>,</span>
+<span id="cb1-12"><a href="data.html#cb1-12" aria-hidden="true" tabindex="-1"></a>                <span class="dv">2016</span>,<span class="st">&quot;Election&quot;</span>,</span>
+<span id="cb1-13"><a href="data.html#cb1-13" aria-hidden="true" tabindex="-1"></a>                <span class="dv">2019</span>,<span class="st">&quot;Election&quot;</span>,</span>
+<span id="cb1-14"><a href="data.html#cb1-14" aria-hidden="true" tabindex="-1"></a>                <span class="dv">2022</span>,<span class="st">&quot;Election&quot;</span></span>
+<span id="cb1-15"><a href="data.html#cb1-15" aria-hidden="true" tabindex="-1"></a>                ) <span class="sc">|&gt;</span></span>
+<span id="cb1-16"><a href="data.html#cb1-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">start =</span> lubridate<span class="sc">::</span><span class="fu">ymd</span>(Year,<span class="at">truncated =</span> 2L),</span>
+<span id="cb1-17"><a href="data.html#cb1-17" aria-hidden="true" tabindex="-1"></a>         <span class="at">end=</span>start<span class="sc">+</span>lubridate<span class="sc">::</span><span class="fu">ddays</span>(<span class="dv">365</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb1-18"><a href="data.html#cb1-18" aria-hidden="true" tabindex="-1"></a>vistime<span class="sc">::</span><span class="fu">gg_vistime</span>(<span class="at">col.event=</span><span class="st">&quot;Year&quot;</span>,<span class="at">col.group =</span> <span class="st">&quot;Event&quot;</span>, <span class="at">title =</span> <span class="st">&quot;Timeline of Census and Elections&quot;</span>) </span></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:electionsandcensus"></span>
 <img src="_main_files/figure-html/electionsandcensus-1.png" alt="Census and Elections Timeline" width="672" />
 <p class="caption">
 Figure 2.2: Census and Elections Timeline
 </p>
 </div>
-<p>Considering the census data available and selecting the elections closer to each census, four sets of events were selected for data extraction. there are presented in table <a href="data.html#tab:selected-pairs">2.1</a></p>
-<div class="tabwid"><style>.cl-2554024e{table-layout:auto;width:80%;}.cl-2531c6e8{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-25417250{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-25417264{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-2542259c{background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-254225ba{background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-254225e2{background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-2542260a{background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-25422614{background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-2542261e{background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing='true' class='cl-2554024e'>
-
-<caption style="display:table-caption;margin:0pt;text-align:center;border-bottom: 0.00pt solid transparent;border-top: 0.00pt solid transparent;border-left: 0.00pt solid transparent;border-right: 0.00pt solid transparent;padding-top:3pt;padding-bottom:3pt;padding-left:3pt;padding-right:3pt;line-height: 1;background-color:transparent;">
-<span id="tab:selected-pairs">Table 2.1: </span><span>Selected Census-Election pairings</span>
+<p>Considering the census data available and selecting the elections closer to each census, four sets of events were selected for data extraction. there are presented in table <a href="data.html#tab:selected-pairs">2.1</a>.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="data.html#cb2-1" aria-hidden="true" tabindex="-1"></a>tibble<span class="sc">::</span><span class="fu">tribble</span>(<span class="sc">~</span>Census,<span class="sc">~</span>Election,</span>
+<span id="cb2-2"><a href="data.html#cb2-2" aria-hidden="true" tabindex="-1"></a>                <span class="st">&quot;2006&quot;</span>,<span class="st">&quot;2007&quot;</span>,</span>
+<span id="cb2-3"><a href="data.html#cb2-3" aria-hidden="true" tabindex="-1"></a>                <span class="st">&quot;2010&quot;</span>,<span class="st">&quot;2011&quot;</span>,</span>
+<span id="cb2-4"><a href="data.html#cb2-4" aria-hidden="true" tabindex="-1"></a>                <span class="st">&quot;2016&quot;</span>,<span class="st">&quot;2016&quot;</span>,</span>
+<span id="cb2-5"><a href="data.html#cb2-5" aria-hidden="true" tabindex="-1"></a>                <span class="st">&quot;2021&quot;</span>,<span class="st">&quot;2022&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb2-6"><a href="data.html#cb2-6" aria-hidden="true" tabindex="-1"></a>   <span class="fu">kbl</span>(<span class="at">booktabs =</span> T,<span class="at">caption=</span><span class="st">&quot;Census-Election pairings&quot;</span>,<span class="at">align =</span> <span class="st">&quot;cc&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb2-7"><a href="data.html#cb2-7" aria-hidden="true" tabindex="-1"></a>   <span class="fu">kable_styling</span>(<span class="at">latex_options =</span> <span class="fu">c</span>(<span class="st">&quot;HOLD_position&quot;</span>, <span class="st">&quot;striped&quot;</span>),</span>
+<span id="cb2-8"><a href="data.html#cb2-8" aria-hidden="true" tabindex="-1"></a>                 <span class="at">bootstrap_options=</span><span class="st">&quot;responsive&quot;</span>,</span>
+<span id="cb2-9"><a href="data.html#cb2-9" aria-hidden="true" tabindex="-1"></a>                 <span class="at">full_width=</span><span class="cn">FALSE</span>)</span></code></pre></div>
+<table class="table table-responsive" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<caption>
+<span id="tab:selected-pairs">Table 2.1: </span>Census-Election pairings
 </caption>
-
-<thead><tr style="overflow-wrap:break-word;"><th class="cl-2542259c"><p class="cl-25417250"><span class="cl-2531c6e8">Census</span></p></th><th class="cl-254225ba"><p class="cl-25417264"><span class="cl-2531c6e8">Election</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-254225e2"><p class="cl-25417250"><span class="cl-2531c6e8">2006</span></p></td><td class="cl-2542260a"><p class="cl-25417264"><span class="cl-2531c6e8">2007</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-254225e2"><p class="cl-25417250"><span class="cl-2531c6e8">2010</span></p></td><td class="cl-2542260a"><p class="cl-25417264"><span class="cl-2531c6e8">2011</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-254225e2"><p class="cl-25417250"><span class="cl-2531c6e8">2016</span></p></td><td class="cl-2542260a"><p class="cl-25417264"><span class="cl-2531c6e8">2016</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-25422614"><p class="cl-25417250"><span class="cl-2531c6e8">2021</span></p></td><td class="cl-2542261e"><p class="cl-25417264"><span class="cl-2531c6e8">2022</span></p></td></tr></tbody></table></div>
+<thead>
+<tr>
+<th style="text-align:center;">
+Census
+</th>
+<th style="text-align:center;">
+Election
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center;">
+2006
+</td>
+<td style="text-align:center;">
+2007
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2010
+</td>
+<td style="text-align:center;">
+2011
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2016
+</td>
+<td style="text-align:center;">
+2016
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2021
+</td>
+<td style="text-align:center;">
+2022
+</td>
+</tr>
+</tbody>
+</table>
 <p>Please note that this selection will remove half of the election events within the period, which may affect model accuracy. However, since the objective is not to obtain an accurate prediction this has been accepted as an acceptable trade-off to avoid, instead of having to interpolate demographic statistics.</p>
 </div>
 <div id="data-selection-electoral" class="section level3 hasAnchor" number="2.2.2">
@@ -222,20 +355,151 @@ Figure 2.2: Census and Elections Timeline
 <strong>COAL</strong> representing the Coalition, made of the Liberal Party, the National Party, the Liberal National Party of Queensland <a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> and the Country Liberal Party in the Northern Territory <a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a> .</li>
 </ul>
 <p>A data sample is presented in table <a href="data.html#tab:canberra2022">2.2</a>.</p>
-<div class="tabwid"><style>.cl-26b2514a{}.cl-268ba48c{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-269d6758{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-269d676c{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-269d982c{width:0.625in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-269d9836{width:0.922in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-269d9840{width:1.134in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-269d9841{width:1.482in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-269d9872{width:0.752in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-269d9873{width:1.067in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-269d987c{width:0.625in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-269d9890{width:0.922in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-269d9891{width:1.134in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-269d989a{width:1.482in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-269d98a4{width:0.752in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-269d98a5{width:1.067in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-269d98ae{width:0.625in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-269d98af{width:0.922in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-269d98b8{width:1.134in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-269d98b9{width:1.482in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-269d98c2{width:0.752in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-269d98c3{width:1.067in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-269d98cc{width:0.625in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-269d98d6{width:0.922in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-269d98e0{width:1.134in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-269d98ea{width:1.482in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-269d98f4{width:0.752in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-269d98f5{width:1.067in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing='true' class='cl-26b2514a'>
-
-<caption style="display:table-caption;margin:0pt;text-align:center;border-bottom: 0.00pt solid transparent;border-top: 0.00pt solid transparent;border-left: 0.00pt solid transparent;border-right: 0.00pt solid transparent;padding-top:3pt;padding-bottom:3pt;padding-left:3pt;padding-right:3pt;line-height: 1;background-color:transparent;">
-<span id="tab:canberra2022">Table 2.2: </span><span>Sample extraction - Canberra 2022</span>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="data.html#cb3-1" aria-hidden="true" tabindex="-1"></a>auspol<span class="sc">::</span><span class="fu">house_primary_vote_summary</span>(<span class="at">division=</span><span class="st">&quot;Canberra&quot;</span>,</span>
+<span id="cb3-2"><a href="data.html#cb3-2" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">year=</span><span class="dv">2022</span>,</span>
+<span id="cb3-3"><a href="data.html#cb3-3" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">parties =</span> <span class="fu">c</span>(<span class="st">&quot;ALP&quot;</span>,<span class="st">&quot;LP&quot;</span>,<span class="st">&quot;GRN&quot;</span>),</span>
+<span id="cb3-4"><a href="data.html#cb3-4" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">include_others =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb3-5"><a href="data.html#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Year=</span><span class="fu">as.character</span>(Year)) <span class="sc">|&gt;</span></span>
+<span id="cb3-6"><a href="data.html#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">PartyNm=</span><span class="fu">case_when</span>(</span>
+<span id="cb3-7"><a href="data.html#cb3-7" aria-hidden="true" tabindex="-1"></a>    PartyAb <span class="sc">==</span><span class="st">&quot;Other&quot;</span> <span class="sc">~</span> <span class="st">&quot;Other Parties&quot;</span>,</span>
+<span id="cb3-8"><a href="data.html#cb3-8" aria-hidden="true" tabindex="-1"></a>    PartyAb <span class="sc">==</span><span class="st">&quot;LP&quot;</span> <span class="sc">~</span> glue<span class="sc">::</span><span class="fu">glue</span>(<span class="st">&quot;{PartyNm} (Coalition)&quot;</span>),</span>
+<span id="cb3-9"><a href="data.html#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="cn">TRUE</span> <span class="sc">~</span> PartyNm</span>
+<span id="cb3-10"><a href="data.html#cb3-10" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb3-11"><a href="data.html#cb3-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">PartyAb =</span> <span class="fu">case_when</span>(</span>
+<span id="cb3-12"><a href="data.html#cb3-12" aria-hidden="true" tabindex="-1"></a>    stringr<span class="sc">::</span><span class="fu">str_detect</span>(PartyNm,<span class="st">&quot;Coalition&quot;</span>) <span class="sc">~</span><span class="st">&quot;COAL&quot;</span>,</span>
+<span id="cb3-13"><a href="data.html#cb3-13" aria-hidden="true" tabindex="-1"></a>    <span class="cn">TRUE</span> <span class="sc">~</span> PartyAb</span>
+<span id="cb3-14"><a href="data.html#cb3-14" aria-hidden="true" tabindex="-1"></a>  )) <span class="sc">|&gt;</span></span>
+<span id="cb3-15"><a href="data.html#cb3-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Percentage=</span><span class="dv">100</span><span class="sc">*</span>OrdinaryVotes<span class="sc">/</span><span class="fu">sum</span>(OrdinaryVotes)) <span class="sc">|&gt;</span></span>
+<span id="cb3-16"><a href="data.html#cb3-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="at">Year=</span>Year,</span>
+<span id="cb3-17"><a href="data.html#cb3-17" aria-hidden="true" tabindex="-1"></a>         <span class="at">Division=</span>DivisionNm,</span>
+<span id="cb3-18"><a href="data.html#cb3-18" aria-hidden="true" tabindex="-1"></a>        <span class="at">Abbreviation=</span>PartyAb,</span>
+<span id="cb3-19"><a href="data.html#cb3-19" aria-hidden="true" tabindex="-1"></a>        <span class="at">Party=</span>PartyNm,</span>
+<span id="cb3-20"><a href="data.html#cb3-20" aria-hidden="true" tabindex="-1"></a>        <span class="at">Votes=</span>OrdinaryVotes,</span>
+<span id="cb3-21"><a href="data.html#cb3-21" aria-hidden="true" tabindex="-1"></a>        <span class="at">Percentage=</span>Percentage)  <span class="sc">|&gt;</span></span>
+<span id="cb3-22"><a href="data.html#cb3-22" aria-hidden="true" tabindex="-1"></a>   <span class="fu">mutate</span>(<span class="at">Votes=</span><span class="fu">formatC</span>(Votes,<span class="at">digits=</span><span class="dv">0</span>,<span class="at">big.mark =</span> <span class="st">&quot;,&quot;</span>),</span>
+<span id="cb3-23"><a href="data.html#cb3-23" aria-hidden="true" tabindex="-1"></a>          <span class="at">Percentage =</span> <span class="fu">formatC</span>(Percentage,<span class="at">digits=</span><span class="dv">2</span>,<span class="at">format=</span><span class="st">&quot;f&quot;</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb3-24"><a href="data.html#cb3-24" aria-hidden="true" tabindex="-1"></a>   <span class="fu">kbl</span>(<span class="at">booktabs =</span> T,<span class="at">caption=</span><span class="st">&quot;Sample extraction - Canberra 2022&quot;</span>,<span class="at">align =</span> <span class="st">&quot;clllrr&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb3-25"><a href="data.html#cb3-25" aria-hidden="true" tabindex="-1"></a>   <span class="fu">kable_styling</span>(<span class="at">latex_options =</span> <span class="fu">c</span>(<span class="st">&quot;HOLD_position&quot;</span>, <span class="st">&quot;striped&quot;</span>),</span>
+<span id="cb3-26"><a href="data.html#cb3-26" aria-hidden="true" tabindex="-1"></a>                 <span class="at">bootstrap_options=</span><span class="st">&quot;responsive&quot;</span>,</span>
+<span id="cb3-27"><a href="data.html#cb3-27" aria-hidden="true" tabindex="-1"></a>                 <span class="at">full_width=</span><span class="cn">FALSE</span>)</span></code></pre></div>
+<table class="table table-responsive" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<caption>
+<span id="tab:canberra2022">Table 2.2: </span>Sample extraction - Canberra 2022
 </caption>
-
-<thead><tr style="overflow-wrap:break-word;"><th class="cl-269d982c"><p class="cl-269d6758"><span class="cl-268ba48c">Year</span></p></th><th class="cl-269d9836"><p class="cl-269d6758"><span class="cl-268ba48c">Division</span></p></th><th class="cl-269d9840"><p class="cl-269d6758"><span class="cl-268ba48c">Abbreviation</span></p></th><th class="cl-269d9841"><p class="cl-269d6758"><span class="cl-268ba48c">Party</span></p></th><th class="cl-269d9872"><p class="cl-269d676c"><span class="cl-268ba48c">Votes</span></p></th><th class="cl-269d9873"><p class="cl-269d676c"><span class="cl-268ba48c">Percentage</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-269d987c"><p class="cl-269d6758"><span class="cl-268ba48c">2022</span></p></td><td class="cl-269d9890"><p class="cl-269d6758"><span class="cl-268ba48c">Canberra</span></p></td><td class="cl-269d9891"><p class="cl-269d6758"><span class="cl-268ba48c">ALP</span></p></td><td class="cl-269d989a"><p class="cl-269d6758"><span class="cl-268ba48c">ALP</span></p></td><td class="cl-269d98a4"><p class="cl-269d676c"><span class="cl-268ba48c">34,574</span></p></td><td class="cl-269d98a5"><p class="cl-269d676c"><span class="cl-268ba48c">45.2%</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-269d987c"><p class="cl-269d6758"><span class="cl-268ba48c">2022</span></p></td><td class="cl-269d9890"><p class="cl-269d6758"><span class="cl-268ba48c">Canberra</span></p></td><td class="cl-269d9891"><p class="cl-269d6758"><span class="cl-268ba48c">GRN</span></p></td><td class="cl-269d989a"><p class="cl-269d6758"><span class="cl-268ba48c">GRN</span></p></td><td class="cl-269d98a4"><p class="cl-269d676c"><span class="cl-268ba48c">19,240</span></p></td><td class="cl-269d98a5"><p class="cl-269d676c"><span class="cl-268ba48c">25.2%</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-269d98ae"><p class="cl-269d6758"><span class="cl-268ba48c">2022</span></p></td><td class="cl-269d98af"><p class="cl-269d6758"><span class="cl-268ba48c">Canberra</span></p></td><td class="cl-269d98b8"><p class="cl-269d6758"><span class="cl-268ba48c">COAL</span></p></td><td class="cl-269d98b9"><p class="cl-269d6758"><span class="cl-268ba48c">Liberal (Coalition)</span></p></td><td class="cl-269d98c2"><p class="cl-269d676c"><span class="cl-268ba48c">16,264</span></p></td><td class="cl-269d98c3"><p class="cl-269d676c"><span class="cl-268ba48c">21.3%</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-269d98cc"><p class="cl-269d6758"><span class="cl-268ba48c">2022</span></p></td><td class="cl-269d98d6"><p class="cl-269d6758"><span class="cl-268ba48c">Canberra</span></p></td><td class="cl-269d98e0"><p class="cl-269d6758"><span class="cl-268ba48c">Other</span></p></td><td class="cl-269d98ea"><p class="cl-269d6758"><span class="cl-268ba48c">Other Parties</span></p></td><td class="cl-269d98f4"><p class="cl-269d676c"><span class="cl-268ba48c">6,417</span></p></td><td class="cl-269d98f5"><p class="cl-269d676c"><span class="cl-268ba48c">8.4%</span></p></td></tr></tbody></table></div>
+<thead>
+<tr>
+<th style="text-align:center;">
+Year
+</th>
+<th style="text-align:left;">
+Division
+</th>
+<th style="text-align:left;">
+Abbreviation
+</th>
+<th style="text-align:left;">
+Party
+</th>
+<th style="text-align:right;">
+Votes
+</th>
+<th style="text-align:right;">
+Percentage
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center;">
+2022
+</td>
+<td style="text-align:left;">
+Canberra
+</td>
+<td style="text-align:left;">
+ALP
+</td>
+<td style="text-align:left;">
+Australian Labor Party
+</td>
+<td style="text-align:right;">
+34,574
+</td>
+<td style="text-align:right;">
+45.20
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2022
+</td>
+<td style="text-align:left;">
+Canberra
+</td>
+<td style="text-align:left;">
+GRN
+</td>
+<td style="text-align:left;">
+The Greens
+</td>
+<td style="text-align:right;">
+19,240
+</td>
+<td style="text-align:right;">
+25.15
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2022
+</td>
+<td style="text-align:left;">
+Canberra
+</td>
+<td style="text-align:left;">
+COAL
+</td>
+<td style="text-align:left;">
+Liberal (Coalition)
+</td>
+<td style="text-align:right;">
+16,264
+</td>
+<td style="text-align:right;">
+21.26
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2022
+</td>
+<td style="text-align:left;">
+Canberra
+</td>
+<td style="text-align:left;">
+Other
+</td>
+<td style="text-align:left;">
+Other Parties
+</td>
+<td style="text-align:right;">
+6,417
+</td>
+<td style="text-align:right;">
+8.39
+</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div id="census-data" class="section level3 hasAnchor" number="2.2.3">
 <h3><span class="header-section-number">2.2.3</span> Census Data<a href="data.html#census-data" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>When it comes to Census data, a number of considerations had to be tackled during extractions, namely:
-* <strong>Large volumes of data</strong>. Each census collected a large number of statistics. For instance, the data release for the 2022 Census contains 62 different tables, ranging from 8 <a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a> to 1,590 <a href="#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></a> attributes.
-* <strong>Data aggregated per electorate</strong>. Although the ABS provides statistics for <em>non ABS</em> geographical structures, this only includes a subset of all data points collected. Thus, in many cases is necessary to extract data for granular-level ABS units (<em>SA1</em> in 2022) and aggregate them into electoral divisions. Without knowing the population density for each SA1, values have been approximately apportioned using areas.
-* <strong>Consistency across time</strong>. Due to the changing nature of a Census (to better serve its purpose), there are some minor variations in how data is collected and aggregated from Census to Census.</p>
+<p>When it comes to Census data, a number of considerations had to be tackled during extractions, namely:</p>
+<ul>
+<li><p><strong>Large volumes of data</strong>. Each census collected a large number of statistics. For instance, the data release for the 2022 Census contains 62 different tables, ranging from 8 <a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a> to 1,590 <a href="#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></a> attributes.</p></li>
+<li><p><strong>Data aggregated per electorate</strong>. Although the ABS provides statistics for <em>non ABS</em> geographical structures, this only includes a subset of all data points collected. Thus, in many cases is necessary to extract data for granular-level ABS units (<em>SA1</em> in 2022) and aggregate them into electoral divisions. Without knowing the population density for each SA1, values have been approximately apportioned using areas.</p></li>
+<li><p><strong>Consistency across time</strong>. Due to the changing nature of a Census (to better serve its purpose), there are some minor variations in how data is collected and aggregated from Census to Census.</p></li>
+</ul>
 <p>To obtain a first selection of potentially relevant demographic variables to extract, existing literature and journalistic sources were consulted (<span class="citation">(<a href="#ref-biddle2022" role="doc-biblioref">Biddle and McAllister 2022</a>)</span>, <span class="citation">(<a href="#ref-votingpatternsbygen" role="doc-biblioref">Parliament, n.d.</a>)</span>, <span class="citation">(<a href="#ref-jakubowicz" role="doc-biblioref">Jakubowicz and Ho, n.d.a</a>)</span>). Since many variables are colinear by definition (e.g. income groups) or they are closely related (e.g age and relationship status), the initial selection was inspected. After iteration, a resulting set of 55 attributes was chosen, which can be classed into the following categories:</p>
 <ol style="list-style-type: decimal">
 <li><p><strong>Income</strong>: Distribution of the population in pre-set income brackets. The highest income bracket includes everyone earning 2,000 dollars or more each week.</p></li>
@@ -250,13 +514,341 @@ Figure 2.2: Census and Elections Timeline
 </ol>
 <p>Additionally, each electorate was classified as <strong>metropolitan</strong> if it lies within the boundaries of Australian capital cities or <strong>non-metropolitan</strong>, when it is not the case. Altogether, these variables try to reflect wealth and education (cited by <span class="citation">(<a href="#ref-biddle2022" role="doc-biblioref">Biddle and McAllister 2022</a>)</span> as key factors influencing political persuasion), as well as the stage in life and belonging to a particular migrant community (sometimes cited as an influential factor, for instance in <span class="citation">(<a href="#ref-jakubowicza" role="doc-biblioref">Jakubowicz and Ho, n.d.b</a>)</span>).</p>
 <p>A sample of the resulting dataset is present in table <a href="data.html#tab:datasetsample">2.3</a>.</p>
-<div class="tabwid"><style>.cl-27c6cf66{}.cl-27ab9566{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-27b556c8{margin:0;text-align:left;margin-right:auto;writing-mode: vertical-rl;transform: rotate(180deg);-ms-writing-mode:bt-lr;-webkit-writing-mode:vertical-rl;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-27b556e6{margin:0;text-align:right;margin-left:auto;writing-mode: vertical-rl;transform: rotate(180deg);-ms-writing-mode:bt-lr;-webkit-writing-mode:vertical-rl;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-27b556e7{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-27b556f0{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-27b5b5d2{width:0.625in;background-color:transparent;vertical-align: bottom;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-27b5b5e6{width:0.99in;background-color:transparent;vertical-align: bottom;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-27b5b5f0{width:0.718in;background-color:transparent;vertical-align: bottom;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-27b5b5fa{width:0.633in;background-color:transparent;vertical-align: bottom;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-27b5b5fb{width:0.668in;background-color:transparent;vertical-align: bottom;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-27b5b604{width:0.583in;background-color:transparent;vertical-align: bottom;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-27b5b605{width:0.625in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-27b5b60e{width:0.99in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-27b5b618{width:0.718in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-27b5b619{width:0.633in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-27b5b622{width:0.668in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-27b5b623{width:0.583in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-27b5b62c{width:0.625in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-27b5b636{width:0.99in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-27b5b637{width:0.718in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-27b5b638{width:0.633in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-27b5b640{width:0.668in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-27b5b64a{width:0.583in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-27b5b64b{width:0.625in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-27b5b654{width:0.99in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-27b5b655{width:0.718in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-27b5b65e{width:0.633in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-27b5b65f{width:0.668in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-27b5b668{width:0.583in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-27b5b669{width:0.625in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-27b5b672{width:0.99in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-27b5b673{width:0.718in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-27b5b67c{width:0.633in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-27b5b67d{width:0.668in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-27b5b686{width:0.583in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-27b5b687{width:0.625in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-27b5b690{width:0.99in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-27b5b69a{width:0.718in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-27b5b69b{width:0.633in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-27b5b6a4{width:0.668in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-27b5b6ae{width:0.583in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing='true' class='cl-27c6cf66'>
-
-<caption style="display:table-caption;margin:0pt;text-align:center;border-bottom: 0.00pt solid transparent;border-top: 0.00pt solid transparent;border-left: 0.00pt solid transparent;border-right: 0.00pt solid transparent;padding-top:3pt;padding-bottom:3pt;padding-left:3pt;padding-right:3pt;line-height: 1;background-color:transparent;">
-<span id="tab:datasetsample">Table 2.3: </span><span>Dataset sample</span>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="data.html#cb4-1" aria-hidden="true" tabindex="-1"></a>dataset <span class="sc">|&gt;</span> </span>
+<span id="cb4-2"><a href="data.html#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_sample</span>(<span class="at">n=</span><span class="dv">8</span>) <span class="sc">|&gt;</span></span>
+<span id="cb4-3"><a href="data.html#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(election_year,DivisionNm,ALP,COAL,GRN,Other,</span>
+<span id="cb4-4"><a href="data.html#cb4-4" aria-hidden="true" tabindex="-1"></a>         Australian_Citizens,Age_Baby_Boomers,Age_Gen_X,</span>
+<span id="cb4-5"><a href="data.html#cb4-5" aria-hidden="true" tabindex="-1"></a>         Language_Chinese,Language_Greek) <span class="sc">|&gt;</span></span>
+<span id="cb4-6"><a href="data.html#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">election_year=</span><span class="fu">as.character</span>(election_year)) <span class="sc">|&gt;</span></span>
+<span id="cb4-7"><a href="data.html#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.numeric),<span class="sc">~</span><span class="fu">round</span>(.x,<span class="dv">2</span>))) <span class="sc">|&gt;</span></span>
+<span id="cb4-8"><a href="data.html#cb4-8" aria-hidden="true" tabindex="-1"></a>   <span class="fu">kbl</span>(<span class="at">booktabs =</span> T,<span class="at">caption=</span><span class="st">&quot;datasetsample&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb4-9"><a href="data.html#cb4-9" aria-hidden="true" tabindex="-1"></a>   <span class="fu">kable_styling</span>(<span class="at">latex_options =</span> <span class="fu">c</span>(<span class="st">&quot;HOLD_position&quot;</span>, <span class="st">&quot;striped&quot;</span>),</span>
+<span id="cb4-10"><a href="data.html#cb4-10" aria-hidden="true" tabindex="-1"></a>                 <span class="at">bootstrap_options=</span><span class="st">&quot;responsive&quot;</span>,</span>
+<span id="cb4-11"><a href="data.html#cb4-11" aria-hidden="true" tabindex="-1"></a>                 <span class="at">full_width=</span><span class="cn">FALSE</span>)</span></code></pre></div>
+<table class="table table-responsive" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<caption>
+<span id="tab:datasetsample">Table 2.3: </span>datasetsample
 </caption>
-
-<thead><tr style="overflow-wrap:break-word;"><th class="cl-27b5b5d2"><p class="cl-27b556c8"><span class="cl-27ab9566">election_year</span></p></th><th class="cl-27b5b5e6"><p class="cl-27b556c8"><span class="cl-27ab9566">DivisionNm</span></p></th><th class="cl-27b5b5f0"><p class="cl-27b556e6"><span class="cl-27ab9566">ALP</span></p></th><th class="cl-27b5b5f0"><p class="cl-27b556e6"><span class="cl-27ab9566">COAL</span></p></th><th class="cl-27b5b5fa"><p class="cl-27b556e6"><span class="cl-27ab9566">GRN</span></p></th><th class="cl-27b5b5fb"><p class="cl-27b556e6"><span class="cl-27ab9566">Other</span></p></th><th class="cl-27b5b5fb"><p class="cl-27b556e6"><span class="cl-27ab9566">Australian_Citizens</span></p></th><th class="cl-27b5b5fb"><p class="cl-27b556e6"><span class="cl-27ab9566">Age_Baby_Boomers</span></p></th><th class="cl-27b5b5fb"><p class="cl-27b556e6"><span class="cl-27ab9566">Age_Gen_X</span></p></th><th class="cl-27b5b5fb"><p class="cl-27b556e6"><span class="cl-27ab9566">Language_Chinese</span></p></th><th class="cl-27b5b604"><p class="cl-27b556e6"><span class="cl-27ab9566">Language_Greek</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-27b5b605"><p class="cl-27b556e7"><span class="cl-27ab9566">2016</span></p></td><td class="cl-27b5b60e"><p class="cl-27b556e7"><span class="cl-27ab9566">Newcastle</span></p></td><td class="cl-27b5b618"><p class="cl-27b556f0"><span class="cl-27ab9566">11.97</span></p></td><td class="cl-27b5b618"><p class="cl-27b556f0"><span class="cl-27ab9566">-11.84</span></p></td><td class="cl-27b5b619"><p class="cl-27b556f0"><span class="cl-27ab9566">3.77</span></p></td><td class="cl-27b5b622"><p class="cl-27b556f0"><span class="cl-27ab9566">-0.17</span></p></td><td class="cl-27b5b622"><p class="cl-27b556f0"><span class="cl-27ab9566">88.84</span></p></td><td class="cl-27b5b622"><p class="cl-27b556f0"><span class="cl-27ab9566">17.95</span></p></td><td class="cl-27b5b622"><p class="cl-27b556f0"><span class="cl-27ab9566">20.66</span></p></td><td class="cl-27b5b622"><p class="cl-27b556f0"><span class="cl-27ab9566">1.68</span></p></td><td class="cl-27b5b623"><p class="cl-27b556f0"><span class="cl-27ab9566">0.49</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-27b5b62c"><p class="cl-27b556e7"><span class="cl-27ab9566">2007</span></p></td><td class="cl-27b5b636"><p class="cl-27b556e7"><span class="cl-27ab9566">Kooyong</span></p></td><td class="cl-27b5b637"><p class="cl-27b556f0"><span class="cl-27ab9566">-13.11</span></p></td><td class="cl-27b5b637"><p class="cl-27b556f0"><span class="cl-27ab9566">12.97</span></p></td><td class="cl-27b5b638"><p class="cl-27b556f0"><span class="cl-27ab9566">3.88</span></p></td><td class="cl-27b5b640"><p class="cl-27b556f0"><span class="cl-27ab9566">-2.75</span></p></td><td class="cl-27b5b640"><p class="cl-27b556f0"><span class="cl-27ab9566">84.79</span></p></td><td class="cl-27b5b640"><p class="cl-27b556f0"><span class="cl-27ab9566">26.22</span></p></td><td class="cl-27b5b640"><p class="cl-27b556f0"><span class="cl-27ab9566">20.74</span></p></td><td class="cl-27b5b640"><p class="cl-27b556f0"><span class="cl-27ab9566">7.68</span></p></td><td class="cl-27b5b64a"><p class="cl-27b556f0"><span class="cl-27ab9566">3.19</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-27b5b64b"><p class="cl-27b556e7"><span class="cl-27ab9566">2010</span></p></td><td class="cl-27b5b654"><p class="cl-27b556e7"><span class="cl-27ab9566">Wakefield</span></p></td><td class="cl-27b5b655"><p class="cl-27b556f0"><span class="cl-27ab9566">11.47</span></p></td><td class="cl-27b5b655"><p class="cl-27b556f0"><span class="cl-27ab9566">-12.55</span></p></td><td class="cl-27b5b65e"><p class="cl-27b556f0"><span class="cl-27ab9566">-0.35</span></p></td><td class="cl-27b5b65f"><p class="cl-27b556f0"><span class="cl-27ab9566">-2.61</span></p></td><td class="cl-27b5b65f"><p class="cl-27b556f0"><span class="cl-27ab9566">87.55</span></p></td><td class="cl-27b5b65f"><p class="cl-27b556f0"><span class="cl-27ab9566">16.08</span></p></td><td class="cl-27b5b65f"><p class="cl-27b556f0"><span class="cl-27ab9566">21.93</span></p></td><td class="cl-27b5b65f"><p class="cl-27b556f0"><span class="cl-27ab9566">0.24</span></p></td><td class="cl-27b5b668"><p class="cl-27b556f0"><span class="cl-27ab9566">0.52</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-27b5b669"><p class="cl-27b556e7"><span class="cl-27ab9566">2022</span></p></td><td class="cl-27b5b672"><p class="cl-27b556e7"><span class="cl-27ab9566">Goldstein</span></p></td><td class="cl-27b5b673"><p class="cl-27b556f0"><span class="cl-27ab9566">-22.36</span></p></td><td class="cl-27b5b673"><p class="cl-27b556f0"><span class="cl-27ab9566">4.06</span></p></td><td class="cl-27b5b67c"><p class="cl-27b556f0"><span class="cl-27ab9566">-4.54</span></p></td><td class="cl-27b5b67d"><p class="cl-27b556f0"><span class="cl-27ab9566">29.27</span></p></td><td class="cl-27b5b67d"><p class="cl-27b556f0"><span class="cl-27ab9566">86.29</span></p></td><td class="cl-27b5b67d"><p class="cl-27b556f0"><span class="cl-27ab9566">21.45</span></p></td><td class="cl-27b5b67d"><p class="cl-27b556f0"><span class="cl-27ab9566">23.58</span></p></td><td class="cl-27b5b67d"><p class="cl-27b556f0"><span class="cl-27ab9566">4.74</span></p></td><td class="cl-27b5b686"><p class="cl-27b556f0"><span class="cl-27ab9566">2.31</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-27b5b669"><p class="cl-27b556e7"><span class="cl-27ab9566">2016</span></p></td><td class="cl-27b5b672"><p class="cl-27b556e7"><span class="cl-27ab9566">Cook</span></p></td><td class="cl-27b5b673"><p class="cl-27b556f0"><span class="cl-27ab9566">-8.64</span></p></td><td class="cl-27b5b673"><p class="cl-27b556f0"><span class="cl-27ab9566">16.85</span></p></td><td class="cl-27b5b67c"><p class="cl-27b556f0"><span class="cl-27ab9566">-3.47</span></p></td><td class="cl-27b5b67d"><p class="cl-27b556f0"><span class="cl-27ab9566">-1.01</span></p></td><td class="cl-27b5b67d"><p class="cl-27b556f0"><span class="cl-27ab9566">88.28</span></p></td><td class="cl-27b5b67d"><p class="cl-27b556f0"><span class="cl-27ab9566">19.75</span></p></td><td class="cl-27b5b67d"><p class="cl-27b556f0"><span class="cl-27ab9566">22.40</span></p></td><td class="cl-27b5b67d"><p class="cl-27b556f0"><span class="cl-27ab9566">3.83</span></p></td><td class="cl-27b5b686"><p class="cl-27b556f0"><span class="cl-27ab9566">5.35</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-27b5b62c"><p class="cl-27b556e7"><span class="cl-27ab9566">2016</span></p></td><td class="cl-27b5b636"><p class="cl-27b556e7"><span class="cl-27ab9566">Longman</span></p></td><td class="cl-27b5b637"><p class="cl-27b556f0"><span class="cl-27ab9566">1.21</span></p></td><td class="cl-27b5b637"><p class="cl-27b556f0"><span class="cl-27ab9566">-3.50</span></p></td><td class="cl-27b5b638"><p class="cl-27b556f0"><span class="cl-27ab9566">-5.68</span></p></td><td class="cl-27b5b640"><p class="cl-27b556f0"><span class="cl-27ab9566">-3.53</span></p></td><td class="cl-27b5b640"><p class="cl-27b556f0"><span class="cl-27ab9566">85.35</span></p></td><td class="cl-27b5b640"><p class="cl-27b556f0"><span class="cl-27ab9566">20.72</span></p></td><td class="cl-27b5b640"><p class="cl-27b556f0"><span class="cl-27ab9566">20.84</span></p></td><td class="cl-27b5b640"><p class="cl-27b556f0"><span class="cl-27ab9566">0.58</span></p></td><td class="cl-27b5b64a"><p class="cl-27b556f0"><span class="cl-27ab9566">0.04</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-27b5b605"><p class="cl-27b556e7"><span class="cl-27ab9566">2022</span></p></td><td class="cl-27b5b60e"><p class="cl-27b556e7"><span class="cl-27ab9566">Menzies</span></p></td><td class="cl-27b5b618"><p class="cl-27b556f0"><span class="cl-27ab9566">1.02</span></p></td><td class="cl-27b5b618"><p class="cl-27b556f0"><span class="cl-27ab9566">5.86</span></p></td><td class="cl-27b5b619"><p class="cl-27b556f0"><span class="cl-27ab9566">2.32</span></p></td><td class="cl-27b5b622"><p class="cl-27b556f0"><span class="cl-27ab9566">-7.24</span></p></td><td class="cl-27b5b622"><p class="cl-27b556f0"><span class="cl-27ab9566">80.24</span></p></td><td class="cl-27b5b622"><p class="cl-27b556f0"><span class="cl-27ab9566">20.22</span></p></td><td class="cl-27b5b622"><p class="cl-27b556f0"><span class="cl-27ab9566">21.37</span></p></td><td class="cl-27b5b622"><p class="cl-27b556f0"><span class="cl-27ab9566">22.95</span></p></td><td class="cl-27b5b623"><p class="cl-27b556f0"><span class="cl-27ab9566">4.49</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-27b5b687"><p class="cl-27b556e7"><span class="cl-27ab9566">2016</span></p></td><td class="cl-27b5b690"><p class="cl-27b556e7"><span class="cl-27ab9566">Stirling</span></p></td><td class="cl-27b5b69a"><p class="cl-27b556f0"><span class="cl-27ab9566">-2.61</span></p></td><td class="cl-27b5b69a"><p class="cl-27b556f0"><span class="cl-27ab9566">7.77</span></p></td><td class="cl-27b5b69b"><p class="cl-27b556f0"><span class="cl-27ab9566">1.22</span></p></td><td class="cl-27b5b6a4"><p class="cl-27b556f0"><span class="cl-27ab9566">-2.64</span></p></td><td class="cl-27b5b6a4"><p class="cl-27b556f0"><span class="cl-27ab9566">77.25</span></p></td><td class="cl-27b5b6a4"><p class="cl-27b556f0"><span class="cl-27ab9566">17.20</span></p></td><td class="cl-27b5b6a4"><p class="cl-27b556f0"><span class="cl-27ab9566">20.01</span></p></td><td class="cl-27b5b6a4"><p class="cl-27b556f0"><span class="cl-27ab9566">3.60</span></p></td><td class="cl-27b5b6ae"><p class="cl-27b556f0"><span class="cl-27ab9566">0.74</span></p></td></tr></tbody></table></div>
+<thead>
+<tr>
+<th style="text-align:left;">
+election_year
+</th>
+<th style="text-align:left;">
+DivisionNm
+</th>
+<th style="text-align:right;">
+ALP
+</th>
+<th style="text-align:right;">
+COAL
+</th>
+<th style="text-align:right;">
+GRN
+</th>
+<th style="text-align:right;">
+Other
+</th>
+<th style="text-align:right;">
+Australian_Citizens
+</th>
+<th style="text-align:right;">
+Age_Baby_Boomers
+</th>
+<th style="text-align:right;">
+Age_Gen_X
+</th>
+<th style="text-align:right;">
+Language_Chinese
+</th>
+<th style="text-align:right;">
+Language_Greek
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+2007
+</td>
+<td style="text-align:left;">
+Corio
+</td>
+<td style="text-align:right;">
+2.51
+</td>
+<td style="text-align:right;">
+-12.73
+</td>
+<td style="text-align:right;">
+-1.96
+</td>
+<td style="text-align:right;">
+9.29
+</td>
+<td style="text-align:right;">
+89.68
+</td>
+<td style="text-align:right;">
+25.19
+</td>
+<td style="text-align:right;">
+21.45
+</td>
+<td style="text-align:right;">
+0.36
+</td>
+<td style="text-align:right;">
+0.51
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2016
+</td>
+<td style="text-align:left;">
+Herbert
+</td>
+<td style="text-align:right;">
+-4.09
+</td>
+<td style="text-align:right;">
+-6.86
+</td>
+<td style="text-align:right;">
+-3.79
+</td>
+<td style="text-align:right;">
+-6.89
+</td>
+<td style="text-align:right;">
+86.18
+</td>
+<td style="text-align:right;">
+15.80
+</td>
+<td style="text-align:right;">
+20.65
+</td>
+<td style="text-align:right;">
+0.48
+</td>
+<td style="text-align:right;">
+0.16
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2007
+</td>
+<td style="text-align:left;">
+Flynn
+</td>
+<td style="text-align:right;">
+2.84
+</td>
+<td style="text-align:right;">
+4.67
+</td>
+<td style="text-align:right;">
+-5.73
+</td>
+<td style="text-align:right;">
+-1.65
+</td>
+<td style="text-align:right;">
+89.67
+</td>
+<td style="text-align:right;">
+26.86
+</td>
+<td style="text-align:right;">
+22.25
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2022
+</td>
+<td style="text-align:left;">
+Goldstein
+</td>
+<td style="text-align:right;">
+-22.36
+</td>
+<td style="text-align:right;">
+4.06
+</td>
+<td style="text-align:right;">
+-4.54
+</td>
+<td style="text-align:right;">
+29.27
+</td>
+<td style="text-align:right;">
+86.29
+</td>
+<td style="text-align:right;">
+21.45
+</td>
+<td style="text-align:right;">
+23.58
+</td>
+<td style="text-align:right;">
+4.74
+</td>
+<td style="text-align:right;">
+2.31
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2022
+</td>
+<td style="text-align:left;">
+Solomon
+</td>
+<td style="text-align:right;">
+7.10
+</td>
+<td style="text-align:right;">
+-9.99
+</td>
+<td style="text-align:right;">
+2.43
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+76.58
+</td>
+<td style="text-align:right;">
+15.06
+</td>
+<td style="text-align:right;">
+20.92
+</td>
+<td style="text-align:right;">
+2.91
+</td>
+<td style="text-align:right;">
+2.66
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2016
+</td>
+<td style="text-align:left;">
+Kennedy
+</td>
+<td style="text-align:right;">
+-16.01
+</td>
+<td style="text-align:right;">
+-9.91
+</td>
+<td style="text-align:right;">
+-5.17
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+85.53
+</td>
+<td style="text-align:right;">
+21.58
+</td>
+<td style="text-align:right;">
+21.87
+</td>
+<td style="text-align:right;">
+0.22
+</td>
+<td style="text-align:right;">
+0.06
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2022
+</td>
+<td style="text-align:left;">
+Flynn
+</td>
+<td style="text-align:right;">
+3.30
+</td>
+<td style="text-align:right;">
+-1.22
+</td>
+<td style="text-align:right;">
+-7.78
+</td>
+<td style="text-align:right;">
+-1.85
+</td>
+<td style="text-align:right;">
+86.06
+</td>
+<td style="text-align:right;">
+21.86
+</td>
+<td style="text-align:right;">
+20.87
+</td>
+<td style="text-align:right;">
+0.30
+</td>
+<td style="text-align:right;">
+0.03
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2016
+</td>
+<td style="text-align:left;">
+Kingston
+</td>
+<td style="text-align:right;">
+14.85
+</td>
+<td style="text-align:right;">
+-18.78
+</td>
+<td style="text-align:right;">
+-4.38
+</td>
+<td style="text-align:right;">
+7.74
+</td>
+<td style="text-align:right;">
+87.65
+</td>
+<td style="text-align:right;">
+20.59
+</td>
+<td style="text-align:right;">
+21.13
+</td>
+<td style="text-align:right;">
+0.64
+</td>
+<td style="text-align:right;">
+0.33
+</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 <div id="training-validation-and-testing-split" class="section level2 hasAnchor" number="2.3">
@@ -269,6 +861,14 @@ Figure 2.2: Census and Elections Timeline
 <p>As an example, figure <a href="data.html#fig:coalvsboomers">2.3</a> shows a somewhat weak correlation between Coalition primary vote and the percentage of the Baby Boomers. Figure <a href="data.html#fig:corrlanguagereligion">2.4</a> presents the correlation values for religion and language variables, where is possible to see:
 * A positive correlation between monolingual English speakers and membership in Anglican, Presbyterian and Uniting churches. Together, they are likely proxies for Anglo-Celtic population.
 * Similarly, there are somewhat expecting origins that most likely indicate concentrations of linguistically and culturally diverse pockets, e.g. Hinduism and South Asian languages, Catholicism and Italian, and Buddhism and East Asian languages.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="data.html#cb5-1" aria-hidden="true" tabindex="-1"></a>dataset <span class="sc">|&gt;</span></span>
+<span id="cb5-2"><a href="data.html#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(DivisionNm,election_year,COAL,Age_Baby_Boomers) <span class="sc">|&gt;</span></span>
+<span id="cb5-3"><a href="data.html#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>Age_Baby_Boomers,<span class="at">y=</span>COAL)) <span class="sc">+</span></span>
+<span id="cb5-4"><a href="data.html#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">colour=</span>auspol<span class="sc">::</span><span class="fu">party_colours</span>()[<span class="st">&quot;COAL&quot;</span>]) <span class="sc">+</span></span>
+<span id="cb5-5"><a href="data.html#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(.<span class="sc">~</span> election_year, <span class="at">ncol=</span><span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb5-6"><a href="data.html#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">&quot;Coalition Primary vote by baby boomer population&quot;</span>,</span>
+<span id="cb5-7"><a href="data.html#cb5-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle=</span><span class="st">&quot;as percentage of electorate&#39;s population&quot;</span>,</span>
+<span id="cb5-8"><a href="data.html#cb5-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">x=</span> <span class="st">&quot;Baby Boomers (%)&quot;</span>,<span class="at">y=</span><span class="st">&quot;Primary vote (%)&quot;</span>)</span></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:coalvsboomers"></span>
 <img src="_main_files/figure-html/coalvsboomers-1.png" alt="Correlation between Coalition vote and Baby boomer population" width="672" />
 <p class="caption">
@@ -290,6 +890,29 @@ Figure 2.4: Correlation for selected covariates
 <h3><span class="header-section-number">2.4.1</span> Dimensionality reduction using Multiple Factor Analysis<a href="data.html#data-mfa" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Given the large number of colinear covariates, it is worth exploring if a change of space could help to better measure variation in a meaningful way and in a more manageable number. To achieve this, **multiple factor analysis* (MFA) <span class="citation">(<a href="#ref-escofier:hal-00382085" role="doc-biblioref">Escofier and Pagès 2008</a>)</span> was used as the clustering algorithm. MFA is essentially an extension of Principal Component Analysis that can deal with variables that belong to groups (like this case). It can also combine quantitative and qualitative variables (such as belonging to a metropolitan area).</p>
 <p>The resulting scree plot and cumulative variance are presented in figure <a href="data.html#fig:mfascree">2.5</a>.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="data.html#cb6-1" aria-hidden="true" tabindex="-1"></a>screeplot <span class="ot">&lt;-</span> <span class="fu">fviz_screeplot</span>(mfa)  <span class="sc">+</span></span>
+<span id="cb6-2"><a href="data.html#cb6-2" aria-hidden="true" tabindex="-1"></a>             <span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;Percentage of Variance&quot;</span>)</span>
+<span id="cb6-3"><a href="data.html#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="data.html#cb6-4" aria-hidden="true" tabindex="-1"></a>variance_data <span class="ot">&lt;-</span> mfa<span class="sc">$</span>eig <span class="sc">|&gt;</span> </span>
+<span id="cb6-5"><a href="data.html#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>() <span class="sc">|&gt;</span></span>
+<span id="cb6-6"><a href="data.html#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.numeric), <span class="sc">~</span> <span class="fu">round</span>(.x,<span class="dv">3</span>))) <span class="sc">|&gt;</span></span>
+<span id="cb6-7"><a href="data.html#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Dimension=</span><span class="fu">as.character</span>(<span class="fu">row_number</span>()), <span class="at">.before=</span><span class="dv">1</span>) <span class="sc">|&gt;</span></span>
+<span id="cb6-8"><a href="data.html#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Dimension,<span class="st">`</span><span class="at">percentage of variance</span><span class="st">`</span>)  <span class="sc">|&gt;</span></span>
+<span id="cb6-9"><a href="data.html#cb6-9" aria-hidden="true" tabindex="-1"></a>   <span class="fu">slice_head</span>(<span class="at">n=</span><span class="dv">10</span>)</span>
+<span id="cb6-10"><a href="data.html#cb6-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-11"><a href="data.html#cb6-11" aria-hidden="true" tabindex="-1"></a>variance_plot <span class="ot">&lt;-</span> variance_data <span class="sc">|&gt;</span> </span>
+<span id="cb6-12"><a href="data.html#cb6-12" aria-hidden="true" tabindex="-1"></a>  waterfalls<span class="sc">::</span><span class="fu">waterfall</span>(<span class="at">calc_total =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb6-13"><a href="data.html#cb6-13" aria-hidden="true" tabindex="-1"></a>                        <span class="at">rect_text_labels  =</span> <span class="fu">round</span>(variance_data<span class="sc">$</span><span class="st">`</span><span class="at">percentage of variance</span><span class="st">`</span>,<span class="dv">2</span>),</span>
+<span id="cb6-14"><a href="data.html#cb6-14" aria-hidden="true" tabindex="-1"></a>                         <span class="at">put_rect_text_outside_when_value_below=</span><span class="dv">40</span>) <span class="sc">+</span></span>
+<span id="cb6-15"><a href="data.html#cb6-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title.y =</span> <span class="fu">element_text</span>(),</span>
+<span id="cb6-16"><a href="data.html#cb6-16" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.title.x =</span> <span class="fu">element_text</span>()) <span class="sc">+</span></span>
+<span id="cb6-17"><a href="data.html#cb6-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">&quot;Cumulative Variance&quot;</span>,</span>
+<span id="cb6-18"><a href="data.html#cb6-18" aria-hidden="true" tabindex="-1"></a>       <span class="at">y=</span><span class="st">&quot;Percentage of Variance&quot;</span>,</span>
+<span id="cb6-19"><a href="data.html#cb6-19" aria-hidden="true" tabindex="-1"></a>       <span class="at">x=</span><span class="st">&quot;Dimensions&quot;</span>) <span class="sc">+</span></span>
+<span id="cb6-20"><a href="data.html#cb6-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylim</span>(<span class="dv">0</span>,<span class="dv">100</span>)</span>
+<span id="cb6-21"><a href="data.html#cb6-21" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb6-22"><a href="data.html#cb6-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-23"><a href="data.html#cb6-23" aria-hidden="true" tabindex="-1"></a>screeplot <span class="sc">/</span> variance_plot </span></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:mfascree"></span>
 <img src="_main_files/figure-html/mfascree-1.png" alt="Scree plot and cumulative variance" width="672" />
 <p class="caption">
@@ -297,6 +920,14 @@ Figure 2.5: Scree plot and cumulative variance
 </p>
 </div>
 <p>Figure <a href="data.html#fig:groupbiplot">2.6</a> presents group biplots for the 8 most important dimensions. Unfortunately, there is no straightforward representation except with Dimension 2 and Education variables.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="data.html#cb7-1" aria-hidden="true" tabindex="-1"></a>mfa_plot <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb7-2"><a href="data.html#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>){</span>
+<span id="cb7-3"><a href="data.html#cb7-3" aria-hidden="true" tabindex="-1"></a>  mfa_plot[[<span class="fu">length</span>(mfa_plot)<span class="sc">+</span><span class="dv">1</span>]] <span class="ot">&lt;-</span>   <span class="fu">fviz_mfa_var</span>(mfa,<span class="at">choice=</span><span class="st">&quot;group&quot;</span>,<span class="at">axes=</span><span class="fu">c</span>(<span class="dv">2</span><span class="sc">*</span>i<span class="dv">-1</span>,<span class="dv">2</span><span class="sc">*</span>i)) <span class="sc">+</span> </span>
+<span id="cb7-4"><a href="data.html#cb7-4" aria-hidden="true" tabindex="-1"></a>                                      <span class="fu">xlim</span>(<span class="dv">0</span>,<span class="dv">1</span>) <span class="sc">+</span> <span class="fu">ylim</span>(<span class="dv">0</span>,<span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb7-5"><a href="data.html#cb7-5" aria-hidden="true" tabindex="-1"></a>                                      <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_blank</span>())</span>
+<span id="cb7-6"><a href="data.html#cb7-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-7"><a href="data.html#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-8"><a href="data.html#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="fu">wrap_plots</span>(mfa_plot) <span class="sc">+</span> <span class="fu">plot_annotation</span>(<span class="at">title=</span><span class="st">&quot;Variable groups - MFA&quot;</span>)</span></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:groupbiplot"></span>
 <img src="_main_files/figure-html/groupbiplot-1.png" alt="Group plots for first 8 dimensions" width="672" />
 <p class="caption">
@@ -315,6 +946,27 @@ Figure 2.6: Group plots for first 8 dimensions
 <li>use HDBSCAN <span class="citation">(<a href="#ref-campello2013" role="doc-biblioref">Campello, Moulavi, and Sander 2013</a>)</span>, a density-based hierarchical clustering algorithm. Instead of pre-setting a target number of clusters, HDBSCAN determines the optimal number of clusters based on its tuning parameters.</li>
 </ul>
 <p>This results in 3 distinct clusters of electorates. When presented in a map, it is possible to obtain figure <a href="data.html#fig:clustermap2016">2.7</a> for 2016.</p>
+<pre><code>## Rows: 450 Columns: 4
+## ── Column specification ───────────────────────────────────────────────────────────────────────────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## chr (2): DivisionNm, Metro_Area
+## dbl (2): Year, cluster
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<pre><code>## Warning in st_cast.sf(filter(map, DivisionNm == &quot;Sydney&quot;), &quot;POLYGON&quot;): repeating attributes for all sub-geometries for which they may
+## not be constant</code></pre>
+<pre><code>## Warning in st_cast.sf(filter(map, DivisionNm == &quot;Lingiari&quot;), &quot;POLYGON&quot;): repeating attributes for all sub-geometries for which they
+## may not be constant</code></pre>
+<pre><code>## Warning in st_cast.sf(filter(map, DivisionNm == &quot;Fenner&quot;), &quot;POLYGON&quot;): repeating attributes for all sub-geometries for which they may
+## not be constant</code></pre>
+<pre><code>## Warning in width_strings[fixed_areas[[i]]$cols] == &quot;-1null&quot; &amp;&amp; length(w) == : &#39;length(x) = 2 &gt; 1&#39; in coercion to &#39;logical(1)&#39;
+
+## Warning in width_strings[fixed_areas[[i]]$cols] == &quot;-1null&quot; &amp;&amp; length(w) == : &#39;length(x) = 2 &gt; 1&#39; in coercion to &#39;logical(1)&#39;</code></pre>
+<pre><code>## Warning in x[i] &lt;- value: number of items to replace is not a multiple of replacement length</code></pre>
+<pre><code>## Warning in width_strings[fixed_areas[[i]]$cols] == &quot;-1null&quot; &amp;&amp; length(w) == : &#39;length(x) = 2 &gt; 1&#39; in coercion to &#39;logical(1)&#39;
+
+## Warning in width_strings[fixed_areas[[i]]$cols] == &quot;-1null&quot; &amp;&amp; length(w) == : &#39;length(x) = 2 &gt; 1&#39; in coercion to &#39;logical(1)&#39;</code></pre>
 <div class="figure"><span style="display:block;" id="fig:clustermap2016"></span>
 <img src="_main_files/figure-html/clustermap2016-1.png" alt="Clusters for 2016 Election" width="672" />
 <p class="caption">
@@ -328,6 +980,24 @@ Figure 2.7: Clusters for 2016 Election
 <li><p><strong>cluster 2</strong> largely represents “suburbia”. It is also more prevalent in Brisbane and Perth compared when comparing capital cities.</p></li>
 </ul>
 <p>Revisiting the demographic attributes can help to understand how these clusters differ from each other. A selection of those variables is presented in figure <a href="data.html#fig:clustereddemographics">2.8</a>.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="data.html#cb15-1" aria-hidden="true" tabindex="-1"></a>dataset <span class="sc">|&gt;</span></span>
+<span id="cb15-2"><a href="data.html#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(clusters,<span class="at">by=</span><span class="st">&quot;DivisionNm&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb15-3"><a href="data.html#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(DivisionNm,cluster,<span class="fu">all_of</span>(<span class="fu">c</span>(<span class="st">&quot;Australian_Citizens&quot;</span>,</span>
+<span id="cb15-4"><a href="data.html#cb15-4" aria-hidden="true" tabindex="-1"></a>                           <span class="st">&quot;Age_Gen_Y&quot;</span>,<span class="st">&quot;Age_Baby_Boomers&quot;</span>,</span>
+<span id="cb15-5"><a href="data.html#cb15-5" aria-hidden="true" tabindex="-1"></a>                           <span class="st">&quot;Language_Chinese&quot;</span>,</span>
+<span id="cb15-6"><a href="data.html#cb15-6" aria-hidden="true" tabindex="-1"></a>                           <span class="st">&quot;Religion_No_Religion_Secular&quot;</span>,</span>
+<span id="cb15-7"><a href="data.html#cb15-7" aria-hidden="true" tabindex="-1"></a>                           <span class="st">&quot;Religion_Anglican_Uniting_Presbyterian&quot;</span>,</span>
+<span id="cb15-8"><a href="data.html#cb15-8" aria-hidden="true" tabindex="-1"></a>                           <span class="st">&quot;Income_2000_or_more&quot;</span>,</span>
+<span id="cb15-9"><a href="data.html#cb15-9" aria-hidden="true" tabindex="-1"></a>                           <span class="st">&quot;Education_Bachelor&quot;</span>,</span>
+<span id="cb15-10"><a href="data.html#cb15-10" aria-hidden="true" tabindex="-1"></a>                           <span class="st">&quot;Education_Diploma_or_Certificate&quot;</span>,</span>
+<span id="cb15-11"><a href="data.html#cb15-11" aria-hidden="true" tabindex="-1"></a>                           <span class="st">&quot;Relationship_Married&quot;</span>))) <span class="sc">|&gt;</span></span>
+<span id="cb15-12"><a href="data.html#cb15-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="sc">-</span><span class="fu">c</span>(DivisionNm,cluster),<span class="at">names_to =</span> <span class="st">&quot;Attribute&quot;</span>,<span class="at">values_to=</span><span class="st">&quot;Value&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb15-13"><a href="data.html#cb15-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">y=</span>Attribute,<span class="at">colour=</span>cluster,<span class="at">x=</span>Value),<span class="at">alpha=</span><span class="fl">0.4</span>) <span class="sc">+</span></span>
+<span id="cb15-14"><a href="data.html#cb15-14" aria-hidden="true" tabindex="-1"></a>  ggbeeswarm<span class="sc">::</span><span class="fu">geom_quasirandom</span>(<span class="at">size=</span><span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb15-15"><a href="data.html#cb15-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()<span class="sc">+</span></span>
+<span id="cb15-16"><a href="data.html#cb15-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_colour_manual</span>(<span class="at">values=</span>clusters_colours) <span class="sc">+</span></span>
+<span id="cb15-17"><a href="data.html#cb15-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Selected Attributes by cluster&quot;</span>)</span></code></pre></div>
+<pre><code>## Warning: Removed 187 rows containing missing values.</code></pre>
 <div class="figure"><span style="display:block;" id="fig:clustereddemographics"></span>
 <img src="_main_files/figure-html/clustereddemographics-1.png" alt="Selected attributes, coloured by cluster." width="672" />
 <p class="caption">
@@ -335,6 +1005,7 @@ Figure 2.8: Selected attributes, coloured by cluster.
 </p>
 </div>
 <p>Even though it is possible to find electorates from every country across the spectrum for every attribute, it is possible to observe that cluster 0 tends to concentrate areas with significant Millenial, highly educated, and relatively affluent populations. These areas also tend to attract newer migrants (lower numbers of citizens) and therefore they possess higher percentages of multicultural populations (such as Chinese speakers). Cluster 1 tends to concentrate older people, with lower percentages of tertiary and vocational education and possibly higher proportions of Anglo-Celtic Australians. Cluster 2 seems to be sitting in the middle of the other two clusters. Adding these findings to the geographical locations seems to confirm there is some element of truth in the stereotypical classification of voters.</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="data.html#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list=</span><span class="fu">ls</span>()[<span class="sc">!</span>(<span class="fu">ls</span>() <span class="sc">%in%</span> keep_vars)])</span></code></pre></div>
 
 </div>
 </div>

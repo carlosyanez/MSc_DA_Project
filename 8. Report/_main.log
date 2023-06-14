@@ -1,4 +1,4 @@
-This is LuaHBTeX, Version 1.17.0 (TeX Live 2023)  (format=lualatex 2023.6.12)  12 JUN 2023 23:42
+This is LuaHBTeX, Version 1.17.0 (TeX Live 2023)  (format=lualatex 2023.6.12)  13 JUN 2023 00:09
  restricted system commands enabled.
 **_main.tex
 (./_main.tex
@@ -1325,37 +1325,13 @@ LaTeX Font Info:    Font shape `TU/regular.ttf(0)/m/it' will be
 \bbl@ensure@british {Chapter} 2.
 LaTeX Font Info:    Font shape `TU/regular.ttf(0)/b/n' will be
 (Font)              scaled to size 11.03998pt on input line 240.
-
-Package natbib Warning: Citation `AEC' on page 7 undefined on input line 246.
-
-
-Package natbib Warning: Citation `TallyRoom' on page 7 undefined on input line 246.
-
-
-Package natbib Warning: Citation `ABS' on page 7 undefined on input line 248.
-
-
-Package natbib Warning: Citation `CensusDataPack' on page 7 undefined on input line 248.
-
-
-Package natbib Warning: Citation `R-auspol' on page 7 undefined on input line 268.
-
-
-Package natbib Warning: Citation `R-auscensus' on page 7 undefined on input line 270.
-
-
-Package natbib Warning: Citation `R-aussiemaps' on page 7 undefined on input line 272.
-
-<_main_files/figure-latex/data-flow-1.pdf, id=43, 1003.75pt x 582.175pt>
+<_main_files/figure-latex/data-flow-1.pdf, id=57, 1003.75pt x 582.175pt>
 File: _main_files/figure-latex/data-flow-1.pdf Graphic file (type pdf)
 <use _main_files/figure-latex/data-flow-1.pdf>
 Package luatex.def Info: _main_files/figure-latex/data-flow-1.pdf  used on input line 279.
 (luatex.def)             Requested size: 455.25195pt x 264.04613pt.
 [7] [8<./_main_files/figure-latex/data-flow-1.pdf>]
-
-LaTeX Warning: Reference `fig:electionsandcensus' on page 9 undefined on input line 308.
-
-<_main_files/figure-latex/electionsandcensus-1.pdf, id=73, 469.755pt x 325.215pt>
+<_main_files/figure-latex/electionsandcensus-1.pdf, id=96, 469.755pt x 325.215pt>
 File: _main_files/figure-latex/electionsandcensus-1.pdf Graphic file (type pdf)
 <use _main_files/figure-latex/electionsandcensus-1.pdf>
 Package luatex.def Info: _main_files/figure-latex/electionsandcensus-1.pdf  used on input line 312.
@@ -1363,19 +1339,274 @@ Package luatex.def Info: _main_files/figure-latex/electionsandcensus-1.pdf  used
 
 LaTeX Warning: Reference `tab:selected-pairs' on page 9 undefined on input line 316.
 
-! Undefined control sequence.
-<argument> \Oldarrayrulewidth 
-                   
-l.318 ...length{\Oldarrayrulewidth}{\arrayrulewidth}
-                                                  
+
+Underfull \vbox (badness 3471) has occurred while \output is active []
+
+[9<./_main_files/figure-latex/electionsandcensus-1.pdf>]
+LaTeX Font Info:    Font shape `TU/regular.ttf(0)/m/n' will be
+(Font)              scaled to size 7.05177pt on input line 340.
+LaTeX Font Info:    Font shape `TU/regular.ttf(0)/m/n' will be
+(Font)              scaled to size 8.27998pt on input line 340.
+LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(1)/m/n' will be
+(Font)              scaled to size 10.14958pt on input line 340.
+LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(1)/m/n' will be
+(Font)              scaled to size 6.76639pt on input line 340.
+LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(1)/m/n' will be
+(Font)              scaled to size 5.63866pt on input line 340.
+LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
+(Font)              scaled to size 10.15054pt on input line 340.
+LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
+(Font)              scaled to size 6.76703pt on input line 340.
+LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
+(Font)              scaled to size 5.63919pt on input line 340.
+LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
+(Font)              scaled to size 10.14848pt on input line 340.
+LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
+(Font)              scaled to size 6.76566pt on input line 340.
+LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
+(Font)              scaled to size 5.63805pt on input line 340.
+(c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/microtype/mt-msa.cfg
+File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
+) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/microtype/mt-msb.cfg
+File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
+)
+LaTeX Font Info:    Font shape `TU/regular.ttf(0)/m/n' will be
+(Font)              scaled to size 5.51999pt on input line 340.
+
+LaTeX Warning: Reference `tab:canberra2022' on page 10 undefined on input line 343.
+
+LaTeX Font Info:    Font shape `TU/regular.ttf(0)/m/it' will be
+(Font)              scaled to size 8.27998pt on input line 360.
+[10]
+
+LaTeX Warning: Reference `tab:datasetsample' on page 11 undefined on input line 390.
+
+
+Overfull \hbox (283.85037pt too wide) in alignment at lines 392--405
+ [][][][][][][][][][][] 
+ []
+
+[11]
+<_main_files/figure-latex/coalvsboomers-1.pdf, id=164, 469.755pt x 325.215pt>
+File: _main_files/figure-latex/coalvsboomers-1.pdf Graphic file (type pdf)
+<use _main_files/figure-latex/coalvsboomers-1.pdf>
+Package luatex.def Info: _main_files/figure-latex/coalvsboomers-1.pdf  used on input line 423.
+(luatex.def)             Requested size: 455.24608pt x 315.17035pt.
+<_main_files/figure-latex/corrlanguagereligion-1.pdf, id=165, 469.755pt x 325.215pt>
+File: _main_files/figure-latex/corrlanguagereligion-1.pdf Graphic file (type pdf)
+<use _main_files/figure-latex/corrlanguagereligion-1.pdf>
+Package luatex.def Info: _main_files/figure-latex/corrlanguagereligion-1.pdf  used on input line 428.
+(luatex.def)             Requested size: 500.76924pt x 346.68639pt.
+
+Overfull \hbox (45.52513pt too wide) in paragraph at lines 428--428
+[][] 
+ []
+
+<_main_files/figure-latex/mfascree-1.pdf, id=169, 469.755pt x 325.215pt>
+File: _main_files/figure-latex/mfascree-1.pdf Graphic file (type pdf)
+<use _main_files/figure-latex/mfascree-1.pdf>
+Package luatex.def Info: _main_files/figure-latex/mfascree-1.pdf  used on input line 449.
+(luatex.def)             Requested size: 455.24608pt x 315.17035pt.
+<_main_files/figure-latex/groupbiplot-1.pdf, id=171, 469.755pt x 325.215pt>
+File: _main_files/figure-latex/groupbiplot-1.pdf Graphic file (type pdf)
+<use _main_files/figure-latex/groupbiplot-1.pdf>
+Package luatex.def Info: _main_files/figure-latex/groupbiplot-1.pdf  used on input line 457.
+(luatex.def)             Requested size: 455.24608pt x 315.17035pt.
+[12<./_main_files/figure-latex/coalvsboomers-1.pdf>] [13<./_main_files/figure-latex/corrlanguagereligion-1.pdf>] [14<./_main_files/figure-latex/mfascree-1.pdf><./_main_files/figure-latex/groupbiplot-1.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 471--473
+
+ []
+
+<_main_files/figure-latex/clustermap2016-1.pdf, id=213, 469.755pt x 325.215pt>
+File: _main_files/figure-latex/clustermap2016-1.pdf Graphic file (type pdf)
+<use _main_files/figure-latex/clustermap2016-1.pdf>
+Package luatex.def Info: _main_files/figure-latex/clustermap2016-1.pdf  used on input line 482.
+(luatex.def)             Requested size: 455.24608pt x 315.17035pt.
+[15<./_main_files/figure-latex/clustermap2016-1.pdf>]
+<_main_files/figure-latex/clustereddemographics-1.pdf, id=227, 469.755pt x 325.215pt>
+File: _main_files/figure-latex/clustereddemographics-1.pdf Graphic file (type pdf)
+<use _main_files/figure-latex/clustereddemographics-1.pdf>
+Package luatex.def Info: _main_files/figure-latex/clustereddemographics-1.pdf  used on input line 501.
+(luatex.def)             Requested size: 455.24608pt x 315.17035pt.
+[16<./_main_files/figure-latex/clustereddemographics-1.pdf>]
+\bbl@ensure@british {Chapter} 3.
+LaTeX Font Info:    Font shape `TU/regular.ttf(1)/b/n' will be
+(Font)              scaled to size 10.07397pt on input line 515.
+LaTeX Font Info:    Font shape `TU/regular.ttf(1)/b/n' will be
+(Font)              scaled to size 7.05177pt on input line 515.
+LaTeX Font Info:    Font shape `TU/regular.ttf(1)/b/n' will be
+(Font)              scaled to size 5.03699pt on input line 515.
+LaTeX Font Info:    Font shape `TU/regular.ttf(0)/m/n' will be
+(Font)              scaled to size 5.03699pt on input line 532.
+[17
+
+] [18]
+\bbl@ensure@british {Chapter} 4.
+
+LaTeX Warning: Reference `tab:ranger11' on page 19 undefined on input line 612.
+
+
+LaTeX Warning: Reference `tab:range12' on page 19 undefined on input line 612.
+
+
+LaTeX Warning: Reference `fig:vipranger1' on page 19 undefined on input line 612.
+
+[19
+
+]
+<_main_files/figure-latex/unnamed-chunk-16-1.pdf, id=285, 469.755pt x 325.215pt>
+File: _main_files/figure-latex/unnamed-chunk-16-1.pdf Graphic file (type pdf)
+<use _main_files/figure-latex/unnamed-chunk-16-1.pdf>
+Package luatex.def Info: _main_files/figure-latex/unnamed-chunk-16-1.pdf  used on input line 640.
+(luatex.def)             Requested size: 455.24608pt x 315.17035pt.
+
+LaTeX Warning: Reference `tab:ranger22' on page 20 undefined on input line 642.
+
+
+LaTeX Warning: Reference `fig:vipranger2' on page 20 undefined on input line 642.
+
+<_main_files/figure-latex/unnamed-chunk-19-1.pdf, id=286, 469.755pt x 325.215pt>
+File: _main_files/figure-latex/unnamed-chunk-19-1.pdf Graphic file (type pdf)
+<use _main_files/figure-latex/unnamed-chunk-19-1.pdf>
+Package luatex.def Info: _main_files/figure-latex/unnamed-chunk-19-1.pdf  used on input line 670.
+(luatex.def)             Requested size: 455.24608pt x 315.17035pt.
+
+Underfull \vbox (badness 1062) has occurred while \output is active []
+
+[20<./_main_files/figure-latex/unnamed-chunk-16-1.pdf>]
+
+LaTeX Warning: Reference `tab:bestresults' on page 21 undefined on input line 681.
+
+
+Overfull \hbox (11.12192pt too wide) in alignment at lines 683--691
+ [][][][][][][][] 
+ []
+
+<_main_files/figure-latex/betacoefficients-1.pdf, id=298, 469.755pt x 1445.4pt>
+File: _main_files/figure-latex/betacoefficients-1.pdf Graphic file (type pdf)
+<use _main_files/figure-latex/betacoefficients-1.pdf>
+Package luatex.def Info: _main_files/figure-latex/betacoefficients-1.pdf  used on input line 697.
+(luatex.def)             Requested size: 229.92392pt x 707.45824pt.
+
+LaTeX Warning: Float too large for page by 25.68866pt on input line 699.
+
+[21<./_main_files/figure-latex/unnamed-chunk-19-1.pdf>] [22<./_main_files/figure-latex/betacoefficients-1.pdf>]
+Underfull \hbox (badness 5817) in paragraph at lines 724--726
+[]\TU/regular.ttf(0)/m/n/10.95 In this area, the Coalition vote has also a positive association with religiosity
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 724--726
+\TU/regular.ttf(0)/m/n/10.95 - this is not dissimilar to cluster 1, especially when considering that
+ []
+
+
+Underfull \hbox (badness 3240) in paragraph at lines 724--726
+\TU/regular.ttf(0)/m/n/10.95 Anglicanism/Presbytiarism/Unitiarism are the largest religious groups in the area).
+ []
+
+[23] [24
+
+]
+\bbl@ensure@british {Chapter} 5.
+
+LaTeX Warning: Reference `tab:newspoll' on page 25 undefined on input line 744.
+
+<_main_files/figure-latex/2022cluster-1.pdf, id=335, 469.755pt x 325.215pt>
+File: _main_files/figure-latex/2022cluster-1.pdf Graphic file (type pdf)
+<use _main_files/figure-latex/2022cluster-1.pdf>
+Package luatex.def Info: _main_files/figure-latex/2022cluster-1.pdf  used on input line 761.
+(luatex.def)             Requested size: 455.24608pt x 315.17035pt.
+
+LaTeX Warning: Reference `tab:2022rmse' on page 25 undefined on input line 765.
+
+<_main_files/figure-latex/electionresult-1.pdf, id=337, 469.755pt x 325.215pt>
+File: _main_files/figure-latex/electionresult-1.pdf Graphic file (type pdf)
+<use _main_files/figure-latex/electionresult-1.pdf>
+Package luatex.def Info: _main_files/figure-latex/electionresult-1.pdf  used on input line 769.
+(luatex.def)             Requested size: 455.24608pt x 315.17035pt.
+[25] [26<./_main_files/figure-latex/2022cluster-1.pdf><./_main_files/figure-latex/electionresult-1.pdf>]
+<_main_files/figure-latex/tealsplot-1.pdf, id=372, 469.755pt x 325.215pt>
+File: _main_files/figure-latex/tealsplot-1.pdf Graphic file (type pdf)
+<use _main_files/figure-latex/tealsplot-1.pdf>
+Package luatex.def Info: _main_files/figure-latex/tealsplot-1.pdf  used on input line 792.
+(luatex.def)             Requested size: 455.24608pt x 315.17035pt.
+<_main_files/figure-latex/tealdemographics-1.pdf, id=374, 469.755pt x 325.215pt>
+File: _main_files/figure-latex/tealdemographics-1.pdf Graphic file (type pdf)
+<use _main_files/figure-latex/tealdemographics-1.pdf>
+Package luatex.def Info: _main_files/figure-latex/tealdemographics-1.pdf  used on input line 800.
+(luatex.def)             Requested size: 455.24608pt x 315.17035pt.
+<_main_files/figure-latex/greenvoting-1.pdf, id=377, 469.755pt x 325.215pt>
+File: _main_files/figure-latex/greenvoting-1.pdf Graphic file (type pdf)
+<use _main_files/figure-latex/greenvoting-1.pdf>
+Package luatex.def Info: _main_files/figure-latex/greenvoting-1.pdf  used on input line 811.
+(luatex.def)             Requested size: 455.24608pt x 315.17035pt.
+<_main_files/figure-latex/green-1.pdf, id=378, 469.755pt x 325.215pt>
+File: _main_files/figure-latex/green-1.pdf Graphic file (type pdf)
+<use _main_files/figure-latex/green-1.pdf>
+Package luatex.def Info: _main_files/figure-latex/green-1.pdf  used on input line 817.
+(luatex.def)             Requested size: 455.24608pt x 315.17035pt.
+[27<./_main_files/figure-latex/tealsplot-1.pdf>] [28<./_main_files/figure-latex/tealdemographics-1.pdf><./_main_files/figure-latex/greenvoting-1.pdf>]
+<_main_files/figure-latex/suburbia1-1.pdf, id=409, 469.755pt x 325.215pt>
+File: _main_files/figure-latex/suburbia1-1.pdf Graphic file (type pdf)
+<use _main_files/figure-latex/suburbia1-1.pdf>
+Package luatex.def Info: _main_files/figure-latex/suburbia1-1.pdf  used on input line 830.
+(luatex.def)             Requested size: 455.24608pt x 315.17035pt.
+<_main_files/figure-latex/suburbia2-1.pdf, id=410, 469.755pt x 325.215pt>
+File: _main_files/figure-latex/suburbia2-1.pdf Graphic file (type pdf)
+<use _main_files/figure-latex/suburbia2-1.pdf>
+Package luatex.def Info: _main_files/figure-latex/suburbia2-1.pdf  used on input line 836.
+(luatex.def)             Requested size: 455.24608pt x 315.17035pt.
+[29<./_main_files/figure-latex/green-1.pdf>] [30<./_main_files/figure-latex/suburbia1-1.pdf><./_main_files/figure-latex/suburbia2-1.pdf>] [31] [32
+
+]
+\bbl@ensure@british {Chapter} 6.
+(./_main.bbl [33] [34
+
+]
+Underfull \hbox (badness 3895) in paragraph at lines 9--12
+[]\TU/regular.ttf(0)/m/n/10.95 Simon Benson.  Newspoll: Labor lead over coalition narrows, 2023.  URL []$https://www.
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 9--12
+\TU/regular.ttf(0)/m/n/10.95 theaustralian.com.au/nation/politics/newspoll-labor-lead-over-coalition-narrows/news-story/
+ []
+
+[35]
+Underfull \hbox (badness 10000) in paragraph at lines 94--98
+\TU/regular.ttf(0)/m/n/10.95 Parliament/Parliamentary_Departments/Parliamentary_Library/FlagPost/2022/April/Voting_
+ []
+
+
+Underfull \hbox (badness 2205) in paragraph at lines 94--98
+\TU/regular.ttf(0)/m/n/10.95 patterns_by_generation$[].  Archive Location: Australia Last Modified: 2022-04-29 Publisher:
+ []
+
+) [36] (./_main.aux)
+ ***********
+LaTeX2e <2023-06-01>
+L3 programming layer <2023-06-05>
+ ***********
+
+LaTeX Warning: There were undefined references.
+
+)
 
 Here is how much of LuaTeX's memory you used:
- 35884 strings out of 478043
+ 36487 strings out of 478043
  100000,1977958 words of node,token memory allocated
- 7996 words of node memory still in use:
-   31 hlist, 3 vlist, 3 rule, 1 disc, 4 local_par, 1 dir, 171 glue, 59 kern, 15 penalty, 6 margin_kern, 755 glyph, 119 attribute, 68 glue_spec, 43 attribute_list, 3 write, 1 user_defined, 1 pdf_dest, 4 pdf_colorstack, 1 pdf_setmatrix, 1 pdf_save, 1 pdf_restore nodes
-   avail lists: 1:2,2:723,3:164,4:76,5:362,6:30,7:4707,8:3,9:204,10:16,11:3
- 55582 multiletter control sequences out of 65536+600000
- 56 fonts using 11451743 bytes
- 90i,12n,123p,1193b,430s stack positions out of 10000i,1000n,20000p,200000b,200000s
-!  ==> Fatal error occurred, no output PDF file produced!
+ 938 words of node memory still in use:
+   8 hlist, 2 vlist, 2 rule, 1 local_par, 9 glue, 4 kern, 1 penalty, 1 margin_kern, 4 glyph, 78 attribute, 68 glue_spec, 28 attribute_list, 2 write, 1 user_defined, 13 pdf_action nodes
+   avail lists: 1:2,2:1692,3:597,4:135,5:650,6:41,7:8093,8:137,9:831,10:19,11:49
+ 55977 multiletter control sequences out of 65536+600000
+ 82 fonts using 19266711 bytes
+ 90i,15n,123p,1193b,533s stack positions out of 10000i,1000n,20000p,200000b,200000s
+<c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/fonts/opentype/public/lm-math/latinmodern-math.otf><c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/fonts/opentype/public/lm-math/latinmodern-math.otf><c:/Users/carlo/AppData/Local/R/win-library/4.2/uofgdataanalyticsreport/indiedown/fonts/bold.ttf><c:/Users/carlo/AppData/Local/R/win-library/4.2/uofgdataanalyticsreport/indiedown/fonts/italic.ttf><c:/Users/carlo/AppData/Local/R/win-library/4.2/uofgdataanalyticsreport/indiedown/fonts/regular.ttf><c:/Users/carlo/AppData/Local/R/win-library/4.2/uofgdataanalyticsreport/indiedown/fonts/bold.ttf>
+Output written on _main.pdf (36 pages, 1873449 bytes).
+
+PDF statistics: 638 PDF objects out of 1000 (max. 8388607)
+ 537 compressed objects within 6 object streams
+ 165 named destinations out of 1000 (max. 131072)
+ 200 words of extra memory for PDF output out of 10000 (max. 100000000)
+

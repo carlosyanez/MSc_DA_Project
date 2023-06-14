@@ -23,7 +23,7 @@
 <meta name="author" content="Carlos Yanez Santibanez" />
 
 
-<meta name="date" content="2023-06-12" />
+<meta name="date" content="2023-06-14" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -56,8 +56,8 @@
 <script src="libs/viz-1.8.2/viz.js"></script>
 <link href="libs/DiagrammeR-styles-0.2/styles.css" rel="stylesheet" />
 <script src="libs/grViz-binding-1.0.10/grViz.js"></script>
-<link href="libs/tabwid-1.1.3/tabwid.css" rel="stylesheet" />
-<script src="libs/tabwid-1.1.3/tabwid.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 
 
 
@@ -106,16 +106,17 @@ div.csl-indent {
 <li class="chapter" data-level="2" data-path="data.html"><a href="data.html"><i class="fa fa-check"></i><b>2</b> Data</a>
 <ul>
 <li class="chapter" data-level="2.1" data-path="data.html"><a href="data.html#data-sources"><i class="fa fa-check"></i><b>2.1</b> Data Sources</a></li>
-<li class="chapter" data-level="2.2" data-path="data.html"><a href="data.html#data-selection"><i class="fa fa-check"></i><b>2.2</b> Data Selection</a>
+<li class="chapter" data-level="2.2" data-path="data.html"><a href="data.html#data-selection"><i class="fa fa-check"></i><b>2.2</b> Data Selection and Initial Transformation</a>
 <ul>
-<li class="chapter" data-level="2.2.1" data-path="data.html"><a href="data.html#data-selection-years"><i class="fa fa-check"></i><b>2.2.1</b> Census and Election Years</a></li>
+<li class="chapter" data-level="2.2.1" data-path="data.html"><a href="data.html#how-to-present-the-numbers"><i class="fa fa-check"></i><b>2.2.1</b> How to present the numbers</a></li>
 <li class="chapter" data-level="2.2.2" data-path="data.html"><a href="data.html#data-selection-electoral"><i class="fa fa-check"></i><b>2.2.2</b> Electoral Data</a></li>
 <li class="chapter" data-level="2.2.3" data-path="data.html"><a href="data.html#census-data"><i class="fa fa-check"></i><b>2.2.3</b> Census Data</a></li>
 </ul></li>
-<li class="chapter" data-level="2.3" data-path="data.html"><a href="data.html#eda"><i class="fa fa-check"></i><b>2.3</b> Data Exploration</a>
+<li class="chapter" data-level="2.3" data-path="data.html"><a href="data.html#training-validation-and-testing-split"><i class="fa fa-check"></i><b>2.3</b> Training, Validation and Testing Split</a></li>
+<li class="chapter" data-level="2.4" data-path="data.html"><a href="data.html#eda"><i class="fa fa-check"></i><b>2.4</b> Data Exploration</a>
 <ul>
-<li class="chapter" data-level="2.3.1" data-path="data.html"><a href="data.html#data-mfa"><i class="fa fa-check"></i><b>2.3.1</b> Dimensionality reduction using Multiple Factor Analysis</a></li>
-<li class="chapter" data-level="2.3.2" data-path="data.html"><a href="data.html#data-clusters"><i class="fa fa-check"></i><b>2.3.2</b> Electorate segments</a></li>
+<li class="chapter" data-level="2.4.1" data-path="data.html"><a href="data.html#data-mfa"><i class="fa fa-check"></i><b>2.4.1</b> Dimensionality reduction using Multiple Factor Analysis</a></li>
+<li class="chapter" data-level="2.4.2" data-path="data.html"><a href="data.html#data-clusters"><i class="fa fa-check"></i><b>2.4.2</b> Electorate segments</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="method.html"><a href="method.html"><i class="fa fa-check"></i><b>3</b> Method</a></li>
@@ -129,7 +130,7 @@ div.csl-indent {
 <li class="chapter" data-level="5.1" data-path="results.html"><a href="results.html#id_2021prediction"><i class="fa fa-check"></i><b>5.1</b> Forecasting the 2022 Federal Election</a></li>
 <li class="chapter" data-level="5.2" data-path="results.html"><a href="results.html#the-teal-wave"><i class="fa fa-check"></i><b>5.2</b> The Teal Wave</a></li>
 <li class="chapter" data-level="5.3" data-path="results.html"><a href="results.html#green-wave"><i class="fa fa-check"></i><b>5.3</b> The Green Wave</a></li>
-<li class="chapter" data-level="5.4" data-path="results.html"><a href="results.html#the-changing-face-of-suburbia"><i class="fa fa-check"></i><b>5.4</b> The Changing face of suburbia</a></li>
+<li class="chapter" data-level="5.4" data-path="results.html"><a href="results.html#the-changing-face-of-suburbia"><i class="fa fa-check"></i><b>5.4</b> The Changing Face of Suburbia</a></li>
 </ul></li>
 <li class="chapter" data-level="6" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i><b>6</b> Conclusion</a></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
@@ -156,7 +157,7 @@ div.csl-indent {
 <div id="header">
 <h1 class="title">Analysing Australian Election Results</h1>
 <p class="author"><em>Carlos Yanez Santibanez</em></p>
-<p class="date"><em>2023-06-12</em></p>
+<p class="date"><em>2023-06-14</em></p>
 </div>
 <div id="acknowledgements" class="section level1 unnumbered hasAnchor">
 <h1>Acknowledgements<a href="index.html#acknowledgements" class="anchor-section" aria-label="Anchor link to header"></a></h1>
