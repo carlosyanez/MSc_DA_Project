@@ -21,3 +21,6 @@ Although accuracy was not a key consideration, the model managed to produce mode
 Taking aside issues regarding the effectiveness of this model, it is also relevant to raise a note of caution about how to interpret the model correctly. By using demographic data is important to keep in mind that certain attributes must be interpreted as proxies of attitudes and values that have an effect on how voters choose. It is very important to make this distinction and avoid statements such as "Community XYZ votes/don't vote for Party A". This is definitely not an aim behind this exercise and it should not be interpreted this way.
 
 Finally, it is also important to recognise that "all models are wrong but some are useful". Capturing and quantifying human behaviour can be a challenging task, but in this case, having a tool for analysis can prove value for parties, the media and the voters to check the accuracy of political narratives.
+
+
+\newpage

@@ -30,7 +30,7 @@ To assist in dealing with these issues and ensure repeatability,  it was necessa
 
 The way each package operates is described on their respective websites Using them, it was possible to build a basic data extraction and transformation pipeline, which is represented by figure \@ref(fig:data-flow).
 
-```{r data-flow, fig.cap="Flow of data from sources to dataset", echo=FALSE}
+```{r data-flow, fig.cap="Flow of data from sources to dataset", echo=FALSE,fig.height=200}
 DiagrammeR::grViz(here("img","02_data_flow.gv"))
 ```
 
@@ -58,7 +58,7 @@ Although the aim behind the creation and geographical distribution of Commonweal
 The second point to address is the correspondence between census and election data. Since the election the census cycle (5 years) does not match the electoral cycle (determined by the incumbent government, with a 3-year term for the House of Representatives), there is a potential problem of the census data not being completely representative of the population on a given election day. Figure \@ref(fig:electionsandcensus) presents the best matches between both events held in the 21st century.
 
 ```{r electionsandcensus, fig.cap="Census and Elections Timeline"}
- tibble::tribble(~Year, ~Event,
+p<-  tibble::tribble(~Year, ~Event,
                 2001,"Census",
                 2006,"Census",
                 2011,"Census",
@@ -75,7 +75,18 @@ The second point to address is the correspondence between census and election da
                 ) |>
   mutate(start = lubridate::ymd(Year,truncated = 2L),
          end=start+lubridate::ddays(365)) |>
-vistime::gg_vistime(col.event="Year",col.group = "Event", title = "Timeline of Census and Elections") 
+  mutate(colour=case_when(
+     Event=="Census" ~ "#00843D",
+     Event=="Election" ~ "#FFCD00"
+  )) |>
+vistime::gg_vistime(col.event="Year",
+                    col.group = "Event",
+                    col.color = "colour",
+                    title = "Timeline of Census and Elections") 
+
+p$layers[[3]]$aes_params$size <- 0.65
+
+p
 
 ```
 
@@ -102,11 +113,11 @@ Please note that this selection will remove half of the election events within t
 In the case of the electoral data. not much processing was required. The source data already contains records of primary voting for each electorate.  The only adjustment was to reclassify the vote into four groups (referred to as parties in this document):
 
 * **ALP** for the Australian Labor Party.
-**COAL** representing the Coalition, made of the Liberal Party, the National Party, the Liberal National Party of Queensland [^04-data-lnp] and the Country Liberal Party in the Northern Territory [^04-data-lnp] .
+* **COAL** representing the Coalition, made of the Liberal Party, the National Party, the Liberal National Party of Queensland [^04-data-lnp] and the Country Liberal Party in the Northern Territory [^04-data-lnp] .
+* **GRN** for the Australian Greens.
+* **Other** to collect votes from any other candidates, including minor parties and independents.
 
 [^04-data-lnp]: In Queensland and the Northern Territory, the Liberal and National branches have merged. Elected federal MPs and senators sit with Liberals if they come from an urban area, or the Nationals when they represent a regional/rural/remote electorate.
-
-
 
  A data sample is presented in table \@ref(tab:canberra2022).
 
@@ -196,20 +207,44 @@ dataset <- read_csv(fs::path(project_path,"4. Data","consolidated.csv"))
 
 ```
 
+
+`r if(eval_book){"\\newpage"}`
+`r if(eval_book){"\\begin{landscape}"}`
+
+
 ```{r datasetsample}
-dataset |> 
-  slice_sample(n=8) |>
-  select(election_year,DivisionNm,ALP,COAL,GRN,Other,
-         Australian_Citizens,Age_Baby_Boomers,Age_Gen_X,
-         Language_Chinese,Language_Greek) |>
-  mutate(election_year=as.character(election_year)) |>
-  mutate(across(where(is.numeric),~round(.x,2))) |>
-   kbl(booktabs = T,caption="datasetsample") |>
-   kable_styling(latex_options = c("HOLD_position", "striped"),
-                 bootstrap_options="responsive",
-                 full_width=FALSE)
+sample_data_kbl <- dataset |> 
+  slice_sample(n=25) |>
+  select(election_year,DivisionNm,
+         Australian_Citizens,Age_Baby_Boomers,Age_Gen_Y,Household_Rented,
+         Language_Chinese,Language_Italian,Relationship_Single_Parent,Income_2000_or_more) |>
+  mutate(`Election Year`=as.character(election_year),.keep="unused",.before=1) |>
+  mutate(across(where(is.numeric),~formatC(.x,digits=2,format="f"))) |>
+  arrange(DivisionNm,`Election Year`)   |>
+  rename("Division"="DivisionNm") |>
+  rename_with(~ str_remove(.x,"Language|Age|Household|Relationship|Religion|Income")) |>
+  rename_with(~ str_replace(.x,"_"," ")) |>
+  rename_with(~ str_replace(.x,"_"," ")) |>
+  rename_with(~ str_trim(.x))
+
+
+
+sample_data_kbl <- sample_data_kbl |>
+  kbl(booktabs = T,caption="Dataset sample", align=glue("cl{str_c(rep('r',ncol(sample_data_kbl)-1),collapse='')}")) |>
+  kable_styling(latex_options = c("striped","scaled_down"),
+                 full_width=FALSE) |>
+  add_header_above(c(" "=3,"Age"=2,"Household"=1,"Language"=2,"Relationship"=1,"Income"=1),
+                   align=str_c("cl",rep("r",ncol(sample_data_kbl)-2)))
+
+if(eval_html){
+  sample_data_kbl |> scroll_box(width = "800px",height = "550px")
+  
+}else{
+  sample_data_kbl
+}
 
 ```
+`r if(eval_book){"\\end{landscape}"}`
 
 ## Training, Validation and Testing Split
 
@@ -221,17 +256,32 @@ In total, the resulting dataset is made up of 4 response variables and `r census
 
 As an example, figure \@ref(fig:coalvsboomers) shows a somewhat weak correlation between Coalition primary vote and the percentage of the Baby Boomers. Figure \@ref(fig:corrlanguagereligion) presents the correlation values for religion and language variables, where is possible to see:
 * A positive correlation between monolingual English speakers and membership in Anglican, Presbyterian and Uniting churches. Together, they are likely proxies for Anglo-Celtic population.
-* Similarly, there are somewhat expecting origins that most likely indicate concentrations of linguistically and culturally diverse pockets, e.g. Hinduism and South Asian languages, Catholicism and Italian, and Buddhism and East Asian languages. 
+* Similarly, there are somewhat expecting origins that most likely indicate concentrations of linguistically and culturally diverse pockets, e.g. Hinduism and South Asian languages, Catholicism and Italian, and Buddhism and East Asian languages.
 
 ```{r coalvsboomers,fig.cap="Correlation between Coalition vote and Baby boomer population"}
-dataset |>
-  select(DivisionNm,election_year,COAL,Age_Baby_Boomers) |>
-  ggplot(aes(x=Age_Baby_Boomers,y=COAL)) +
+
+nat <- read_csv(fs::path(project_path,"4. Data","primary_vote.csv")) |>
+       select(-OrdinaryVotes,-StateAb)   |>
+       pivot_wider(names_from ="PartyAb",values_from="Percentage" ) |>
+       mutate(Other=sum(Other,`Other Left`,`Other Right`,na.rm=TRUE),.keep="unused")
+
+
+p <- dataset |>
+  select(DivisionNm,election_year,Age_Baby_Boomers) |>
+  left_join(nat |> select(DivisionNm,COAL,Year),by=c("DivisionNm"="DivisionNm","election_year"="Year"))|>
+  ggplot(aes(x=Age_Baby_Boomers,y=COAL,text=DivisionNm)) +
   geom_point(colour=auspol::party_colours()["COAL"]) +
   facet_wrap(.~ election_year, ncol=2) +
   labs(title="Coalition Primary vote by baby boomer population",
        subtitle="as percentage of electorate's population",
        x= "Baby Boomers (%)",y="Primary vote (%)")
+
+
+if(eval_html){
+   p |>  ggplotly(tooltip = "text")
+}else{
+  p
+}
 ```
 
 ```{r corrlanguagereligion, echo=FALSE,  out.width="110%", fig.cap="Correlation for selected covariates"}
@@ -286,7 +336,7 @@ mfa <- readRDS(fs::path(project_path,"6. Modelling",
 ```
 
 ```{r mfascree, fig.cap="Scree plot and cumulative variance"}
-screeplot <- fviz_screeplot(mfa)  +
+screeplot <- fviz_screeplot(mfa,barfill="#00843D",barcolor="#00843D" )  +
              labs(y="Percentage of Variance")
 
 variance_data <- mfa$eig |> 
@@ -299,7 +349,9 @@ variance_data <- mfa$eig |>
 variance_plot <- variance_data |> 
   waterfalls::waterfall(calc_total = FALSE,
                         rect_text_labels  = round(variance_data$`percentage of variance`,2),
-                         put_rect_text_outside_when_value_below=40) +
+                         put_rect_text_outside_when_value_below=40,
+                        fill_by_sign = FALSE,
+                        fill_colours =rep("#FFCD00",nrow(variance_data))) +
   theme(axis.title.y = element_text(),
         axis.title.x = element_text()) +
   labs(title="Cumulative Variance",
@@ -317,7 +369,8 @@ Figure \@ref(fig:groupbiplot) presents group biplots for the 8 most important di
 ```{r groupbiplot,fig.cap="Group plots for first 8 dimensions"}
 mfa_plot <- list()
 for(i in 1:4){
-  mfa_plot[[length(mfa_plot)+1]] <-   fviz_mfa_var(mfa,choice="group",axes=c(2*i-1,2*i)) + 
+  mfa_plot[[length(mfa_plot)+1]] <-   fviz_mfa_var(mfa,choice="group",axes=c(2*i-1,2*i),
+                                                   col.var = "#00843D") + 
                                       xlim(0,1) + ylim(0,1) +
                                       theme(plot.title = element_blank())
 }
@@ -336,7 +389,7 @@ Using all demographic variables a clustering algorithm has been applied to ident
 - transform all demographic attributes to represent the difference between each data point and their corresponding national value (in the same year).
 -  use HDBSCAN [@campello2013], a density-based hierarchical clustering algorithm. Instead of pre-setting a target number of clusters, HDBSCAN determines the optimal number of clusters based on its tuning parameters. 
 
-This results in 3 distinct clusters of electorates. When presented in a map, it is possible to obtain  figure \@ref(fig:clustermap2016) for 2016.
+This results in 3 distinct clusters of electorates. When presented in a map, it is possible to obtain `r if_else(eval_html,"figures \\@ref(fig:clustermap2016) and \\@ref(fig:clustermap2016int)","figure \\@ref(fig:clustermap2016)")` for 2016.
 
 ```{r clustermap2016, echo=FALSE, fig.cap="Clusters for 2016 Election"}
 library(sf)
@@ -350,6 +403,34 @@ australian_ced_map(clusters,fs::path(project_path,"4. Data","CED_2016.gpkg"),
                     "Clustering of 2016 Electoral Divisions")
 
 ```
+
+```{r clustermap2016int, eval=eval_html,fig.cap="Clusters for 2016 Election - Interactive"}
+
+pal <- leaflet::colorFactor(as.vector(clusters_colours),as.character(0:2))
+rr <- tags$div(
+   HTML('<h2> Clusters - 2016 Election </h2>')
+ )  
+
+
+sf::st_read(path(project_path,"4. Data","CED_2016.gpkg"),quiet=TRUE) |>
+       left_join(clusters, by="DivisionNm") |>
+  mutate(cluster=as.character(cluster)) |>
+    select(DivisionNm,cluster) |>
+  leaflet() |>
+  addTiles()|>
+  addPolygons(fillColor = ~pal(cluster),
+              weight=1,
+              color="white",
+              opacity=1,
+              fillOpacity =0.75,
+              label =~DivisionNm) |>
+  addLegend(pal = pal, values = ~cluster, opacity = 0.75,position="bottomleft") |>
+  addControl(rr, position = "topright")
+
+
+```  
+
+
 
 These three clusters are: 
 

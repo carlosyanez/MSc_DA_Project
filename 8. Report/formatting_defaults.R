@@ -5,7 +5,10 @@ knitr::knit_hooks$set(inline = function(x) { if(!is.numeric(x)){ x }else{ format
 ##ggplot default theming ----
 
 ggplot2::theme_set(ggplot2:::theme_minimal())
-customthemes::set_plot_colours()
+customthemes::set_plot_colours(line_colour = "#00843D",
+                               fill_colour = "#00843D",
+                               HVline_colour = "#00843D",
+                               alt_fill_colour = "#00843D")
 ##use theme_update to add things
 
 ##default flextable theming -----
@@ -51,14 +54,14 @@ australian_ced_map <- function(data, ced_gpkg,fill_col,colour_palette,plot_title
   fen <- map |> 
     filter(DivisionNm=="Fenner") |>
     st_cast("POLYGON")
-  lin$area <- st_area(lin)
-  lin <- lin |> filter(area==max(area))
+  fen$area <- st_area(fen)
+  fen <- fen |> filter(area==max(area))
 
   bean <- map |> 
     filter(DivisionNm=="Bean") |>
     st_cast("POLYGON")
-  lin$area <- st_area(lin)
-  lin <- lin |> filter(area==max(area))
+  bean$area <- st_area(bean)
+  bean <- bean |> filter(area==max(area))
   
   map <- map |>
     filter(DivisionNm!="Sydney") |>
@@ -67,15 +70,6 @@ australian_ced_map <- function(data, ced_gpkg,fill_col,colour_palette,plot_title
     filter(DivisionNm!="Bean") |>
     bind_rows(syd,lin,fen,bean)
   
-  national <- map |>
-    select(any_of(c("DivisionNm",fill_col))) |>
-    rename("filler"=fill_col)|>
-    ggplot(aes(fill=filler)) +
-    geom_sf(colour="grey70") +
-    theme_void() +
-    scale_fill_manual(values = colour_palette,name=fill_col) +
-    theme(legend.position = "bottom",
-          legend.direction = "horizontal")
   
   melb <-  map |>
     filter(str_detect(Metro_Area,"Melbourne")) |>
@@ -90,6 +84,7 @@ australian_ced_map <- function(data, ced_gpkg,fill_col,colour_palette,plot_title
   
   syd <-  map |>
     filter(str_detect(Metro_Area,"Sydney")) |>
+    filter(!(DivisionNm %in% c("Hume"))) |>
     select(any_of(c("DivisionNm",fill_col))) |>
     rename("filler"=fill_col)|>
     ggplot(aes(fill=filler)) +
@@ -145,6 +140,23 @@ australian_ced_map <- function(data, ced_gpkg,fill_col,colour_palette,plot_title
     labs(subtitle = "Perth")  +
     theme(legend.position = "none")
   
+  metros <- bind_rows(bris$data,ade$data,perth$data,can$data,syd$data,melb$data) |>
+            st_drop_geometry() |>
+            pull(DivisionNm)
+  
+  national <- map |>
+    filter(!(DivisionNm %in% metros)) |>
+    select(any_of(c("DivisionNm",fill_col))) |>
+    rename("filler"=fill_col)|>
+    ggplot(aes(fill=filler)) +
+    geom_sf(colour="grey70") +
+    theme_void() +
+    scale_fill_manual(values = colour_palette,name=fill_col) +
+    theme(legend.position = "bottom",
+          legend.direction = "horizontal") +
+    labs(subtitle="Non Metropolitan")
+  
+  
   
   bris + ade + perth +
     can + syd + melb +
@@ -154,7 +166,7 @@ australian_ced_map <- function(data, ced_gpkg,fill_col,colour_palette,plot_title
                         77776666
                         77776666
                         77776666") +
-    plot_annotation(title="Clustering of 2016 Electoral Divisions")
+    plot_annotation(title=plot_title)
   
 }
 
@@ -167,20 +179,25 @@ cluster_names <- tibble::tribble(~cluster, ~name_simple,~name_composite,
 
 
 ##compare results ----
-compare_results <- function(ced_name,...){
-  auspol::house_primary_historic_plot(ced_name,
+compare_results <- function(ced_name,parties=3,results,...){
+  p<- auspol::house_primary_historic_plot(ced_name,
                                       include_others = TRUE,
+                                      merge_parties=list("COAL"=c("LP","LNP","NAT","LIB")),
+                                      parties=parties,
                                       ...) +
     ggnewscale::new_scale("colour") +
+    ggnewscale::new_scale("shape")  +
     geom_point(data=results$prediction_compared |>
                  filter(str_detect(DivisionNm,ced_name)) |>
                  select(PartyAb,Predicted) |>
+                 mutate(Type="Prediction")      |>
                  mutate(Year=2022),
-               aes(x=Year,y=Predicted,colour=PartyAb),
-               shape=18,
+               aes(x=Year,y=Predicted,colour=PartyAb,shape=Type),
                size=3,
                inherit.aes = FALSE) +
     scale_colour_manual(values=party_palette,name="Predictions") +
+    scale_shape_manual(values=c("Prediction"=18,"Result"=1),name="Predictions") + 
+    guides(color = FALSE) +
     labs(subtitle = ced_name)
 }
 
@@ -190,6 +207,7 @@ census_plot <- function(demographic_data,ced_name,attributes){
     select(any_of(c("DivisionNm","Year",attributes)))                     |>
     pivot_longer(-c(DivisionNm,Year),names_to = "Attribute",values_to="Percentage") |>
     ggplot(aes(x=Year, y=Percentage,colour=Attribute,linetype=Attribute,shape=Attribute)) +
+    geom_hline(yintercept = 0,colour="grey80",linewidth=1.1) +
     geom_point()+
     geom_line() +
     labs(subtitle = ced_name)

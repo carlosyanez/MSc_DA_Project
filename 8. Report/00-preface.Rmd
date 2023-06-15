@@ -1,0 +1,24 @@
+---
+output:
+  pdf_document: default
+bibliography:
+- book.bib
+- packages.bib
+---
+
+`r if(eval_html){"\\newpage"}` 
+# Acknowledgements {-}
+
+
+\newpage
+
+```{r eval=eval_book}
+uofgdataanalyticsreport::cd_toc()
+```
+
+# Abstract {-}
+
+
+
+
+\newpage
