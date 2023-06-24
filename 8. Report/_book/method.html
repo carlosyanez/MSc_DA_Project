@@ -23,7 +23,6 @@
 <meta name="author" content="Carlos Yanez Santibanez" />
 
 
-<meta name="date" content="2023-06-16" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -52,12 +51,9 @@
 <link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
 <link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
-<script src="libs/htmlwidgets-1.6.1/htmlwidgets.js"></script>
-<script src="libs/viz-1.8.2/viz.js"></script>
-<link href="libs/DiagrammeR-styles-0.2/styles.css" rel="stylesheet" />
-<script src="libs/grViz-binding-1.0.10/grViz.js"></script>
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<script src="libs/htmlwidgets-1.6.1/htmlwidgets.js"></script>
 <script src="libs/plotly-binding-4.10.1/plotly.js"></script>
 <script src="libs/typedarray-0.1/typedarray.min.js"></script>
 <link href="libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
@@ -146,6 +142,9 @@ div.csl-indent {
 <li class="chapter" data-level="5.4" data-path="results.html"><a href="results.html#the-changing-face-of-suburbia"><i class="fa fa-check"></i><b>5.4</b> The Changing Face of Suburbia</a></li>
 </ul></li>
 <li class="chapter" data-level="6" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i><b>6</b> Conclusion</a></li>
+<li class="appendix"><span><b>Appendix</b></span></li>
+<li class="chapter" data-level="A" data-path="appendix-variables.html"><a href="appendix-variables.html"><i class="fa fa-check"></i><b>A</b> Detailed list of variables</a></li>
+<li class="chapter" data-level="B" data-path="appendix-packages.html"><a href="appendix-packages.html"><i class="fa fa-check"></i><b>B</b> R Packages</a></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -169,7 +168,7 @@ div.csl-indent {
             <section class="normal" id="section-">
 <div id="method" class="section level1 hasAnchor" number="3">
 <h1><span class="header-section-number">Section 3</span> Method<a href="method.html#method" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>Going back to the introduction, the objective of the exercise is to determine if demographic attributes can influence or explain voting patterns. This can be restated into determining if demographic attributes can serve as predictors of primary voting. In mathematical terms, this can be expressed in a simple way by S equation <a href="method.html#eq:equation1">(3.1)</a>.</p>
+<p>Going back to the introduction, the objective of the exercise is to determine if demographic attributes can influence or explain voting patterns. This can be restated into determining if demographic attributes can serve as predictors of primary voting. In mathematical terms, this can be expressed in a simple way by equation <a href="method.html#eq:equation1">(3.1)</a>.</p>
 <span class="math display" id="eq:equation1">\[\begin{align}
 \mathbf{Y} = f(\mathbf{X})
 \tag{3.1}
@@ -178,23 +177,25 @@ div.csl-indent {
 <p>In this simple form, other factors that may influence voting are not explicitly shown in the equation. However, these factors may be difficult to quantify as they potentially relate to a myriad of factors including the state of the economy, foreign affairs, perceptions about the governing party or any party in the election, or the mood of the times.</p>
 <p>To solve this challenge, it is possible to naively assume tools like polling can effectively capture the <em>zeitgeist</em>. If that is the case, it is possible to split the original function <span class="math inline">\(f()\)</span> into a poll component and a demographic component. Since it is not in the scope of this project, we can also ignore the polling component and focus on the difference between the absolute value and polling results. To further simplify things, we can temporarily assume that polling results are uniform across the country, thus demographic statistics only influence the difference between the electorates’ primary vote and the respective national percentage. This is expressed by equation <a href="method.html#eq:equation2">(3.2)</a>, which also accounts for general error.</p>
 <span class="math display" id="eq:equation2">\[\begin{align}
-\mathbf{Y} = f(\mathbf{X}) + \epsilon \\ \\
-\textrm{where}  \\
+\mathbf{Y} = f(\mathbf{X}) + \epsilon
+\tag{3.2}
+\end{align}
+$\textrm{where}  \\
 \mathbf{Y}  = \mathbf{Y} - \mathbf{Yp} \\
-\mathbf{X}  = \mathbf{X} - \mathbf{Xn} \\ \\
+\mathbf{X}  = \mathbf{X} - \mathbf{Xn} \\
 \textrm{and}  \\
 \mathbf{Yp} : \textrm{Primary voting polling results} \\
-\mathbf{Xn} : \textrm{Demographic values at national level}
-\tag{3.2}
-\end{align}\]</span>
+\mathbf{Xn} : \textrm{Demographic values at national level} \\ \\$
+\]</span>
 <p>This second iteration does not take into account that in different electorates, different demographic attributes may have a different effect on the primary vote. For instance, in more progressive areas, a higher proportion of younger people may have a greater effect on left-leaning preferences when compared with similar proportions of younger people in rural electorates. Equation <a href="method.html#eq:equation3">(3.3)</a> is intended to acknowledge those differences.</p>
 <span class="math display" id="eq:equation3">\[\begin{align}
-\mathbf{Y_i} = f_i(\mathbf{X_i}) + \epsilon \\
-\textrm{where}  \\
-\mathbf{Y}  = \mathbf{Y} - \mathbf{Yp_i} \\
-\mathbf{X}  = \mathbf{X} - \mathbf{Xn_i} \\ \\
+\mathbf{Y_i} = f_i(\mathbf{X_i}) + \epsilon
 \tag{3.3}
-\end{align}\]</span>
+\end{align}
+$\textrm{where}  \\
+\mathbf{Y}  = \mathbf{Y} - \mathbf{Yp_i} \\
+\mathbf{X}  = \mathbf{X} - \mathbf{Xn_i} \\ \\$
+\]</span>
 <p>Please note that <span class="math inline">\(i\)</span> represents a particular grouping of electorates, and for each group predictors can be different - as different attributes may have different impacts.</p>
 <p>In terms of choosing an appropriate <span class="math inline">\(f_i\)</span>, it would depend on the objective of the model. Given the large number of predictors and requirements on interpretability and accuracy, this could be a complex task. In this particular case, the focus is on understanding the factors that influence voting rather than producing accurate electoral predictions (which is attempted nevertheless), for which the use of <strong>regularised regression</strong> models is an appropriate choice.</p>
 <p>Consequently, the task at hand consists in finding the regularised regression coefficients for the set of formulas represented by equation <a href="method.html#eq:equation4">(3.4)</a></p>
@@ -224,7 +225,7 @@ x_{im}
 \epsilon_{in}\\
 \end{array}\right)
 \tag{3.4}
-\end{align}\]</span>
+\end{align} \\\]</span>
 <p>A complication of this approach is that requires separating the electorates into different segments. This requires having a method to map electorates into clusters if such an assignment is not provided. Thus, the modelling task consists of:</p>
 <ul>
 <li>A classification model map new records into clusters with similar electorates.</li>

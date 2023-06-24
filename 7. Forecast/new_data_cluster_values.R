@@ -190,6 +190,7 @@ division <- division |>
             left_join(cluster_values |>
                         select(-Year) |>
                         mutate(attribute=str_replace_all(attribute," - ","_"),
+                               attribute=str_replace_all(attribute,"-","_"),
                                attribute=str_replace_all(attribute," ","_")),
                       by=c("cluster","attribute")) |>
             mutate(diff = value-cluster.value) |>

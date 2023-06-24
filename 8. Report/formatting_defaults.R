@@ -180,24 +180,23 @@ cluster_names <- tibble::tribble(~cluster, ~name_simple,~name_composite,
 
 ##compare results ----
 compare_results <- function(ced_name,parties=3,results,...){
-  p<- auspol::house_primary_historic_plot(ced_name,
+  auspol::house_primary_historic_plot(ced_name,
                                       include_others = TRUE,
                                       merge_parties=list("COAL"=c("LP","LNP","NAT","LIB")),
                                       parties=parties,
+                                      include_text_tooltip =TRUE ,
                                       ...) +
-    ggnewscale::new_scale("colour") +
-    ggnewscale::new_scale("shape")  +
     geom_point(data=results$prediction_compared |>
                  filter(str_detect(DivisionNm,ced_name)) |>
                  select(PartyAb,Predicted) |>
                  mutate(Type="Prediction")      |>
+                 mutate(label = glue("<b>{PartyAb} - 2022 Prediction</b><br> Year: {round(Predicted,2)}%")) |>
                  mutate(Year=2022),
-               aes(x=Year,y=Predicted,colour=PartyAb,shape=Type),
+               aes(x=Year,y=Predicted,colour=PartyAb,shape=Type,text=label),
                size=3,
                inherit.aes = FALSE) +
     scale_colour_manual(values=party_palette,name="Predictions") +
     scale_shape_manual(values=c("Prediction"=18,"Result"=1),name="Predictions") + 
-    guides(color = FALSE) +
     labs(subtitle = ced_name)
 }
 
@@ -206,11 +205,18 @@ census_plot <- function(demographic_data,ced_name,attributes){
     filter(DivisionNm==ced_name) |>
     select(any_of(c("DivisionNm","Year",attributes)))                     |>
     pivot_longer(-c(DivisionNm,Year),names_to = "Attribute",values_to="Percentage") |>
-    ggplot(aes(x=Year, y=Percentage,colour=Attribute,linetype=Attribute,shape=Attribute)) +
+    mutate(text_label = glue("<b>{DivisionNm}</b><br>{Attribute}: {round(Percentage,3)}%")) |>
+    ggplot(aes(x=Year, y=Percentage,
+               colour=Attribute,
+               group=Attribute,
+               linetype=Attribute,
+               shape=Attribute,
+               text=text_label)) +
     geom_hline(yintercept = 0,colour="grey80",linewidth=1.1) +
     geom_point()+
     geom_line() +
-    labs(subtitle = ced_name)
+    labs(subtitle = ced_name) +
+    theme(legend.position = "bottom",legend.direction = "horizontal")
 }
 
 
@@ -220,8 +226,8 @@ plot_grid <- function(p,titletext=NULL,...){
   min_y <-c()
   
   for(i in 1:length(p)){
-    max_y <- max(p[[i]]$data$Percentage)
-    min_y <- min(p[[i]]$data$Percentage)
+    max_y <- c(max_y,max(p[[i]]$data$Percentage))
+    min_y <- c(min_y,min(p[[i]]$data$Percentage))
   }
   
   max_y <- ceiling(max(max_y))
@@ -235,3 +241,37 @@ plot_grid <- function(p,titletext=NULL,...){
   wrap_plots(p,guides = 'collect',widths = c(3,3,1),...) +
     plot_annotation(title=titletext)
 }
+
+
+
+interactive_plot <- function(p,annotation_x=0.2,annotation_y=1,set_title=FALSE,...){
+  p1 <- p |>
+  ggplotly(tooltip = "text",...) |>
+    config(displayModeBar = FALSE) 
+  
+  if(set_title){
+  label_names <- names(p$labels)
+  
+  if('title' %in% label_names){
+    title <- p$labels$title
+  }else{
+    title <- ""
+  }
+  
+  if('subtitle' %in% label_names){
+    subtitle <- p$labels$subtitle
+  }else{
+    subtitle <- ""
+  }
+  
+  title_text <- glue('{title}<br><sup>{subtitle}</sup>')
+  
+  #p1 |> layout(title=list(text=title_text,x=0.1,y=1.3),legend = list(title=list(text='')))
+  
+  p1 |> layout(annotations = list(x =annotation_x , y = annotation_y, text = title_text, showarrow = F, 
+                                  xref='paper', yref='paper'))
+  }else{
+    p1
+  }
+}
+

@@ -1,9 +1,9 @@
-This is LuaHBTeX, Version 1.17.0 (TeX Live 2023)  (format=lualatex 2023.6.12)  16 JUN 2023 01:06
+This is LuaHBTeX, Version 1.17.0 (TeX Live 2023)  (format=lualatex 2023.6.21)  24 JUN 2023 23:43
  restricted system commands enabled.
 **_main.tex
 (./_main.tex
-LaTeX2e <2023-06-01>
-L3 programming layer <2023-06-05>
+LaTeX2e <2023-06-01> patch level 1
+L3 programming layer <2023-06-16>
 Lua module: luaotfload 2022-10-03 3.23 Lua based OpenType font support
 Lua module: lualibs 2022-10-04 2.75 ConTeXt Lua standard libraries.
 Lua module: lualibs-extended 2022-10-04 2.75 ConTeXt Lua libraries -- extended collection.
@@ -161,7 +161,7 @@ Package: setspace 2022/12/04 v6.7b set line spacing
 ) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/iftex/iftex.sty
 Package: iftex 2022/02/03 v1.0f TeX engine tests
 ) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/unicode-math/unicode-math.sty (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/l3kernel/expl3.sty
-Package: expl3 2023-06-05 L3 programming layer (loader) 
+Package: expl3 2023-06-16 L3 programming layer (loader) 
 (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/l3backend/l3backend-luatex.def
 File: l3backend-luatex.def 2023-04-19 L3 backend support: PDF output (LuaTeX)
 \l__color_backend_stack_int=\count269
@@ -590,7 +590,7 @@ Package: titlesec 2021/07/05 v2.14 Sectioning titles
 \titlewidthlast=\dimen263
 \titlewidthfirst=\dimen264
 ) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/tcolorbox/tcolorbox.sty
-Package: tcolorbox 2023/03/17 version 6.0.3 text color boxes
+Package: tcolorbox 2023/06/19 version 6.0.4 text color boxes
 (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/pgf/basiclayer/pgf.sty (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/pgf/utilities/pgfrcs.sty (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/utilities/pgfutil-common.tex
 \pgfutil@everybye=\toks37
 \pgfutil@tempdima=\dimen265
@@ -902,34 +902,34 @@ File: bkm-pdftex.def 2020-11-06 v1.29 bookmark driver for pdfTeX (HO)
 )) (./_main.aux)
 \openout1 = _main.aux
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 211.
-LaTeX Font Info:    ... okay on input line 211.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 211.
-LaTeX Font Info:    ... okay on input line 211.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 211.
-LaTeX Font Info:    ... okay on input line 211.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 211.
-LaTeX Font Info:    ... okay on input line 211.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 211.
-LaTeX Font Info:    ... okay on input line 211.
-LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 211.
-LaTeX Font Info:    ... okay on input line 211.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 211.
-LaTeX Font Info:    ... okay on input line 211.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 211.
-LaTeX Font Info:    ... okay on input line 211.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 211.
-LaTeX Font Info:    ... okay on input line 211.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 211.
-LaTeX Font Info:    ... okay on input line 211.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 212.
+LaTeX Font Info:    ... okay on input line 212.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 212.
+LaTeX Font Info:    ... okay on input line 212.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 212.
+LaTeX Font Info:    ... okay on input line 212.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 212.
+LaTeX Font Info:    ... okay on input line 212.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 212.
+LaTeX Font Info:    ... okay on input line 212.
+LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 212.
+LaTeX Font Info:    ... okay on input line 212.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 212.
+LaTeX Font Info:    ... okay on input line 212.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 212.
+LaTeX Font Info:    ... okay on input line 212.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 212.
+LaTeX Font Info:    ... okay on input line 212.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 212.
+LaTeX Font Info:    ... okay on input line 212.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `normal'
-(Font)                  OT1/lmss/m/n --> TU/lmss/m/n on input line 211.
+(Font)                  OT1/lmss/m/n --> TU/lmss/m/n on input line 212.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
-(Font)                  OT1/lmss/bx/n --> TU/lmss/b/n on input line 211.
+(Font)                  OT1/lmss/bx/n --> TU/lmss/b/n on input line 212.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `normal'
-(Font)                  OT1/lmtt/m/n --> TU/lmtt/m/n on input line 211.
+(Font)                  OT1/lmtt/m/n --> TU/lmtt/m/n on input line 212.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
-(Font)                  OT1/lmtt/m/n --> TU/lmtt/b/n on input line 211.
+(Font)                  OT1/lmtt/m/n --> TU/lmtt/b/n on input line 212.
 
 Package fontspec Info: latinmodern-math scale = 1.127729190578574.
 
@@ -960,7 +960,7 @@ Package fontspec Info: Font family 'latinmodern-math.otf(0)' created for font
 (fontspec)             \__um_luatex_copy_fontdimens: 
 
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(0)/m/n' will be
-(Font)              scaled to size 12.34865pt on input line 211.
+(Font)              scaled to size 12.34865pt on input line 212.
 
 Package fontspec Info: latinmodern-math scale = 1.127729190578574.
 
@@ -997,15 +997,15 @@ Package fontspec Info: Font family 'latinmodern-math.otf(1)' created for font
 (fontspec)             \__um_luatex_copy_fontdimens: 
 
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(1)/m/n' will be
-(Font)              scaled to size 12.34865pt on input line 211.
+(Font)              scaled to size 12.34865pt on input line 212.
 LaTeX Font Info:    Encoding `OT1' has changed to `TU' for symbol font
-(Font)              `operators' in the math version `normal' on input line 211.
+(Font)              `operators' in the math version `normal' on input line 212.
 LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
-(Font)                  OT1/lmr/m/n --> TU/latinmodern-math.otf(1)/m/n on input line 211.
+(Font)                  OT1/lmr/m/n --> TU/latinmodern-math.otf(1)/m/n on input line 212.
 LaTeX Font Info:    Encoding `OT1' has changed to `TU' for symbol font
-(Font)              `operators' in the math version `bold' on input line 211.
+(Font)              `operators' in the math version `bold' on input line 212.
 LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
-(Font)                  OT1/lmr/bx/n --> TU/latinmodern-math.otf(1)/b/n on input line 211.
+(Font)                  OT1/lmr/bx/n --> TU/latinmodern-math.otf(1)/b/n on input line 212.
 
 Package fontspec Info: latinmodern-math scale = 1.127729190578574.
 
@@ -1087,13 +1087,13 @@ Package fontspec Info: Font family 'latinmodern-math.otf(2)' created for font
 (fontspec)             \fontdimen 21\font =0pt\relax 
 
 LaTeX Font Info:    Encoding `OMS' has changed to `TU' for symbol font
-(Font)              `symbols' in the math version `normal' on input line 211.
+(Font)              `symbols' in the math version `normal' on input line 212.
 LaTeX Font Info:    Overwriting symbol font `symbols' in version `normal'
-(Font)                  OMS/lmsy/m/n --> TU/latinmodern-math.otf(2)/m/n on input line 211.
+(Font)                  OMS/lmsy/m/n --> TU/latinmodern-math.otf(2)/m/n on input line 212.
 LaTeX Font Info:    Encoding `OMS' has changed to `TU' for symbol font
-(Font)              `symbols' in the math version `bold' on input line 211.
+(Font)              `symbols' in the math version `bold' on input line 212.
 LaTeX Font Info:    Overwriting symbol font `symbols' in version `bold'
-(Font)                  OMS/lmsy/b/n --> TU/latinmodern-math.otf(2)/b/n on input line 211.
+(Font)                  OMS/lmsy/b/n --> TU/latinmodern-math.otf(2)/b/n on input line 212.
 
 Package fontspec Info: latinmodern-math scale = 1.127729190578574.
 
@@ -1157,54 +1157,54 @@ Package fontspec Info: Font family 'latinmodern-math.otf(3)' created for font
 (fontspec)             \fontdimen 13\font =0pt\relax 
 
 LaTeX Font Info:    Encoding `OMX' has changed to `TU' for symbol font
-(Font)              `largesymbols' in the math version `normal' on input line 211.
+(Font)              `largesymbols' in the math version `normal' on input line 212.
 LaTeX Font Info:    Overwriting symbol font `largesymbols' in version `normal'
-(Font)                  OMX/lmex/m/n --> TU/latinmodern-math.otf(3)/m/n on input line 211.
+(Font)                  OMX/lmex/m/n --> TU/latinmodern-math.otf(3)/m/n on input line 212.
 LaTeX Font Info:    Encoding `OMX' has changed to `TU' for symbol font
-(Font)              `largesymbols' in the math version `bold' on input line 211.
+(Font)              `largesymbols' in the math version `bold' on input line 212.
 LaTeX Font Info:    Overwriting symbol font `largesymbols' in version `bold'
-(Font)                  OMX/lmex/m/n --> TU/latinmodern-math.otf(3)/b/n on input line 211.
+(Font)                  OMX/lmex/m/n --> TU/latinmodern-math.otf(3)/b/n on input line 212.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(1)/m/n' will be
-(Font)              scaled to size 8.64404pt on input line 211.
+(Font)              scaled to size 8.64404pt on input line 212.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(1)/m/n' will be
-(Font)              scaled to size 6.17433pt on input line 211.
-LaTeX Font Info:    Trying to load font information for OML+lmm on input line 211.
+(Font)              scaled to size 6.17433pt on input line 212.
+LaTeX Font Info:    Trying to load font information for OML+lmm on input line 212.
 (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/omllmm.fd
 File: omllmm.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
-(Font)              scaled to size 12.34982pt on input line 211.
+(Font)              scaled to size 12.34982pt on input line 212.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
-(Font)              scaled to size 8.64487pt on input line 211.
+(Font)              scaled to size 8.64487pt on input line 212.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
-(Font)              scaled to size 6.17491pt on input line 211.
+(Font)              scaled to size 6.17491pt on input line 212.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
-(Font)              scaled to size 12.3473pt on input line 211.
+(Font)              scaled to size 12.3473pt on input line 212.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
-(Font)              scaled to size 8.64311pt on input line 211.
+(Font)              scaled to size 8.64311pt on input line 212.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
-(Font)              scaled to size 6.17366pt on input line 211.
-LaTeX Font Info:    Trying to load font information for U+msa on input line 211.
+(Font)              scaled to size 6.17366pt on input line 212.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 212.
 (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 211.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 212.
 (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-LaTeX Info: Redefining \microtypecontext on input line 211.
-Package microtype Info: Applying patch `item' on input line 211.
-Package microtype Info: Applying patch `toc' on input line 211.
-Package microtype Info: Applying patch `eqnum' on input line 211.
-Package microtype Info: Applying patch `footnote' on input line 211.
-Package microtype Info: Applying patch `verbatim' on input line 211.
+LaTeX Info: Redefining \microtypecontext on input line 212.
+Package microtype Info: Applying patch `item' on input line 212.
+Package microtype Info: Applying patch `toc' on input line 212.
+Package microtype Info: Applying patch `eqnum' on input line 212.
+Package microtype Info: Applying patch `footnote' on input line 212.
+Package microtype Info: Applying patch `verbatim' on input line 212.
 Package microtype Info: Generating PDF output.
 Package microtype Info: Character protrusion enabled (level 2).
 Package microtype Info: Using protrusion set `basicmath'.
 Package microtype Info: Automatic font expansion enabled (level 2),
 (microtype)             stretch: 20, shrink: 20, step: 1, non-selected.
 Package microtype Info: Using default expansion set `alltext-nott'.
-LaTeX Info: Redefining \showhyphens on input line 211.
+LaTeX Info: Redefining \showhyphens on input line 212.
 Package microtype Info: No adjustment of tracking.
 Package microtype Info: No adjustment of spacing.
 Package microtype Info: No adjustment of kerning.
@@ -1253,249 +1253,246 @@ File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
 \c@lstlisting=\count352
-Package hyperref Info: Link coloring OFF on input line 211.
+Package hyperref Info: Link coloring OFF on input line 212.
 <C:/Users/carlo/AppData/Local/R/win-library/4.2/uofgdataanalyticsreport/indiedown/res/logo.png, id=7, 332.2011pt x 77.8107pt>
 File: C:/Users/carlo/AppData/Local/R/win-library/4.2/uofgdataanalyticsreport/indiedown/res/logo.png Graphic file (type png)
 <use C:/Users/carlo/AppData/Local/R/win-library/4.2/uofgdataanalyticsreport/indiedown/res/logo.png>
-Package luatex.def Info: C:/Users/carlo/AppData/Local/R/win-library/4.2/uofgdataanalyticsreport/indiedown/res/logo.png  used on input line 217.
+Package luatex.def Info: C:/Users/carlo/AppData/Local/R/win-library/4.2/uofgdataanalyticsreport/indiedown/res/logo.png  used on input line 218.
 (luatex.def)             Requested size: 166.10013pt x 38.90524pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 217--218
+Underfull \hbox (badness 10000) in paragraph at lines 218--219
 
  []
 
 
 LaTeX Font Warning: Font shape `TU/regular.ttf(0)/m/sc' undefined
-(Font)              using `TU/regular.ttf(0)/m/n' instead on input line 221.
+(Font)              using `TU/regular.ttf(0)/m/n' instead on input line 222.
 
 LaTeX Font Info:    Font shape `TU/regular.ttf(0)/m/sc' will be
-(Font)              scaled to size 15.89755pt on input line 221.
+(Font)              scaled to size 15.89755pt on input line 222.
 LaTeX Font Info:    Font shape `TU/regular.ttf(0)/m/sc' will be
-(Font)              scaled to size 10.07397pt on input line 222.
+(Font)              scaled to size 10.07397pt on input line 223.
 LaTeX Font Info:    Font shape `TU/regular.ttf(0)/m/sc' will be
-(Font)              scaled to size 19.08076pt on input line 228.
+(Font)              scaled to size 19.08076pt on input line 229.
 
 LaTeX Font Warning: Font shape `TU/regular.ttf(0)/b/sc' undefined
-(Font)              using `TU/regular.ttf(0)/b/n' instead on input line 228.
+(Font)              using `TU/regular.ttf(0)/b/n' instead on input line 229.
 
 LaTeX Font Info:    Font shape `TU/regular.ttf(0)/b/n' will be
-(Font)              scaled to size 19.08076pt on input line 228.
-LaTeX Font Info:    Font shape `TU/regular.ttf(0)/m/n' will be
 (Font)              scaled to size 19.08076pt on input line 229.
 LaTeX Font Info:    Font shape `TU/regular.ttf(0)/m/n' will be
-(Font)              scaled to size 11.03998pt on input line 235.
+(Font)              scaled to size 19.08076pt on input line 230.
+LaTeX Font Info:    Font shape `TU/regular.ttf(0)/m/n' will be
+(Font)              scaled to size 11.03998pt on input line 236.
 [1
 
 {c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-var/fonts/map/pdftex/updmap/pdftex.map}<c:/Users/carlo/AppData/Local/R/win-library/4.2/uofgdataanalyticsreport/indiedown/res/logo.png>]
-LaTeX Font Info:    Font shape `TU/regular.ttf(0)/b/n' will be
-(Font)              scaled to size 10.07397pt on input line 242.
-LaTeX Font Info:    Font shape `TU/regular.ttf(0)/b/n' will be
-(Font)              scaled to size 11.03998pt on input line 242.
 LaTeX Font Info:    Font shape `TU/regular.ttf(0)/m/sl' in size <10.95> not available
-(Font)              Font shape `TU/regular.ttf(0)/m/it' tried instead on input line 245.
+(Font)              Font shape `TU/regular.ttf(0)/m/it' tried instead on input line 244.
 LaTeX Font Info:    Font shape `TU/regular.ttf(0)/m/it' will be
-(Font)              scaled to size 10.07397pt on input line 245.
+(Font)              scaled to size 10.07397pt on input line 244.
 
 warning  (pdf backend): ignoring duplicate destination with the name 'page.1'
-[1] (./_main.toc)
+[1]
+LaTeX Font Info:    Font shape `TU/regular.ttf(0)/b/n' will be
+(Font)              scaled to size 10.07397pt on input line 247.
+LaTeX Font Info:    Font shape `TU/regular.ttf(0)/b/n' will be
+(Font)              scaled to size 11.03998pt on input line 247.
+(./_main.toc)
 \tf@toc=\write4
 
 \openout4 = _main.toc
-[2] [3]
-<_main_files/figure-latex/data-flow-1.pdf, id=80, 1003.75pt x 14454.0pt>
-File: _main_files/figure-latex/data-flow-1.pdf Graphic file (type pdf)
-<use _main_files/figure-latex/data-flow-1.pdf>
-Package luatex.def Info: _main_files/figure-latex/data-flow-1.pdf  used on input line 303.
-(luatex.def)             Requested size: 48.58226pt x 699.5846pt.
-
-LaTeX Warning: Float too large for page by 25.47827pt on input line 305.
-
-[4] [5<./_main_files/figure-latex/data-flow-1.pdf>]
-<_main_files/figure-latex/electionsandcensus-1.pdf, id=112, 469.755pt x 325.215pt>
+[2] [3] [4] [5] [6]
+<_main_files/figure-latex/data-flow2-1.png, id=124, 722.7pt x 252.945pt>
+File: _main_files/figure-latex/data-flow2-1.png Graphic file (type png)
+<use _main_files/figure-latex/data-flow2-1.png>
+Package luatex.def Info: _main_files/figure-latex/data-flow2-1.png  used on input line 372.
+(luatex.def)             Requested size: 455.24826pt x 159.33688pt.
+[7<./_main_files/figure-latex/data-flow2-1.png>]
+<_main_files/figure-latex/electionsandcensus-1.pdf, id=142, 469.755pt x 325.215pt>
 File: _main_files/figure-latex/electionsandcensus-1.pdf Graphic file (type pdf)
 <use _main_files/figure-latex/electionsandcensus-1.pdf>
-Package luatex.def Info: _main_files/figure-latex/electionsandcensus-1.pdf  used on input line 336.
+Package luatex.def Info: _main_files/figure-latex/electionsandcensus-1.pdf  used on input line 417.
 (luatex.def)             Requested size: 455.24608pt x 315.17035pt.
+[8<./_main_files/figure-latex/electionsandcensus-1.pdf>]
 LaTeX Font Info:    Font shape `TU/regular.ttf(0)/m/n' will be
-(Font)              scaled to size 7.05177pt on input line 370.
+(Font)              scaled to size 7.05177pt on input line 451.
 LaTeX Font Info:    Font shape `TU/regular.ttf(0)/m/n' will be
-(Font)              scaled to size 8.27998pt on input line 370.
+(Font)              scaled to size 8.27998pt on input line 451.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(1)/m/n' will be
-(Font)              scaled to size 10.14958pt on input line 370.
+(Font)              scaled to size 10.14958pt on input line 451.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(1)/m/n' will be
-(Font)              scaled to size 6.76639pt on input line 370.
+(Font)              scaled to size 6.76639pt on input line 451.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(1)/m/n' will be
-(Font)              scaled to size 5.63866pt on input line 370.
+(Font)              scaled to size 5.63866pt on input line 451.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
-(Font)              scaled to size 10.15054pt on input line 370.
+(Font)              scaled to size 10.15054pt on input line 451.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
-(Font)              scaled to size 6.76703pt on input line 370.
+(Font)              scaled to size 6.76703pt on input line 451.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
-(Font)              scaled to size 5.63919pt on input line 370.
+(Font)              scaled to size 5.63919pt on input line 451.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
-(Font)              scaled to size 10.14848pt on input line 370.
+(Font)              scaled to size 10.14848pt on input line 451.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
-(Font)              scaled to size 6.76566pt on input line 370.
+(Font)              scaled to size 6.76566pt on input line 451.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
-(Font)              scaled to size 5.63805pt on input line 370.
+(Font)              scaled to size 5.63805pt on input line 451.
 (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/microtype/mt-msa.cfg
 File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
 ) (c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/microtype/mt-msb.cfg
 File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 )
 LaTeX Font Info:    Font shape `TU/regular.ttf(0)/m/n' will be
-(Font)              scaled to size 5.51999pt on input line 370.
-[6]
+(Font)              scaled to size 5.51999pt on input line 451.
 LaTeX Font Info:    Font shape `TU/regular.ttf(0)/m/it' will be
-(Font)              scaled to size 8.27998pt on input line 402.
-[7<./_main_files/figure-latex/electionsandcensus-1.pdf>] [8] [9]
-<_main_files/figure-latex/coalvsboomers-1.pdf, id=185, 469.755pt x 325.215pt>
+(Font)              scaled to size 8.27998pt on input line 483.
+[9] [10] [11]
+<_main_files/figure-latex/coalvsboomers-1.pdf, id=213, 469.755pt x 325.215pt>
 File: _main_files/figure-latex/coalvsboomers-1.pdf Graphic file (type pdf)
 <use _main_files/figure-latex/coalvsboomers-1.pdf>
-Package luatex.def Info: _main_files/figure-latex/coalvsboomers-1.pdf  used on input line 501.
+Package luatex.def Info: _main_files/figure-latex/coalvsboomers-1.pdf  used on input line 579.
 (luatex.def)             Requested size: 455.24608pt x 315.17035pt.
-<_main_files/figure-latex/corrlanguagereligion-1.pdf, id=186, 469.755pt x 325.215pt>
+[12
+
+
+<./_main_files/figure-latex/coalvsboomers-1.pdf>]
+<_main_files/figure-latex/corrlanguagereligion-1.pdf, id=227, 469.755pt x 325.215pt>
 File: _main_files/figure-latex/corrlanguagereligion-1.pdf Graphic file (type pdf)
 <use _main_files/figure-latex/corrlanguagereligion-1.pdf>
-Package luatex.def Info: _main_files/figure-latex/corrlanguagereligion-1.pdf  used on input line 506.
-(luatex.def)             Requested size: 500.76924pt x 346.68639pt.
+Package luatex.def Info: _main_files/figure-latex/corrlanguagereligion-1.pdf  used on input line 587.
+(luatex.def)             Requested size: 657.62386pt x 455.27805pt.
 
-Overfull \hbox (45.52513pt too wide) in paragraph at lines 506--506
-[][] 
- []
+LaTeX Warning: Float too large for page by 25.7294pt on input line 588.
 
-[10
-
-
-<./_main_files/figure-latex/coalvsboomers-1.pdf>] [11<./_main_files/figure-latex/corrlanguagereligion-1.pdf>]
-<_main_files/figure-latex/mfascree-1.pdf, id=213, 469.755pt x 325.215pt>
+[13<./_main_files/figure-latex/corrlanguagereligion-1.pdf>]
+<_main_files/figure-latex/mfascree-1.pdf, id=239, 469.755pt x 325.215pt>
 File: _main_files/figure-latex/mfascree-1.pdf Graphic file (type pdf)
 <use _main_files/figure-latex/mfascree-1.pdf>
-Package luatex.def Info: _main_files/figure-latex/mfascree-1.pdf  used on input line 527.
+Package luatex.def Info: _main_files/figure-latex/mfascree-1.pdf  used on input line 610.
 (luatex.def)             Requested size: 455.24608pt x 315.17035pt.
-<_main_files/figure-latex/groupbiplot-1.pdf, id=215, 469.755pt x 325.215pt>
+<_main_files/figure-latex/groupbiplot-1.pdf, id=241, 469.755pt x 325.215pt>
 File: _main_files/figure-latex/groupbiplot-1.pdf Graphic file (type pdf)
 <use _main_files/figure-latex/groupbiplot-1.pdf>
-Package luatex.def Info: _main_files/figure-latex/groupbiplot-1.pdf  used on input line 535.
+Package luatex.def Info: _main_files/figure-latex/groupbiplot-1.pdf  used on input line 618.
 (luatex.def)             Requested size: 455.24608pt x 315.17035pt.
+[14
 
-Underfull \hbox (badness 10000) in paragraph at lines 549--551
+
+<./_main_files/figure-latex/mfascree-1.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 632--634
 
  []
 
-[12<./_main_files/figure-latex/mfascree-1.pdf>]
-<_main_files/figure-latex/clustermap2016-1.pdf, id=237, 469.755pt x 325.215pt>
+<_main_files/figure-latex/clustermap2016-1.pdf, id=264, 469.755pt x 325.215pt>
 File: _main_files/figure-latex/clustermap2016-1.pdf Graphic file (type pdf)
 <use _main_files/figure-latex/clustermap2016-1.pdf>
-Package luatex.def Info: _main_files/figure-latex/clustermap2016-1.pdf  used on input line 560.
+Package luatex.def Info: _main_files/figure-latex/clustermap2016-1.pdf  used on input line 643.
 (luatex.def)             Requested size: 455.24608pt x 315.17035pt.
-<_main_files/figure-latex/clustereddemographics-1.pdf, id=239, 469.755pt x 325.215pt>
+<_main_files/figure-latex/clustereddemographics-1.pdf, id=266, 469.755pt x 325.215pt>
 File: _main_files/figure-latex/clustereddemographics-1.pdf Graphic file (type pdf)
 <use _main_files/figure-latex/clustereddemographics-1.pdf>
-Package luatex.def Info: _main_files/figure-latex/clustereddemographics-1.pdf  used on input line 579.
+Package luatex.def Info: _main_files/figure-latex/clustereddemographics-1.pdf  used on input line 662.
 (luatex.def)             Requested size: 455.24608pt x 315.17035pt.
-[13<./_main_files/figure-latex/groupbiplot-1.pdf>] [14<./_main_files/figure-latex/clustermap2016-1.pdf><./_main_files/figure-latex/clustereddemographics-1.pdf>]
+[15<./_main_files/figure-latex/groupbiplot-1.pdf>]
 LaTeX Font Info:    Font shape `TU/regular.ttf(1)/b/n' will be
-(Font)              scaled to size 10.07397pt on input line 593.
+(Font)              scaled to size 10.07397pt on input line 676.
 LaTeX Font Info:    Font shape `TU/regular.ttf(1)/b/n' will be
-(Font)              scaled to size 7.05177pt on input line 593.
+(Font)              scaled to size 7.05177pt on input line 676.
 LaTeX Font Info:    Font shape `TU/regular.ttf(1)/b/n' will be
-(Font)              scaled to size 5.03699pt on input line 593.
+(Font)              scaled to size 5.03699pt on input line 676.
+[16<./_main_files/figure-latex/clustermap2016-1.pdf>]
 LaTeX Font Info:    Font shape `TU/regular.ttf(0)/m/n' will be
-(Font)              scaled to size 5.03699pt on input line 610.
-[15] [16]
-<_main_files/figure-latex/vipranger1-1.pdf, id=305, 469.755pt x 325.215pt>
+(Font)              scaled to size 5.03699pt on input line 688.
+
+Underfull \hbox (badness 10000) in paragraph at lines 687--694
+
+ []
+
+[17<./_main_files/figure-latex/clustereddemographics-1.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 700--704
+
+ []
+
+[18]
+<_main_files/figure-latex/vipranger1-1.pdf, id=320, 469.755pt x 325.215pt>
 File: _main_files/figure-latex/vipranger1-1.pdf Graphic file (type pdf)
 <use _main_files/figure-latex/vipranger1-1.pdf>
-Package luatex.def Info: _main_files/figure-latex/vipranger1-1.pdf  used on input line 723.
+Package luatex.def Info: _main_files/figure-latex/vipranger1-1.pdf  used on input line 806.
 (luatex.def)             Requested size: 455.24608pt x 315.17035pt.
-[17]
-<_main_files/figure-latex/vipranger2-1.pdf, id=320, 469.755pt x 325.215pt>
+[19]
+<_main_files/figure-latex/vipranger2-1.pdf, id=335, 469.755pt x 325.215pt>
 File: _main_files/figure-latex/vipranger2-1.pdf Graphic file (type pdf)
 <use _main_files/figure-latex/vipranger2-1.pdf>
-Package luatex.def Info: _main_files/figure-latex/vipranger2-1.pdf  used on input line 760.
+Package luatex.def Info: _main_files/figure-latex/vipranger2-1.pdf  used on input line 843.
 (luatex.def)             Requested size: 455.24608pt x 315.17035pt.
-[18<./_main_files/figure-latex/vipranger1-1.pdf>]
-
-LaTeX Warning: Reference `fig:betacoefficients0' on page 19 undefined on input line 802.
-
-
-LaTeX Warning: Reference `fig:betacoefficients1' on page 19 undefined on input line 802.
-
-
-LaTeX Warning: Reference `fig:betacoefficients2' on page 19 undefined on input line 802.
-
-<_main_files/figure-latex/betacoefficents0-1.pdf, id=333, 469.755pt x 325.215pt>
-File: _main_files/figure-latex/betacoefficents0-1.pdf Graphic file (type pdf)
-<use _main_files/figure-latex/betacoefficents0-1.pdf>
-Package luatex.def Info: _main_files/figure-latex/betacoefficents0-1.pdf  used on input line 806.
+[20<./_main_files/figure-latex/vipranger1-1.pdf>]
+<_main_files/figure-latex/betacoefficients0-1.pdf, id=352, 469.755pt x 325.215pt>
+File: _main_files/figure-latex/betacoefficients0-1.pdf Graphic file (type pdf)
+<use _main_files/figure-latex/betacoefficients0-1.pdf>
+Package luatex.def Info: _main_files/figure-latex/betacoefficients0-1.pdf  used on input line 889.
 (luatex.def)             Requested size: 455.24608pt x 315.17035pt.
-<_main_files/figure-latex/betacoefficents1-1.pdf, id=334, 469.755pt x 325.215pt>
-File: _main_files/figure-latex/betacoefficents1-1.pdf Graphic file (type pdf)
-<use _main_files/figure-latex/betacoefficents1-1.pdf>
-Package luatex.def Info: _main_files/figure-latex/betacoefficents1-1.pdf  used on input line 812.
+<_main_files/figure-latex/betacoefficients1-1.pdf, id=353, 469.755pt x 325.215pt>
+File: _main_files/figure-latex/betacoefficients1-1.pdf Graphic file (type pdf)
+<use _main_files/figure-latex/betacoefficients1-1.pdf>
+Package luatex.def Info: _main_files/figure-latex/betacoefficients1-1.pdf  used on input line 895.
 (luatex.def)             Requested size: 455.24608pt x 315.17035pt.
-<_main_files/figure-latex/betacoefficents2-1.pdf, id=335, 469.755pt x 325.215pt>
-File: _main_files/figure-latex/betacoefficents2-1.pdf Graphic file (type pdf)
-<use _main_files/figure-latex/betacoefficents2-1.pdf>
-Package luatex.def Info: _main_files/figure-latex/betacoefficents2-1.pdf  used on input line 818.
+<_main_files/figure-latex/betacoefficients2-1.pdf, id=354, 469.755pt x 325.215pt>
+File: _main_files/figure-latex/betacoefficients2-1.pdf Graphic file (type pdf)
+<use _main_files/figure-latex/betacoefficients2-1.pdf>
+Package luatex.def Info: _main_files/figure-latex/betacoefficients2-1.pdf  used on input line 901.
 (luatex.def)             Requested size: 455.24608pt x 315.17035pt.
-
-LaTeX Warning: Reference `fig:betacoefficients0' on page 19 undefined on input line 822.
-
-
-LaTeX Warning: Reference `fig:betacoefficients1' on page 19 undefined on input line 822.
-
-
-LaTeX Warning: Reference `fig:betacoefficients2' on page 19 undefined on input line 822.
-
-[19
-Missing character: There is no ⍺ (U+237A) in font [C:/Users/carlo/AppData/Local/R/win-library/4.2/uofgdataanalyticsreport/indiedown/fonts/regular.ttf]:mode=node;script=latn;language=dflt;+tlig;!
-Missing character: There is no λ (U+03BB) in font [C:/Users/carlo/AppData/Local/R/win-library/4.2/uofgdataanalyticsreport/indiedown/fonts/regular.ttf]:mode=node;script=latn;language=dflt;+tlig;!
-<./_main_files/figure-latex/vipranger2-1.pdf>] [20<./_main_files/figure-latex/betacoefficents0-1.pdf><./_main_files/figure-latex/betacoefficents1-1.pdf>] [21<./_main_files/figure-latex/betacoefficents2-1.pdf>]
-<_main_files/figure-latex/2022cluster-1.pdf, id=372, 469.755pt x 325.215pt>
+[21<./_main_files/figure-latex/vipranger2-1.pdf>] [22<./_main_files/figure-latex/betacoefficients0-1.pdf><./_main_files/figure-latex/betacoefficients1-1.pdf>] [23<./_main_files/figure-latex/betacoefficients2-1.pdf>]
+<_main_files/figure-latex/2022cluster-1.pdf, id=394, 469.755pt x 325.215pt>
 File: _main_files/figure-latex/2022cluster-1.pdf Graphic file (type pdf)
 <use _main_files/figure-latex/2022cluster-1.pdf>
-Package luatex.def Info: _main_files/figure-latex/2022cluster-1.pdf  used on input line 879.
+Package luatex.def Info: _main_files/figure-latex/2022cluster-1.pdf  used on input line 962.
 (luatex.def)             Requested size: 455.24608pt x 315.17035pt.
-<_main_files/figure-latex/electionresult-1.pdf, id=375, 469.755pt x 325.215pt>
+<_main_files/figure-latex/electionresult-1.pdf, id=397, 469.755pt x 325.215pt>
 File: _main_files/figure-latex/electionresult-1.pdf Graphic file (type pdf)
 <use _main_files/figure-latex/electionresult-1.pdf>
-Package luatex.def Info: _main_files/figure-latex/electionresult-1.pdf  used on input line 887.
+Package luatex.def Info: _main_files/figure-latex/electionresult-1.pdf  used on input line 970.
 (luatex.def)             Requested size: 455.24608pt x 315.17035pt.
-[22] [23<./_main_files/figure-latex/2022cluster-1.pdf><./_main_files/figure-latex/electionresult-1.pdf>]
-<_main_files/figure-latex/tealsplot-1.pdf, id=409, 469.755pt x 325.215pt>
+[24] [25<./_main_files/figure-latex/2022cluster-1.pdf><./_main_files/figure-latex/electionresult-1.pdf>]
+<_main_files/figure-latex/tealsplot-1.pdf, id=431, 469.755pt x 325.215pt>
 File: _main_files/figure-latex/tealsplot-1.pdf Graphic file (type pdf)
 <use _main_files/figure-latex/tealsplot-1.pdf>
-Package luatex.def Info: _main_files/figure-latex/tealsplot-1.pdf  used on input line 915.
+Package luatex.def Info: _main_files/figure-latex/tealsplot-1.pdf  used on input line 998.
 (luatex.def)             Requested size: 455.24608pt x 315.17035pt.
-<_main_files/figure-latex/tealdemographics-1.pdf, id=411, 469.755pt x 325.215pt>
+<_main_files/figure-latex/tealdemographics-1.pdf, id=433, 469.755pt x 325.215pt>
 File: _main_files/figure-latex/tealdemographics-1.pdf Graphic file (type pdf)
 <use _main_files/figure-latex/tealdemographics-1.pdf>
-Package luatex.def Info: _main_files/figure-latex/tealdemographics-1.pdf  used on input line 923.
+Package luatex.def Info: _main_files/figure-latex/tealdemographics-1.pdf  used on input line 1006.
 (luatex.def)             Requested size: 455.24608pt x 315.17035pt.
-<_main_files/figure-latex/greenvoting-1.pdf, id=414, 469.755pt x 325.215pt>
+<_main_files/figure-latex/greenvoting-1.pdf, id=436, 469.755pt x 325.215pt>
 File: _main_files/figure-latex/greenvoting-1.pdf Graphic file (type pdf)
 <use _main_files/figure-latex/greenvoting-1.pdf>
-Package luatex.def Info: _main_files/figure-latex/greenvoting-1.pdf  used on input line 934.
+Package luatex.def Info: _main_files/figure-latex/greenvoting-1.pdf  used on input line 1017.
 (luatex.def)             Requested size: 455.24608pt x 315.17035pt.
-<_main_files/figure-latex/green-1.pdf, id=415, 469.755pt x 325.215pt>
+<_main_files/figure-latex/green-1.pdf, id=437, 469.755pt x 325.215pt>
 File: _main_files/figure-latex/green-1.pdf Graphic file (type pdf)
 <use _main_files/figure-latex/green-1.pdf>
-Package luatex.def Info: _main_files/figure-latex/green-1.pdf  used on input line 940.
+Package luatex.def Info: _main_files/figure-latex/green-1.pdf  used on input line 1023.
 (luatex.def)             Requested size: 455.24608pt x 315.17035pt.
-[24<./_main_files/figure-latex/tealsplot-1.pdf>] [25<./_main_files/figure-latex/tealdemographics-1.pdf><./_main_files/figure-latex/greenvoting-1.pdf>]
-<_main_files/figure-latex/suburbia1-1.pdf, id=444, 469.755pt x 325.215pt>
+[26<./_main_files/figure-latex/tealsplot-1.pdf>] [27<./_main_files/figure-latex/tealdemographics-1.pdf><./_main_files/figure-latex/greenvoting-1.pdf>]
+<_main_files/figure-latex/suburbia1-1.pdf, id=466, 469.755pt x 325.215pt>
 File: _main_files/figure-latex/suburbia1-1.pdf Graphic file (type pdf)
 <use _main_files/figure-latex/suburbia1-1.pdf>
-Package luatex.def Info: _main_files/figure-latex/suburbia1-1.pdf  used on input line 953.
+Package luatex.def Info: _main_files/figure-latex/suburbia1-1.pdf  used on input line 1036.
 (luatex.def)             Requested size: 455.24608pt x 315.17035pt.
-<_main_files/figure-latex/suburbia2-1.pdf, id=445, 469.755pt x 325.215pt>
+<_main_files/figure-latex/suburbia2-1.pdf, id=467, 469.755pt x 325.215pt>
 File: _main_files/figure-latex/suburbia2-1.pdf Graphic file (type pdf)
 <use _main_files/figure-latex/suburbia2-1.pdf>
-Package luatex.def Info: _main_files/figure-latex/suburbia2-1.pdf  used on input line 959.
+Package luatex.def Info: _main_files/figure-latex/suburbia2-1.pdf  used on input line 1042.
 (luatex.def)             Requested size: 455.24608pt x 315.17035pt.
-[26<./_main_files/figure-latex/green-1.pdf>] [27<./_main_files/figure-latex/suburbia1-1.pdf><./_main_files/figure-latex/suburbia2-1.pdf>] [28] (./_main.bbl
+[28<./_main_files/figure-latex/green-1.pdf>] [29<./_main_files/figure-latex/suburbia1-1.pdf><./_main_files/figure-latex/suburbia2-1.pdf>] [30]
+Overfull \hbox (453.38419pt too wide) in paragraph at lines 1149--1222
+ [][] 
+ []
+
+[31]
+Overfull \vbox (214.69447pt too high) has occurred while \output is active []
+
+[32] [33] (./_main.bbl
 Underfull \hbox (badness 3895) in paragraph at lines 9--12
 []\TU/regular.ttf(0)/m/sc/10.95 Si-mon Ben-son.  Newspoll: La-bor lead over coali-tion nar-rows, 2023.  URL []$https://www.
  []
@@ -1515,33 +1512,30 @@ Underfull \hbox (badness 2205) in paragraph at lines 94--98
 \TU/regular.ttf(0)/m/sc/10.95 patterns_by_generation$[].  Archive Lo-ca-tion: Aus-tralia Last Mod-i-fied: 2022-04-29 Pub-lisher:
  []
 
-[29]) [30] (./_main.aux)
+[34]) [35] (./_main.aux)
  ***********
-LaTeX2e <2023-06-01>
-L3 programming layer <2023-06-05>
+LaTeX2e <2023-06-01> patch level 1
+L3 programming layer <2023-06-16>
  ***********
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
-
-LaTeX Warning: There were undefined references.
-
 )
 
 Here is how much of LuaTeX's memory you used:
- 35210 strings out of 478043
- 100000,1977958 words of node,token memory allocated
+ 35250 strings out of 478031
+ 156267,1977958 words of node,token memory allocated
  827 words of node memory still in use:
-   8 hlist, 2 vlist, 2 rule, 1 local_par, 8 glue, 4 kern, 1 penalty, 1 margin_kern, 4 glyph, 27 attribute, 68 glue_spec, 27 attribute_list, 2 write, 1 user_defined, 13 pdf_action nodes
-   avail lists: 1:2,2:1721,3:678,4:535,5:1123,6:55,7:8210,8:137,9:1693,10:23,11:700
- 54718 multiletter control sequences out of 65536+600000
- 84 fonts using 19351283 bytes
+   8 hlist, 2 vlist, 2 rule, 1 local_par, 9 glue, 4 kern, 1 penalty, 3 glyph, 28 attribute, 68 glue_spec, 28 attribute_list, 2 write, 1 user_defined, 13 pdf_action nodes
+   avail lists: 1:9,2:1930,3:678,4:538,5:1131,6:77,7:14625,8:137,9:1693,10:23,11:1350
+ 54756 multiletter control sequences out of 65536+600000
+ 84 fonts using 19351435 bytes
  90i,15n,123p,1193b,513s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/fonts/opentype/public/lm-math/latinmodern-math.otf><c:/Users/carlo/AppData/Roaming/TinyTeX/texmf-dist/fonts/opentype/public/lm-math/latinmodern-math.otf><c:/Users/carlo/AppData/Local/R/win-library/4.2/uofgdataanalyticsreport/indiedown/fonts/bold.ttf><c:/Users/carlo/AppData/Local/R/win-library/4.2/uofgdataanalyticsreport/indiedown/fonts/italic.ttf><c:/Users/carlo/AppData/Local/R/win-library/4.2/uofgdataanalyticsreport/indiedown/fonts/bold.ttf><c:/Users/carlo/AppData/Local/R/win-library/4.2/uofgdataanalyticsreport/indiedown/fonts/regular.ttf>
-Output written on _main.pdf (31 pages, 1776698 bytes).
+Output written on _main.pdf (36 pages, 1701247 bytes).
 
-PDF statistics: 642 PDF objects out of 1000 (max. 8388607)
- 540 compressed objects within 6 object streams
- 160 named destinations out of 1000 (max. 131072)
- 160 words of extra memory for PDF output out of 10000 (max. 100000000)
+PDF statistics: 708 PDF objects out of 1000 (max. 8388607)
+ 601 compressed objects within 7 object streams
+ 174 named destinations out of 1000 (max. 131072)
+ 216 words of extra memory for PDF output out of 10000 (max. 100000000)
 

@@ -1,0 +1,14 @@
+---
+output:
+  pdf_document: default
+bibliography:
+- book.bib
+- packages.bib
+---
+
+# R Packages {#appendix-packages}
+
+lorem ipsum
+
+
+\newpage

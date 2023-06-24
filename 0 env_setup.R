@@ -62,6 +62,10 @@ packages_to_install <- tibble::tribble(
 "butcher",                    "CRAN",         "",
 "lobstr",                     "CRAN",         "",
 "paletteer",                  "CRAN",         "",
+"flowdiagramr",               "CRAN",         "",
+"leaflet",                    "CRAN",         "",
+"kableExtra",                "CRAN",         "",
+"lemon",                      "CRAN",         "",
 )
 
 

@@ -23,7 +23,6 @@ lang            : en-AU
 bibliography:
 - book.bib
 - packages.bib
-csl: ieee.csl
 link-citations: yes
 delete_merged_file: true
 language:

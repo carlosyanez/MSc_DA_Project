@@ -49,7 +49,7 @@ results_data |>
 ```
 
 
-```{r, eval=eval_html,fig.cap="test"}
+```{r, eval=eval_html,fig.cap="Clusters in 2022 Election - Interactive"}
 library(leaflet)
 library(htmltools)
 
@@ -82,11 +82,12 @@ sf::st_read(path(project_path,"4. Data","CED_2021.gpkg"),quiet=TRUE) |>
 After clustering, the regression models have been used to calculate a predicted outcome. Results have been transformed back to absolute values and then compared against actual and historical results. This is presented in figure \@ref(fig:electionresult), together with RMSE values in table \@ref(tab:2022rmse).
 
 ```{r electionresult, fig.cap="Comparison between prediction and election results"}
-results$prediction_compared |>
+p <- results$prediction_compared |>
   mutate(cluster=as.character(cluster)) |>
   mutate(across(any_of(c("Predicted","Actual")), ~ .x/100)) |>
   mutate(PartyAb=forcats::fct_relevel(PartyAb,party_cols)) |>
-  ggplot(aes(x=Predicted,y=Actual,colour=cluster)) +
+  mutate(label = glue("<b>{DivisionNm}</b><br> Predicted: {round(100*Predicted,3)}% <br> Actual: {round(100*Actual,3)}%")) |>
+  ggplot(aes(x=Predicted,y=Actual,colour=cluster,text=label)) +
   geomtextpath::geom_textabline(slope=1,intercept = 0, label="0%",colour="gray50",linetype = 2,hjust=0.8,alpha=0.4) +
   geomtextpath::geom_textabline(slope=1,intercept = 0.05, label="5%",colour="orange",linetype = 2,hjust=0.8,alpha=0.4) +
   geomtextpath::geom_textabline(slope=1,intercept = -0.05, label="-5%",colour="orange",linetype = 2,hjust=0.8,alpha=0.4) +
@@ -98,7 +99,18 @@ results$prediction_compared |>
   scale_x_continuous(labels =  scales::label_percent()) +
   scale_y_continuous(labels =  scales::label_percent()) +
   labs(title="Election Forecast and Results compared")
+
+
+if(eval_html){
+   p |> interactive_plot()
+}else{
+  p
+}
+
+
 ```
+
+
 
 ```{r 2022rmse}
 results$prediction_compared |>
@@ -129,15 +141,34 @@ A particular phenomenon of the last election consisted in the so-called "Teal Wa
 
 ```{r tealsplot, fig.cap="Example 1: Teal Wave"}
 
-warringah <- compare_results("Warringah",parties=4,results=results) 
-wentworh <- compare_results("Wentworth",parties=4,results=results)
+warringah <- compare_results("Warringah",parties=4,results=results)
+wentworth <- compare_results("Wentworth",parties=4,results=results)
 goldstein <- compare_results("Goldstein",parties=4,results=results)
 kooyong <- compare_results("Kooyong",parties=4,results=results)
 
-(warringah + wentworh) / (goldstein + kooyong) +  
+
+plot_title <- "Teal voting in Melbourne and Sydney"
+
+if(eval_html){
+  
+  p <- list(warringah,wentworth,goldstein,kooyong)
+  
+  for(i in 1:(length(p))){
+   p[[i]] <- p[[i]] |> interactive_plot(annotation_x=0,annotation_y = 1.05,set_title=TRUE)
+    if(i <= length(p)){
+      p[[i]] <- p[[i]] |> hide_legend()
+    }
+  }
+  
+ subplot(p, nrows=2,widths=c(0.45,0.45),heights=c(0.45,0.45))|> layout(title=plot_title)
+  
+}else{
+
+(warringah + wentworth) / (goldstein + kooyong) +  
   plot_layout(guides = 'collect') +
-  plot_annotation(title="Teal voting in Melbourne and Sydney") +
+  plot_annotation(title=plot_title) +
   ggh4x::force_panelsizes(cols=12)
+}
 
 ```
 
@@ -190,7 +221,8 @@ demographic_data <- demographic_data |>
 
 ```{r tealdemographics, fig.cap="Selected demographics for teal seats"}
 
-selected_demographics <- c("Age_Baby_Boomers","Age_Gen_Y","Income_2000_or_more","Religion_No_Religion_Secular")
+selected_demographics <- c("Age_Baby_Boomers","Age_Gen_Y",
+                           "Income_2000_or_more","Religion_No_Religion_Secular")
 electorates <- c("Warringah","Wentworth","Goldstein","Kooyong")
 
 p <- list()
@@ -199,11 +231,24 @@ p[[length(p)+1]] <- census_plot(demographic_data,
                                 electorate,
                                 selected_demographics) + 
                     paletteer::scale_color_paletteer_d("colRoz::uluru") +
-                    guides(color=guide_legend(nrow=2, byrow=TRUE)) 
+                    guides(color=guide_legend(nrow=3, byrow=TRUE))  
 }
 
-plot_grid(p,ncol=2,nrow=2,titletext = "Census attributes in teal seats")    & theme(legend.position = "bottom")   
-    
+plot_title <- "Census attributes in teal seats"
+
+if(eval_html){
+  for(i in 1:(length(p))){
+   p[[i]] <- p[[i]] |> interactive_plot(annotation_x=0,annotation_y = 1.05,set_title=TRUE)
+    if(i <= length(p)){
+      p[[i]] <- p[[i]] |> hide_legend()
+    }
+  }
+  
+ subplot(p, nrows=2,widths=c(0.45,0.45),heights=c(0.45,0.45))|> layout(title=plot_title)
+  
+}else{
+  plot_grid(p,ncol=2,nrow=2,titletext = plot_title)    & theme(legend.position = "bottom")   
+}
   
 ```
 
@@ -218,9 +263,30 @@ ryan     <- compare_results("Ryan",parties=3,results=results)
 brisbane    <- compare_results("Brisbane",parties=3,results=results) 
 wills <- compare_results("Wills",parties=3,results=results)  
 
+
+
+plot_title <- "Green Voting"
+
+if(eval_html){
+  
+  p <- list(griffith,ryan,brisbane, wills)
+  
+  for(i in 1:(length(p))){
+   p[[i]] <- p[[i]] |> interactive_plot(annotation_x=0,annotation_y = 1.05,set_title=TRUE)
+    if(i <= length(p)){
+      p[[i]] <- p[[i]] |> hide_legend()
+    }
+  }
+  
+ subplot(p, nrows=2,widths=c(0.45,0.45),heights=c(0.45,0.45))|> layout(title=plot_title)
+  
+}else{
+
 (griffith + ryan) / (brisbane + wills) +  
   plot_layout(guides = 'collect') +
-  plot_annotation(title="Green Voting ")
+  plot_annotation(title=plot_title)
+  
+}
 
 ```
 
@@ -240,10 +306,27 @@ p[[length(p)+1]] <- census_plot(demographic_data,
                                 electorate,
                                 selected_demographics) + 
                     paletteer::scale_color_paletteer_d("colRoz::uluru")  +
-                    guides(color=guide_legend(nrow=2, byrow=TRUE)) 
+                    guides(color=guide_legend(nrow=3, byrow=TRUE)) 
 }
 
-plot_grid(p,ncol=2,nrow=2,titletext = "Census attributes selected in Green strongholds")   & theme(legend.position = "bottom")  
+
+plot_title <-  "Census attributes selected in Green strongholds"
+
+if(eval_html){
+  for(i in 1:(length(p))){
+   p[[i]] <- p[[i]] |> interactive_plot(annotation_x=0,annotation_y = 1.05,set_title=TRUE)
+    if(i <= length(p)){
+      p[[i]] <- p[[i]] |> hide_legend()
+    }
+  }
+  
+ subplot(p, nrows=2,widths=c(0.45,0.45),heights=c(0.45,0.45))|> layout(title=plot_title)
+  
+}else{
+  plot_grid(p,ncol=2,nrow=2,titletext = plot_title)    & theme(legend.position = "bottom")   
+}
+  
+
 
 ```
 
@@ -260,9 +343,27 @@ menzies     <- compare_results("Menzies",parties=3,results=results)
 fowler    <- compare_results("Fowler",parties=3,results=results) 
 kingston <- compare_results("Kingston",parties=3,results=results) 
 
+
+plot_title <- "Suburban electorates"
+
+if(eval_html){
+  
+  p <- list(hasluck,menzies,fowler,kingston)
+  
+  for(i in 1:(length(p))){
+   p[[i]] <- p[[i]] |> interactive_plot(annotation_x=0,annotation_y = 1.05,set_title=TRUE)
+    if(i <= length(p)){
+      p[[i]] <- p[[i]] |> hide_legend()
+    }
+  }
+  
+ subplot(p, nrows=2,widths=c(0.45,0.45),heights=c(0.45,0.45))|> layout(title=plot_title)
+  
+}else{
 (hasluck + menzies) / (fowler + kingston) +  
   plot_layout(guides = 'collect') +
-  plot_annotation(title="Suburban electorates")
+  plot_annotation(title=plot_title)
+}
 
 ```
 
@@ -284,11 +385,26 @@ p[[length(p)+1]] <- census_plot(demographic_data,
                                 selected_demographics) + 
                     paletteer::scale_color_paletteer_d("colRoz::virgo") +
                     theme(legend.position='bottom') +
-                    guides(color=guide_legend(nrow=2, byrow=TRUE)) 
+                    guides(color=guide_legend(nrow=3, byrow=TRUE)) 
 }
 
-plot_grid(p,ncol=2,nrow=2,titletext = "Suburban electorates")  & theme(legend.position = "bottom")  
-    
+
+plot_title <-  "Suburban electorates"
+
+if(eval_html){
+  for(i in 1:(length(p))){
+    p[[i]] <- p[[i]] |> interactive_plot(annotation_x=0,annotation_y = 1.05,set_title=TRUE)
+    if(i <= length(p)){
+      p[[i]] <- p[[i]] |> hide_legend()
+    }
+  }
+  
+  subplot(p, nrows=2,widths=c(0.45,0.45),heights=c(0.45,0.45)) |> layout(title=plot_title)
+  
+}else{
+  plot_grid(p,ncol=2,nrow=2,titletext = plot_title)    & theme(legend.position = "bottom")   
+}
+
 
 ```
 
@@ -297,7 +413,7 @@ From both figures, there are perhaps four different stories in these electorates
 -   In **Hasluck** (WA) [@hasluckresults], the changes have the top maybe be driven by generational renewal. The "Other" vote increase includes progressive independents and localist parties, which may have influenced the lower-than-predicted results for the Greens.
 -   In **Menzies** (VIC) [@menziesresults], Coalition numbers decline influenced by generational change and a large decrease in the percentage of standalone houses. This abrupt change took place as an effect of the 2021 redistribution, where semi-rural areas moved into another electorate [@vicredist]. This a good example where the existing model was able to effectively predict the primary vote based on those demographic changes.
 -   In **Fowler** (NSW) [@fowlerresults], an independent candidate altered Labor's trend. In these cases, a community-based candidate captured the multicultural vote from a "parachuted" Labor nominee - which is a variable not considered in the model. [@https://www.abc.net.au/news/catherine-hanrahan/79018522022]
--   Although the predictions for **Kingston (SA) [@kingstonresults]**, are no far off the actual results, it seems more difficult to explain them in terms of demographic changes - it is worth noticing that the model for cluster 2 uses 17 different variables.
+-   In the case of **Kingston (SA) [@kingstonresults]**, it seems difficult to explain the results by effect of demographic changes - even when 
 
 
 ```{r}

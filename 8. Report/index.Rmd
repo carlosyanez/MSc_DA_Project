@@ -1,8 +1,9 @@
 --- 
-title: "Analysing Australian Election Results"
-author: "Carlos Yanez Santibanez"
-course: " "
-date: "`r Sys.Date()`"
+title           : "Analysing Australian Election Results"
+author          : "Carlos Yanez Santibanez"
+programme       : "Data Analytics MSc (ODL)"
+subject         : "Project"
+date            : !r Sys.Date()
 output: pdf_document
 params:
   book: FALSE
@@ -10,13 +11,11 @@ params:
 ---
 
 ```{r setup, message=FALSE, warning=FALSE, include=FALSE}
-library(DiagrammeR)
 library(dplyr)
 library(readr)
 library(stringr)
 library(here)
 library(auspol)
-library(flextable)
 library(ggplot2)
 library(tidyr)
 library(fs)
@@ -24,13 +23,14 @@ library(tidymodels)
 library(vip)
 library(glue)
 library(kableExtra)
+library(flowdiagramr)
 #flextable::add_latex_dep(TRUE,TRUE)
 source(here::here("formatting_defaults.R"))
 
 project_path <- fs::path(here(),"..")
 
-keep_vars <- c(ls(),"keep_vars")
-knitr::opts_knit$set(message=FALSE,echo=FALSE,warning=FALSE)
+knitr::opts_knit$set(message=FALSE,echo=FALSE,warning=FALSE,cache=TRUE)
+knitr::knit_hooks$set(crop = knitr::hook_pdfcrop)
 
 eval_book <- params$book
 eval_html <- params$html
@@ -41,6 +41,9 @@ if(eval_html){
   library(plotly)
   library(crosstalk)
 }
+
+keep_vars <- c(ls(),"keep_vars")
+
 
 ```
 
@@ -55,3 +58,4 @@ bookdown::render_book("index.Rmd", "bookdown::pdf_book",params=list(book=TRUE,ht
 
 ```
 
+`r if(eval_book)'\\cleardoublepage \\pagenumbering{roman}'`

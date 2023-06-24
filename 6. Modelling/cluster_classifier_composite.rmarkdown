@@ -1,0 +1,441 @@
+---
+title: "cluster_classifier"
+editor: visual
+format:
+  html:
+    code-fold: true
+    code-summary: "Show the code"
+    toc: true
+    toc-location: left
+    df_print: kable
+---
+
+```{r}
+library(tidyverse)
+library(tidymodels)
+library(here)
+
+
+```
+
+```{r}
+#| warning: false
+#| message: false
+
+nationals <- read_csv(here("4. Data","national_values.csv")) |>
+             filter(Year!=2021) |>
+             pivot_longer(-Year, names_to = "Attribute",values_to="National") |>
+             mutate(Attribute=str_replace_all(Attribute," - ","_"),
+                    Attribute=str_replace_all(Attribute,"-","_"),
+                    Attribute=str_squish(Attribute),
+                    Attribute=str_replace_all(Attribute," ","_"))
+
+
+dataset <- read_csv(here("4. Data","consolidated.csv"))      |>
+           select(-any_of(c("ALP","COAL","GRN","Other")))    |>
+           filter(election_year!=2022)                       |>
+           select(-any_of(c("Metro_Area",
+                            "StateAb","Year")))     |>
+           mutate(Division = str_c(DivisionNm,"-",election_year),
+                  .keep="unused",.before=1)                  |>
+           mutate(Metro=case_when(
+             Metro=="Yes" ~ 1,
+             Metro=="No"  ~ 0
+            ),.keep="unused") |>
+            mutate(across(where(is.numeric), ~ replace_na(.x,0)))
+
+
+clusters <- read_csv(here("4. Data","clusters.csv"))         |>
+            mutate(Division = str_c(DivisionNm,"-",Year),
+                             .keep="unused")                 |>
+            select(-any_of(c("Metro_Area")))
+
+
+dataset <- dataset |>
+           left_join(clusters,by="Division") |>
+           relocate(cluster,.after=1)        |>
+           mutate(cluster=as_factor(cluster)) |>
+           column_to_rownames("Division")
+
+rm(clusters,nationals)
+
+```
+
+
+# Combined model
+
+### Remove cluster 1, test criteria with criteria from prior iterations
+
+
+```{r}
+dataset_1 <- dataset |> filter(cluster==1)
+
+dataset_1 |>
+  mutate(is_1 = ((Metro==0) & !(Language_English_Only <80))) |>
+  summarise(is_1 = mean(is_1))
+
+```
+
+```{r}
+dataset_1 |>
+  mutate(is_1 = ((Metro==0) & !(Language_English_Only <80))) |>
+  filter(!is_1)
+```
+
+```{r}
+dataset_rest <- dataset |> 
+                filter(cluster!=1) |>
+                mutate(cluster=fct_drop(cluster))
+```
+
+```{r}
+set.seed(1234)
+split <- initial_split(dataset_rest,prop=0.8)
+
+training <- training(split) 
+testing  <- testing(split)
+
+```
+
+
+## rpart decision tree
+
+
+```{r}
+
+tune_spec <- 
+  decision_tree(
+    cost_complexity = tune(),
+    tree_depth = tune()
+  ) %>% 
+  set_engine("rpart") %>% 
+  set_mode("classification")
+
+tune_spec
+```
+
+```{r}
+tree_grid <- grid_regular(cost_complexity(),
+                          tree_depth(),
+                          levels = 5)
+```
+
+```{r}
+
+set.seed(234)
+cell_folds <- vfold_cv(training)
+
+```
+
+```{r}
+set.seed(345)
+
+tree_wf <- workflow() |>
+  add_model(tune_spec) |>
+  add_formula(cluster ~ .)
+
+tree_res <- 
+  tree_wf |>
+  tune_grid(
+    resamples = cell_folds,
+    grid = tree_grid
+    )
+
+```
+
+```{r}
+tree_res %>%
+  collect_metrics() %>%
+  mutate(tree_depth = factor(tree_depth)) %>%
+  ggplot(aes(cost_complexity, mean, color = tree_depth)) +
+  geom_line(linewidth = 1.5, alpha = 0.6) +
+  geom_point(size = 2) +
+  facet_wrap(~ .metric, scales = "free", nrow = 2) +
+  scale_x_log10(labels = scales::label_number()) +
+  scale_color_viridis_d(option = "plasma", begin = .9, end = 0)
+
+```
+
+```{r}
+tree_res |>
+  show_best("accuracy")
+```
+
+```{r}
+best_tree <- tree_res %>%
+  select_best("accuracy")
+
+final_wf <- 
+  tree_wf %>% 
+  finalize_workflow(best_tree)
+
+final_wf
+```
+
+```{r}
+
+rpart_model <- 
+  final_wf |>
+  last_fit(split) 
+
+rpart_model |>
+    collect_metrics()
+```
+
+```{r}
+extract_workflow(rpart_model)  |>
+  extract_fit_engine() |>
+    rpart.plot::rpart.plot(roundint = FALSE)
+```
+
+```{r}
+library(vip)
+
+extract_workflow(rpart_model) |>
+  extract_fit_parsnip() |>
+  vip()##
+```
+
+
+## random forest decision tree
+
+
+```{r}
+
+tune_spec <- 
+  rand_forest(
+      mtry = tune(),
+      trees = tune(),
+      min_n = tune()
+  ) %>% 
+  set_engine("ranger",importance="impurity") %>% 
+  set_mode("classification")
+
+tune_spec
+```
+
+```{r}
+
+
+set.seed(234)
+cell_folds <- vfold_cv(training)
+
+```
+
+```{r}
+set.seed(345)
+
+tree_res <- workflow() |>
+  add_model(tune_spec) |>
+  add_formula(cluster ~ .)
+
+
+set.seed(345)
+tune_res <- tune_grid(
+  tree_res,
+  resamples = cell_folds,
+  grid = 20
+)
+
+
+```
+
+```{r}
+tune_res |>
+  show_best("accuracy")
+
+```
+
+```{r}
+best_tree <- tune_res %>%
+  select_best("accuracy")
+
+final_wf <- 
+  tree_res %>% 
+  finalize_workflow(best_tree)
+
+final_wf
+```
+
+```{r}
+
+ranger_model <- 
+  final_wf |>
+  last_fit(split) 
+
+ranger_model |>
+    collect_metrics()
+```
+
+```{r}
+library(vip)
+
+extract_workflow(ranger_model) |>
+  extract_fit_parsnip() |>
+  vip()
+```
+
+```{r}
+ranger_model$.predictions[[1]] |>
+  select(.pred_class,cluster)  |>
+  mutate(Right=(cluster==.pred_class)) |>
+  count(cluster,Right) |>
+  group_by(cluster) |>
+  mutate(n=n/sum(n)) |>
+  ungroup() |>
+  pivot_wider(names_from = "Right", values_from = "n")
+```
+
+
+
+# Save
+
+
+```{r}
+library(fs)
+clustering_folder <- fs::dir_create(here("6. Modelling","clustering_models"))
+
+saveRDS(rpart_model,path(clustering_folder,"clustering_rpart_combined.rds"))
+saveRDS(ranger_model,path(clustering_folder,"clustering_ranger_combined.rds"))
+
+
+```
+
+
+
+# random forest with reduced dataset
+
+```{r}
+dataset_rest_orig <- dataset_rest
+```
+
+```{r}
+#| warning: false
+#| message: false
+
+dataset_rest |>
+  select(any_of(c("Household_Flat",
+                  "Household_Standalone",
+                  "Household_Owned_with_a_mortgage",
+                  "Relationship_Group_Household",
+                  "Relationship_Married",
+                  "Relationship_Single_Parent",
+                  "Household_Rented",
+                  "Relationship_Non_dependent_Child",
+                  "Household_Social_or_community",
+                  "Education_Postgraduate"
+                  ))) |>
+  GGally::ggpairs()
+```
+
+```{r}
+
+set.seed(1234)
+dataset_rest <- dataset_rest |>
+   select(any_of(c("cluster",
+                   "Household_Flat",
+                #  "Household_Standalone", highly correlated to Household_Flat
+                  "Household_Owned_with_a_mortgage",
+                  "Relationship_Group_Household",
+                  "Relationship_Married",
+                  "Relationship_Single_Parent",
+                  "Household_Rented",
+                  "Relationship_Non_dependent_Child",
+                  "Household_Social_or_community",
+                  "Education_Postgraduate")))
+
+split <- initial_split(dataset_rest,prop=0.8)
+
+training <- training(split) 
+testing  <- testing(split)
+
+
+
+```
+
+```{r}
+
+tune_spec <- 
+  rand_forest(
+      mtry = tune(),
+      trees = tune(),
+      min_n = tune()
+  ) %>% 
+  set_engine("ranger",importance="impurity") %>% 
+  set_mode("classification")
+
+tune_spec
+```
+
+```{r}
+
+
+set.seed(234)
+cell_folds <- vfold_cv(training)
+
+```
+
+```{r}
+set.seed(345)
+
+tree_res <- workflow() |>
+  add_model(tune_spec) |>
+  add_formula(cluster ~ .)
+
+
+set.seed(345)
+tune_res <- tune_grid(
+  tree_res,
+  resamples = cell_folds,
+  grid = 20
+)
+
+
+```
+
+```{r}
+tune_res |>
+  show_best("accuracy")
+
+```
+
+```{r}
+best_tree <- tune_res %>%
+  select_best("accuracy")
+
+final_wf <- 
+  tree_res %>% 
+  finalize_workflow(best_tree)
+
+final_wf
+```
+
+```{r}
+
+ranger_model <- 
+  final_wf |>
+  last_fit(split) 
+
+ranger_model |>
+    collect_metrics()
+```
+
+```{r}
+library(vip)
+
+extract_workflow(ranger_model) |>
+  extract_fit_parsnip() |>
+  vip()
+```
+
+```{r}
+ranger_model$.predictions[[1]] |>
+  select(.pred_class,cluster)  |>
+  mutate(Right=(cluster==.pred_class)) |>
+  count(cluster,Right) |>
+  group_by(cluster) |>
+  mutate(n=n/sum(n)) |>
+  ungroup() |>
+  pivot_wider(names_from = "Right", values_from = "n")
+```
+

@@ -7,7 +7,7 @@ bibliography:
 ---
 # Method {#method}
 
-Going back to the introduction, the objective of the exercise is to determine if demographic attributes can influence or explain voting patterns. This can be restated into determining if demographic attributes can serve as predictors of primary voting. In mathematical terms, this can be expressed in a simple way by  S equation \@ref(eq:equation1).
+Going back to the introduction, the objective of the exercise is to determine if demographic attributes can influence or explain voting patterns. This can be restated into determining if demographic attributes can serve as predictors of primary voting. In mathematical terms, this can be expressed in a simple way by equation \@ref(eq:equation1).
 
 ```{=tex}
 \begin{align}
@@ -23,29 +23,31 @@ To solve this challenge, it is possible to naively assume tools like polling can
 
 ```{=tex}
 \begin{align}
-\mathbf{Y} = f(\mathbf{X}) + \epsilon \\ \\
-\textrm{where}  \\
-\mathbf{Y}  = \mathbf{Y} - \mathbf{Yp} \\
-\mathbf{X}  = \mathbf{X} - \mathbf{Xn} \\ \\
-\textrm{and}  \\
-\mathbf{Yp} : \textrm{Primary voting polling results} \\
-\mathbf{Xn} : \textrm{Demographic values at national level}
+\mathbf{Y} = f(\mathbf{X}) + \epsilon
 (\#eq:equation2)
 \end{align}
+$\textrm{where}  \\
+\mathbf{Y}  = \mathbf{Y} - \mathbf{Yp} \\
+\mathbf{X}  = \mathbf{X} - \mathbf{Xn} \\ 
+\textrm{and}  \\
+\mathbf{Yp} : \textrm{Primary voting polling results} \\
+\mathbf{Xn} : \textrm{Demographic values at national level} \\ \\$
+
 ```
 This second iteration does not take into account that in different electorates, different demographic attributes may have a different effect on the primary vote. For instance, in more progressive areas, a higher proportion of younger people may have a greater effect on left-leaning preferences when compared with similar proportions of younger people in rural electorates.  Equation  \@ref(eq:equation3) is intended to acknowledge those differences.
   
 ```{=tex}
 \begin{align}
-\mathbf{Y_i} = f_i(\mathbf{X_i}) + \epsilon \\
-\textrm{where}  \\
-\mathbf{Y}  = \mathbf{Y} - \mathbf{Yp_i} \\
-\mathbf{X}  = \mathbf{X} - \mathbf{Xn_i} \\ \\
+\mathbf{Y_i} = f_i(\mathbf{X_i}) + \epsilon 
 (\#eq:equation3)
 \end{align}
+$\textrm{where}  \\
+\mathbf{Y}  = \mathbf{Y} - \mathbf{Yp_i} \\
+\mathbf{X}  = \mathbf{X} - \mathbf{Xn_i} \\ \\$
+
 ```
       
-Please note that $i$ represents a particular grouping of electorates,  and for each group predictors can be different - as different attributes may have different impacts.
+It is worth noticing that $i$ represents a particular grouping of electorates,  and for each group predictors can be different - as different attributes may have different impacts.
     
 In terms of choosing an appropriate $f_i$, it would depend on the objective of the model. Given the large number of predictors and requirements on interpretability and accuracy, this could be a complex task. In this particular case, the focus is on understanding the factors that influence voting rather than producing accurate electoral predictions (which is attempted nevertheless), for which the use of **regularised regression** models is an appropriate choice. 
 
@@ -80,13 +82,12 @@ x_{im}
 (\#eq:equation4)
 \end{align}
 ```
+   
         
 A complication of this approach is that requires separating the electorates into different segments. This requires having a method to map electorates into clusters if such an assignment is not provided. Thus, the modelling task consists of:
         
 - A classification model map new records into clusters with similar electorates.
 - A regularised regression model to determine how demographic factors influence primary voting for each party.      
-
-
 
 ```{r}
 rm(list=ls()[!(ls() %in% keep_vars)])

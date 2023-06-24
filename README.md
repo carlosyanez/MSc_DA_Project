@@ -11,6 +11,16 @@ This repository does not include the packages developed to access and modify dat
 
 | Directory | Purpose |
 |-----------|---------|
-|           |         |
-|           |         |
-|           |         |
+|0. Notes |Initial Notes|
+|1. Proposal |Document with original proposal|
+|2. Meetings|Meeting notes|
+|3. Data Extraction| Code used to extract data|
+|4. Data| Data used in the project|
+|5. EDA|Exploratory Data Analysis|
+|6. Modelling| Modelling|
+|7. Forecast| Forecast of 2021 Election|
+|8. Report| Project's report|
+|9. Presentation| Viva slides |
+
+Each folder contains its own README.md file.
+Additionally, the file *0_env_setup.R* contains the code to install all required packages.

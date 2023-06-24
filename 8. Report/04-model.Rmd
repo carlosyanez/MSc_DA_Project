@@ -15,7 +15,7 @@ As mentioned in the previous section, this exercise requires fitting both a clas
 
 Although HDBSCAN can be used to map new data points into the existing clusters, a different approach has been taken: to "reverse engineer" the clusters by training a classification model. The intent behind this is to leverage the trained model to identify the main contributors to the classification.
 
-Different models were tried, starting with basic tree partitioning. After a couple of trials, a **random forest** model was selected. The algorithm was trained with:
+Different models were tried, starting with basic tree partitioning. After a couple of trials, a **random forest** model was selected. Although not directly interpretable like a simple hierarchical tree, the use of **variable importance plots** still allows to understand which variables are the most significant influencers in the classification algorithm. This is deemed an acceptable trade-off between increase accuracy and explainability.  The model was trained with:
 
 -   Census data from 2007 to 2016 (mirroring elections between 2006 to 2016), which was used for training and validation.
 -   Values for demographic attributes, which were centred around the overall percentage for said attribute, for the respective cluster.
@@ -62,10 +62,25 @@ ranger1$.predictions[[1]] |>
 ```
 
 ```{r vipranger1, fig.cap="Variable importace - First classification model"}
-extract_workflow(ranger1) |>
+p <- extract_workflow(ranger1) |>
   extract_fit_parsnip() |>
   vip(aesthetics=list(fill="#00843D",colour="#00843D")) +
   labs(title="Variable Importance") 
+
+p <- gginnards::delete_layers(p,"GeomCol")
+p$data <- p$data |> mutate(label = glue("<b>{Variable}</b>: {round(Importance,4)}"))
+p <- gginnards::append_layers(p,geom_col(aes(y=Importance,
+                                             x=forcats::fct_reorder(Variable,Importance),
+                                             text=label),
+                                         fill="#00843D",colour="#00843D"))
+
+if(eval_html){
+  p |> interactive_plot()
+}else{
+  p + ggh4x::force_panelsizes(rows=3,cols=6)
+}
+
+
 ```
 
 From the chart above, it is possible to see that only a handful of variables significantly contribute to the cluster selection. Aiming for simplification, a random forest model with reduced variables was also trained, achieving similar results in accuracy and variable importance (shown in tables \@ref(tab:ranger21) and \@ref(tab:ranger22), and figure \@ref(fig:vipranger2).
@@ -108,10 +123,23 @@ ranger2$.predictions[[1]] |>
 
 ```{r vipranger2,fig.cap="Variable importace - Improved classification model"}
 
-extract_workflow(ranger2) |>
+p <- extract_workflow(ranger2) |>
   extract_fit_parsnip() |>
   vip(aesthetics=list(fill="#00843D",colour="#00843D")) +
   labs(title="Variable Importance") 
+
+p <- gginnards::delete_layers(p,"GeomCol")
+p$data <- p$data |> mutate(label = glue("<b>{Variable}</b>: {round(Importance,4)}"))
+p <- gginnards::append_layers(p,geom_col(aes(y=Importance,
+                                             x=forcats::fct_reorder(Variable,Importance),
+                                             text=label),
+                                         fill="#00843D",colour="#00843D"))
+
+if(eval_html){
+  p |> interactive_plot()
+}else{
+  p  + ggh4x::force_panelsizes(rows=3,cols=6)
+}
 
 ```
 
@@ -159,8 +187,8 @@ for(i in 1:3){
                              RMSE_ALP,RMSE_COAL,RMSE_Other
                              ) |>
                       rename("Cluster"="cluster",
-                             "⍺"      = "alpha",
-                             "λ"      = "lambda") |>
+                             "$\\alpha$"      = "alpha",
+                             "$\\lambda$"      = "lambda") |>
                       rename_with( ~ str_remove_all(.x,"RMSE_"),.cols = contains("RMSE"))
   )     
 }
@@ -171,6 +199,7 @@ best_parameters |>
   mutate(Cluster=as.character(Cluster)) |>
   mutate(across(where(is.numeric), ~ formatC(.x,digits=4,format="f"))) |>
   kbl(booktabs = T,caption="Best regression results by cluster",
+      escape = FALSE,
       align=glue("c{str_c(rep('r',7),collapse='')}")) |>
   kable_styling(latex_options = c("HOLD_position", "striped"),
                  bootstrap_options="responsive",
@@ -237,7 +266,6 @@ rm(rest,vote,dataset)
 ```
 
 ```{r betacoefficients,fig.cap="Resulting coefficients per cluster", fig.height=20, message=FALSE, warning=TRUE}
-library(patchwork)
 
 p <- list()
 for(i in 1:3){
@@ -259,28 +287,20 @@ for(i in 1:3){
     scale_breaks <- c(-scale_breaks,scale_breaks)
     scale_breaks <- unique(scale_breaks)
   
-    p_i <-    data |> 
-                ggplot(aes(y=covariate,x=coefficient,colour=PartyAb)) +
+    p[[i]] <-    data |>
+                mutate(label=glue("<b>{covariate}</b><br>{PartyAb}: {round(coefficient,3)}")) |>
+                ggplot(aes(y=covariate,x=coefficient,colour=PartyAb,text=label)) +
                 geom_vline(xintercept = 0) +
                 geom_point(size=3.5,shape=18) +
                 scale_colour_manual(values=party_palette,name="Party") +
                 scale_x_continuous(trans=scales::pseudo_log_trans(), breaks=scale_breaks) +
-                labs(subtitle= cluster_names[i,]$name_composite,
-                     x="coefficient") +
+                labs(
+                     x="coefficient",
+                     title = glue("Coefficients for {cluster_names[i,]$name_composite}"),
+                    subtitle="Covariate's variance in brackets") +
                 theme(axis.title.y =element_blank())
                 
 
-    if(i==3){
-      p_i <- p_i +
-            theme(legend.position = "bottom",
-                  legend.direction = "horizontal")
-    }else{
-      p_i <- p_i + 
-            theme(legend.position = "none",
-                  axis.title.x = element_blank())
-    }
-    
-  p[[length(p)+1]] <- p_i
 
 }
 
@@ -288,23 +308,32 @@ for(i in 1:3){
 ```
 
 
-```{r betacoefficents0,fig.cap="Resulting coefficients - cluster 0"}
+```{r betacoefficients0,fig.cap="Resulting coefficients - cluster 0"}
 
-p[[1]] + labs(title = "Coefficients for cluster 0",
-              subtitle="Covariate's variance in brackets")
-
-```
-
-```{r betacoefficents1,fig.cap="Resulting coefficients - cluster 0"}
-
-p[[2]] + labs(title = "Coefficients for cluster 1",
-              subtitle="Covariate's variance in brackets")
+if(eval_html){
+  p[[1]] |> interactive_plot()
+}else{
+  p[[1]]
+}
 
 ```
 
-```{r betacoefficents2,fig.cap="Resulting coefficients - cluster 0"}
-p[[3]] + labs(title = "Coefficients for cluster 2",
-              subtitle="Covariate's variance in brackets")
+```{r betacoefficients1,fig.cap="Resulting coefficients - cluster 0"}
+
+if(eval_html){
+  p[[2]] |> interactive_plot()
+}else{
+  p[[2]]
+}
+
+```
+
+```{r betacoefficients2,fig.cap="Resulting coefficients - cluster 0"}
+if(eval_html){
+  p[[3]] |> interactive_plot()
+}else{
+  p[[3]]
+}
 ```
 
 

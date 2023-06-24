@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 7 (APPENDIX) {auspol} Vignette | A Minimal Book Example</title>
+  <meta name="description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  <meta name="generator" content="bookdown 0.32 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 7 (APPENDIX) {auspol} Vignette | A Minimal Book Example" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 7 (APPENDIX) {auspol} Vignette | A Minimal Book Example" />
+  
+  <meta name="twitter:description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  
+
+<meta name="author" content="John Doe" />
+
+
+<meta name="date" content="2023-05-20" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="appendix-auscensus-vignette.html"/>
+<link rel="next" href="appendix-aussiemaps-vignette.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/htmlwidgets-1.6.1/htmlwidgets.js"></script>
+<script src="libs/viz-1.8.2/viz.js"></script>
+<link href="libs/DiagrammeR-styles-0.2/styles.css" rel="stylesheet" />
+<script src="libs/grViz-binding-1.0.10/grViz.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">MSc's Report</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Acknowledgements</a></li>
+<li class="chapter" data-level="2" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>2</b> Introduction</a></li>
+<li class="chapter" data-level="3" data-path="strucure.html"><a href="strucure.html"><i class="fa fa-check"></i><b>3</b> Strucure</a></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="chapter" data-level="4" data-path="data.html"><a href="data.html"><i class="fa fa-check"></i><b>4</b> Sourcing Data</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="data.html"><a href="data.html#extracting-data"><i class="fa fa-check"></i><b>4.1</b> Extracting data</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references-1.html"><a href="references-1.html"><i class="fa fa-check"></i>References</a></li>
+<li class="chapter" data-level="" data-path="references-2.html"><a href="references-2.html"><i class="fa fa-check"></i>References</a></li>
+<li class="chapter" data-level="5" data-path="appendix-extracting-data.html"><a href="appendix-extracting-data.html"><i class="fa fa-check"></i><b>5</b> (APPENDIX) Extracting Data</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="appendix-extracting-data.html"><a href="appendix-extracting-data.html#package-architecture"><i class="fa fa-check"></i><b>5.1</b> Package Architecture</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="appendix-auscensus-vignette.html"><a href="appendix-auscensus-vignette.html"><i class="fa fa-check"></i><b>6</b> (APPENDIX) {auscensus} Vignette</a></li>
+<li class="chapter" data-level="7" data-path="appendix-auspol-vignette.html"><a href="appendix-auspol-vignette.html"><i class="fa fa-check"></i><b>7</b> (APPENDIX) {auspol} Vignette</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="appendix-auspol-vignette.html"><a href="appendix-auspol-vignette.html#what-is-this"><i class="fa fa-check"></i><b>7.1</b> What is this?</a></li>
+<li class="chapter" data-level="7.2" data-path="appendix-auspol-vignette.html"><a href="appendix-auspol-vignette.html#getting-the-data"><i class="fa fa-check"></i><b>7.2</b> Getting the data</a></li>
+<li class="chapter" data-level="7.3" data-path="appendix-auspol-vignette.html"><a href="appendix-auspol-vignette.html#plotting"><i class="fa fa-check"></i><b>7.3</b> Plotting</a>
+<ul>
+<li class="chapter" data-level="7.3.1" data-path="appendix-auspol-vignette.html"><a href="appendix-auspol-vignette.html#historic-trends"><i class="fa fa-check"></i><b>7.3.1</b> Historic Trends</a></li>
+</ul></li>
+<li class="chapter" data-level="7.4" data-path="appendix-auspol-vignette.html"><a href="appendix-auspol-vignette.html#results-for-one-election"><i class="fa fa-check"></i><b>7.4</b> Results for one election</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="appendix-aussiemaps-vignette.html"><a href="appendix-aussiemaps-vignette.html"><i class="fa fa-check"></i><b>8</b> (APPENDIX) {aussiemaps} Vignette</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="appendix-aussiemaps-vignette.html"><a href="appendix-aussiemaps-vignette.html#aussiemaps---yet-another-maps-package"><i class="fa fa-check"></i><b>8.1</b> {aussiemaps} - Yet another maps package</a></li>
+<li class="chapter" data-level="8.2" data-path="appendix-aussiemaps-vignette.html"><a href="appendix-aussiemaps-vignette.html#getting-started."><i class="fa fa-check"></i><b>8.2</b> Getting started.</a></li>
+<li class="chapter" data-level="8.3" data-path="appendix-aussiemaps-vignette.html"><a href="appendix-aussiemaps-vignette.html#filtering-via-regular-expressions"><i class="fa fa-check"></i><b>8.3</b> Filtering via regular expressions</a></li>
+<li class="chapter" data-level="8.4" data-path="appendix-aussiemaps-vignette.html"><a href="appendix-aussiemaps-vignette.html#even-more-complex-filtering"><i class="fa fa-check"></i><b>8.4</b> Even more complex filtering</a></li>
+<li class="chapter" data-level="8.5" data-path="appendix-aussiemaps-vignette.html"><a href="appendix-aussiemaps-vignette.html#aggregation"><i class="fa fa-check"></i><b>8.5</b> Aggregation</a></li>
+<li class="chapter" data-level="8.6" data-path="appendix-aussiemaps-vignette.html"><a href="appendix-aussiemaps-vignette.html#data-aggregation"><i class="fa fa-check"></i><b>8.6</b> Data Aggregation</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">A Minimal Book Example</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="appendix-auspol-vignette" class="section level1 hasAnchor" number="7">
+<h1><span class="header-section-number">Chapter 7</span> (APPENDIX) {auspol} Vignette<a href="appendix-auspol-vignette.html#appendix-auspol-vignette" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p><em>Extracted from <a href="https://carlosyanez.github.io/auspol/articles/house_primary_vote.html" class="uri">https://carlosyanez.github.io/auspol/articles/house_primary_vote.html</a> on Sunday 22 January 2023</em></p>
+<p><strong>auspol</strong> includes two functions to interact with the preference distribution data:</p>
+<ul>
+<li>get_house_primary_vote()</li>
+<li>house_primary_vote_summary()</li>
+<li>house_primary_comparison_plot()</li>
+<li>house_primary_historic_plot()</li>
+</ul>
+<div id="what-is-this" class="section level2 hasAnchor" number="7.1">
+<h2><span class="header-section-number">7.1</span> What is this?<a href="appendix-auspol-vignette.html#what-is-this" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>If you are unfamiliar with the Australian electoral system and preferential voting, please look at this [explainer(<a href="https://www.aec.gov.au/learn/preferential-voting.html" class="uri">https://www.aec.gov.au/learn/preferential-voting.html</a>) before proceeding.</p>
+</div>
+<div id="getting-the-data" class="section level2 hasAnchor" number="7.2">
+<h2><span class="header-section-number">7.2</span> Getting the data<a href="appendix-auspol-vignette.html#getting-the-data" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><em>get_house_primary_vote()</em> is the basic function to retrieve primary vote data published by the AEC. Without any arguments, it will deliver all the results for all elections, but it comes with parameters to facilitate filtering.
+For instance, to get the results for Brisbane for 2022:</p>
+<pre><code>## # A tibble: 344 × 17
+##     Year StateAb DivisionID DivisionNm PollingPlaceID PollingPlace CandidateID Surname  GivenNm     BallotPosition Elected
+##    &lt;dbl&gt; &lt;chr&gt;        &lt;int&gt; &lt;chr&gt;               &lt;int&gt; &lt;chr&gt;              &lt;int&gt; &lt;chr&gt;    &lt;chr&gt;                &lt;int&gt; &lt;lgl&gt;  
+##  1  2022 QLD            156 Brisbane            83397 Alderley           37204 KENNEDY  Tiana                    1 FALSE  
+##  2  2022 QLD            156 Brisbane            83397 Alderley           35972 KNUDSON  Justin Marc              2 FALSE  
+##  3  2022 QLD            156 Brisbane            83397 Alderley           37338 BATES    Stephen                  3 TRUE   
+##  4  2022 QLD            156 Brisbane            83397 Alderley           37230 JARRETT  Madonna                  4 FALSE  
+##  5  2022 QLD            156 Brisbane            83397 Alderley           37482 EVANS    Trevor                   5 FALSE  
+##  6  2022 QLD            156 Brisbane            83397 Alderley           38213 HOLD     Trevor                   6 FALSE  
+##  7  2022 QLD            156 Brisbane            83397 Alderley           37311 BULL     Anthony                  7 FALSE  
+##  8  2022 QLD            156 Brisbane            83397 Alderley             999 Informal Informal               999 FALSE  
+##  9  2022 QLD            156 Brisbane             6017 Ascot              37204 KENNEDY  Tiana                    1 FALSE  
+## 10  2022 QLD            156 Brisbane             6017 Ascot              35972 KNUDSON  Justin Marc              2 FALSE  
+## # ℹ 334 more rows
+## # ℹ 6 more variables: HistoricElected &lt;lgl&gt;, PartyAb &lt;chr&gt;, PartyNm &lt;chr&gt;, OrdinaryVotes &lt;int&gt;, Swing &lt;dbl&gt;, SittingMemberFl &lt;lgl&gt;</code></pre>
+<p>Both parameters can include more than one value, e.g.</p>
+<pre><code>## # A tibble: 712 × 17
+##     Year StateAb DivisionID DivisionNm PollingPlaceID PollingPlace CandidateID Surname  GivenNm     BallotPosition Elected
+##    &lt;dbl&gt; &lt;chr&gt;        &lt;int&gt; &lt;chr&gt;               &lt;int&gt; &lt;chr&gt;              &lt;int&gt; &lt;chr&gt;    &lt;chr&gt;                &lt;int&gt; &lt;lgl&gt;  
+##  1  2022 QLD            156 Brisbane            83397 Alderley           37204 KENNEDY  Tiana                    1 FALSE  
+##  2  2022 QLD            156 Brisbane            83397 Alderley           35972 KNUDSON  Justin Marc              2 FALSE  
+##  3  2022 QLD            156 Brisbane            83397 Alderley           37338 BATES    Stephen                  3 TRUE   
+##  4  2022 QLD            156 Brisbane            83397 Alderley           37230 JARRETT  Madonna                  4 FALSE  
+##  5  2022 QLD            156 Brisbane            83397 Alderley           37482 EVANS    Trevor                   5 FALSE  
+##  6  2022 QLD            156 Brisbane            83397 Alderley           38213 HOLD     Trevor                   6 FALSE  
+##  7  2022 QLD            156 Brisbane            83397 Alderley           37311 BULL     Anthony                  7 FALSE  
+##  8  2022 QLD            156 Brisbane            83397 Alderley             999 Informal Informal               999 FALSE  
+##  9  2022 QLD            156 Brisbane             6017 Ascot              37204 KENNEDY  Tiana                    1 FALSE  
+## 10  2022 QLD            156 Brisbane             6017 Ascot              35972 KNUDSON  Justin Marc              2 FALSE  
+## # ℹ 702 more rows
+## # ℹ 6 more variables: HistoricElected &lt;lgl&gt;, PartyAb &lt;chr&gt;, PartyNm &lt;chr&gt;, OrdinaryVotes &lt;int&gt;, Swing &lt;dbl&gt;, SittingMemberFl &lt;lgl&gt;</code></pre>
+<pre><code>## # A tibble: 1,783 × 17
+##     Year StateAb DivisionID DivisionNm PollingPlaceID PollingPlace CandidateID Surname  GivenNm     BallotPosition Elected
+##    &lt;dbl&gt; &lt;chr&gt;        &lt;int&gt; &lt;chr&gt;               &lt;int&gt; &lt;chr&gt;              &lt;int&gt; &lt;chr&gt;    &lt;chr&gt;                &lt;int&gt; &lt;lgl&gt;  
+##  1  2022 QLD            156 Brisbane            83397 Alderley           37204 KENNEDY  Tiana                    1 FALSE  
+##  2  2022 QLD            156 Brisbane            83397 Alderley           35972 KNUDSON  Justin Marc              2 FALSE  
+##  3  2022 QLD            156 Brisbane            83397 Alderley           37338 BATES    Stephen                  3 TRUE   
+##  4  2022 QLD            156 Brisbane            83397 Alderley           37230 JARRETT  Madonna                  4 FALSE  
+##  5  2022 QLD            156 Brisbane            83397 Alderley           37482 EVANS    Trevor                   5 FALSE  
+##  6  2022 QLD            156 Brisbane            83397 Alderley           38213 HOLD     Trevor                   6 FALSE  
+##  7  2022 QLD            156 Brisbane            83397 Alderley           37311 BULL     Anthony                  7 FALSE  
+##  8  2022 QLD            156 Brisbane            83397 Alderley             999 Informal Informal               999 FALSE  
+##  9  2022 QLD            156 Brisbane             6017 Ascot              37204 KENNEDY  Tiana                    1 FALSE  
+## 10  2022 QLD            156 Brisbane             6017 Ascot              35972 KNUDSON  Justin Marc              2 FALSE  
+## # ℹ 1,773 more rows
+## # ℹ 6 more variables: HistoricElected &lt;lgl&gt;, PartyAb &lt;chr&gt;, PartyNm &lt;chr&gt;, OrdinaryVotes &lt;int&gt;, Swing &lt;dbl&gt;, SittingMemberFl &lt;lgl&gt;</code></pre>
+<p>By default, the results are presented by polling place, with the possibility to aggregate them.</p>
+<pre><code>## # A tibble: 37 × 14
+##     Year StateAb DivisionID DivisionNm CandidateID Surname   GivenNm  BallotPosition Elected HistoricElected PartyAb  PartyNm      
+##    &lt;dbl&gt; &lt;chr&gt;        &lt;int&gt; &lt;chr&gt;            &lt;int&gt; &lt;chr&gt;     &lt;chr&gt;             &lt;int&gt; &lt;lgl&gt;   &lt;lgl&gt;           &lt;chr&gt;    &lt;chr&gt;        
+##  1  2019 QLD            156 Brisbane           999 Informal  Informal            999 FALSE   FALSE           Informal Informal     
+##  2  2019 QLD            156 Brisbane         32751 PERRY     Anne                  1 FALSE   FALSE           ON       Pauline Hans…
+##  3  2019 QLD            156 Brisbane         32946 NEWBURY   Paul                  6 FALSE   FALSE           ALP      Australian L…
+##  4  2019 QLD            156 Brisbane         32960 WHITTAKER Aaron                 3 FALSE   FALSE           UAPP     United Austr…
+##  5  2019 QLD            156 Brisbane         33144 BARTLETT  Andrew                4 FALSE   FALSE           GRN      The Greens   
+##  6  2019 QLD            156 Brisbane         33206 EVANS     Trevor                2 TRUE    TRUE            LNP      Liberal Nati…
+##  7  2019 QLD            156 Brisbane         33224 EMANUEL   Kamala                7 FALSE   FALSE           SAL      Socialist Al…
+##  8  2019 QLD            156 Brisbane         33326 JEANNERET Rod                   5 FALSE   FALSE           FACN     FRASER ANNIN…
+##  9  2019 WA             245 Perth              999 Informal  Informal            999 FALSE   FALSE           Informal Informal     
+## 10  2019 WA             245 Perth            32155 PERKS     Caroline              6 FALSE   FALSE           GRN      The Greens (…
+## # ℹ 27 more rows
+## # ℹ 2 more variables: SittingMemberFl &lt;lgl&gt;, OrdinaryVotes &lt;int&gt;</code></pre>
+<pre><code>## # A tibble: 12 × 17
+##     Year StateAb DivisionID DivisionNm PollingPlaceID PollingPlace CandidateID Surname       GivenNm        BallotPosition Elected
+##    &lt;dbl&gt; &lt;chr&gt;        &lt;int&gt; &lt;chr&gt;               &lt;int&gt; &lt;chr&gt;              &lt;int&gt; &lt;chr&gt;         &lt;chr&gt;                   &lt;int&gt; &lt;lgl&gt;  
+##  1  2022 WA             245 Perth                8203 Yokine North       37417 BAILEY        Cameron                     1 FALSE  
+##  2  2022 WA             245 Perth                8203 Yokine North       36515 POWELL        Dean                        2 FALSE  
+##  3  2022 WA             245 Perth                8203 Yokine North       37748 CONNOR        Sean                        3 FALSE  
+##  4  2022 WA             245 Perth                8203 Yokine North       37803 VOS           Dave                        4 FALSE  
+##  5  2022 WA             245 Perth                8203 Yokine North       37233 SZMEKURA-MOOR Sarah                       5 FALSE  
+##  6  2022 WA             245 Perth                8203 Yokine North       37327 GORMAN        Patrick                     6 TRUE   
+##  7  2022 WA             245 Perth                8203 Yokine North       37273 NICKOLS       Evan                        7 FALSE  
+##  8  2022 WA             245 Perth                8203 Yokine North       36507 EBERHART      Sonya Michelle              8 FALSE  
+##  9  2022 WA             245 Perth                8203 Yokine North       36628 PERKS         Caroline                    9 FALSE  
+## 10  2022 WA             245 Perth                8203 Yokine North       36601 DWYER         David                      10 FALSE  
+## 11  2022 WA             245 Perth                8203 Yokine North       37290 GYURU         Aiden                      11 FALSE  
+## 12  2022 WA             245 Perth                8203 Yokine North         999 Informal      Informal                  999 FALSE  
+## # ℹ 6 more variables: HistoricElected &lt;lgl&gt;, PartyAb &lt;chr&gt;, PartyNm &lt;chr&gt;, OrdinaryVotes &lt;int&gt;, Swing &lt;dbl&gt;, SittingMemberFl &lt;lgl&gt;</code></pre>
+<p>It is also possible to restrict the results to selected polling places</p>
+<p>Additionally, it is possible to select one or more states instead of a group of divisions, e.g.:</p>
+<pre><code>## # A tibble: 86 × 14
+##     Year StateAb DivisionID DivisionNm CandidateID Surname  GivenNm    BallotPosition Elected HistoricElected PartyAb  PartyNm     
+##    &lt;dbl&gt; &lt;chr&gt;        &lt;int&gt; &lt;chr&gt;            &lt;int&gt; &lt;chr&gt;    &lt;chr&gt;               &lt;int&gt; &lt;lgl&gt;   &lt;lgl&gt;           &lt;chr&gt;    &lt;chr&gt;       
+##  1  2019 TAS            192 Bass               999 Informal Informal              999 FALSE   FALSE           Informal Informal    
+##  2  2019 TAS            192 Bass             32124 ARCHER   Bridget                 4 TRUE    FALSE           LP       Liberal     
+##  3  2019 TAS            192 Bass             32327 HART     Ross                    2 FALSE   TRUE            ALP      Australian …
+##  4  2019 TAS            192 Bass             32379 WOODBURY Susan                   3 FALSE   FALSE           AJP      Animal Just…
+##  5  2019 TAS            192 Bass             32399 COOPER   Carl                    7 FALSE   FALSE           NP       The Nationa…
+##  6  2019 TAS            192 Bass             32540 HALL     Tom                     1 FALSE   FALSE           GRN      The Greens  
+##  7  2019 TAS            192 Bass             32545 ROARK    Allan John              6 FALSE   FALSE           UAPP     United Aust…
+##  8  2019 TAS            192 Bass             33590 LAMBERT  Todd                    5 FALSE   FALSE           IND      Independent 
+##  9  2019 TAS            193 Braddon            999 Informal Informal              999 FALSE   FALSE           Informal Informal    
+## 10  2019 TAS            193 Braddon          32094 BRAKEY   Craig                   2 FALSE   FALSE           IND      Independent 
+## # ℹ 76 more rows
+## # ℹ 2 more variables: SittingMemberFl &lt;lgl&gt;, OrdinaryVotes &lt;int&gt;</code></pre>
+<p>It is also possible to filter results by one or more parties:</p>
+<pre><code>## # A tibble: 8 × 14
+##    Year StateAb DivisionID DivisionNm CandidateID Surname    GivenNm   BallotPosition Elected HistoricElected PartyAb PartyNm      
+##   &lt;dbl&gt; &lt;chr&gt;        &lt;int&gt; &lt;chr&gt;            &lt;int&gt; &lt;chr&gt;      &lt;chr&gt;              &lt;int&gt; &lt;lgl&gt;   &lt;lgl&gt;           &lt;chr&gt;   &lt;chr&gt;        
+## 1  2019 NT             306 Lingiari         32740 SNOWDON    Warren                 1 TRUE    TRUE            ALP     Australian L…
+## 2  2019 NT             306 Lingiari         33045 PRICE      Jacinta                6 FALSE   FALSE           CLP     Country Libe…
+## 3  2019 NT             307 Solomon          32743 GOSLING    Luke John              1 TRUE    TRUE            ALP     Australian L…
+## 4  2019 NT             307 Solomon          33053 GANLEY     Kathy                  3 FALSE   FALSE           CLP     Country Libe…
+## 5  2022 NT             306 Lingiari         36968 RYAN       Damien                 1 FALSE   FALSE           CLP     NT CLP       
+## 6  2022 NT             306 Lingiari         37286 SCRYMGOUR  Marion                 5 TRUE    FALSE           ALP     A.L.P.       
+## 7  2022 NT             307 Solomon          36937 MACFARLANE Tina                   4 FALSE   FALSE           CLP     NT CLP       
+## 8  2022 NT             307 Solomon          37280 GOSLING    Luke                   3 TRUE    TRUE            ALP     A.L.P.       
+## # ℹ 2 more variables: SittingMemberFl &lt;lgl&gt;, OrdinaryVotes &lt;int&gt;</code></pre>
+<p><em>house_primary_vote_summary()</em> builds on the basic function and summarises data
+.</p>
+<pre><code>## # A tibble: 8 × 11
+##    Year StateAb DivisionNm PartyAb  PartyNm                 OrdinaryVotes GivenNm Surname Percentage_with_Info…¹ Percentage Elected
+##   &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;      &lt;chr&gt;    &lt;chr&gt;                           &lt;int&gt; &lt;chr&gt;   &lt;chr&gt;                    &lt;dbl&gt;      &lt;dbl&gt; &lt;lgl&gt;  
+## 1  2022 QLD     Brisbane   AJP      Animal Justice Party             1235 Tiana   KENNEDY                   1.65       1.68 FALSE  
+## 2  2022 QLD     Brisbane   ALP      Australian Labor Party          20346 Madonna JARRETT                  27.1       27.7  FALSE  
+## 3  2022 QLD     Brisbane   GRN      Queensland Greens               20985 Stephen BATES                    28.0       28.6  TRUE   
+## 4  2022 QLD     Brisbane   Informal Informal                         1566 Inform… Inform…                   2.09       2.13 FALSE  
+## 5  2022 QLD     Brisbane   LDP      Liberal Democrats                1115 Anthony BULL                      1.49       1.52 FALSE  
+## 6  2022 QLD     Brisbane   LNP      Liberal National Party…         26801 Trevor  EVANS                    35.7       36.5  FALSE  
+## 7  2022 QLD     Brisbane   ON       Pauline Hanson&#39;s One N…          1518 Trevor  HOLD                      2.02       2.07 FALSE  
+## 8  2022 QLD     Brisbane   UAPP     United Australia Party           1430 Justin… KNUDSON                   1.91       1.95 FALSE  
+## # ℹ abbreviated name: ¹​Percentage_with_Informal</code></pre>
+<p>Using the previous filters, it is possible to get ad-hoc summaries, for instance - all the ALP votes in Queensland in 2022, or the historic Liberal vote in Franklin.</p>
+<pre><code>## # A tibble: 30 × 11
+##     Year StateAb DivisionNm  PartyAb PartyNm                OrdinaryVotes GivenNm Surname Percentage_with_Info…¹ Percentage Elected
+##    &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;       &lt;chr&gt;   &lt;chr&gt;                          &lt;int&gt; &lt;chr&gt;   &lt;chr&gt;                    &lt;dbl&gt;      &lt;dbl&gt; &lt;lgl&gt;  
+##  1  2022 QLD     Blair       ALP     Australian Labor Party         27323 Shayne  NEUMANN                   33.4       35.5 TRUE   
+##  2  2022 QLD     Bonner      ALP     Australian Labor Party         20930 Tabatha YOUNG                     29.3       30.0 FALSE  
+##  3  2022 QLD     Bowman      ALP     Australian Labor Party         23196 Donisha DUFF                      28.7       29.6 FALSE  
+##  4  2022 QLD     Brisbane    ALP     Australian Labor Party         20346 Madonna JARRETT                   27.1       27.7 FALSE  
+##  5  2022 QLD     Capricornia ALP     Australian Labor Party         20543 Russell ROBERT…                   26.9       28.7 FALSE  
+##  6  2022 QLD     Dawson      ALP     Australian Labor Party         18921 Shane   HAMILT…                   23.8       24.9 FALSE  
+##  7  2022 QLD     Dickson     ALP     Australian Labor Party         22988 Ali     FRANCE                    31.0       32.3 FALSE  
+##  8  2022 QLD     Fadden      ALP     Australian Labor Party         18140 Letitia DEL FA…                   21.7       22.8 FALSE  
+##  9  2022 QLD     Fairfax     ALP     Australian Labor Party         18001 Sue     FERGUS…                   21.0       22.3 FALSE  
+## 10  2022 QLD     Fisher      ALP     Australian Labor Party         19804 Judene  ANDREWS                   22.9       23.7 FALSE  
+## # ℹ 20 more rows
+## # ℹ abbreviated name: ¹​Percentage_with_Informal</code></pre>
+<pre><code>## # A tibble: 7 × 11
+##    Year StateAb DivisionNm PartyAb PartyNm OrdinaryVotes GivenNm      Surname Percentage_with_Informal Percentage Elected
+##   &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;      &lt;chr&gt;   &lt;chr&gt;           &lt;int&gt; &lt;chr&gt;        &lt;chr&gt;                      &lt;dbl&gt;      &lt;dbl&gt; &lt;lgl&gt;  
+## 1  2004 TAS     Franklin   LP      Liberal         21337 Henry        FINNIS                      37.6       39.0 FALSE  
+## 2  2007 TAS     Franklin   LP      Liberal         22616 Vanessa      GOODWIN                     39.8       41.0 FALSE  
+## 3  2010 TAS     Franklin   LP      Liberal         18386 Jane         HOWLETT                     32.0       33.3 FALSE  
+## 4  2013 TAS     Franklin   LP      Liberal         21867 Bernadette   BLACK                       37.1       38.7 FALSE  
+## 5  2016 TAS     Franklin   LP      Liberal         20754 Amanda-Sue   MARKHAM                     33.9       35.1 FALSE  
+## 6  2019 TAS     Franklin   LP      Liberal         18591 Dean         YOUNG                       29.9       30.9 FALSE  
+## 7  2022 TAS     Franklin   LP      Liberal         14374 Kristy Maree JOHNSON                     24.5       25.9 FALSE</code></pre>
+</div>
+<div id="plotting" class="section level2 hasAnchor" number="7.3">
+<h2><span class="header-section-number">7.3</span> Plotting<a href="appendix-auspol-vignette.html#plotting" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="historic-trends" class="section level3 hasAnchor" number="7.3.1">
+<h3><span class="header-section-number">7.3.1</span> Historic Trends<a href="appendix-auspol-vignette.html#historic-trends" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The first plotting convenience function in this package allows comparing the evolution of primary voting across time. This function relies on house_primary_summary and uses many of its options. Its first use is to represent party trends in one electorate:</p>
+<p><img src="_main_files/figure-html/primvote1-1.png" width="672" /></p>
+<p>As they can be many minor parties, it is sometimes useful just to focus on a number of parties. This function allows filtering by a number of parties or by filtering by the most voted in a certain year. In both cases, it is possible to consolidate others’ votes.</p>
+<p><img src="_main_files/figure-html/primvote2-1.png" width="672" /></p>
+<p>Finally, it is possible to aggregate party acronyms - sometimes the same party has changed named or registered differently</p>
+<p><img src="_main_files/figure-html/primvote3-1.png" width="672" /></p>
+</div>
+</div>
+<div id="results-for-one-election" class="section level2 hasAnchor" number="7.4">
+<h2><span class="header-section-number">7.4</span> Results for one election<a href="appendix-auspol-vignette.html#results-for-one-election" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>This package also contains a convenience function to look at the primary vote results for one division. Lile the previous function, this also inherits many of the attributes of <em>get_house_primary_vote</em>.</p>
+<p><img src="_main_files/figure-html/primvote4-1.png" width="672" /></p>
+<p>The plots can also be displayed using bars, as shown below</p>
+<p><img src="_main_files/figure-html/primvote5-1.png" width="672" /></p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="appendix-auscensus-vignette.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="appendix-aussiemaps-vignette.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/82-auspol.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

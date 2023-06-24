@@ -1,0 +1,225 @@
+---
+output:
+  pdf_document: default
+bibliography:
+- book.bib
+- packages.bib
+---
+
+# Detailed list of variables {#appendix-variables}
+
+The below tables present all variables eventually used in this project. Please note that throughout the analysis and modelling all variables have eventually been transformed into difference in percentage against national or cluster percentages, yet the same basic definitions apply.
+
+## Identification variables
+
+The below variables constitute identify each data point, i.e. are each record "primary key".
+
+```{r}
+tibble::tribble( ~Variable,~Description,
+                "election_year", "Year the election was held",
+                "DivisionNm",  "Name of the Commonwealth Electoral Division",
+                "StateAb", "State of Territory where the Division is located",
+                "Metro_Area","Name of Greater Metropolitan Area"
+
+) |>
+  kbl(booktabs = T,caption="ID Variables",align = "ll") |>
+   kable_styling(latex_options = c("HOLD_position", "striped"),
+                 bootstrap_options="responsive",
+                 full_width=FALSE)
+  
+```
+
+
+## Response Variables 
+
+The response variables represent primary voting results.
+
+```{r responsevars}
+tibble::tribble(~Variable , ~Party,
+                "ALP","Australian Labor Party",
+                "COAL","The Coalition, either Liberal or National Party",
+                "GRN","Australian Greens",
+                "Other","Consolidated results of all other minor parties and independents") |> 
+   kbl(booktabs = T,caption="Response Variables",align = "ll") |>
+   kable_styling(latex_options = c("HOLD_position", "striped"),
+                 bootstrap_options="responsive",
+                 full_width=FALSE)
+```
+
+## Covariates
+
+The following covariates represent data collected by the Australian Census of Population and Housing. Variable relating to personal attributes are self-declared.
+
+`r if(eval_book){"\\newpage"}` `r if(eval_book){"\\begin{landscape}"}`
+
+```{r}
+#tibble(cols=colnames(consolidated_cluster)) |> clipr::write_clip()
+
+t <-tibble::tribble(~Group, ~Variable,~Description,
+                "Citizenship","Australian_Citizens","Percentage of People holding Australian citizenship",
+                "Age",            "Age_Baby_Boomers","Percentage of Baby Boomers (born between 1946 and 1964)",
+                "Age",                   "Age_Gen_X","Percentage of Gen X people (born between 1964 and 1980)",
+                "Age",                   "Age_Gen_Y","Percentage of Millenials (born between 1981 and 1996)",
+                "Age",                   "Age_Gen_Z","Percentage of Gen Z people (born between 1997 and 2012)",
+                "Age",              "Age_Silent_Gen","Percentage of Silent Generation people (born between 1928 and 1945)",
+                "Language",             "Language_Arabic", "Percentage of Arabic speakers",
+                "Language",            "Language_Chinese", "Percentage of speakers of a Chinese Language (including Mandarin, Cantonese and Others",
+                "Language", "Language_East_Asian", "Percentage of speakers of an East Asian Language (excluding Chinese languages",
+                       "Language","Language_English_Only", "Percentage of monolingual English speakers",
+                              "Language","Language_Greek", "Percentage of Greek speakers",
+                            "Language","Language_Italian", "Percentage of Italian speakers",
+                           "Language","Language_European", "Percentage of speakers of other European Languages",
+                         "Language","Language_Indigenous", "Percentage of speakera of an Australian indigenous language",
+                         "Language","Language_Indonesian", "Percentage of Indonesian speakers",
+                            "Language","Language_Pacific", "Percentage of speakers of a Pacific language",
+                       "Language","Language_Philippines", "Percentage of speakers of a Philippino Language",
+                        "Language","Language_South_Asian", "Percentage of speaks of a South Asian language (including Hindi, Tamil, Urdu, Nepali and others)",
+                      "Language","Language_Western_Asian", "Speaker of a Western Asian Language (excluding Arabic)",
+      "Religion","Religion_Anglican_Uniting_Presbyterian", "Percentage of followers of Anglicanism, Uniting and Presbyterian churches (combined).",
+                           "Religion","Religion_Buddhism", "Percentage of followers of Buddhism, of any denomination",
+                           "Religion","Religion_Catholic", "Percentage of followers of the Roman Catholic Church, of any rite",
+                 "Religion","Religion_Christian_Orthodox", "Percentage of followers of any Christian Orthodox church (excludes Eastern Rite Catholics)",
+                  "Religion","Religion_Other_Christianity", "Percentage of followers of other Christian Churches (other Protestant, Pentecostals, and other Christian)",
+
+                           "Religion","Religion_Hinduism", "Percentage of followers of Hinduism",
+                          "Religion",   "Religion_Islam", "Percantage of followers of Islam, of any denomination",
+                "Religion","Religion_No_Religion_Secular", "Percentage of people self-declared as atheist, non-religious, agnostic or secular",
+                             "Household income","Income_1_to_999", "Percentage of households with a total weekly income between 1 and 999 (Australian) dollars",
+                         "Household income","Income_1000_to_1999","Percentage of households with a total weekly income between 1,000 and 1,999 (Australian) dollars",
+                        "Household income", "Income_2000_or_more","Percentage of households with a total weekly income over 2,000 (Australian) dollars",
+                            "Household income", "Income_Negative", "Percentage of households with a negative total weekly income",
+                           "Household income","Income_Not_Stated", "Percentage of households whose total weekly income was not state",
+                             "Household type", "Household_Flat", "Percentage of households  that are flats (appartments)",
+                       "Household type",  "Household_Standalone", "Percentage of standalone households",
+                      "Household type","Household_Semi_detached", "Percentage of of semi-detached households (townhouses, villas)",
+                              "Household type","Household_Other", "Percentage of other types of housing structures",
+                    "Household tenure", "Household_Owned_outright", "Percentage of households  owned outright",
+             "Household tenure","Household_Owned_with_a_mortgage", "Percentage of households  whose owners hold a mortgage",
+                            "Household tenure","Household_Rented", "Percentage of households  rented by their inhabitants",
+              "Household tenure", "Household_Social_or_community", "Percentage of social and community housing",
+       "Household tenure", "Household_Tenure_other_or_not_stated", "Percentage of households, for which the tenure type was not stated",
+            "Highest Educational Attainment","Education_Diploma_or_Certificate", "Percentage of the population whose highest educational attainment is vocational education",
+                           "Highest Educational Attainment","Education_Bachelor", "Percentage of the population whose highest educational attainment Bachelor degree",
+    "Highest Educational Attainment","Education_Graduate_Diploma_or_Certificate", "Percentage of the population whose highest educational attainment is a graduate diploma or graduate certificate",
+                     "Highest Educational Attainment", "Education_Postgraduate", "Percentage of the population whose highest educational attainment is a postgraduate degree (Master or higher degree)",
+                        "Highest Educational Attainment", "Education_Not_Stated",  "Percentage of the population whose highest educational attainment was stated",
+                "Relationship in Houselhold", "Relationship_Child_under_15", "Percentage of people 15 years of younger",
+                        "Relationship in Houselhold", "Relationship_De_Facto", "Percentage of people in a de facto relationship",
+                "Relationship in Houselhold",  "Relationship_Group_Household", "Percentage of people living in a group household (e.g. flatsharing)",
+                   "Relationship in Houselhold", "Relationship_Living_Alone", "Percentage of people living alone",
+                       "Relationship in Houselhold",   "Relationship_Married", "Percentage of married people",
+                  "Relationship in Houselhold",  "Relationship_Single_Parent", "Percentage of single parents",
+           "Relationship in Houselhold",   "Relationship_Non_dependent_Child", "Percentage of people with the parents but not dependant (e.g. adult children living in family home)",
+             "Relationship in Houselhold",  "Relationship_Other_Relationship", "Percentage of people with other type of relationship to the rest of the houselhold (e.g. senior parents in child's home)",
+  "Relationship in Houselhold",  "Relationship_Unrelated_in_family_household", "Percentage of people living in family home but unrelated to family groups (e..g lodger)",
+                                      "Metropolitan area", "Metro","Flag indicating if electorates lies within a metropolitan area") 
+
+
+```
+
+
+```{r cov1}
+t |>
+  filter(Group %in% c("Citizenship","Metropolitan area")) |>
+  select(-Group) |>
+  kbl(booktabs = T,caption="Response Variables - citizenship and Metropolitan Flag",align = "ll") |>
+   kable_styling(latex_options = c("striped","scale_down","repeat_header"),
+                 bootstrap_options="responsive",
+                 full_width=TRUE)# |>
+```
+
+
+```{r cov2}
+t |>
+  filter(Group=="Age") |>
+  select(-Group) |>
+  kbl(booktabs = T,caption="Response Variables - Age",align = "ll") |>
+   kable_styling(latex_options = c("striped","scale_down","repeat_header"),
+                 bootstrap_options="responsive",
+                 full_width=TRUE)
+
+```
+
+```{r cov3}
+t |>
+  filter(Group=="Language") |>
+  select(-Group) |>
+  kbl(booktabs = T,caption="Response Variables - Language",align = "ll") |>
+   kable_styling(latex_options = c("striped","scale_down","repeat_header"),
+                 bootstrap_options="responsive",
+                 full_width=TRUE)
+
+```
+
+```{r cov4}
+t |>
+  filter(Group=="Religion") |>
+  select(-Group) |>
+  kbl(booktabs = T,caption="Response Variables - Religion",align = "ll") |>
+   kable_styling(latex_options = c("striped","scale_down","repeat_header"),
+                 bootstrap_options="responsive",
+                 full_width=TRUE)
+
+```
+
+```{r cov5}
+t |>
+  filter(Group=="Household income") |>
+  select(-Group) |>
+  kbl(booktabs = T,caption="Response Variables - Household income",align = "ll") |>
+   kable_styling(latex_options = c("striped","scale_down","repeat_header"),
+                 bootstrap_options="responsive",
+                 full_width=TRUE)
+
+```
+
+```{r cov6}
+t |>
+  filter(Group=="Household type") |>
+  select(-Group) |>
+  kbl(booktabs = T,caption="Response Variables - Household type",align = "ll") |>
+   kable_styling(latex_options = c("striped","scale_down","repeat_header"),
+                 bootstrap_options="responsive",
+                 full_width=TRUE)
+
+```
+
+
+```{r cov7}
+t |>
+  filter(Group=="Household tenure") |>
+  select(-Group) |>
+  kbl(booktabs = T,caption="Response Variables - Household tenure",align = "ll") |>
+   kable_styling(latex_options = c("striped","scale_down","repeat_header"),
+                 bootstrap_options="responsive",
+                 full_width=TRUE)
+
+```
+
+```{r cov8}
+t |>
+  filter(Group=="Highest Educational Attainment") |>
+  select(-Group) |>
+  kbl(booktabs = T,caption="Response Variables - Highest Educational Attainment",align = "ll") |>
+   kable_styling(latex_options = c("striped","scale_down","repeat_header"),
+                 bootstrap_options="responsive",
+                 full_width=TRUE)
+
+```
+
+```{r cov9}
+t |>
+  filter(Group=="Relationship in Houselhold") |>
+  select(-Group) |>
+  kbl(booktabs = T,caption="Relationship in Houselhold",align = "ll") |>
+   kable_styling(latex_options = c("striped","scale_down","repeat_header"),
+                 bootstrap_options="responsive",
+                 full_width=TRUE)
+
+```
+
+
+`r if(eval_book){"\\end{landscape}"}`
+
+
+\newpage
