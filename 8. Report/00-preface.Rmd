@@ -6,10 +6,10 @@ bibliography:
 - packages.bib
 ---
 
-`r if(eval_book) '\\clearpage \\begin{right} \\thispagestyle{empty} \\vspace*{\\fill}'`
+`r if(eval_book) '\\clearpage \\begin{center} \\thispagestyle{empty} \\vspace*{\\fill}'`
 *To Lauren, thanks for her constant,never-ending support, encouragement and patience.*
 *To her and Lucas,  with whom I have made Australia home.*
-`r if(eval_book) '\\vspace*{\\fill} \\end{right} \\clearpage'`
+`r if(eval_book) '\\vspace*{\\fill} \\end{center} \\clearpage'`
 
 \newpage
 

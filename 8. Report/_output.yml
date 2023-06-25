@@ -15,6 +15,7 @@ bookdown::pdf_book:
   md_extensions: +yaml_metadata_block
   citation_package: natbib
   keep_tex: yes
+  highlight: tango
 bookdown::epub_book: default
 documentclass   : book   # article (default) report
 classoption: openany

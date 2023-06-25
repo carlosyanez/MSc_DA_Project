@@ -1,7 +1,7 @@
 `r if(eval_book)'\\newpage'`
 # {aussiemaps} Vignette {#aussiemaps-vignette}
 *Extracted from https://carlosyanez.github.io/aussiemaps/articles/aussiemaps.html on Sunday 22 January 2023*
-```{r}
+```{r eval=TRUE}
 library(aussiemaps)
 library(tidyverse)
 ```
@@ -36,14 +36,14 @@ The core function of this package is get_map(), which retrieves the sf files. ge
 
 Filters and column names follow the same name convention used in the original ABS files. The function list_attributes(), will present them in tibble format:
 
-```{r}
+```{r echo=TRUE}
 list_attributes() |>
   head(10)
 ```
 
 Let's say we want to retrieve all SA1 in the City of Melbourne for 2016 - this can be done via:
 
-```{r}
+```{r echo=TRUE}
 melbourne_sa1 <- get_map(filters=list(LGA_NAME_2016=c("Melbourne")),
                          year=2016,
                          aggregation = c("SA1_MAINCODE_2016"))
@@ -62,7 +62,7 @@ melbourne_sa1 |>
 
 The filter arguments are intended to be regular expressions, for instance:
 
-```{r}
+```{r echo=TRUE}
 
 preston <- get_map(filters=list(SSC_NAME_2016=c("Preston")),
                          year=2016,
@@ -75,7 +75,7 @@ preston |>
 
 Whereas
 
-```{r}
+```{r echo=TRUE}
 prestons <- get_map(filters=list(SSC_NAME_2016=c("^Pres"),
                                  STE_NAME_2016=c("Wales","^T")
                                  ),
@@ -91,7 +91,7 @@ prestons |>
 
 If more complex subsetting is needed, it is possible to pass a table with the elements to be selected. In order to do that, list_structure() comes to help. This function uses the same year and filters parameters than get_map() (actually this function calls the former if no table is provided). Once you have the dataset, you can use any ad-hoc filter to get the needed structures. For example
 
-```{r}
+```{r echo=TRUE}
 
 greater_sydney <- list_structure(year=2021,filters=list(GCCSA_NAME_2021="Greater Sydney"))
 
@@ -125,7 +125,7 @@ ggplot() +
 
 It is worth noticing that the *aggregation* parameter accepts more than one variable. Those parameters are passed to dplyr::group_by() before aggregation - thus more variables will impact how sf objects are aggregated. For instance, if we look at the postal areas (ABS approximation of a postcode) in the cities of Melbourne and Port Phillip:
 
-```{r}
+```{r echo=TRUE}
 
 poas_inner_melbourne <- get_map(filters=list(LGA_NAME_2021=c("Melbourne","Phillip$")),
                                 year=2021,
@@ -147,7 +147,7 @@ poas_inner_melbourne |>
 
  This package provides sf data, thus the result can be easily merged with any other data frame. Since data has been taken from the ABS and the output contains both names and **codes** of geographic structures, data can be joined using an un-ambiguous key. Furthermore, with {auscensus}, this package can be used as data filters to retrieve said data in the first place. For example:
  
-```{r}
+```{r echo=TRUE}
 
 # Chileans by Commonwealth Electoral Divisions in Metropolitan Brisbane, 2021
 
@@ -184,7 +184,7 @@ brisbane_ced |>
 
 As a bonus function, *geo_aggregate()*  aggregates data, transforming between geographic structures. For instance, let's imagine that for the previous case, it is only possible to get data by SA2. *geo_aggregate()* can aggregate the data to obtain an approximation for each electorate. When an SA1 is not fully contained by an electorate, the function will use the overlapping area as the weighting factor.
 
-```{r}
+```{r echo=TRUE}
 
 attr <- list_structure(year=2021,filters=list(GCCSA_NAME_2021=c("Brisbane"))) |>
         distinct(SA2_CODE_2021)

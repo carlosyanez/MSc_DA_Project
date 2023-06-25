@@ -72,5 +72,10 @@ MSc_DA_Project-Fitzroya.Rproj
 
 8. Report/*.html
 
-8. Report/_main.aux
-8. Report/_main.log
+8. Report/*.aux
+8. Report/*.log
+8. Report/_bookdown_files/*
+8. Report/MSc-Project---Carlos-YANEZ-SANTIBANEZ.log
+8. Report/MSc-Project---Carlos-YANEZ-SANTIBANEZ_files/*
+8. Report/MSc-Project---Carlos-YANEZ-SANTIBANEZ.Rmd
+8. Report/MSc Project - Carlos YANEZ SANTIBANEZ.Rmd

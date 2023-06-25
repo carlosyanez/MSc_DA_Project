@@ -1,12 +1,11 @@
 `r if(eval_book)'\\newpage'`
 # {auspol} Vignette  {#auspol-vignette}
 *Extracted from https://carlosyanez.github.io/auspol/articles/house_primary_vote.html on Sunday 22 January 2023*
-```{r}
+```{r eval=TRUE}
 library(auspol)
 library(tidyverse)
 library(lemon)
-knitr::opts_knit$set(message=FALSE,echo=TRUE,warning=FALSE,cache=TRUE,eval=TRUE)
-
+knitr::opts_knit$set(message=FALSE,echo=TRUE,warning=FALSE,cache=FALSE,eval=TRUE)
 knit_print.data.frame <- lemon_print
 ```
 
@@ -27,27 +26,27 @@ If you are unfamiliar with the Australian electoral system and preferential voti
 *get_house_primary_vote()* is the basic function to retrieve primary vote data published by the AEC. Without any arguments, it will deliver all the results for all elections, but it comes with parameters to facilitate filtering.
 For instance, to get the results for Brisbane for 2022:
 
-```{r}
+```{r echo=TRUE}
 get_house_primary_vote(division="Brisbane",year=2022)
 ```
 
 Both parameters can include more than one value, e.g.
 
-```{r}
+```{r echo=TRUE}
 get_house_primary_vote(division="Brisbane",year=c(2019,2022))
 ```
 
-```{r}
+```{r echo=TRUE}
 get_house_primary_vote(division=c("Brisbane","Perth"),year=c(2019,2022))
 ```
 
 By default, the results are presented by polling place, with the possibility to aggregate them.
 
-```{r}
+```{r echo=TRUE}
 get_house_primary_vote(division=c("Brisbane","Perth"),year=c(2019,2022),aggregation = TRUE)
 ```
 
-```{r}
+```{r echo=TRUE}
 get_house_primary_vote(division=c("Brisbane","Perth"),year=c(2019,2022), polling_places = c("Yokine North"))
 ```
 
@@ -57,26 +56,26 @@ It is also possible to restrict the results to selected polling places
 
 Additionally, it is possible to select one or more states instead of a group of divisions, e.g.:
 
-```{r}
+```{r echo=TRUE}
 get_house_primary_vote(state=c("TAS"),year=c(2019,2022),aggregation = TRUE)
 ```
 
 It is also possible to filter results by one or more parties:
 
-```{r}
+```{r echo=TRUE}
 get_house_primary_vote(state=c("NT"),year=c(2019,2022),aggregation = TRUE, party_abb=c("ALP","CLP"))
 
 ```
 
 *house_primary_vote_summary()* builds on the basic function and summarises data
 .
-```{r}
+```{r echo=TRUE}
 house_primary_vote_summary(division = "Brisbane", year=2022)
 ```
 
 Using the previous filters,  it is possible to get ad-hoc summaries, for instance - all the ALP votes in Queensland in 2022, or the historic Liberal vote in Franklin.
 
-```{r}
+```{r echo=TRUE}
 
 house_primary_vote_summary(state = "QLD", year=2022,parties="ALP")
 
@@ -84,7 +83,7 @@ house_primary_vote_summary(state = "QLD", year=2022,parties="ALP")
 
 
 
-```{r}
+```{r echo=TRUE}
 house_primary_vote_summary(division="Franklin",parties="LP")
 ```
 
