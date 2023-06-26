@@ -60,3 +60,4 @@ bookdown::render_book("index.Rmd", "bookdown::pdf_book",params=list(book=TRUE,ht
 ```
 
 `r if(eval_book)'\\cleardoublepage \\pagenumbering{roman}'`
+

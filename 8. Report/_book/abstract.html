@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Analysing Australian Election Results</title>
-  <meta name="description" content="Analysing Australian Election Results" />
+  <title>Abstract | Analysing Australian Electoral Results</title>
+  <meta name="description" content="Abstract | Analysing Australian Electoral Results" />
   <meta name="generator" content="bookdown 0.34 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Analysing Australian Election Results" />
+  <meta property="og:title" content="Abstract | Analysing Australian Electoral Results" />
   <meta property="og:type" content="book" />
   
   
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Analysing Australian Election Results" />
+  <meta name="twitter:title" content="Abstract | Analysing Australian Electoral Results" />
   
   
   
@@ -30,7 +30,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-
+<link rel="prev" href="index.html"/>
 <link rel="next" href="intro.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
@@ -178,6 +178,7 @@ div.csl-indent {
 <li><a href="./">Understanding demographic impact on Primary votes</a></li>
 
 <li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Index</a></li>
 <li class="chapter" data-level="" data-path="abstract.html"><a href="abstract.html"><i class="fa fa-check"></i>Abstract</a></li>
 <li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
 <ul>
@@ -222,7 +223,12 @@ div.csl-indent {
 <li class="chapter" data-level="A.2" data-path="appendix-variables.html"><a href="appendix-variables.html#response-variables"><i class="fa fa-check"></i><b>A.2</b> Response Variables</a></li>
 <li class="chapter" data-level="A.3" data-path="appendix-variables.html"><a href="appendix-variables.html#covariates"><i class="fa fa-check"></i><b>A.3</b> Covariates</a></li>
 </ul></li>
-<li class="chapter" data-level="B" data-path="appendix-packages.html"><a href="appendix-packages.html"><i class="fa fa-check"></i><b>B</b> R Packages</a></li>
+<li class="chapter" data-level="B" data-path="appendix-packages.html"><a href="appendix-packages.html"><i class="fa fa-check"></i><b>B</b> R Packages</a>
+<ul>
+<li class="chapter" data-level="B.1" data-path="appendix-packages.html"><a href="appendix-packages.html#retrieving-distributing-and-storing-data."><i class="fa fa-check"></i><b>B.1</b> Retrieving, distributing and storing data.</a></li>
+<li class="chapter" data-level="B.2" data-path="appendix-packages.html"><a href="appendix-packages.html#processing-aggregating-and-presenting-results."><i class="fa fa-check"></i><b>B.2</b> Processing, aggregating and presenting results.</a></li>
+<li class="chapter" data-level="B.3" data-path="appendix-packages.html"><a href="appendix-packages.html#coding-and-documentation-practices"><i class="fa fa-check"></i><b>B.3</b> Coding and documentation practices</a></li>
+</ul></li>
 <li class="chapter" data-level="C" data-path="auspol-vignette.html"><a href="auspol-vignette.html"><i class="fa fa-check"></i><b>C</b> {auspol} Vignette</a>
 <ul>
 <li class="chapter" data-level="C.1" data-path="auspol-vignette.html"><a href="auspol-vignette.html#what-is-this"><i class="fa fa-check"></i><b>C.1</b> What is this?</a></li>
@@ -256,7 +262,7 @@ div.csl-indent {
       <div class="body-inner">
         <div class="book-header" role="navigation">
           <h1>
-            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Analysing Australian Election Results</a>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Analysing Australian Electoral Results</a>
           </h1>
         </div>
 
@@ -264,28 +270,31 @@ div.csl-indent {
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">Analysing Australian Election Results</h1>
-<p class="author"><em>Carlos Yanez Santibanez</em></p>
-<p class="date"><em>26 June 2023</em></p>
-</div>
 <div id="abstract" class="section level1 unnumbered hasAnchor">
 <h1>Abstract<a href="abstract.html#abstract" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>In politics, it is important for political actors to understand populations are inclined to specific political parties. This is a topic of interest to both political movements, the media and in the study of political science. According to the latter, factors like age, wealth and education can be used as predictors of vote. However, this axioms have been challenged as changes in the political system (like rise of populism and new political movements) seems to defy conventional knowledge on political leanings of the electorates.</p>
-<p>This project presents an analysis on how voting patterns in Australia are impacted by demographic factors. In particular, this project examines how changes in demographic attributes (from Census data) influence primary voting (i.e. first choices in a preferential voting system) for federal elections for the Commonwealth’s House of Representatives.</p>
-<p>To achieve this objective,Census results reviewed and key demographic statistics were selected, based on the existing literature and media narrative. To achieve this, a R packages were developed to extract census data in a systematic, repeatable way. Another R package was developed to efficiently extract and read election results. Once data was selected, commonalities across electoral divisions where identified, which were use to classify them into three distinct segments: mostly inner-city areas in large metropolitan areas, the suburban areas in middle and outer suburbs, and regional and rural constituencies. Then, a set of multivariate elastic net regression models (for each cluster) were fitted to identify which demographic factors influence primary voting for the three largest political groups with national presence (namely the Australian Labor Party, the Coalition and the Australian Greens).</p>
-<p>From this models, it was possible to establish a link between age, income, religious beliefs and cultural diversity and primary voting across all electorates. However this factors have different prevalence in each cluster. In particular, vote in inner city electorates is driven by age (younger people voting left, older voting right), income (higher income population favouring both the Greens and the Coalition) and religiosity (non religious people leaning Green, different religious groups preferring either Labor or the Coalition). Those factors were also found to be relevant in the suburban fringes, where different cultural diverse communities seems to prefer either Labor or the Coalition. However, in regional areas the same factors seem less relevant, and higher-income cohort are positively associated to Labor vote.</p>
-<p>After fitting this model, a naive retrospective forecast of the 2022 election was attempted. Although model only achieves discrete results (as expected), it proves to be a useful analysis tool to understand the drivers behind changes in voting patterns. Some particular examples are presented, including the results of the so-called “Teal Wave”. In those cases it is possible to observe that Coalition vote was in-line with demographic expectations, being able to conclude that teal MPs weren’t elected backed by dissatisfied Coalition voters. Another case presented look at the continuous growth of Green vote in selected inner-city electorates, driven by generational change and gentrification.</p>
+<p>In politics, it is important for political actors to understand populations are inclined to specific political parties. This is a topic of interest to political movements, the media and political science. According to the latter, factors like age, wealth and education can be used as predictors of vote. However, these axioms have been challenged as changes in the political system (like the rise of populism and new political movements) seem to defy conventional knowledge of the political leanings of the electorates.</p>
+<p>This project presents an analysis of how voting patterns in Australia are impacted by demographic factors. In particular, it examines how changes in demographic attributes <a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> influence primary voting <a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a> for federal elections for the Commonwealth’s House of Representatives.</p>
+<p>To achieve this objective, Census results were reviewed, and key demographic statistics were selected based on a review of the existing literature (<span class="citation">[1]</span>, <span class="citation">[2]</span>, <span class="citation">[3]</span>) and media narrative (<span class="citation">[4]</span>, <span class="citation">[5]</span>, <span class="citation">[6]</span>, <span class="citation">[7]</span>). Code in the form of R packages was written to extract census data and election results systematically and repeatedly. Once data was selected, commonalities across electoral divisions were identified, which were used to classify them into three distinct segments: 1. mostly inner-city areas in large metropolitan areas, 2. the suburban areas in middle, and 3. outer suburbs, and regional and rural constituencies. Then, multivariate elastic net regression models (for each cluster) were fitted to identify which demographic factors influence primary voting for the three largest political groups with national presence (namely the Australian Labor Party, the Coalition and the Australian Greens).</p>
+<p>From this composite model, it was possible to establish a link between age, income, religious beliefs, cultural diversity, and primary voting paterrns across all electorates. In particular, it was possible to establish voting in inner-city electorates may be driven by age (younger people voting left, older voting right), income (higher income population favouring both the Greens and the Coalition) and religiosity (non-religious people leaning Green, different religious groups preferring either Labor or the Coalition). Those factors were also found to be relevant in the suburban fringes, where also different culturally diverse communities seem to prefer either Labor or the Coalition. However, in regional areas the same factors seem less relevant, and education levels and higher-income are positively associated with Labor vote.</p>
+<p>After fitting this model, a naive retrospective forecast of the 2022 election was attempted. Although the model only has a discrete predicting power (as expected), it proves to be a useful analysis tool to understand the drivers behind changes in voting patterns. Some particular examples are presented, including the results of the so-called “Teal Wave”. In those cases it is possible to observe that the Coalition vote was in-line with demographic expectations, concluding that teal MPs weren’t elected backed by dissatisfied Coalition voters. Another case presented examines the continuous growth of the Green vote in selected inner-city electorates, driven by generational change and gentrification. Finally, a more diverse set of electorates were also analysed, looking for cases where the selected variables did not necessarily correctly interpret the results. This was deemed useful to understand potential limitations.</p>
+<p>To conclude, a series of improvements were suggested to improve predictive and analytical power.</p>
 <div style="page-break-after: always;"></div>
 
+</div>
+<div class="footnotes">
+<hr />
+<ol start="1">
+<li id="fn1"><p>From Census data,<a href="abstract.html#fnref1" class="footnote-back">↩︎</a></p></li>
+<li id="fn2"><p>First choices in a preferential voting system.<a href="abstract.html#fnref2" class="footnote-back">↩︎</a></p></li>
+</ol>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-
-<a href="intro.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="intro.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

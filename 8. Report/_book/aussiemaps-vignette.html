@@ -178,6 +178,8 @@ div.csl-indent {
 <li><a href="./">Understanding demographic impact on Primary votes</a></li>
 
 <li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Index</a></li>
+<li class="chapter" data-level="" data-path="abstract.html"><a href="abstract.html"><i class="fa fa-check"></i>Abstract</a></li>
 <li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
 <ul>
 <li class="chapter" data-level="1.1" data-path="intro.html"><a href="intro.html#a-brief-introduction-to-australias-political-system"><i class="fa fa-check"></i><b>1.1</b> A brief introduction to Australia’s political system</a></li>
@@ -296,44 +298,31 @@ div.csl-indent {
 <li>Which aggregation will be used (e.g. which will be the resulting objects)</li>
 </ul>
 <p>Filters and column names follow the same name convention used in the original ABS files. The function list_attributes(), will present them in tibble format:</p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="aussiemaps-vignette.html#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">list_attributes</span>() <span class="sc">|&gt;</span></span>
-<span id="cb33-2"><a href="aussiemaps-vignette.html#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">10</span>)</span></code></pre></div>
-<pre><code>## # A tibble: 10 × 5
-##    attributes `2006`         `2011`         `2016`         `2021`        
-##    &lt;chr&gt;      &lt;chr&gt;          &lt;chr&gt;          &lt;chr&gt;          &lt;chr&gt;         
-##  1 CD_CODE    CD_CODE_2006   &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;          
-##  2 CED_CODE   CED_CODE_2006  CED_CODE_2011  CED_CODE_2016  CED_CODE_2021 
-##  3 CED_NAME   CED_NAME_2006  CED_NAME_2011  CED_NAME_2016  CED_NAME_2021 
-##  4 IARE_CODE  IARE_CODE_2006 IARE_CODE_2011 IARE_CODE_2016 IARE_CODE_2021
-##  5 IARE_NAME  IARE_NAME_2006 IARE_NAME_2011 IARE_NAME_2016 IARE_NAME_2021
-##  6 ILOC_CODE  ILOC_CODE_2006 ILOC_CODE_2011 ILOC_CODE_2016 ILOC_CODE_2021
-##  7 ILOC_NAME  ILOC_NAME_2006 ILOC_NAME_2011 ILOC_NAME_2016 ILOC_NAME_2021
-##  8 IREG_CODE  IREG_CODE_2006 IREG_CODE_2011 IREG_CODE_2016 IREG_CODE_2021
-##  9 IREG_NAME  IREG_NAME_2006 IREG_NAME_2011 IREG_NAME_2016 IREG_NAME_2021
-## 10 LGA_CODE   LGA_CODE_2006  LGA_CODE_2011  LGA_CODE_2016  LGA_CODE_2021</code></pre>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="aussiemaps-vignette.html#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">list_attributes</span>() <span class="sc">|&gt;</span></span>
+<span id="cb18-2"><a href="aussiemaps-vignette.html#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">10</span>)</span></code></pre></div>
 <p>Let’s say we want to retrieve all SA1 in the City of Melbourne for 2016 - this can be done via:</p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="aussiemaps-vignette.html#cb35-1" aria-hidden="true" tabindex="-1"></a>melbourne_sa1 <span class="ot">&lt;-</span> <span class="fu">get_map</span>(<span class="at">filters=</span><span class="fu">list</span>(<span class="at">LGA_NAME_2016=</span><span class="fu">c</span>(<span class="st">&quot;Melbourne&quot;</span>)),</span>
-<span id="cb35-2"><a href="aussiemaps-vignette.html#cb35-2" aria-hidden="true" tabindex="-1"></a>                         <span class="at">year=</span><span class="dv">2016</span>,</span>
-<span id="cb35-3"><a href="aussiemaps-vignette.html#cb35-3" aria-hidden="true" tabindex="-1"></a>                         <span class="at">aggregation =</span> <span class="fu">c</span>(<span class="st">&quot;SA1_MAINCODE_2016&quot;</span>))</span>
-<span id="cb35-4"><a href="aussiemaps-vignette.html#cb35-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-5"><a href="aussiemaps-vignette.html#cb35-5" aria-hidden="true" tabindex="-1"></a><span class="co">#just an empty plot</span></span>
-<span id="cb35-6"><a href="aussiemaps-vignette.html#cb35-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-7"><a href="aussiemaps-vignette.html#cb35-7" aria-hidden="true" tabindex="-1"></a>melbourne_sa1 <span class="sc">|&gt;</span></span>
-<span id="cb35-8"><a href="aussiemaps-vignette.html#cb35-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>()<span class="sc">+</span></span>
-<span id="cb35-9"><a href="aussiemaps-vignette.html#cb35-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">fill=</span><span class="st">&quot;azure1&quot;</span>) <span class="sc">+</span></span>
-<span id="cb35-10"><a href="aussiemaps-vignette.html#cb35-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>() <span class="sc">+</span></span>
-<span id="cb35-11"><a href="aussiemaps-vignette.html#cb35-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">&quot;SA1s in the City of Melbourne&quot;</span>)</span></code></pre></div>
-<p><img src="MSc-Project---Carlos-YANEZ-SANTIBANEZ_files/figure-html/unnamed-chunk-40-1.png" width="672" /></p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="aussiemaps-vignette.html#cb19-1" aria-hidden="true" tabindex="-1"></a>melbourne_sa1 <span class="ot">&lt;-</span> <span class="fu">get_map</span>(<span class="at">filters=</span><span class="fu">list</span>(<span class="at">LGA_NAME_2016=</span><span class="fu">c</span>(<span class="st">&quot;Melbourne&quot;</span>)),</span>
+<span id="cb19-2"><a href="aussiemaps-vignette.html#cb19-2" aria-hidden="true" tabindex="-1"></a>                         <span class="at">year=</span><span class="dv">2016</span>,</span>
+<span id="cb19-3"><a href="aussiemaps-vignette.html#cb19-3" aria-hidden="true" tabindex="-1"></a>                         <span class="at">aggregation =</span> <span class="fu">c</span>(<span class="st">&quot;SA1_MAINCODE_2016&quot;</span>))</span>
+<span id="cb19-4"><a href="aussiemaps-vignette.html#cb19-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-5"><a href="aussiemaps-vignette.html#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="co">#just an empty plot</span></span>
+<span id="cb19-6"><a href="aussiemaps-vignette.html#cb19-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-7"><a href="aussiemaps-vignette.html#cb19-7" aria-hidden="true" tabindex="-1"></a>melbourne_sa1 <span class="sc">|&gt;</span></span>
+<span id="cb19-8"><a href="aussiemaps-vignette.html#cb19-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>()<span class="sc">+</span></span>
+<span id="cb19-9"><a href="aussiemaps-vignette.html#cb19-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">fill=</span><span class="st">&quot;azure1&quot;</span>) <span class="sc">+</span></span>
+<span id="cb19-10"><a href="aussiemaps-vignette.html#cb19-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>() <span class="sc">+</span></span>
+<span id="cb19-11"><a href="aussiemaps-vignette.html#cb19-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">&quot;SA1s in the City of Melbourne&quot;</span>)</span></code></pre></div>
+<p><img src="MSc-Project---Carlos-YANEZ-SANTIBANEZ_files/figure-html/unnamed-chunk-41-1.png" width="672" /></p>
 </div>
 <div id="filtering-via-regular-expressions" class="section level2 hasAnchor" number="11.3">
 <h2><span class="header-section-number">E.3</span> Filtering via regular expressions<a href="aussiemaps-vignette.html#filtering-via-regular-expressions" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>The filter arguments are intended to be regular expressions, for instance:</p>
-<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="aussiemaps-vignette.html#cb36-1" aria-hidden="true" tabindex="-1"></a>preston <span class="ot">&lt;-</span> <span class="fu">get_map</span>(<span class="at">filters=</span><span class="fu">list</span>(<span class="at">SSC_NAME_2016=</span><span class="fu">c</span>(<span class="st">&quot;Preston&quot;</span>)),</span>
-<span id="cb36-2"><a href="aussiemaps-vignette.html#cb36-2" aria-hidden="true" tabindex="-1"></a>                         <span class="at">year=</span><span class="dv">2016</span>,</span>
-<span id="cb36-3"><a href="aussiemaps-vignette.html#cb36-3" aria-hidden="true" tabindex="-1"></a>                         <span class="at">aggregation =</span> <span class="fu">c</span>(<span class="st">&quot;SSC_NAME_2016&quot;</span>))</span>
-<span id="cb36-4"><a href="aussiemaps-vignette.html#cb36-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-5"><a href="aussiemaps-vignette.html#cb36-5" aria-hidden="true" tabindex="-1"></a>preston <span class="sc">|&gt;</span></span>
-<span id="cb36-6"><a href="aussiemaps-vignette.html#cb36-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(SSC_NAME_2016,UCL_NAME_2016,STE_NAME_2016)</span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="aussiemaps-vignette.html#cb20-1" aria-hidden="true" tabindex="-1"></a>preston <span class="ot">&lt;-</span> <span class="fu">get_map</span>(<span class="at">filters=</span><span class="fu">list</span>(<span class="at">SSC_NAME_2016=</span><span class="fu">c</span>(<span class="st">&quot;Preston&quot;</span>)),</span>
+<span id="cb20-2"><a href="aussiemaps-vignette.html#cb20-2" aria-hidden="true" tabindex="-1"></a>                         <span class="at">year=</span><span class="dv">2016</span>,</span>
+<span id="cb20-3"><a href="aussiemaps-vignette.html#cb20-3" aria-hidden="true" tabindex="-1"></a>                         <span class="at">aggregation =</span> <span class="fu">c</span>(<span class="st">&quot;SSC_NAME_2016&quot;</span>))</span>
+<span id="cb20-4"><a href="aussiemaps-vignette.html#cb20-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-5"><a href="aussiemaps-vignette.html#cb20-5" aria-hidden="true" tabindex="-1"></a>preston <span class="sc">|&gt;</span></span>
+<span id="cb20-6"><a href="aussiemaps-vignette.html#cb20-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(SSC_NAME_2016,UCL_NAME_2016,STE_NAME_2016)</span></code></pre></div>
 <pre><code>## Simple feature collection with 8 features and 3 fields
 ## Geometry type: POLYGON
 ## Dimension:     XY
@@ -349,14 +338,14 @@ div.csl-indent {
 ## 7         Preston Settlement   Remainder of State/Territory (WA) Western Australia POLYGON ((116.117 -33.40392...
 ## 8             Preston (Vic.)                           Melbourne          Victoria POLYGON ((144.9798 -37.7427...</code></pre>
 <p>Whereas</p>
-<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="aussiemaps-vignette.html#cb38-1" aria-hidden="true" tabindex="-1"></a>prestons <span class="ot">&lt;-</span> <span class="fu">get_map</span>(<span class="at">filters=</span><span class="fu">list</span>(<span class="at">SSC_NAME_2016=</span><span class="fu">c</span>(<span class="st">&quot;^Pres&quot;</span>),</span>
-<span id="cb38-2"><a href="aussiemaps-vignette.html#cb38-2" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">STE_NAME_2016=</span><span class="fu">c</span>(<span class="st">&quot;Wales&quot;</span>,<span class="st">&quot;^T&quot;</span>)</span>
-<span id="cb38-3"><a href="aussiemaps-vignette.html#cb38-3" aria-hidden="true" tabindex="-1"></a>                                 ),</span>
-<span id="cb38-4"><a href="aussiemaps-vignette.html#cb38-4" aria-hidden="true" tabindex="-1"></a>                         <span class="at">year=</span><span class="dv">2016</span>,</span>
-<span id="cb38-5"><a href="aussiemaps-vignette.html#cb38-5" aria-hidden="true" tabindex="-1"></a>                         <span class="at">aggregation =</span> <span class="fu">c</span>(<span class="st">&quot;SSC_NAME_2016&quot;</span>))</span>
-<span id="cb38-6"><a href="aussiemaps-vignette.html#cb38-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-7"><a href="aussiemaps-vignette.html#cb38-7" aria-hidden="true" tabindex="-1"></a>prestons <span class="sc">|&gt;</span></span>
-<span id="cb38-8"><a href="aussiemaps-vignette.html#cb38-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(SSC_NAME_2016,UCL_NAME_2016,STE_NAME_2016)</span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="aussiemaps-vignette.html#cb22-1" aria-hidden="true" tabindex="-1"></a>prestons <span class="ot">&lt;-</span> <span class="fu">get_map</span>(<span class="at">filters=</span><span class="fu">list</span>(<span class="at">SSC_NAME_2016=</span><span class="fu">c</span>(<span class="st">&quot;^Pres&quot;</span>),</span>
+<span id="cb22-2"><a href="aussiemaps-vignette.html#cb22-2" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">STE_NAME_2016=</span><span class="fu">c</span>(<span class="st">&quot;Wales&quot;</span>,<span class="st">&quot;^T&quot;</span>)</span>
+<span id="cb22-3"><a href="aussiemaps-vignette.html#cb22-3" aria-hidden="true" tabindex="-1"></a>                                 ),</span>
+<span id="cb22-4"><a href="aussiemaps-vignette.html#cb22-4" aria-hidden="true" tabindex="-1"></a>                         <span class="at">year=</span><span class="dv">2016</span>,</span>
+<span id="cb22-5"><a href="aussiemaps-vignette.html#cb22-5" aria-hidden="true" tabindex="-1"></a>                         <span class="at">aggregation =</span> <span class="fu">c</span>(<span class="st">&quot;SSC_NAME_2016&quot;</span>))</span>
+<span id="cb22-6"><a href="aussiemaps-vignette.html#cb22-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-7"><a href="aussiemaps-vignette.html#cb22-7" aria-hidden="true" tabindex="-1"></a>prestons <span class="sc">|&gt;</span></span>
+<span id="cb22-8"><a href="aussiemaps-vignette.html#cb22-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(SSC_NAME_2016,UCL_NAME_2016,STE_NAME_2016)</span></code></pre></div>
 <pre><code>## Simple feature collection with 3 features and 3 fields
 ## Geometry type: POLYGON
 ## Dimension:     XY
@@ -370,125 +359,125 @@ div.csl-indent {
 <div id="even-more-complex-filtering" class="section level2 hasAnchor" number="11.4">
 <h2><span class="header-section-number">E.4</span> Even more complex filtering<a href="aussiemaps-vignette.html#even-more-complex-filtering" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>If more complex subsetting is needed, it is possible to pass a table with the elements to be selected. In order to do that, list_structure() comes to help. This function uses the same year and filters parameters than get_map() (actually this function calls the former if no table is provided). Once you have the dataset, you can use any ad-hoc filter to get the needed structures. For example</p>
-<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="aussiemaps-vignette.html#cb40-1" aria-hidden="true" tabindex="-1"></a>greater_sydney <span class="ot">&lt;-</span> <span class="fu">list_structure</span>(<span class="at">year=</span><span class="dv">2021</span>,<span class="at">filters=</span><span class="fu">list</span>(<span class="at">GCCSA_NAME_2021=</span><span class="st">&quot;Greater Sydney&quot;</span>))</span>
-<span id="cb40-2"><a href="aussiemaps-vignette.html#cb40-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-3"><a href="aussiemaps-vignette.html#cb40-3" aria-hidden="true" tabindex="-1"></a><span class="co">#use_cache option stores the results/reuses pre-processed results</span></span>
-<span id="cb40-4"><a href="aussiemaps-vignette.html#cb40-4" aria-hidden="true" tabindex="-1"></a>sydney_area <span class="ot">&lt;-</span> <span class="fu">get_map</span>(<span class="at">filter_table =</span> greater_sydney,</span>
-<span id="cb40-5"><a href="aussiemaps-vignette.html#cb40-5" aria-hidden="true" tabindex="-1"></a>                       <span class="at">year=</span><span class="dv">2021</span>,</span>
-<span id="cb40-6"><a href="aussiemaps-vignette.html#cb40-6" aria-hidden="true" tabindex="-1"></a>                       <span class="at">aggregation =</span> <span class="st">&quot;GCCSA_NAME_2021&quot;</span>,</span>
-<span id="cb40-7"><a href="aussiemaps-vignette.html#cb40-7" aria-hidden="true" tabindex="-1"></a>                       <span class="at">use_cache =</span> <span class="cn">TRUE</span>) </span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="aussiemaps-vignette.html#cb24-1" aria-hidden="true" tabindex="-1"></a>greater_sydney <span class="ot">&lt;-</span> <span class="fu">list_structure</span>(<span class="at">year=</span><span class="dv">2021</span>,<span class="at">filters=</span><span class="fu">list</span>(<span class="at">GCCSA_NAME_2021=</span><span class="st">&quot;Greater Sydney&quot;</span>))</span>
+<span id="cb24-2"><a href="aussiemaps-vignette.html#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-3"><a href="aussiemaps-vignette.html#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="co">#use_cache option stores the results/reuses pre-processed results</span></span>
+<span id="cb24-4"><a href="aussiemaps-vignette.html#cb24-4" aria-hidden="true" tabindex="-1"></a>sydney_area <span class="ot">&lt;-</span> <span class="fu">get_map</span>(<span class="at">filter_table =</span> greater_sydney,</span>
+<span id="cb24-5"><a href="aussiemaps-vignette.html#cb24-5" aria-hidden="true" tabindex="-1"></a>                       <span class="at">year=</span><span class="dv">2021</span>,</span>
+<span id="cb24-6"><a href="aussiemaps-vignette.html#cb24-6" aria-hidden="true" tabindex="-1"></a>                       <span class="at">aggregation =</span> <span class="st">&quot;GCCSA_NAME_2021&quot;</span>,</span>
+<span id="cb24-7"><a href="aussiemaps-vignette.html#cb24-7" aria-hidden="true" tabindex="-1"></a>                       <span class="at">use_cache =</span> <span class="cn">TRUE</span>) </span></code></pre></div>
 <pre><code>## Reading layer `cache_2021_6766fccc&#39; from data source `C:\Users\carlo\OneDrive\Documents\.aussiemaps_cache\cache_2021_6766fccc.gpkg&#39; using driver `GPKG&#39;
 ## Simple feature collection with 1 feature and 36 fields
 ## Geometry type: MULTIPOLYGON
 ## Dimension:     XY
 ## Bounding box:  xmin: 149.9719 ymin: -34.33116 xmax: 151.6306 ymax: -32.99606
 ## Geodetic CRS:  GDA2020</code></pre>
-<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="aussiemaps-vignette.html#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co">#outline</span></span>
-<span id="cb42-2"><a href="aussiemaps-vignette.html#cb42-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb42-3"><a href="aussiemaps-vignette.html#cb42-3" aria-hidden="true" tabindex="-1"></a><span class="co"># all suburbs starting wit A</span></span>
-<span id="cb42-4"><a href="aussiemaps-vignette.html#cb42-4" aria-hidden="true" tabindex="-1"></a>suburbs_a_filter <span class="ot">&lt;-</span> greater_sydney <span class="sc">|&gt;</span></span>
-<span id="cb42-5"><a href="aussiemaps-vignette.html#cb42-5" aria-hidden="true" tabindex="-1"></a>                    <span class="fu">filter</span>(<span class="fu">str_detect</span>(SAL_NAME_2021,<span class="st">&quot;^A&quot;</span>))</span>
-<span id="cb42-6"><a href="aussiemaps-vignette.html#cb42-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb42-7"><a href="aussiemaps-vignette.html#cb42-7" aria-hidden="true" tabindex="-1"></a>suburbs_a  <span class="ot">&lt;-</span> <span class="fu">get_map</span>(<span class="at">filter_table =</span> suburbs_a_filter,</span>
-<span id="cb42-8"><a href="aussiemaps-vignette.html#cb42-8" aria-hidden="true" tabindex="-1"></a>                       <span class="at">year=</span><span class="dv">2021</span>,</span>
-<span id="cb42-9"><a href="aussiemaps-vignette.html#cb42-9" aria-hidden="true" tabindex="-1"></a>                       <span class="at">aggregation =</span> <span class="st">&quot;SAL_NAME_2021&quot;</span>) <span class="sc">|&gt;</span></span>
-<span id="cb42-10"><a href="aussiemaps-vignette.html#cb42-10" aria-hidden="true" tabindex="-1"></a>                <span class="fu">mutate</span>(<span class="at">border=</span><span class="st">&quot;orange&quot;</span>,<span class="at">fill=</span><span class="st">&quot;orange&quot;</span>)</span>
-<span id="cb42-11"><a href="aussiemaps-vignette.html#cb42-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb42-12"><a href="aussiemaps-vignette.html#cb42-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb42-13"><a href="aussiemaps-vignette.html#cb42-13" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
-<span id="cb42-14"><a href="aussiemaps-vignette.html#cb42-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data=</span>sydney_area,<span class="at">fill=</span><span class="st">&quot;white&quot;</span>,<span class="at">colour=</span><span class="st">&quot;black&quot;</span>)<span class="sc">+</span></span>
-<span id="cb42-15"><a href="aussiemaps-vignette.html#cb42-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data=</span>suburbs_a,<span class="at">fill=</span><span class="st">&quot;orange&quot;</span>) <span class="sc">+</span></span>
-<span id="cb42-16"><a href="aussiemaps-vignette.html#cb42-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">&quot;Suburbs starting with A - Sydney&quot;</span>) <span class="sc">+</span></span>
-<span id="cb42-17"><a href="aussiemaps-vignette.html#cb42-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>()</span></code></pre></div>
-<p><img src="MSc-Project---Carlos-YANEZ-SANTIBANEZ_files/figure-html/unnamed-chunk-43-1.png" width="672" /></p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="aussiemaps-vignette.html#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co">#outline</span></span>
+<span id="cb26-2"><a href="aussiemaps-vignette.html#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-3"><a href="aussiemaps-vignette.html#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="co"># all suburbs starting wit A</span></span>
+<span id="cb26-4"><a href="aussiemaps-vignette.html#cb26-4" aria-hidden="true" tabindex="-1"></a>suburbs_a_filter <span class="ot">&lt;-</span> greater_sydney <span class="sc">|&gt;</span></span>
+<span id="cb26-5"><a href="aussiemaps-vignette.html#cb26-5" aria-hidden="true" tabindex="-1"></a>                    <span class="fu">filter</span>(<span class="fu">str_detect</span>(SAL_NAME_2021,<span class="st">&quot;^A&quot;</span>))</span>
+<span id="cb26-6"><a href="aussiemaps-vignette.html#cb26-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-7"><a href="aussiemaps-vignette.html#cb26-7" aria-hidden="true" tabindex="-1"></a>suburbs_a  <span class="ot">&lt;-</span> <span class="fu">get_map</span>(<span class="at">filter_table =</span> suburbs_a_filter,</span>
+<span id="cb26-8"><a href="aussiemaps-vignette.html#cb26-8" aria-hidden="true" tabindex="-1"></a>                       <span class="at">year=</span><span class="dv">2021</span>,</span>
+<span id="cb26-9"><a href="aussiemaps-vignette.html#cb26-9" aria-hidden="true" tabindex="-1"></a>                       <span class="at">aggregation =</span> <span class="st">&quot;SAL_NAME_2021&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb26-10"><a href="aussiemaps-vignette.html#cb26-10" aria-hidden="true" tabindex="-1"></a>                <span class="fu">mutate</span>(<span class="at">border=</span><span class="st">&quot;orange&quot;</span>,<span class="at">fill=</span><span class="st">&quot;orange&quot;</span>)</span>
+<span id="cb26-11"><a href="aussiemaps-vignette.html#cb26-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-12"><a href="aussiemaps-vignette.html#cb26-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-13"><a href="aussiemaps-vignette.html#cb26-13" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb26-14"><a href="aussiemaps-vignette.html#cb26-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data=</span>sydney_area,<span class="at">fill=</span><span class="st">&quot;white&quot;</span>,<span class="at">colour=</span><span class="st">&quot;black&quot;</span>)<span class="sc">+</span></span>
+<span id="cb26-15"><a href="aussiemaps-vignette.html#cb26-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data=</span>suburbs_a,<span class="at">fill=</span><span class="st">&quot;orange&quot;</span>) <span class="sc">+</span></span>
+<span id="cb26-16"><a href="aussiemaps-vignette.html#cb26-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">&quot;Suburbs starting with A - Sydney&quot;</span>) <span class="sc">+</span></span>
+<span id="cb26-17"><a href="aussiemaps-vignette.html#cb26-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>()</span></code></pre></div>
+<p><img src="MSc-Project---Carlos-YANEZ-SANTIBANEZ_files/figure-html/unnamed-chunk-44-1.png" width="672" /></p>
 </div>
 <div id="aggregation" class="section level2 hasAnchor" number="11.5">
 <h2><span class="header-section-number">E.5</span> Aggregation<a href="aussiemaps-vignette.html#aggregation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>It is worth noticing that the <em>aggregation</em> parameter accepts more than one variable. Those parameters are passed to dplyr::group_by() before aggregation - thus more variables will impact how sf objects are aggregated. For instance, if we look at the postal areas (ABS approximation of a postcode) in the cities of Melbourne and Port Phillip:</p>
-<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="aussiemaps-vignette.html#cb43-1" aria-hidden="true" tabindex="-1"></a>poas_inner_melbourne <span class="ot">&lt;-</span> <span class="fu">get_map</span>(<span class="at">filters=</span><span class="fu">list</span>(<span class="at">LGA_NAME_2021=</span><span class="fu">c</span>(<span class="st">&quot;Melbourne&quot;</span>,<span class="st">&quot;Phillip$&quot;</span>)),</span>
-<span id="cb43-2"><a href="aussiemaps-vignette.html#cb43-2" aria-hidden="true" tabindex="-1"></a>                                <span class="at">year=</span><span class="dv">2021</span>,</span>
-<span id="cb43-3"><a href="aussiemaps-vignette.html#cb43-3" aria-hidden="true" tabindex="-1"></a>                                <span class="at">aggregation =</span> <span class="fu">c</span>(<span class="st">&quot;POA_NAME_2021&quot;</span>,<span class="st">&quot;LGA_NAME_2021&quot;</span>))</span>
-<span id="cb43-4"><a href="aussiemaps-vignette.html#cb43-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb43-5"><a href="aussiemaps-vignette.html#cb43-5" aria-hidden="true" tabindex="-1"></a>poas_inner_melbourne <span class="sc">|&gt;</span></span>
-<span id="cb43-6"><a href="aussiemaps-vignette.html#cb43-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">colour=</span><span class="fu">case_when</span>(</span>
-<span id="cb43-7"><a href="aussiemaps-vignette.html#cb43-7" aria-hidden="true" tabindex="-1"></a>    POA_NAME_2021<span class="sc">==</span><span class="st">&quot;3004&quot;</span> <span class="sc">~</span> <span class="st">&quot;orange&quot;</span>,</span>
-<span id="cb43-8"><a href="aussiemaps-vignette.html#cb43-8" aria-hidden="true" tabindex="-1"></a>    <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">&quot;grey&quot;</span></span>
-<span id="cb43-9"><a href="aussiemaps-vignette.html#cb43-9" aria-hidden="true" tabindex="-1"></a>  )) <span class="sc">|&gt;</span></span>
-<span id="cb43-10"><a href="aussiemaps-vignette.html#cb43-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>()<span class="sc">+</span></span>
-<span id="cb43-11"><a href="aussiemaps-vignette.html#cb43-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="fu">aes</span>(<span class="at">fill=</span>colour,<span class="at">colour=</span>LGA_NAME_2021)) <span class="sc">+</span></span>
-<span id="cb43-12"><a href="aussiemaps-vignette.html#cb43-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_identity</span>() <span class="sc">+</span></span>
-<span id="cb43-13"><a href="aussiemaps-vignette.html#cb43-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>() <span class="sc">+</span></span>
-<span id="cb43-14"><a href="aussiemaps-vignette.html#cb43-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">&quot;Postcode 3004 extends across two LGAs&quot;</span>)</span></code></pre></div>
-<p><img src="MSc-Project---Carlos-YANEZ-SANTIBANEZ_files/figure-html/unnamed-chunk-44-1.png" width="672" />
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="aussiemaps-vignette.html#cb27-1" aria-hidden="true" tabindex="-1"></a>poas_inner_melbourne <span class="ot">&lt;-</span> <span class="fu">get_map</span>(<span class="at">filters=</span><span class="fu">list</span>(<span class="at">LGA_NAME_2021=</span><span class="fu">c</span>(<span class="st">&quot;Melbourne&quot;</span>,<span class="st">&quot;Phillip$&quot;</span>)),</span>
+<span id="cb27-2"><a href="aussiemaps-vignette.html#cb27-2" aria-hidden="true" tabindex="-1"></a>                                <span class="at">year=</span><span class="dv">2021</span>,</span>
+<span id="cb27-3"><a href="aussiemaps-vignette.html#cb27-3" aria-hidden="true" tabindex="-1"></a>                                <span class="at">aggregation =</span> <span class="fu">c</span>(<span class="st">&quot;POA_NAME_2021&quot;</span>,<span class="st">&quot;LGA_NAME_2021&quot;</span>))</span>
+<span id="cb27-4"><a href="aussiemaps-vignette.html#cb27-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-5"><a href="aussiemaps-vignette.html#cb27-5" aria-hidden="true" tabindex="-1"></a>poas_inner_melbourne <span class="sc">|&gt;</span></span>
+<span id="cb27-6"><a href="aussiemaps-vignette.html#cb27-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">colour=</span><span class="fu">case_when</span>(</span>
+<span id="cb27-7"><a href="aussiemaps-vignette.html#cb27-7" aria-hidden="true" tabindex="-1"></a>    POA_NAME_2021<span class="sc">==</span><span class="st">&quot;3004&quot;</span> <span class="sc">~</span> <span class="st">&quot;orange&quot;</span>,</span>
+<span id="cb27-8"><a href="aussiemaps-vignette.html#cb27-8" aria-hidden="true" tabindex="-1"></a>    <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">&quot;grey&quot;</span></span>
+<span id="cb27-9"><a href="aussiemaps-vignette.html#cb27-9" aria-hidden="true" tabindex="-1"></a>  )) <span class="sc">|&gt;</span></span>
+<span id="cb27-10"><a href="aussiemaps-vignette.html#cb27-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>()<span class="sc">+</span></span>
+<span id="cb27-11"><a href="aussiemaps-vignette.html#cb27-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="fu">aes</span>(<span class="at">fill=</span>colour,<span class="at">colour=</span>LGA_NAME_2021)) <span class="sc">+</span></span>
+<span id="cb27-12"><a href="aussiemaps-vignette.html#cb27-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_identity</span>() <span class="sc">+</span></span>
+<span id="cb27-13"><a href="aussiemaps-vignette.html#cb27-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>() <span class="sc">+</span></span>
+<span id="cb27-14"><a href="aussiemaps-vignette.html#cb27-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">&quot;Postcode 3004 extends across two LGAs&quot;</span>)</span></code></pre></div>
+<p><img src="MSc-Project---Carlos-YANEZ-SANTIBANEZ_files/figure-html/unnamed-chunk-45-1.png" width="672" />
 ## Using external data</p>
 <p>This package provides sf data, thus the result can be easily merged with any other data frame. Since data has been taken from the ABS and the output contains both names and <strong>codes</strong> of geographic structures, data can be joined using an un-ambiguous key. Furthermore, with {auscensus}, this package can be used as data filters to retrieve said data in the first place. For example:</p>
-<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="aussiemaps-vignette.html#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Chileans by Commonwealth Electoral Divisions in Metropolitan Brisbane, 2021</span></span>
-<span id="cb44-2"><a href="aussiemaps-vignette.html#cb44-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-3"><a href="aussiemaps-vignette.html#cb44-3" aria-hidden="true" tabindex="-1"></a>attr <span class="ot">&lt;-</span> <span class="fu">list_structure</span>(<span class="at">year=</span><span class="dv">2021</span>,<span class="at">filters=</span><span class="fu">list</span>(<span class="at">GCCSA_NAME_2021=</span><span class="fu">c</span>(<span class="st">&quot;Brisbane&quot;</span>))) <span class="sc">|&gt;</span></span>
-<span id="cb44-4"><a href="aussiemaps-vignette.html#cb44-4" aria-hidden="true" tabindex="-1"></a>        <span class="fu">distinct</span>(CED_NAME_2021)</span>
-<span id="cb44-5"><a href="aussiemaps-vignette.html#cb44-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-6"><a href="aussiemaps-vignette.html#cb44-6" aria-hidden="true" tabindex="-1"></a>chileans <span class="ot">&lt;-</span> auscensus<span class="sc">::</span><span class="fu">get_census_summary</span>(<span class="at">table_number=</span> <span class="st">&quot;09&quot;</span>,</span>
-<span id="cb44-7"><a href="aussiemaps-vignette.html#cb44-7" aria-hidden="true" tabindex="-1"></a>                                          <span class="at">selected_years =</span> <span class="st">&quot;2021&quot;</span>,</span>
-<span id="cb44-8"><a href="aussiemaps-vignette.html#cb44-8" aria-hidden="true" tabindex="-1"></a>                                          <span class="at">geo_structure =</span> <span class="st">&quot;CED&quot;</span>,</span>
-<span id="cb44-9"><a href="aussiemaps-vignette.html#cb44-9" aria-hidden="true" tabindex="-1"></a>                                          <span class="at">geo_unit_names =</span>   attr<span class="sc">$</span>CED_NAME_2021,</span>
-<span id="cb44-10"><a href="aussiemaps-vignette.html#cb44-10" aria-hidden="true" tabindex="-1"></a>                                          <span class="at">attribute =</span> <span class="fu">list</span>(<span class="at">Chileans=</span><span class="fu">c</span>(<span class="st">&quot;Persons_chile_total&quot;</span>)),</span>
-<span id="cb44-11"><a href="aussiemaps-vignette.html#cb44-11" aria-hidden="true" tabindex="-1"></a>                                          <span class="at">reference_total =</span> <span class="fu">list</span>(<span class="at">Total=</span><span class="fu">c</span>(<span class="st">&quot;Persons_total_total&quot;</span>)),</span>
-<span id="cb44-12"><a href="aussiemaps-vignette.html#cb44-12" aria-hidden="true" tabindex="-1"></a>                                          <span class="at">percentage_scale =</span><span class="dv">100</span>)</span>
-<span id="cb44-13"><a href="aussiemaps-vignette.html#cb44-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-14"><a href="aussiemaps-vignette.html#cb44-14" aria-hidden="true" tabindex="-1"></a>brisbane_ced <span class="ot">&lt;-</span> <span class="fu">get_map</span>(<span class="at">filters =</span> <span class="fu">list</span>(<span class="at">GCCSA_NAME_2021=</span><span class="fu">c</span>(<span class="st">&quot;Brisbane&quot;</span>)),</span>
-<span id="cb44-15"><a href="aussiemaps-vignette.html#cb44-15" aria-hidden="true" tabindex="-1"></a>                        <span class="at">year =</span> <span class="dv">2021</span>,</span>
-<span id="cb44-16"><a href="aussiemaps-vignette.html#cb44-16" aria-hidden="true" tabindex="-1"></a>                        <span class="at">aggregation =</span> <span class="fu">c</span>(<span class="st">&quot;CED_NAME_2021&quot;</span>),</span>
-<span id="cb44-17"><a href="aussiemaps-vignette.html#cb44-17" aria-hidden="true" tabindex="-1"></a>                        <span class="at">use_cache =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="aussiemaps-vignette.html#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Chileans by Commonwealth Electoral Divisions in Metropolitan Brisbane, 2021</span></span>
+<span id="cb28-2"><a href="aussiemaps-vignette.html#cb28-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-3"><a href="aussiemaps-vignette.html#cb28-3" aria-hidden="true" tabindex="-1"></a>attr <span class="ot">&lt;-</span> <span class="fu">list_structure</span>(<span class="at">year=</span><span class="dv">2021</span>,<span class="at">filters=</span><span class="fu">list</span>(<span class="at">GCCSA_NAME_2021=</span><span class="fu">c</span>(<span class="st">&quot;Brisbane&quot;</span>))) <span class="sc">|&gt;</span></span>
+<span id="cb28-4"><a href="aussiemaps-vignette.html#cb28-4" aria-hidden="true" tabindex="-1"></a>        <span class="fu">distinct</span>(CED_NAME_2021)</span>
+<span id="cb28-5"><a href="aussiemaps-vignette.html#cb28-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-6"><a href="aussiemaps-vignette.html#cb28-6" aria-hidden="true" tabindex="-1"></a>chileans <span class="ot">&lt;-</span> auscensus<span class="sc">::</span><span class="fu">get_census_summary</span>(<span class="at">table_number=</span> <span class="st">&quot;09&quot;</span>,</span>
+<span id="cb28-7"><a href="aussiemaps-vignette.html#cb28-7" aria-hidden="true" tabindex="-1"></a>                                          <span class="at">selected_years =</span> <span class="st">&quot;2021&quot;</span>,</span>
+<span id="cb28-8"><a href="aussiemaps-vignette.html#cb28-8" aria-hidden="true" tabindex="-1"></a>                                          <span class="at">geo_structure =</span> <span class="st">&quot;CED&quot;</span>,</span>
+<span id="cb28-9"><a href="aussiemaps-vignette.html#cb28-9" aria-hidden="true" tabindex="-1"></a>                                          <span class="at">geo_unit_names =</span>   attr<span class="sc">$</span>CED_NAME_2021,</span>
+<span id="cb28-10"><a href="aussiemaps-vignette.html#cb28-10" aria-hidden="true" tabindex="-1"></a>                                          <span class="at">attribute =</span> <span class="fu">list</span>(<span class="at">Chileans=</span><span class="fu">c</span>(<span class="st">&quot;Persons_chile_total&quot;</span>)),</span>
+<span id="cb28-11"><a href="aussiemaps-vignette.html#cb28-11" aria-hidden="true" tabindex="-1"></a>                                          <span class="at">reference_total =</span> <span class="fu">list</span>(<span class="at">Total=</span><span class="fu">c</span>(<span class="st">&quot;Persons_total_total&quot;</span>)),</span>
+<span id="cb28-12"><a href="aussiemaps-vignette.html#cb28-12" aria-hidden="true" tabindex="-1"></a>                                          <span class="at">percentage_scale =</span><span class="dv">100</span>)</span>
+<span id="cb28-13"><a href="aussiemaps-vignette.html#cb28-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-14"><a href="aussiemaps-vignette.html#cb28-14" aria-hidden="true" tabindex="-1"></a>brisbane_ced <span class="ot">&lt;-</span> <span class="fu">get_map</span>(<span class="at">filters =</span> <span class="fu">list</span>(<span class="at">GCCSA_NAME_2021=</span><span class="fu">c</span>(<span class="st">&quot;Brisbane&quot;</span>)),</span>
+<span id="cb28-15"><a href="aussiemaps-vignette.html#cb28-15" aria-hidden="true" tabindex="-1"></a>                        <span class="at">year =</span> <span class="dv">2021</span>,</span>
+<span id="cb28-16"><a href="aussiemaps-vignette.html#cb28-16" aria-hidden="true" tabindex="-1"></a>                        <span class="at">aggregation =</span> <span class="fu">c</span>(<span class="st">&quot;CED_NAME_2021&quot;</span>),</span>
+<span id="cb28-17"><a href="aussiemaps-vignette.html#cb28-17" aria-hidden="true" tabindex="-1"></a>                        <span class="at">use_cache =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <pre><code>## Reading layer `cache_2021_4ec18365&#39; from data source `C:\Users\carlo\OneDrive\Documents\.aussiemaps_cache\cache_2021_4ec18365.gpkg&#39; using driver `GPKG&#39;
 ## Simple feature collection with 15 features and 36 fields
 ## Geometry type: MULTIPOLYGON
 ## Dimension:     XY
 ## Bounding box:  xmin: 152.0734 ymin: -28.36387 xmax: 153.5467 ymax: -26.45233
 ## Geodetic CRS:  GDA2020</code></pre>
-<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="aussiemaps-vignette.html#cb46-1" aria-hidden="true" tabindex="-1"></a>chileans<span class="sc">$</span>Value</span></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="aussiemaps-vignette.html#cb30-1" aria-hidden="true" tabindex="-1"></a>chileans<span class="sc">$</span>Value</span></code></pre></div>
 <pre><code>##  [1]  85 109  64 228  44  90 241  87  66 180 267 107  96 223  66</code></pre>
-<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="aussiemaps-vignette.html#cb48-1" aria-hidden="true" tabindex="-1"></a>brisbane_ced <span class="sc">|&gt;</span></span>
-<span id="cb48-2"><a href="aussiemaps-vignette.html#cb48-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(chileans,<span class="at">by=</span><span class="fu">c</span>(<span class="st">&quot;CED_NAME_2021&quot;</span><span class="ot">=</span><span class="st">&quot;Unit&quot;</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb48-3"><a href="aussiemaps-vignette.html#cb48-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">fill=</span>Value,<span class="at">colour=</span>Value)) <span class="sc">+</span></span>
-<span id="cb48-4"><a href="aussiemaps-vignette.html#cb48-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>() <span class="sc">+</span></span>
-<span id="cb48-5"><a href="aussiemaps-vignette.html#cb48-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_continuous</span>()<span class="sc">+</span></span>
-<span id="cb48-6"><a href="aussiemaps-vignette.html#cb48-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">&quot;Chileans in Bribane&#39;s Federal Electorates&quot;</span>) <span class="sc">+</span></span>
-<span id="cb48-7"><a href="aussiemaps-vignette.html#cb48-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>()</span></code></pre></div>
-<p><img src="MSc-Project---Carlos-YANEZ-SANTIBANEZ_files/figure-html/unnamed-chunk-45-1.png" width="672" /></p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="aussiemaps-vignette.html#cb32-1" aria-hidden="true" tabindex="-1"></a>brisbane_ced <span class="sc">|&gt;</span></span>
+<span id="cb32-2"><a href="aussiemaps-vignette.html#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(chileans,<span class="at">by=</span><span class="fu">c</span>(<span class="st">&quot;CED_NAME_2021&quot;</span><span class="ot">=</span><span class="st">&quot;Unit&quot;</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb32-3"><a href="aussiemaps-vignette.html#cb32-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">fill=</span>Value,<span class="at">colour=</span>Value)) <span class="sc">+</span></span>
+<span id="cb32-4"><a href="aussiemaps-vignette.html#cb32-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>() <span class="sc">+</span></span>
+<span id="cb32-5"><a href="aussiemaps-vignette.html#cb32-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_continuous</span>()<span class="sc">+</span></span>
+<span id="cb32-6"><a href="aussiemaps-vignette.html#cb32-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">&quot;Chileans in Bribane&#39;s Federal Electorates&quot;</span>) <span class="sc">+</span></span>
+<span id="cb32-7"><a href="aussiemaps-vignette.html#cb32-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>()</span></code></pre></div>
+<p><img src="MSc-Project---Carlos-YANEZ-SANTIBANEZ_files/figure-html/unnamed-chunk-46-1.png" width="672" /></p>
 </div>
 <div id="data-aggregation" class="section level2 hasAnchor" number="11.6">
 <h2><span class="header-section-number">E.6</span> Data Aggregation<a href="aussiemaps-vignette.html#data-aggregation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>As a bonus function, <em>geo_aggregate()</em> aggregates data, transforming between geographic structures. For instance, let’s imagine that for the previous case, it is only possible to get data by SA2. <em>geo_aggregate()</em> can aggregate the data to obtain an approximation for each electorate. When an SA1 is not fully contained by an electorate, the function will use the overlapping area as the weighting factor.</p>
-<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="aussiemaps-vignette.html#cb49-1" aria-hidden="true" tabindex="-1"></a>attr <span class="ot">&lt;-</span> <span class="fu">list_structure</span>(<span class="at">year=</span><span class="dv">2021</span>,<span class="at">filters=</span><span class="fu">list</span>(<span class="at">GCCSA_NAME_2021=</span><span class="fu">c</span>(<span class="st">&quot;Brisbane&quot;</span>))) <span class="sc">|&gt;</span></span>
-<span id="cb49-2"><a href="aussiemaps-vignette.html#cb49-2" aria-hidden="true" tabindex="-1"></a>        <span class="fu">distinct</span>(SA2_CODE_2021)</span>
-<span id="cb49-3"><a href="aussiemaps-vignette.html#cb49-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb49-4"><a href="aussiemaps-vignette.html#cb49-4" aria-hidden="true" tabindex="-1"></a>chileans_sa2 <span class="ot">&lt;-</span> auscensus<span class="sc">::</span><span class="fu">get_census_summary</span>(<span class="at">table_number=</span> <span class="st">&quot;09&quot;</span>,</span>
-<span id="cb49-5"><a href="aussiemaps-vignette.html#cb49-5" aria-hidden="true" tabindex="-1"></a>                                          <span class="at">selected_years =</span> <span class="st">&quot;2021&quot;</span>,</span>
-<span id="cb49-6"><a href="aussiemaps-vignette.html#cb49-6" aria-hidden="true" tabindex="-1"></a>                                          <span class="at">geo_structure =</span> <span class="st">&quot;SA2&quot;</span>,</span>
-<span id="cb49-7"><a href="aussiemaps-vignette.html#cb49-7" aria-hidden="true" tabindex="-1"></a>                                          <span class="at">geo_unit_codes =</span>     attr<span class="sc">$</span>SA2_CODE_2021,</span>
-<span id="cb49-8"><a href="aussiemaps-vignette.html#cb49-8" aria-hidden="true" tabindex="-1"></a>                                          <span class="at">attribute =</span> <span class="fu">list</span>(<span class="at">Chileans=</span><span class="fu">c</span>(<span class="st">&quot;Persons_chile_total&quot;</span>))) <span class="sc">|&gt;</span></span>
-<span id="cb49-9"><a href="aussiemaps-vignette.html#cb49-9" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">rename</span>(<span class="st">&quot;SA2_CODE_2021&quot;</span><span class="ot">=</span><span class="st">&quot;Census_Code&quot;</span>)</span>
-<span id="cb49-10"><a href="aussiemaps-vignette.html#cb49-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb49-11"><a href="aussiemaps-vignette.html#cb49-11" aria-hidden="true" tabindex="-1"></a><span class="co"># please note these Electoral divisions are not built from SA2s - proportional allocation will result in factional </span></span>
-<span id="cb49-12"><a href="aussiemaps-vignette.html#cb49-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Therefore - This is an approximation</span></span>
-<span id="cb49-13"><a href="aussiemaps-vignette.html#cb49-13" aria-hidden="true" tabindex="-1"></a>chileans <span class="ot">&lt;-</span> <span class="fu">geo_aggregate</span>(<span class="at">original_data =</span> chileans_sa2,</span>
-<span id="cb49-14"><a href="aussiemaps-vignette.html#cb49-14" aria-hidden="true" tabindex="-1"></a>                          <span class="at">values_col =</span> <span class="st">&quot;Value&quot;</span>,</span>
-<span id="cb49-15"><a href="aussiemaps-vignette.html#cb49-15" aria-hidden="true" tabindex="-1"></a>                          <span class="at">original_geo =</span> <span class="st">&quot;SA2_CODE_2021&quot;</span>,</span>
-<span id="cb49-16"><a href="aussiemaps-vignette.html#cb49-16" aria-hidden="true" tabindex="-1"></a>                          <span class="at">new_geo      =</span> <span class="st">&quot;CED_NAME_2021&quot;</span>,</span>
-<span id="cb49-17"><a href="aussiemaps-vignette.html#cb49-17" aria-hidden="true" tabindex="-1"></a>                          <span class="at">grouping_col =</span>   <span class="fu">c</span>(<span class="st">&quot;Year&quot;</span>,<span class="st">&quot;Attribute&quot;</span>),</span>
-<span id="cb49-18"><a href="aussiemaps-vignette.html#cb49-18" aria-hidden="true" tabindex="-1"></a>                          <span class="at">year=</span><span class="dv">2021</span>) <span class="sc">|&gt;</span></span>
-<span id="cb49-19"><a href="aussiemaps-vignette.html#cb49-19" aria-hidden="true" tabindex="-1"></a>            <span class="fu">rename</span>(<span class="st">&quot;Unit&quot;</span><span class="ot">=</span><span class="st">&quot;CED_NAME_2021&quot;</span>)</span>
-<span id="cb49-20"><a href="aussiemaps-vignette.html#cb49-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb49-21"><a href="aussiemaps-vignette.html#cb49-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb49-22"><a href="aussiemaps-vignette.html#cb49-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb49-23"><a href="aussiemaps-vignette.html#cb49-23" aria-hidden="true" tabindex="-1"></a>brisbane_ced <span class="sc">|&gt;</span></span>
-<span id="cb49-24"><a href="aussiemaps-vignette.html#cb49-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(chileans,<span class="at">by=</span><span class="fu">c</span>(<span class="st">&quot;CED_NAME_2021&quot;</span><span class="ot">=</span><span class="st">&quot;Unit&quot;</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb49-25"><a href="aussiemaps-vignette.html#cb49-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">fill=</span>Value,<span class="at">colour=</span>Value)) <span class="sc">+</span></span>
-<span id="cb49-26"><a href="aussiemaps-vignette.html#cb49-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>() <span class="sc">+</span></span>
-<span id="cb49-27"><a href="aussiemaps-vignette.html#cb49-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_continuous</span>()<span class="sc">+</span></span>
-<span id="cb49-28"><a href="aussiemaps-vignette.html#cb49-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">&quot;Chileans in Bribane&#39;s Federal Electorates&quot;</span>) <span class="sc">+</span></span>
-<span id="cb49-29"><a href="aussiemaps-vignette.html#cb49-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>()</span></code></pre></div>
-<p><img src="MSc-Project---Carlos-YANEZ-SANTIBANEZ_files/figure-html/unnamed-chunk-46-1.png" width="672" /></p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="aussiemaps-vignette.html#cb33-1" aria-hidden="true" tabindex="-1"></a>attr <span class="ot">&lt;-</span> <span class="fu">list_structure</span>(<span class="at">year=</span><span class="dv">2021</span>,<span class="at">filters=</span><span class="fu">list</span>(<span class="at">GCCSA_NAME_2021=</span><span class="fu">c</span>(<span class="st">&quot;Brisbane&quot;</span>))) <span class="sc">|&gt;</span></span>
+<span id="cb33-2"><a href="aussiemaps-vignette.html#cb33-2" aria-hidden="true" tabindex="-1"></a>        <span class="fu">distinct</span>(SA2_CODE_2021)</span>
+<span id="cb33-3"><a href="aussiemaps-vignette.html#cb33-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-4"><a href="aussiemaps-vignette.html#cb33-4" aria-hidden="true" tabindex="-1"></a>chileans_sa2 <span class="ot">&lt;-</span> auscensus<span class="sc">::</span><span class="fu">get_census_summary</span>(<span class="at">table_number=</span> <span class="st">&quot;09&quot;</span>,</span>
+<span id="cb33-5"><a href="aussiemaps-vignette.html#cb33-5" aria-hidden="true" tabindex="-1"></a>                                          <span class="at">selected_years =</span> <span class="st">&quot;2021&quot;</span>,</span>
+<span id="cb33-6"><a href="aussiemaps-vignette.html#cb33-6" aria-hidden="true" tabindex="-1"></a>                                          <span class="at">geo_structure =</span> <span class="st">&quot;SA2&quot;</span>,</span>
+<span id="cb33-7"><a href="aussiemaps-vignette.html#cb33-7" aria-hidden="true" tabindex="-1"></a>                                          <span class="at">geo_unit_codes =</span>     attr<span class="sc">$</span>SA2_CODE_2021,</span>
+<span id="cb33-8"><a href="aussiemaps-vignette.html#cb33-8" aria-hidden="true" tabindex="-1"></a>                                          <span class="at">attribute =</span> <span class="fu">list</span>(<span class="at">Chileans=</span><span class="fu">c</span>(<span class="st">&quot;Persons_chile_total&quot;</span>))) <span class="sc">|&gt;</span></span>
+<span id="cb33-9"><a href="aussiemaps-vignette.html#cb33-9" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">rename</span>(<span class="st">&quot;SA2_CODE_2021&quot;</span><span class="ot">=</span><span class="st">&quot;Census_Code&quot;</span>)</span>
+<span id="cb33-10"><a href="aussiemaps-vignette.html#cb33-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-11"><a href="aussiemaps-vignette.html#cb33-11" aria-hidden="true" tabindex="-1"></a><span class="co"># please note these Electoral divisions are not built from SA2s - proportional allocation will result in factional </span></span>
+<span id="cb33-12"><a href="aussiemaps-vignette.html#cb33-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Therefore - This is an approximation</span></span>
+<span id="cb33-13"><a href="aussiemaps-vignette.html#cb33-13" aria-hidden="true" tabindex="-1"></a>chileans <span class="ot">&lt;-</span> <span class="fu">geo_aggregate</span>(<span class="at">original_data =</span> chileans_sa2,</span>
+<span id="cb33-14"><a href="aussiemaps-vignette.html#cb33-14" aria-hidden="true" tabindex="-1"></a>                          <span class="at">values_col =</span> <span class="st">&quot;Value&quot;</span>,</span>
+<span id="cb33-15"><a href="aussiemaps-vignette.html#cb33-15" aria-hidden="true" tabindex="-1"></a>                          <span class="at">original_geo =</span> <span class="st">&quot;SA2_CODE_2021&quot;</span>,</span>
+<span id="cb33-16"><a href="aussiemaps-vignette.html#cb33-16" aria-hidden="true" tabindex="-1"></a>                          <span class="at">new_geo      =</span> <span class="st">&quot;CED_NAME_2021&quot;</span>,</span>
+<span id="cb33-17"><a href="aussiemaps-vignette.html#cb33-17" aria-hidden="true" tabindex="-1"></a>                          <span class="at">grouping_col =</span>   <span class="fu">c</span>(<span class="st">&quot;Year&quot;</span>,<span class="st">&quot;Attribute&quot;</span>),</span>
+<span id="cb33-18"><a href="aussiemaps-vignette.html#cb33-18" aria-hidden="true" tabindex="-1"></a>                          <span class="at">year=</span><span class="dv">2021</span>) <span class="sc">|&gt;</span></span>
+<span id="cb33-19"><a href="aussiemaps-vignette.html#cb33-19" aria-hidden="true" tabindex="-1"></a>            <span class="fu">rename</span>(<span class="st">&quot;Unit&quot;</span><span class="ot">=</span><span class="st">&quot;CED_NAME_2021&quot;</span>)</span>
+<span id="cb33-20"><a href="aussiemaps-vignette.html#cb33-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-21"><a href="aussiemaps-vignette.html#cb33-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-22"><a href="aussiemaps-vignette.html#cb33-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-23"><a href="aussiemaps-vignette.html#cb33-23" aria-hidden="true" tabindex="-1"></a>brisbane_ced <span class="sc">|&gt;</span></span>
+<span id="cb33-24"><a href="aussiemaps-vignette.html#cb33-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(chileans,<span class="at">by=</span><span class="fu">c</span>(<span class="st">&quot;CED_NAME_2021&quot;</span><span class="ot">=</span><span class="st">&quot;Unit&quot;</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb33-25"><a href="aussiemaps-vignette.html#cb33-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">fill=</span>Value,<span class="at">colour=</span>Value)) <span class="sc">+</span></span>
+<span id="cb33-26"><a href="aussiemaps-vignette.html#cb33-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>() <span class="sc">+</span></span>
+<span id="cb33-27"><a href="aussiemaps-vignette.html#cb33-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_continuous</span>()<span class="sc">+</span></span>
+<span id="cb33-28"><a href="aussiemaps-vignette.html#cb33-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">&quot;Chileans in Bribane&#39;s Federal Electorates&quot;</span>) <span class="sc">+</span></span>
+<span id="cb33-29"><a href="aussiemaps-vignette.html#cb33-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>()</span></code></pre></div>
+<p><img src="MSc-Project---Carlos-YANEZ-SANTIBANEZ_files/figure-html/unnamed-chunk-47-1.png" width="672" /></p>
 
 </div>
 </div>

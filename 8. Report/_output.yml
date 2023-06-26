@@ -14,17 +14,16 @@ bookdown::pdf_book:
   number_sections: yes
   toc: no
   md_extensions: +yaml_metadata_block
-  citation_package: natbib
   keep_tex: yes
 bookdown::epub_book: default
 documentclass   : book   # article (default) report
 classoption: openany
 fontsize        : 11pt      # 10pt 11pt (default) 12pt
 lang            : en-AU   
-bibliography: ["book.bib", "packages.bib", "references.bib"]
+bibliography: book.bib
 citation_package: none
 link-citations: yes
 delete_merged_file: true
 language:
   ui:
-    chapter_name: "Section"
+    chapter_name: " "

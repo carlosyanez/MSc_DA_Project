@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Analysing Australian Electoral Results</title>
+  <meta name="description" content="Analysing Australian Electoral Results" />
+  <meta name="generator" content="bookdown 0.34 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Analysing Australian Electoral Results" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Analysing Australian Electoral Results" />
+  
+  
+  
+
+<meta name="author" content="Carlos Yanez Santibanez" />
+
+
+<meta name="date" content="2023-06-26" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+
+<link rel="next" href="abstract.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<script src="libs/htmlwidgets-1.6.1/htmlwidgets.js"></script>
+<script src="libs/plotly-binding-4.10.1/plotly.js"></script>
+<script src="libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
+<link href="libs/plotly-htmlwidgets-css-2.11.1/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="libs/plotly-main-2.11.1/plotly-latest.min.js"></script>
+<link href="libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-1.3.1/leaflet.js"></script>
+<link href="libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
+<script src="libs/proj4-2.6.2/proj4.min.js"></script>
+<script src="libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+<link href="libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-binding-2.1.1/leaflet.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Understanding demographic impact on Primary votes</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="cover-page.html"><a href="cover-page.html"><i class="fa fa-check"></i>Cover Page</a></li>
+<li class="chapter" data-level="" data-path="abstract.html"><a href="abstract.html"><i class="fa fa-check"></i>Abstract</a></li>
+<li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="intro.html"><a href="intro.html#a-brief-introduction-to-australias-political-system"><i class="fa fa-check"></i><b>1.1</b> A brief introduction to Australia’s political system</a></li>
+<li class="chapter" data-level="1.2" data-path="intro.html"><a href="intro.html#australian-political-landscape"><i class="fa fa-check"></i><b>1.2</b> Australian Political landscape</a></li>
+<li class="chapter" data-level="1.3" data-path="intro.html"><a href="intro.html#problem-statement"><i class="fa fa-check"></i><b>1.3</b> Problem statement and research questions</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="data.html"><a href="data.html"><i class="fa fa-check"></i><b>2</b> Data</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="data.html"><a href="data.html#data-sources"><i class="fa fa-check"></i><b>2.1</b> Data Sources</a></li>
+<li class="chapter" data-level="2.2" data-path="data.html"><a href="data.html#data-selection"><i class="fa fa-check"></i><b>2.2</b> Data Selection and Initial Transformation</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="data.html"><a href="data.html#how-to-present-the-numbers"><i class="fa fa-check"></i><b>2.2.1</b> How to present the numbers</a></li>
+<li class="chapter" data-level="2.2.2" data-path="data.html"><a href="data.html#data-selection-electoral"><i class="fa fa-check"></i><b>2.2.2</b> Electoral Data</a></li>
+<li class="chapter" data-level="2.2.3" data-path="data.html"><a href="data.html#census-data"><i class="fa fa-check"></i><b>2.2.3</b> Census Data</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="data.html"><a href="data.html#training-validation-and-testing-split"><i class="fa fa-check"></i><b>2.3</b> Training, Validation and Testing Split</a></li>
+<li class="chapter" data-level="2.4" data-path="data.html"><a href="data.html#eda"><i class="fa fa-check"></i><b>2.4</b> Data Exploration</a>
+<ul>
+<li class="chapter" data-level="2.4.1" data-path="data.html"><a href="data.html#data-mfa"><i class="fa fa-check"></i><b>2.4.1</b> Dimensionality reduction using Multiple Factor Analysis</a></li>
+<li class="chapter" data-level="2.4.2" data-path="data.html"><a href="data.html#data-clusters"><i class="fa fa-check"></i><b>2.4.2</b> Electorate segments</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="method.html"><a href="method.html"><i class="fa fa-check"></i><b>3</b> Method</a></li>
+<li class="chapter" data-level="4" data-path="modelling.html"><a href="modelling.html"><i class="fa fa-check"></i><b>4</b> Fitting and analysing a model</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="modelling.html"><a href="modelling.html#clusterclassifier"><i class="fa fa-check"></i><b>4.1</b> Cluster classification</a></li>
+<li class="chapter" data-level="4.2" data-path="modelling.html"><a href="modelling.html#glmnet-regression"><i class="fa fa-check"></i><b>4.2</b> Regularised regression</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="results.html"><a href="results.html"><i class="fa fa-check"></i><b>5</b> Results</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="results.html"><a href="results.html#id_2021prediction"><i class="fa fa-check"></i><b>5.1</b> Forecasting the 2022 Federal Election</a></li>
+<li class="chapter" data-level="5.2" data-path="results.html"><a href="results.html#the-teal-wave"><i class="fa fa-check"></i><b>5.2</b> The Teal Wave</a></li>
+<li class="chapter" data-level="5.3" data-path="results.html"><a href="results.html#green-wave"><i class="fa fa-check"></i><b>5.3</b> The Green Wave</a></li>
+<li class="chapter" data-level="5.4" data-path="results.html"><a href="results.html#the-changing-face-of-suburbia"><i class="fa fa-check"></i><b>5.4</b> The Changing Face of Suburbia</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i><b>6</b> Conclusion</a></li>
+<li class="appendix"><span><b>Appendix</b></span></li>
+<li class="chapter" data-level="A" data-path="appendix-variables.html"><a href="appendix-variables.html"><i class="fa fa-check"></i><b>A</b> Detailed list of variables</a>
+<ul>
+<li class="chapter" data-level="A.1" data-path="appendix-variables.html"><a href="appendix-variables.html#identification-variables"><i class="fa fa-check"></i><b>A.1</b> Identification variables</a></li>
+<li class="chapter" data-level="A.2" data-path="appendix-variables.html"><a href="appendix-variables.html#response-variables"><i class="fa fa-check"></i><b>A.2</b> Response Variables</a></li>
+<li class="chapter" data-level="A.3" data-path="appendix-variables.html"><a href="appendix-variables.html#covariates"><i class="fa fa-check"></i><b>A.3</b> Covariates</a></li>
+</ul></li>
+<li class="chapter" data-level="B" data-path="appendix-packages.html"><a href="appendix-packages.html"><i class="fa fa-check"></i><b>B</b> R Packages</a>
+<ul>
+<li class="chapter" data-level="B.1" data-path="appendix-packages.html"><a href="appendix-packages.html#retrieving-distributing-and-storing-data."><i class="fa fa-check"></i><b>B.1</b> Retrieving, distributing and storing data.</a></li>
+<li class="chapter" data-level="B.2" data-path="appendix-packages.html"><a href="appendix-packages.html#processing-aggregating-and-presenting-results."><i class="fa fa-check"></i><b>B.2</b> Processing, aggregating and presenting results.</a></li>
+<li class="chapter" data-level="B.3" data-path="appendix-packages.html"><a href="appendix-packages.html#coding-and-documentation-practices"><i class="fa fa-check"></i><b>B.3</b> Coding and documentation practices</a></li>
+</ul></li>
+<li class="chapter" data-level="C" data-path="auspol-vignette.html"><a href="auspol-vignette.html"><i class="fa fa-check"></i><b>C</b> {auspol} Vignette</a>
+<ul>
+<li class="chapter" data-level="C.1" data-path="auspol-vignette.html"><a href="auspol-vignette.html#what-is-this"><i class="fa fa-check"></i><b>C.1</b> What is this?</a></li>
+<li class="chapter" data-level="C.2" data-path="auspol-vignette.html"><a href="auspol-vignette.html#getting-the-data"><i class="fa fa-check"></i><b>C.2</b> Getting the data</a></li>
+<li class="chapter" data-level="C.3" data-path="auspol-vignette.html"><a href="auspol-vignette.html#plotting"><i class="fa fa-check"></i><b>C.3</b> Plotting</a>
+<ul>
+<li class="chapter" data-level="C.3.1" data-path="auspol-vignette.html"><a href="auspol-vignette.html#historic-trends"><i class="fa fa-check"></i><b>C.3.1</b> Historic Trends</a></li>
+</ul></li>
+<li class="chapter" data-level="C.4" data-path="auspol-vignette.html"><a href="auspol-vignette.html#results-for-one-election"><i class="fa fa-check"></i><b>C.4</b> Results for one election</a></li>
+</ul></li>
+<li class="chapter" data-level="D" data-path="auscensus-vignette.html"><a href="auscensus-vignette.html"><i class="fa fa-check"></i><b>D</b> {auscensus} Vignette</a></li>
+<li class="chapter" data-level="E" data-path="aussiemaps-vignette.html"><a href="aussiemaps-vignette.html"><i class="fa fa-check"></i><b>E</b> {aussiemaps} Vignette</a>
+<ul>
+<li class="chapter" data-level="E.1" data-path="aussiemaps-vignette.html"><a href="aussiemaps-vignette.html#aussiemaps---yet-another-maps-package"><i class="fa fa-check"></i><b>E.1</b> {aussiemaps} - Yet another maps package</a></li>
+<li class="chapter" data-level="E.2" data-path="aussiemaps-vignette.html"><a href="aussiemaps-vignette.html#getting-started."><i class="fa fa-check"></i><b>E.2</b> Getting started.</a></li>
+<li class="chapter" data-level="E.3" data-path="aussiemaps-vignette.html"><a href="aussiemaps-vignette.html#filtering-via-regular-expressions"><i class="fa fa-check"></i><b>E.3</b> Filtering via regular expressions</a></li>
+<li class="chapter" data-level="E.4" data-path="aussiemaps-vignette.html"><a href="aussiemaps-vignette.html#even-more-complex-filtering"><i class="fa fa-check"></i><b>E.4</b> Even more complex filtering</a></li>
+<li class="chapter" data-level="E.5" data-path="aussiemaps-vignette.html"><a href="aussiemaps-vignette.html#aggregation"><i class="fa fa-check"></i><b>E.5</b> Aggregation</a></li>
+<li class="chapter" data-level="E.6" data-path="aussiemaps-vignette.html"><a href="aussiemaps-vignette.html#data-aggregation"><i class="fa fa-check"></i><b>E.6</b> Data Aggregation</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Analysing Australian Electoral Results</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="header">
+<h1 class="title">Analysing Australian Electoral Results</h1>
+<p class="author"><em>Carlos Yanez Santibanez</em></p>
+<p class="date"><em>26 June 2023</em></p>
+</div>
+<div id="cover-page" class="section level1 unnumbered hasAnchor">
+<h1>Cover Page<a href="cover-page.html#cover-page" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<br><br>
+<center>
+<p><b><i>
+To Lauren, thanks for her constant, never-ending support, encouragement and patience.</p>
+To her and Lucas, with whom I have made Australia home.
+</center>
+<p></b></i></p>
+<div style="page-break-after: always;"></div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+
+<a href="abstract.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
