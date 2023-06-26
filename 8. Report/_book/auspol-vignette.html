@@ -289,23 +289,162 @@ div.csl-indent {
 <p><em>get_house_primary_vote()</em> is the basic function to retrieve primary vote data published by the AEC. Without any arguments, it will deliver all the results for all elections, but it comes with parameters to facilitate filtering.
 For instance, to get the results for Brisbane for 2022:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="auspol-vignette.html#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">get_house_primary_vote</span>(<span class="at">division=</span><span class="st">&quot;Brisbane&quot;</span>,<span class="at">year=</span><span class="dv">2022</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 344 × 17
+##     Year StateAb DivisionID DivisionNm PollingPlaceID PollingPlace CandidateID Surname  GivenNm     BallotPosition Elected HistoricElected
+##    &lt;dbl&gt; &lt;chr&gt;        &lt;int&gt; &lt;chr&gt;               &lt;int&gt; &lt;chr&gt;              &lt;int&gt; &lt;chr&gt;    &lt;chr&gt;                &lt;int&gt; &lt;lgl&gt;   &lt;lgl&gt;          
+##  1  2022 QLD            156 Brisbane            83397 Alderley           37204 KENNEDY  Tiana                    1 FALSE   FALSE          
+##  2  2022 QLD            156 Brisbane            83397 Alderley           35972 KNUDSON  Justin Marc              2 FALSE   FALSE          
+##  3  2022 QLD            156 Brisbane            83397 Alderley           37338 BATES    Stephen                  3 TRUE    FALSE          
+##  4  2022 QLD            156 Brisbane            83397 Alderley           37230 JARRETT  Madonna                  4 FALSE   FALSE          
+##  5  2022 QLD            156 Brisbane            83397 Alderley           37482 EVANS    Trevor                   5 FALSE   TRUE           
+##  6  2022 QLD            156 Brisbane            83397 Alderley           38213 HOLD     Trevor                   6 FALSE   FALSE          
+##  7  2022 QLD            156 Brisbane            83397 Alderley           37311 BULL     Anthony                  7 FALSE   FALSE          
+##  8  2022 QLD            156 Brisbane            83397 Alderley             999 Informal Informal               999 FALSE   FALSE          
+##  9  2022 QLD            156 Brisbane             6017 Ascot              37204 KENNEDY  Tiana                    1 FALSE   FALSE          
+## 10  2022 QLD            156 Brisbane             6017 Ascot              35972 KNUDSON  Justin Marc              2 FALSE   FALSE          
+## # ℹ 334 more rows
+## # ℹ 5 more variables: PartyAb &lt;chr&gt;, PartyNm &lt;chr&gt;, OrdinaryVotes &lt;int&gt;, Swing &lt;dbl&gt;, SittingMemberFl &lt;lgl&gt;</code></pre>
 <p>Both parameters can include more than one value, e.g.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="auspol-vignette.html#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">get_house_primary_vote</span>(<span class="at">division=</span><span class="st">&quot;Brisbane&quot;</span>,<span class="at">year=</span><span class="fu">c</span>(<span class="dv">2019</span>,<span class="dv">2022</span>))</span></code></pre></div>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="auspol-vignette.html#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">get_house_primary_vote</span>(<span class="at">division=</span><span class="fu">c</span>(<span class="st">&quot;Brisbane&quot;</span>,<span class="st">&quot;Perth&quot;</span>),<span class="at">year=</span><span class="fu">c</span>(<span class="dv">2019</span>,<span class="dv">2022</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="auspol-vignette.html#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">get_house_primary_vote</span>(<span class="at">division=</span><span class="st">&quot;Brisbane&quot;</span>,<span class="at">year=</span><span class="fu">c</span>(<span class="dv">2019</span>,<span class="dv">2022</span>))</span></code></pre></div>
+<pre><code>## # A tibble: 712 × 17
+##     Year StateAb DivisionID DivisionNm PollingPlaceID PollingPlace CandidateID Surname  GivenNm     BallotPosition Elected HistoricElected
+##    &lt;dbl&gt; &lt;chr&gt;        &lt;int&gt; &lt;chr&gt;               &lt;int&gt; &lt;chr&gt;              &lt;int&gt; &lt;chr&gt;    &lt;chr&gt;                &lt;int&gt; &lt;lgl&gt;   &lt;lgl&gt;          
+##  1  2022 QLD            156 Brisbane            83397 Alderley           37204 KENNEDY  Tiana                    1 FALSE   FALSE          
+##  2  2022 QLD            156 Brisbane            83397 Alderley           35972 KNUDSON  Justin Marc              2 FALSE   FALSE          
+##  3  2022 QLD            156 Brisbane            83397 Alderley           37338 BATES    Stephen                  3 TRUE    FALSE          
+##  4  2022 QLD            156 Brisbane            83397 Alderley           37230 JARRETT  Madonna                  4 FALSE   FALSE          
+##  5  2022 QLD            156 Brisbane            83397 Alderley           37482 EVANS    Trevor                   5 FALSE   TRUE           
+##  6  2022 QLD            156 Brisbane            83397 Alderley           38213 HOLD     Trevor                   6 FALSE   FALSE          
+##  7  2022 QLD            156 Brisbane            83397 Alderley           37311 BULL     Anthony                  7 FALSE   FALSE          
+##  8  2022 QLD            156 Brisbane            83397 Alderley             999 Informal Informal               999 FALSE   FALSE          
+##  9  2022 QLD            156 Brisbane             6017 Ascot              37204 KENNEDY  Tiana                    1 FALSE   FALSE          
+## 10  2022 QLD            156 Brisbane             6017 Ascot              35972 KNUDSON  Justin Marc              2 FALSE   FALSE          
+## # ℹ 702 more rows
+## # ℹ 5 more variables: PartyAb &lt;chr&gt;, PartyNm &lt;chr&gt;, OrdinaryVotes &lt;int&gt;, Swing &lt;dbl&gt;, SittingMemberFl &lt;lgl&gt;</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="auspol-vignette.html#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">get_house_primary_vote</span>(<span class="at">division=</span><span class="fu">c</span>(<span class="st">&quot;Brisbane&quot;</span>,<span class="st">&quot;Perth&quot;</span>),<span class="at">year=</span><span class="fu">c</span>(<span class="dv">2019</span>,<span class="dv">2022</span>))</span></code></pre></div>
+<pre><code>## # A tibble: 1,783 × 17
+##     Year StateAb DivisionID DivisionNm PollingPlaceID PollingPlace CandidateID Surname  GivenNm     BallotPosition Elected HistoricElected
+##    &lt;dbl&gt; &lt;chr&gt;        &lt;int&gt; &lt;chr&gt;               &lt;int&gt; &lt;chr&gt;              &lt;int&gt; &lt;chr&gt;    &lt;chr&gt;                &lt;int&gt; &lt;lgl&gt;   &lt;lgl&gt;          
+##  1  2022 QLD            156 Brisbane            83397 Alderley           37204 KENNEDY  Tiana                    1 FALSE   FALSE          
+##  2  2022 QLD            156 Brisbane            83397 Alderley           35972 KNUDSON  Justin Marc              2 FALSE   FALSE          
+##  3  2022 QLD            156 Brisbane            83397 Alderley           37338 BATES    Stephen                  3 TRUE    FALSE          
+##  4  2022 QLD            156 Brisbane            83397 Alderley           37230 JARRETT  Madonna                  4 FALSE   FALSE          
+##  5  2022 QLD            156 Brisbane            83397 Alderley           37482 EVANS    Trevor                   5 FALSE   TRUE           
+##  6  2022 QLD            156 Brisbane            83397 Alderley           38213 HOLD     Trevor                   6 FALSE   FALSE          
+##  7  2022 QLD            156 Brisbane            83397 Alderley           37311 BULL     Anthony                  7 FALSE   FALSE          
+##  8  2022 QLD            156 Brisbane            83397 Alderley             999 Informal Informal               999 FALSE   FALSE          
+##  9  2022 QLD            156 Brisbane             6017 Ascot              37204 KENNEDY  Tiana                    1 FALSE   FALSE          
+## 10  2022 QLD            156 Brisbane             6017 Ascot              35972 KNUDSON  Justin Marc              2 FALSE   FALSE          
+## # ℹ 1,773 more rows
+## # ℹ 5 more variables: PartyAb &lt;chr&gt;, PartyNm &lt;chr&gt;, OrdinaryVotes &lt;int&gt;, Swing &lt;dbl&gt;, SittingMemberFl &lt;lgl&gt;</code></pre>
 <p>By default, the results are presented by polling place, with the possibility to aggregate them.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="auspol-vignette.html#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">get_house_primary_vote</span>(<span class="at">division=</span><span class="fu">c</span>(<span class="st">&quot;Brisbane&quot;</span>,<span class="st">&quot;Perth&quot;</span>),<span class="at">year=</span><span class="fu">c</span>(<span class="dv">2019</span>,<span class="dv">2022</span>),<span class="at">aggregation =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="auspol-vignette.html#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">get_house_primary_vote</span>(<span class="at">division=</span><span class="fu">c</span>(<span class="st">&quot;Brisbane&quot;</span>,<span class="st">&quot;Perth&quot;</span>),<span class="at">year=</span><span class="fu">c</span>(<span class="dv">2019</span>,<span class="dv">2022</span>), <span class="at">polling_places =</span> <span class="fu">c</span>(<span class="st">&quot;Yokine North&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="auspol-vignette.html#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">get_house_primary_vote</span>(<span class="at">division=</span><span class="fu">c</span>(<span class="st">&quot;Brisbane&quot;</span>,<span class="st">&quot;Perth&quot;</span>),<span class="at">year=</span><span class="fu">c</span>(<span class="dv">2019</span>,<span class="dv">2022</span>),<span class="at">aggregation =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 37 × 14
+##     Year StateAb DivisionID DivisionNm CandidateID Surname   GivenNm BallotPosition Elected HistoricElected PartyAb PartyNm SittingMemberFl
+##    &lt;dbl&gt; &lt;chr&gt;        &lt;int&gt; &lt;chr&gt;            &lt;int&gt; &lt;chr&gt;     &lt;chr&gt;            &lt;int&gt; &lt;lgl&gt;   &lt;lgl&gt;           &lt;chr&gt;   &lt;chr&gt;   &lt;lgl&gt;          
+##  1  2019 QLD            156 Brisbane           999 Informal  Inform…            999 FALSE   FALSE           Inform… Inform… FALSE          
+##  2  2019 QLD            156 Brisbane         32751 PERRY     Anne                 1 FALSE   FALSE           ON      Paulin… FALSE          
+##  3  2019 QLD            156 Brisbane         32946 NEWBURY   Paul                 6 FALSE   FALSE           ALP     Austra… FALSE          
+##  4  2019 QLD            156 Brisbane         32960 WHITTAKER Aaron                3 FALSE   FALSE           UAPP    United… FALSE          
+##  5  2019 QLD            156 Brisbane         33144 BARTLETT  Andrew               4 FALSE   FALSE           GRN     The Gr… FALSE          
+##  6  2019 QLD            156 Brisbane         33206 EVANS     Trevor               2 TRUE    TRUE            LNP     Libera… FALSE          
+##  7  2019 QLD            156 Brisbane         33224 EMANUEL   Kamala               7 FALSE   FALSE           SAL     Social… FALSE          
+##  8  2019 QLD            156 Brisbane         33326 JEANNERET Rod                  5 FALSE   FALSE           FACN    FRASER… FALSE          
+##  9  2019 WA             245 Perth              999 Informal  Inform…            999 FALSE   FALSE           Inform… Inform… FALSE          
+## 10  2019 WA             245 Perth            32155 PERKS     Caroli…              6 FALSE   FALSE           GRN     The Gr… FALSE          
+## # ℹ 27 more rows
+## # ℹ 1 more variable: OrdinaryVotes &lt;int&gt;</code></pre>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="auspol-vignette.html#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">get_house_primary_vote</span>(<span class="at">division=</span><span class="fu">c</span>(<span class="st">&quot;Brisbane&quot;</span>,<span class="st">&quot;Perth&quot;</span>),<span class="at">year=</span><span class="fu">c</span>(<span class="dv">2019</span>,<span class="dv">2022</span>), <span class="at">polling_places =</span> <span class="fu">c</span>(<span class="st">&quot;Yokine North&quot;</span>))</span></code></pre></div>
+<pre><code>## # A tibble: 12 × 17
+##     Year StateAb DivisionID DivisionNm PollingPlaceID PollingPlace CandidateID Surname       GivenNm BallotPosition Elected HistoricElected
+##    &lt;dbl&gt; &lt;chr&gt;        &lt;int&gt; &lt;chr&gt;               &lt;int&gt; &lt;chr&gt;              &lt;int&gt; &lt;chr&gt;         &lt;chr&gt;            &lt;int&gt; &lt;lgl&gt;   &lt;lgl&gt;          
+##  1  2022 WA             245 Perth                8203 Yokine North       37417 BAILEY        Cameron              1 FALSE   FALSE          
+##  2  2022 WA             245 Perth                8203 Yokine North       36515 POWELL        Dean                 2 FALSE   FALSE          
+##  3  2022 WA             245 Perth                8203 Yokine North       37748 CONNOR        Sean                 3 FALSE   FALSE          
+##  4  2022 WA             245 Perth                8203 Yokine North       37803 VOS           Dave                 4 FALSE   FALSE          
+##  5  2022 WA             245 Perth                8203 Yokine North       37233 SZMEKURA-MOOR Sarah                5 FALSE   FALSE          
+##  6  2022 WA             245 Perth                8203 Yokine North       37327 GORMAN        Patrick              6 TRUE    TRUE           
+##  7  2022 WA             245 Perth                8203 Yokine North       37273 NICKOLS       Evan                 7 FALSE   FALSE          
+##  8  2022 WA             245 Perth                8203 Yokine North       36507 EBERHART      Sonya …              8 FALSE   FALSE          
+##  9  2022 WA             245 Perth                8203 Yokine North       36628 PERKS         Caroli…              9 FALSE   FALSE          
+## 10  2022 WA             245 Perth                8203 Yokine North       36601 DWYER         David               10 FALSE   FALSE          
+## 11  2022 WA             245 Perth                8203 Yokine North       37290 GYURU         Aiden               11 FALSE   FALSE          
+## 12  2022 WA             245 Perth                8203 Yokine North         999 Informal      Inform…            999 FALSE   FALSE          
+## # ℹ 5 more variables: PartyAb &lt;chr&gt;, PartyNm &lt;chr&gt;, OrdinaryVotes &lt;int&gt;, Swing &lt;dbl&gt;, SittingMemberFl &lt;lgl&gt;</code></pre>
 <p>It is also possible to restrict the results to selected polling places</p>
 <p>Additionally, it is possible to select one or more states instead of a group of divisions, e.g.:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="auspol-vignette.html#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">get_house_primary_vote</span>(<span class="at">state=</span><span class="fu">c</span>(<span class="st">&quot;TAS&quot;</span>),<span class="at">year=</span><span class="fu">c</span>(<span class="dv">2019</span>,<span class="dv">2022</span>),<span class="at">aggregation =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="auspol-vignette.html#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">get_house_primary_vote</span>(<span class="at">state=</span><span class="fu">c</span>(<span class="st">&quot;TAS&quot;</span>),<span class="at">year=</span><span class="fu">c</span>(<span class="dv">2019</span>,<span class="dv">2022</span>),<span class="at">aggregation =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 86 × 14
+##     Year StateAb DivisionID DivisionNm CandidateID Surname  GivenNm  BallotPosition Elected HistoricElected PartyAb PartyNm SittingMemberFl
+##    &lt;dbl&gt; &lt;chr&gt;        &lt;int&gt; &lt;chr&gt;            &lt;int&gt; &lt;chr&gt;    &lt;chr&gt;             &lt;int&gt; &lt;lgl&gt;   &lt;lgl&gt;           &lt;chr&gt;   &lt;chr&gt;   &lt;lgl&gt;          
+##  1  2019 TAS            192 Bass               999 Informal Informal            999 FALSE   FALSE           Inform… Inform… FALSE          
+##  2  2019 TAS            192 Bass             32124 ARCHER   Bridget               4 TRUE    FALSE           LP      Liberal FALSE          
+##  3  2019 TAS            192 Bass             32327 HART     Ross                  2 FALSE   TRUE            ALP     Austra… FALSE          
+##  4  2019 TAS            192 Bass             32379 WOODBURY Susan                 3 FALSE   FALSE           AJP     Animal… FALSE          
+##  5  2019 TAS            192 Bass             32399 COOPER   Carl                  7 FALSE   FALSE           NP      The Na… FALSE          
+##  6  2019 TAS            192 Bass             32540 HALL     Tom                   1 FALSE   FALSE           GRN     The Gr… FALSE          
+##  7  2019 TAS            192 Bass             32545 ROARK    Allan J…              6 FALSE   FALSE           UAPP    United… FALSE          
+##  8  2019 TAS            192 Bass             33590 LAMBERT  Todd                  5 FALSE   FALSE           IND     Indepe… FALSE          
+##  9  2019 TAS            193 Braddon            999 Informal Informal            999 FALSE   FALSE           Inform… Inform… FALSE          
+## 10  2019 TAS            193 Braddon          32094 BRAKEY   Craig                 2 FALSE   FALSE           IND     Indepe… FALSE          
+## # ℹ 76 more rows
+## # ℹ 1 more variable: OrdinaryVotes &lt;int&gt;</code></pre>
 <p>It is also possible to filter results by one or more parties:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="auspol-vignette.html#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">get_house_primary_vote</span>(<span class="at">state=</span><span class="fu">c</span>(<span class="st">&quot;NT&quot;</span>),<span class="at">year=</span><span class="fu">c</span>(<span class="dv">2019</span>,<span class="dv">2022</span>),<span class="at">aggregation =</span> <span class="cn">TRUE</span>, <span class="at">party_abb=</span><span class="fu">c</span>(<span class="st">&quot;ALP&quot;</span>,<span class="st">&quot;CLP&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="auspol-vignette.html#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">get_house_primary_vote</span>(<span class="at">state=</span><span class="fu">c</span>(<span class="st">&quot;NT&quot;</span>),<span class="at">year=</span><span class="fu">c</span>(<span class="dv">2019</span>,<span class="dv">2022</span>),<span class="at">aggregation =</span> <span class="cn">TRUE</span>, <span class="at">party_abb=</span><span class="fu">c</span>(<span class="st">&quot;ALP&quot;</span>,<span class="st">&quot;CLP&quot;</span>))</span></code></pre></div>
+<pre><code>## # A tibble: 8 × 14
+##    Year StateAb DivisionID DivisionNm CandidateID Surname    GivenNm BallotPosition Elected HistoricElected PartyAb PartyNm SittingMemberFl
+##   &lt;dbl&gt; &lt;chr&gt;        &lt;int&gt; &lt;chr&gt;            &lt;int&gt; &lt;chr&gt;      &lt;chr&gt;            &lt;int&gt; &lt;lgl&gt;   &lt;lgl&gt;           &lt;chr&gt;   &lt;chr&gt;   &lt;lgl&gt;          
+## 1  2019 NT             306 Lingiari         32740 SNOWDON    Warren               1 TRUE    TRUE            ALP     Austra… FALSE          
+## 2  2019 NT             306 Lingiari         33045 PRICE      Jacinta              6 FALSE   FALSE           CLP     Countr… FALSE          
+## 3  2019 NT             307 Solomon          32743 GOSLING    Luke J…              1 TRUE    TRUE            ALP     Austra… FALSE          
+## 4  2019 NT             307 Solomon          33053 GANLEY     Kathy                3 FALSE   FALSE           CLP     Countr… FALSE          
+## 5  2022 NT             306 Lingiari         36968 RYAN       Damien               1 FALSE   FALSE           CLP     NT CLP  FALSE          
+## 6  2022 NT             306 Lingiari         37286 SCRYMGOUR  Marion               5 TRUE    FALSE           ALP     A.L.P.  FALSE          
+## 7  2022 NT             307 Solomon          36937 MACFARLANE Tina                 4 FALSE   FALSE           CLP     NT CLP  FALSE          
+## 8  2022 NT             307 Solomon          37280 GOSLING    Luke                 3 TRUE    TRUE            ALP     A.L.P.  FALSE          
+## # ℹ 1 more variable: OrdinaryVotes &lt;int&gt;</code></pre>
 <p><em>house_primary_vote_summary()</em> builds on the basic function and summarises data
 .</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="auspol-vignette.html#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">house_primary_vote_summary</span>(<span class="at">division =</span> <span class="st">&quot;Brisbane&quot;</span>, <span class="at">year=</span><span class="dv">2022</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="auspol-vignette.html#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">house_primary_vote_summary</span>(<span class="at">division =</span> <span class="st">&quot;Brisbane&quot;</span>, <span class="at">year=</span><span class="dv">2022</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 8 × 11
+##    Year StateAb DivisionNm PartyAb  PartyNm                         OrdinaryVotes GivenNm Surname Percentage_with_Info…¹ Percentage Elected
+##   &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;      &lt;chr&gt;    &lt;chr&gt;                                   &lt;int&gt; &lt;chr&gt;   &lt;chr&gt;                    &lt;dbl&gt;      &lt;dbl&gt; &lt;lgl&gt;  
+## 1  2022 QLD     Brisbane   AJP      Animal Justice Party                     1235 Tiana   KENNEDY                   1.65       1.68 FALSE  
+## 2  2022 QLD     Brisbane   ALP      Australian Labor Party                  20346 Madonna JARRETT                  27.1       27.7  FALSE  
+## 3  2022 QLD     Brisbane   GRN      Queensland Greens                       20985 Stephen BATES                    28.0       28.6  TRUE   
+## 4  2022 QLD     Brisbane   Informal Informal                                 1566 Inform… Inform…                   2.09       2.13 FALSE  
+## 5  2022 QLD     Brisbane   LDP      Liberal Democrats                        1115 Anthony BULL                      1.49       1.52 FALSE  
+## 6  2022 QLD     Brisbane   LNP      Liberal National Party of Quee…         26801 Trevor  EVANS                    35.7       36.5  FALSE  
+## 7  2022 QLD     Brisbane   ON       Pauline Hanson&#39;s One Nation              1518 Trevor  HOLD                      2.02       2.07 FALSE  
+## 8  2022 QLD     Brisbane   UAPP     United Australia Party                   1430 Justin… KNUDSON                   1.91       1.95 FALSE  
+## # ℹ abbreviated name: ¹​Percentage_with_Informal</code></pre>
 <p>Using the previous filters, it is possible to get ad-hoc summaries, for instance - all the ALP votes in Queensland in 2022, or the historic Liberal vote in Franklin.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="auspol-vignette.html#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">house_primary_vote_summary</span>(<span class="at">state =</span> <span class="st">&quot;QLD&quot;</span>, <span class="at">year=</span><span class="dv">2022</span>,<span class="at">parties=</span><span class="st">&quot;ALP&quot;</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="auspol-vignette.html#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">house_primary_vote_summary</span>(<span class="at">division=</span><span class="st">&quot;Franklin&quot;</span>,<span class="at">parties=</span><span class="st">&quot;LP&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="auspol-vignette.html#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">house_primary_vote_summary</span>(<span class="at">state =</span> <span class="st">&quot;QLD&quot;</span>, <span class="at">year=</span><span class="dv">2022</span>,<span class="at">parties=</span><span class="st">&quot;ALP&quot;</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 30 × 11
+##     Year StateAb DivisionNm  PartyAb PartyNm                OrdinaryVotes GivenNm Surname    Percentage_with_Informal Percentage Elected
+##    &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;       &lt;chr&gt;   &lt;chr&gt;                          &lt;int&gt; &lt;chr&gt;   &lt;chr&gt;                         &lt;dbl&gt;      &lt;dbl&gt; &lt;lgl&gt;  
+##  1  2022 QLD     Blair       ALP     Australian Labor Party         27323 Shayne  NEUMANN                        33.4       35.5 TRUE   
+##  2  2022 QLD     Bonner      ALP     Australian Labor Party         20930 Tabatha YOUNG                          29.3       30.0 FALSE  
+##  3  2022 QLD     Bowman      ALP     Australian Labor Party         23196 Donisha DUFF                           28.7       29.6 FALSE  
+##  4  2022 QLD     Brisbane    ALP     Australian Labor Party         20346 Madonna JARRETT                        27.1       27.7 FALSE  
+##  5  2022 QLD     Capricornia ALP     Australian Labor Party         20543 Russell ROBERTSON                      26.9       28.7 FALSE  
+##  6  2022 QLD     Dawson      ALP     Australian Labor Party         18921 Shane   HAMILTON                       23.8       24.9 FALSE  
+##  7  2022 QLD     Dickson     ALP     Australian Labor Party         22988 Ali     FRANCE                         31.0       32.3 FALSE  
+##  8  2022 QLD     Fadden      ALP     Australian Labor Party         18140 Letitia DEL FABBRO                     21.7       22.8 FALSE  
+##  9  2022 QLD     Fairfax     ALP     Australian Labor Party         18001 Sue     FERGUSON                       21.0       22.3 FALSE  
+## 10  2022 QLD     Fisher      ALP     Australian Labor Party         19804 Judene  ANDREWS                        22.9       23.7 FALSE  
+## # ℹ 20 more rows</code></pre>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="auspol-vignette.html#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">house_primary_vote_summary</span>(<span class="at">division=</span><span class="st">&quot;Franklin&quot;</span>,<span class="at">parties=</span><span class="st">&quot;LP&quot;</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 7 × 11
+##    Year StateAb DivisionNm PartyAb PartyNm OrdinaryVotes GivenNm      Surname Percentage_with_Informal Percentage Elected
+##   &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;      &lt;chr&gt;   &lt;chr&gt;           &lt;int&gt; &lt;chr&gt;        &lt;chr&gt;                      &lt;dbl&gt;      &lt;dbl&gt; &lt;lgl&gt;  
+## 1  2004 TAS     Franklin   LP      Liberal         21337 Henry        FINNIS                      37.6       39.0 FALSE  
+## 2  2007 TAS     Franklin   LP      Liberal         22616 Vanessa      GOODWIN                     39.8       41.0 FALSE  
+## 3  2010 TAS     Franklin   LP      Liberal         18386 Jane         HOWLETT                     32.0       33.3 FALSE  
+## 4  2013 TAS     Franklin   LP      Liberal         21867 Bernadette   BLACK                       37.1       38.7 FALSE  
+## 5  2016 TAS     Franklin   LP      Liberal         20754 Amanda-Sue   MARKHAM                     33.9       35.1 FALSE  
+## 6  2019 TAS     Franklin   LP      Liberal         18591 Dean         YOUNG                       29.9       30.9 FALSE  
+## 7  2022 TAS     Franklin   LP      Liberal         14374 Kristy Maree JOHNSON                     24.5       25.9 FALSE</code></pre>
 </div>
 <div id="plotting" class="section level2 hasAnchor" number="9.3">
 <h2><span class="header-section-number">C.3</span> Plotting<a href="auspol-vignette.html#plotting" class="anchor-section" aria-label="Anchor link to header"></a></h2>

@@ -275,138 +275,182 @@ div.csl-indent {
 <p><em>Extracted from <a href="https://carlosyanez.github.io/auscensus/articles/complex_case.html" class="uri">https://carlosyanez.github.io/auscensus/articles/complex_case.html</a> on Sunday 22 January 2023</em></p>
 <p>This vignette shows a more complex use case of auscensus. Let’s assume we want to extract the percentage of Australian Citizens for all Commonwealth Electoral Divisions, as measured in last 4 Censuses (2006-2021).</p>
 <p>An initial exploration shows that this data can be found in table 01 (across all four censuses) - which provided an statistical summary. However, is not published aggregated by electorate across all censuses.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="auscensus-vignette.html#cb11-1" aria-hidden="true" tabindex="-1"></a>census_tables <span class="ot">&lt;-</span> <span class="fu">list_census_tables</span>() </span>
-<span id="cb11-2"><a href="auscensus-vignette.html#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-3"><a href="auscensus-vignette.html#cb11-3" aria-hidden="true" tabindex="-1"></a>census_tables <span class="ot">&lt;-</span> census_tables <span class="sc">|&gt;</span></span>
-<span id="cb11-4"><a href="auscensus-vignette.html#cb11-4" aria-hidden="true" tabindex="-1"></a>                 <span class="fu">filter</span>(<span class="fu">if_any</span>(<span class="fu">any_of</span>(<span class="fu">c</span>(<span class="st">&quot;Number&quot;</span>)),<span class="sc">~</span> .x <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;01&quot;</span>))) </span>
-<span id="cb11-5"><a href="auscensus-vignette.html#cb11-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-6"><a href="auscensus-vignette.html#cb11-6" aria-hidden="true" tabindex="-1"></a>tables_summary <span class="ot">&lt;-</span> census_tables <span class="sc">|&gt;</span></span>
-<span id="cb11-7"><a href="auscensus-vignette.html#cb11-7" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">select</span>(<span class="sc">-</span><span class="fu">contains</span>(<span class="st">&quot;Table&quot;</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb11-8"><a href="auscensus-vignette.html#cb11-8" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">pivot_longer</span>(<span class="sc">-</span>Number, <span class="at">names_to=</span><span class="st">&quot;Year&quot;</span>,<span class="at">values_to =</span> <span class="st">&quot;Value&quot;</span>) <span class="sc">|&gt;</span></span>
-<span id="cb11-9"><a href="auscensus-vignette.html#cb11-9" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(Value)) <span class="sc">|&gt;</span></span>
-<span id="cb11-10"><a href="auscensus-vignette.html#cb11-10" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">select</span>(<span class="sc">-</span>Value)</span>
-<span id="cb11-11"><a href="auscensus-vignette.html#cb11-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-12"><a href="auscensus-vignette.html#cb11-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-13"><a href="auscensus-vignette.html#cb11-13" aria-hidden="true" tabindex="-1"></a><span class="fu">list_census_geo_tables</span>(<span class="at">year =</span> tables_summary<span class="sc">$</span>Year,<span class="at">geo=</span><span class="st">&quot;CED|CED_2007|CED_2004&quot;</span>,<span class="at">table_number =</span> tables_summary<span class="sc">$</span>Number) <span class="sc">|&gt;</span></span>
-<span id="cb11-14"><a href="auscensus-vignette.html#cb11-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Year=</span><span class="fu">as.character</span>(Year)) <span class="sc">|&gt;</span></span>
-<span id="cb11-15"><a href="auscensus-vignette.html#cb11-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">right_join</span>(tables_summary, <span class="at">by=</span><span class="fu">c</span>(<span class="st">&quot;table_number&quot;</span><span class="ot">=</span><span class="st">&quot;Number&quot;</span>,<span class="st">&quot;Year&quot;</span><span class="ot">=</span><span class="st">&quot;Year&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="auscensus-vignette.html#cb21-1" aria-hidden="true" tabindex="-1"></a>census_tables <span class="ot">&lt;-</span> <span class="fu">list_census_tables</span>() </span>
+<span id="cb21-2"><a href="auscensus-vignette.html#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-3"><a href="auscensus-vignette.html#cb21-3" aria-hidden="true" tabindex="-1"></a>census_tables <span class="ot">&lt;-</span> census_tables <span class="sc">|&gt;</span></span>
+<span id="cb21-4"><a href="auscensus-vignette.html#cb21-4" aria-hidden="true" tabindex="-1"></a>                 <span class="fu">filter</span>(<span class="fu">if_any</span>(<span class="fu">any_of</span>(<span class="fu">c</span>(<span class="st">&quot;Number&quot;</span>)),<span class="sc">~</span> .x <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;01&quot;</span>))) </span>
+<span id="cb21-5"><a href="auscensus-vignette.html#cb21-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-6"><a href="auscensus-vignette.html#cb21-6" aria-hidden="true" tabindex="-1"></a>tables_summary <span class="ot">&lt;-</span> census_tables <span class="sc">|&gt;</span></span>
+<span id="cb21-7"><a href="auscensus-vignette.html#cb21-7" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">select</span>(<span class="sc">-</span><span class="fu">contains</span>(<span class="st">&quot;Table&quot;</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb21-8"><a href="auscensus-vignette.html#cb21-8" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">pivot_longer</span>(<span class="sc">-</span>Number, <span class="at">names_to=</span><span class="st">&quot;Year&quot;</span>,<span class="at">values_to =</span> <span class="st">&quot;Value&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb21-9"><a href="auscensus-vignette.html#cb21-9" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(Value)) <span class="sc">|&gt;</span></span>
+<span id="cb21-10"><a href="auscensus-vignette.html#cb21-10" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">select</span>(<span class="sc">-</span>Value)</span>
+<span id="cb21-11"><a href="auscensus-vignette.html#cb21-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-12"><a href="auscensus-vignette.html#cb21-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-13"><a href="auscensus-vignette.html#cb21-13" aria-hidden="true" tabindex="-1"></a><span class="fu">list_census_geo_tables</span>(<span class="at">year =</span> tables_summary<span class="sc">$</span>Year,<span class="at">geo=</span><span class="st">&quot;CED|CED_2007|CED_2004&quot;</span>,<span class="at">table_number =</span> tables_summary<span class="sc">$</span>Number) <span class="sc">|&gt;</span></span>
+<span id="cb21-14"><a href="auscensus-vignette.html#cb21-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Year=</span><span class="fu">as.character</span>(Year)) <span class="sc">|&gt;</span></span>
+<span id="cb21-15"><a href="auscensus-vignette.html#cb21-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">right_join</span>(tables_summary, <span class="at">by=</span><span class="fu">c</span>(<span class="st">&quot;table_number&quot;</span><span class="ot">=</span><span class="st">&quot;Number&quot;</span>,<span class="st">&quot;Year&quot;</span><span class="ot">=</span><span class="st">&quot;Year&quot;</span>))</span></code></pre></div>
+<pre><code>## # A tibble: 4 × 3
+##   Year  table_number CED  
+##   &lt;chr&gt; &lt;chr&gt;        &lt;lgl&gt;
+## 1 2011  01           TRUE 
+## 2 2016  01           TRUE 
+## 3 2021  01           TRUE 
+## 4 2006  01           NA</code></pre>
 <p>Therefore, we will retrieve the data from the lowest statistical unit. However, SA1 were not available in 2006 - where the smallest area was a “CD”.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="auscensus-vignette.html#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">list_census_geo_tables</span>(<span class="at">year =</span> tables_summary<span class="sc">$</span>Year,<span class="at">geo=</span><span class="fu">c</span>(<span class="st">&quot;SA1|CD&quot;</span>),<span class="at">table_number =</span> tables_summary<span class="sc">$</span>Number) <span class="sc">|&gt;</span></span>
-<span id="cb12-2"><a href="auscensus-vignette.html#cb12-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">mutate</span>(<span class="at">Year=</span><span class="fu">as.character</span>(Year)) <span class="sc">|&gt;</span></span>
-<span id="cb12-3"><a href="auscensus-vignette.html#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">right_join</span>(tables_summary, <span class="at">by=</span><span class="fu">c</span>(<span class="st">&quot;table_number&quot;</span><span class="ot">=</span><span class="st">&quot;Number&quot;</span>,<span class="st">&quot;Year&quot;</span><span class="ot">=</span><span class="st">&quot;Year&quot;</span>)) </span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="auscensus-vignette.html#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">list_census_geo_tables</span>(<span class="at">year =</span> tables_summary<span class="sc">$</span>Year,<span class="at">geo=</span><span class="fu">c</span>(<span class="st">&quot;SA1|CD&quot;</span>),<span class="at">table_number =</span> tables_summary<span class="sc">$</span>Number) <span class="sc">|&gt;</span></span>
+<span id="cb23-2"><a href="auscensus-vignette.html#cb23-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">mutate</span>(<span class="at">Year=</span><span class="fu">as.character</span>(Year)) <span class="sc">|&gt;</span></span>
+<span id="cb23-3"><a href="auscensus-vignette.html#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">right_join</span>(tables_summary, <span class="at">by=</span><span class="fu">c</span>(<span class="st">&quot;table_number&quot;</span><span class="ot">=</span><span class="st">&quot;Number&quot;</span>,<span class="st">&quot;Year&quot;</span><span class="ot">=</span><span class="st">&quot;Year&quot;</span>)) </span></code></pre></div>
+<pre><code>## # A tibble: 4 × 4
+##   Year  table_number CD    SA1  
+##   &lt;chr&gt; &lt;chr&gt;        &lt;lgl&gt; &lt;lgl&gt;
+## 1 2006  01           TRUE  NA   
+## 2 2011  01           NA    TRUE 
+## 3 2016  01           NA    TRUE 
+## 4 2021  01           NA    TRUE</code></pre>
 <p>The next step is to figure the attributes for the numbers of Australian citizen and total population, which are presented below:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="auscensus-vignette.html#cb13-1" aria-hidden="true" tabindex="-1"></a>citizenship_attributes <span class="ot">&lt;-</span> <span class="fu">tibble</span>()</span>
-<span id="cb13-2"><a href="auscensus-vignette.html#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-3"><a href="auscensus-vignette.html#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(tables_summary)){</span>
-<span id="cb13-4"><a href="auscensus-vignette.html#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-5"><a href="auscensus-vignette.html#cb13-5" aria-hidden="true" tabindex="-1"></a>  table_i <span class="ot">&lt;-</span> tables_summary[i,]<span class="sc">$</span>Number</span>
-<span id="cb13-6"><a href="auscensus-vignette.html#cb13-6" aria-hidden="true" tabindex="-1"></a>  year_i  <span class="ot">&lt;-</span> tables_summary[i,]<span class="sc">$</span>Year</span>
-<span id="cb13-7"><a href="auscensus-vignette.html#cb13-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-8"><a href="auscensus-vignette.html#cb13-8" aria-hidden="true" tabindex="-1"></a>  attr_i <span class="ot">&lt;-</span> <span class="fu">list_census_attributes</span>(table_i) <span class="sc">|&gt;</span> </span>
-<span id="cb13-9"><a href="auscensus-vignette.html#cb13-9" aria-hidden="true" tabindex="-1"></a>             <span class="fu">pivot_longer</span>(<span class="sc">-</span><span class="fu">c</span>(Table,Attribute),</span>
-<span id="cb13-10"><a href="auscensus-vignette.html#cb13-10" aria-hidden="true" tabindex="-1"></a>                           <span class="at">names_to=</span><span class="st">&quot;Year&quot;</span>,<span class="at">values_to =</span> <span class="st">&quot;Value&quot;</span>) <span class="sc">|&gt;</span></span>
-<span id="cb13-11"><a href="auscensus-vignette.html#cb13-11" aria-hidden="true" tabindex="-1"></a>              <span class="fu">filter</span>(Year<span class="sc">==</span>year_i) <span class="sc">|&gt;</span></span>
-<span id="cb13-12"><a href="auscensus-vignette.html#cb13-12" aria-hidden="true" tabindex="-1"></a>              <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(Value)) <span class="sc">|&gt;</span></span>
-<span id="cb13-13"><a href="auscensus-vignette.html#cb13-13" aria-hidden="true" tabindex="-1"></a>              <span class="fu">select</span>(<span class="sc">-</span>Value)</span>
-<span id="cb13-14"><a href="auscensus-vignette.html#cb13-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-15"><a href="auscensus-vignette.html#cb13-15" aria-hidden="true" tabindex="-1"></a>  citizenship_attributes <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(attr_i,citizenship_attributes)</span>
-<span id="cb13-16"><a href="auscensus-vignette.html#cb13-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-17"><a href="auscensus-vignette.html#cb13-17" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb13-18"><a href="auscensus-vignette.html#cb13-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-19"><a href="auscensus-vignette.html#cb13-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-20"><a href="auscensus-vignette.html#cb13-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-21"><a href="auscensus-vignette.html#cb13-21" aria-hidden="true" tabindex="-1"></a>citizenship_attributes <span class="sc">|&gt;</span></span>
-<span id="cb13-22"><a href="auscensus-vignette.html#cb13-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>()</span></code></pre></div>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="auscensus-vignette.html#cb14-1" aria-hidden="true" tabindex="-1"></a>citizenship_attributes <span class="ot">&lt;-</span> citizenship_attributes   <span class="sc">|&gt;</span> </span>
-<span id="cb14-2"><a href="auscensus-vignette.html#cb14-2" aria-hidden="true" tabindex="-1"></a>                       <span class="fu">distinct</span>(Attribute,Year) <span class="sc">|&gt;</span></span>
-<span id="cb14-3"><a href="auscensus-vignette.html#cb14-3" aria-hidden="true" tabindex="-1"></a>                      <span class="fu">filter</span>(<span class="fu">str_detect</span>(Attribute,<span class="st">&quot;[Aa]ustralian&quot;</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb14-4"><a href="auscensus-vignette.html#cb14-4" aria-hidden="true" tabindex="-1"></a>                      <span class="fu">filter</span>(<span class="fu">str_detect</span>(Attribute,<span class="st">&quot;[Pp]erson&quot;</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb14-5"><a href="auscensus-vignette.html#cb14-5" aria-hidden="true" tabindex="-1"></a>                      <span class="fu">mutate</span>(<span class="at">dummy=</span><span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
-<span id="cb14-6"><a href="auscensus-vignette.html#cb14-6" aria-hidden="true" tabindex="-1"></a>                      <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> Year, <span class="at">values_from =</span> dummy)  <span class="sc">|&gt;</span></span>
-<span id="cb14-7"><a href="auscensus-vignette.html#cb14-7" aria-hidden="true" tabindex="-1"></a>                      <span class="fu">bind_rows</span>(</span>
-<span id="cb14-8"><a href="auscensus-vignette.html#cb14-8" aria-hidden="true" tabindex="-1"></a>                         citizenship_attributes   <span class="sc">|&gt;</span> </span>
-<span id="cb14-9"><a href="auscensus-vignette.html#cb14-9" aria-hidden="true" tabindex="-1"></a>                       <span class="fu">distinct</span>(Attribute,Year) <span class="sc">|&gt;</span></span>
-<span id="cb14-10"><a href="auscensus-vignette.html#cb14-10" aria-hidden="true" tabindex="-1"></a>                      <span class="fu">filter</span>(<span class="fu">str_detect</span>(Attribute,<span class="st">&quot;^[Tt]otal&quot;</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb14-11"><a href="auscensus-vignette.html#cb14-11" aria-hidden="true" tabindex="-1"></a>                      <span class="fu">filter</span>(<span class="fu">str_detect</span>(Attribute,<span class="st">&quot;[Pp]ersons$&quot;</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb14-12"><a href="auscensus-vignette.html#cb14-12" aria-hidden="true" tabindex="-1"></a>                      <span class="fu">mutate</span>(<span class="at">dummy=</span><span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
-<span id="cb14-13"><a href="auscensus-vignette.html#cb14-13" aria-hidden="true" tabindex="-1"></a>                      <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> Year, <span class="at">values_from =</span> dummy)</span>
-<span id="cb14-14"><a href="auscensus-vignette.html#cb14-14" aria-hidden="true" tabindex="-1"></a>                      )</span>
-<span id="cb14-15"><a href="auscensus-vignette.html#cb14-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-16"><a href="auscensus-vignette.html#cb14-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-17"><a href="auscensus-vignette.html#cb14-17" aria-hidden="true" tabindex="-1"></a>citizenship_attributes </span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="auscensus-vignette.html#cb25-1" aria-hidden="true" tabindex="-1"></a>citizenship_attributes <span class="ot">&lt;-</span> <span class="fu">tibble</span>()</span>
+<span id="cb25-2"><a href="auscensus-vignette.html#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-3"><a href="auscensus-vignette.html#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(tables_summary)){</span>
+<span id="cb25-4"><a href="auscensus-vignette.html#cb25-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-5"><a href="auscensus-vignette.html#cb25-5" aria-hidden="true" tabindex="-1"></a>  table_i <span class="ot">&lt;-</span> tables_summary[i,]<span class="sc">$</span>Number</span>
+<span id="cb25-6"><a href="auscensus-vignette.html#cb25-6" aria-hidden="true" tabindex="-1"></a>  year_i  <span class="ot">&lt;-</span> tables_summary[i,]<span class="sc">$</span>Year</span>
+<span id="cb25-7"><a href="auscensus-vignette.html#cb25-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-8"><a href="auscensus-vignette.html#cb25-8" aria-hidden="true" tabindex="-1"></a>  attr_i <span class="ot">&lt;-</span> <span class="fu">list_census_attributes</span>(table_i) <span class="sc">|&gt;</span> </span>
+<span id="cb25-9"><a href="auscensus-vignette.html#cb25-9" aria-hidden="true" tabindex="-1"></a>             <span class="fu">pivot_longer</span>(<span class="sc">-</span><span class="fu">c</span>(Table,Attribute),</span>
+<span id="cb25-10"><a href="auscensus-vignette.html#cb25-10" aria-hidden="true" tabindex="-1"></a>                           <span class="at">names_to=</span><span class="st">&quot;Year&quot;</span>,<span class="at">values_to =</span> <span class="st">&quot;Value&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb25-11"><a href="auscensus-vignette.html#cb25-11" aria-hidden="true" tabindex="-1"></a>              <span class="fu">filter</span>(Year<span class="sc">==</span>year_i) <span class="sc">|&gt;</span></span>
+<span id="cb25-12"><a href="auscensus-vignette.html#cb25-12" aria-hidden="true" tabindex="-1"></a>              <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(Value)) <span class="sc">|&gt;</span></span>
+<span id="cb25-13"><a href="auscensus-vignette.html#cb25-13" aria-hidden="true" tabindex="-1"></a>              <span class="fu">select</span>(<span class="sc">-</span>Value)</span>
+<span id="cb25-14"><a href="auscensus-vignette.html#cb25-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-15"><a href="auscensus-vignette.html#cb25-15" aria-hidden="true" tabindex="-1"></a>  citizenship_attributes <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(attr_i,citizenship_attributes)</span>
+<span id="cb25-16"><a href="auscensus-vignette.html#cb25-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-17"><a href="auscensus-vignette.html#cb25-17" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb25-18"><a href="auscensus-vignette.html#cb25-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-19"><a href="auscensus-vignette.html#cb25-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-20"><a href="auscensus-vignette.html#cb25-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-21"><a href="auscensus-vignette.html#cb25-21" aria-hidden="true" tabindex="-1"></a>citizenship_attributes <span class="sc">|&gt;</span></span>
+<span id="cb25-22"><a href="auscensus-vignette.html#cb25-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>()</span></code></pre></div>
+<pre><code>## # A tibble: 6 × 3
+##   Table Attribute                     Year 
+##   &lt;chr&gt; &lt;chr&gt;                         &lt;chr&gt;
+## 1 01    Total Persons_males           2006 
+## 2 01    Total Persons_females         2006 
+## 3 01    Total Persons_persons         2006 
+## 4 01    Age Groups: 0-4 Years_males   2006 
+## 5 01    Age Groups: 0-4 Years_females 2006 
+## 6 01    Age Groups: 0-4 Years_persons 2006</code></pre>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="auscensus-vignette.html#cb27-1" aria-hidden="true" tabindex="-1"></a>citizenship_attributes <span class="ot">&lt;-</span> citizenship_attributes   <span class="sc">|&gt;</span> </span>
+<span id="cb27-2"><a href="auscensus-vignette.html#cb27-2" aria-hidden="true" tabindex="-1"></a>                       <span class="fu">distinct</span>(Attribute,Year) <span class="sc">|&gt;</span></span>
+<span id="cb27-3"><a href="auscensus-vignette.html#cb27-3" aria-hidden="true" tabindex="-1"></a>                      <span class="fu">filter</span>(<span class="fu">str_detect</span>(Attribute,<span class="st">&quot;[Aa]ustralian&quot;</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb27-4"><a href="auscensus-vignette.html#cb27-4" aria-hidden="true" tabindex="-1"></a>                      <span class="fu">filter</span>(<span class="fu">str_detect</span>(Attribute,<span class="st">&quot;[Pp]erson&quot;</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb27-5"><a href="auscensus-vignette.html#cb27-5" aria-hidden="true" tabindex="-1"></a>                      <span class="fu">mutate</span>(<span class="at">dummy=</span><span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb27-6"><a href="auscensus-vignette.html#cb27-6" aria-hidden="true" tabindex="-1"></a>                      <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> Year, <span class="at">values_from =</span> dummy)  <span class="sc">|&gt;</span></span>
+<span id="cb27-7"><a href="auscensus-vignette.html#cb27-7" aria-hidden="true" tabindex="-1"></a>                      <span class="fu">bind_rows</span>(</span>
+<span id="cb27-8"><a href="auscensus-vignette.html#cb27-8" aria-hidden="true" tabindex="-1"></a>                         citizenship_attributes   <span class="sc">|&gt;</span> </span>
+<span id="cb27-9"><a href="auscensus-vignette.html#cb27-9" aria-hidden="true" tabindex="-1"></a>                       <span class="fu">distinct</span>(Attribute,Year) <span class="sc">|&gt;</span></span>
+<span id="cb27-10"><a href="auscensus-vignette.html#cb27-10" aria-hidden="true" tabindex="-1"></a>                      <span class="fu">filter</span>(<span class="fu">str_detect</span>(Attribute,<span class="st">&quot;^[Tt]otal&quot;</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb27-11"><a href="auscensus-vignette.html#cb27-11" aria-hidden="true" tabindex="-1"></a>                      <span class="fu">filter</span>(<span class="fu">str_detect</span>(Attribute,<span class="st">&quot;[Pp]ersons$&quot;</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb27-12"><a href="auscensus-vignette.html#cb27-12" aria-hidden="true" tabindex="-1"></a>                      <span class="fu">mutate</span>(<span class="at">dummy=</span><span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb27-13"><a href="auscensus-vignette.html#cb27-13" aria-hidden="true" tabindex="-1"></a>                      <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> Year, <span class="at">values_from =</span> dummy)</span>
+<span id="cb27-14"><a href="auscensus-vignette.html#cb27-14" aria-hidden="true" tabindex="-1"></a>                      )</span>
+<span id="cb27-15"><a href="auscensus-vignette.html#cb27-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-16"><a href="auscensus-vignette.html#cb27-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-17"><a href="auscensus-vignette.html#cb27-17" aria-hidden="true" tabindex="-1"></a>citizenship_attributes </span></code></pre></div>
+<pre><code>## # A tibble: 4 × 5
+##   Attribute                  `2006` `2011` `2016` `2021`
+##   &lt;chr&gt;                      &lt;lgl&gt;  &lt;lgl&gt;  &lt;lgl&gt;  &lt;lgl&gt; 
+## 1 Australian Citizen_persons TRUE   NA     NA     NA    
+## 2 Australian_citizen_persons NA     TRUE   TRUE   TRUE  
+## 3 Total Persons_persons      TRUE   NA     NA     NA    
+## 4 Total_persons_persons      NA     TRUE   TRUE   TRUE</code></pre>
 <p>Using <em>attribute_tibble_to_list</em>, this data frame can be converted into the required format.</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="auscensus-vignette.html#cb15-1" aria-hidden="true" tabindex="-1"></a>citizenship_attributes <span class="ot">&lt;-</span> citizenship_attributes <span class="sc">|&gt;</span></span>
-<span id="cb15-2"><a href="auscensus-vignette.html#cb15-2" aria-hidden="true" tabindex="-1"></a>                          <span class="fu">select</span>(Attribute)      <span class="sc">|&gt;</span></span>
-<span id="cb15-3"><a href="auscensus-vignette.html#cb15-3" aria-hidden="true" tabindex="-1"></a>                          <span class="fu">mutate</span>(<span class="at">AttrNew =</span> <span class="fu">case_when</span>(</span>
-<span id="cb15-4"><a href="auscensus-vignette.html#cb15-4" aria-hidden="true" tabindex="-1"></a>                            <span class="fu">str_detect</span>(Attribute,<span class="st">&quot;Australian&quot;</span>) <span class="sc">~</span> <span class="st">&quot;Australian Citizens&quot;</span>,</span>
-<span id="cb15-5"><a href="auscensus-vignette.html#cb15-5" aria-hidden="true" tabindex="-1"></a>                            <span class="fu">str_detect</span>(Attribute,<span class="st">&quot;Total&quot;</span>)      <span class="sc">~</span> <span class="st">&quot;Total&quot;</span></span>
-<span id="cb15-6"><a href="auscensus-vignette.html#cb15-6" aria-hidden="true" tabindex="-1"></a>                          ))</span>
-<span id="cb15-7"><a href="auscensus-vignette.html#cb15-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-8"><a href="auscensus-vignette.html#cb15-8" aria-hidden="true" tabindex="-1"></a>levels <span class="ot">&lt;-</span> <span class="fu">attribute_tibble_to_list</span>(citizenship_attributes)</span></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="auscensus-vignette.html#cb29-1" aria-hidden="true" tabindex="-1"></a>citizenship_attributes <span class="ot">&lt;-</span> citizenship_attributes <span class="sc">|&gt;</span></span>
+<span id="cb29-2"><a href="auscensus-vignette.html#cb29-2" aria-hidden="true" tabindex="-1"></a>                          <span class="fu">select</span>(Attribute)      <span class="sc">|&gt;</span></span>
+<span id="cb29-3"><a href="auscensus-vignette.html#cb29-3" aria-hidden="true" tabindex="-1"></a>                          <span class="fu">mutate</span>(<span class="at">AttrNew =</span> <span class="fu">case_when</span>(</span>
+<span id="cb29-4"><a href="auscensus-vignette.html#cb29-4" aria-hidden="true" tabindex="-1"></a>                            <span class="fu">str_detect</span>(Attribute,<span class="st">&quot;Australian&quot;</span>) <span class="sc">~</span> <span class="st">&quot;Australian Citizens&quot;</span>,</span>
+<span id="cb29-5"><a href="auscensus-vignette.html#cb29-5" aria-hidden="true" tabindex="-1"></a>                            <span class="fu">str_detect</span>(Attribute,<span class="st">&quot;Total&quot;</span>)      <span class="sc">~</span> <span class="st">&quot;Total&quot;</span></span>
+<span id="cb29-6"><a href="auscensus-vignette.html#cb29-6" aria-hidden="true" tabindex="-1"></a>                          ))</span>
+<span id="cb29-7"><a href="auscensus-vignette.html#cb29-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-8"><a href="auscensus-vignette.html#cb29-8" aria-hidden="true" tabindex="-1"></a>levels <span class="ot">&lt;-</span> <span class="fu">attribute_tibble_to_list</span>(citizenship_attributes)</span></code></pre></div>
 <p>Now, we can cycle through the four censuses and extract the data. Please note that CDs and SA1s are not equivalent, but they are stored together for convenience:</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="auscensus-vignette.html#cb16-1" aria-hidden="true" tabindex="-1"></a>census_years <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;2006&quot;</span>,<span class="st">&quot;2011&quot;</span>,<span class="st">&quot;2016&quot;</span>,<span class="st">&quot;2021&quot;</span>)</span>
-<span id="cb16-2"><a href="auscensus-vignette.html#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-3"><a href="auscensus-vignette.html#cb16-3" aria-hidden="true" tabindex="-1"></a>citizenship <span class="ot">&lt;-</span> <span class="fu">tibble</span>()</span>
-<span id="cb16-4"><a href="auscensus-vignette.html#cb16-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-5"><a href="auscensus-vignette.html#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(year <span class="cf">in</span> census_years){</span>
-<span id="cb16-6"><a href="auscensus-vignette.html#cb16-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-7"><a href="auscensus-vignette.html#cb16-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(year<span class="sc">==</span><span class="st">&quot;2006&quot;</span>){</span>
-<span id="cb16-8"><a href="auscensus-vignette.html#cb16-8" aria-hidden="true" tabindex="-1"></a>    geo_structure_x <span class="ot">&lt;-</span> <span class="st">&quot;CD&quot;</span></span>
-<span id="cb16-9"><a href="auscensus-vignette.html#cb16-9" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span>{</span>
-<span id="cb16-10"><a href="auscensus-vignette.html#cb16-10" aria-hidden="true" tabindex="-1"></a>    geo_structure_x <span class="ot">&lt;-</span> <span class="st">&quot;SA1&quot;</span></span>
-<span id="cb16-11"><a href="auscensus-vignette.html#cb16-11" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb16-12"><a href="auscensus-vignette.html#cb16-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-13"><a href="auscensus-vignette.html#cb16-13" aria-hidden="true" tabindex="-1"></a>  citizenship_i <span class="ot">&lt;-</span> <span class="fu">get_census_summary</span>(<span class="at">census_table =</span> census_tables,</span>
-<span id="cb16-14"><a href="auscensus-vignette.html#cb16-14" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">selected_years =</span> year,</span>
-<span id="cb16-15"><a href="auscensus-vignette.html#cb16-15" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">geo_structure=</span>geo_structure_x,</span>
-<span id="cb16-16"><a href="auscensus-vignette.html#cb16-16" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">attribute =</span> levels) </span>
-<span id="cb16-17"><a href="auscensus-vignette.html#cb16-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-18"><a href="auscensus-vignette.html#cb16-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-19"><a href="auscensus-vignette.html#cb16-19" aria-hidden="true" tabindex="-1"></a>  citizenship <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(citizenship,citizenship_i)</span>
-<span id="cb16-20"><a href="auscensus-vignette.html#cb16-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-21"><a href="auscensus-vignette.html#cb16-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-22"><a href="auscensus-vignette.html#cb16-22" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb16-23"><a href="auscensus-vignette.html#cb16-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-24"><a href="auscensus-vignette.html#cb16-24" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(citizenship_i,geo_structure_x,levels,citizenship_attributes)</span></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="auscensus-vignette.html#cb30-1" aria-hidden="true" tabindex="-1"></a>census_years <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;2006&quot;</span>,<span class="st">&quot;2011&quot;</span>,<span class="st">&quot;2016&quot;</span>,<span class="st">&quot;2021&quot;</span>)</span>
+<span id="cb30-2"><a href="auscensus-vignette.html#cb30-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-3"><a href="auscensus-vignette.html#cb30-3" aria-hidden="true" tabindex="-1"></a>citizenship <span class="ot">&lt;-</span> <span class="fu">tibble</span>()</span>
+<span id="cb30-4"><a href="auscensus-vignette.html#cb30-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-5"><a href="auscensus-vignette.html#cb30-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(year <span class="cf">in</span> census_years){</span>
+<span id="cb30-6"><a href="auscensus-vignette.html#cb30-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-7"><a href="auscensus-vignette.html#cb30-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(year<span class="sc">==</span><span class="st">&quot;2006&quot;</span>){</span>
+<span id="cb30-8"><a href="auscensus-vignette.html#cb30-8" aria-hidden="true" tabindex="-1"></a>    geo_structure_x <span class="ot">&lt;-</span> <span class="st">&quot;CD&quot;</span></span>
+<span id="cb30-9"><a href="auscensus-vignette.html#cb30-9" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span>{</span>
+<span id="cb30-10"><a href="auscensus-vignette.html#cb30-10" aria-hidden="true" tabindex="-1"></a>    geo_structure_x <span class="ot">&lt;-</span> <span class="st">&quot;SA1&quot;</span></span>
+<span id="cb30-11"><a href="auscensus-vignette.html#cb30-11" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb30-12"><a href="auscensus-vignette.html#cb30-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-13"><a href="auscensus-vignette.html#cb30-13" aria-hidden="true" tabindex="-1"></a>  citizenship_i <span class="ot">&lt;-</span> <span class="fu">get_census_summary</span>(<span class="at">census_table =</span> census_tables,</span>
+<span id="cb30-14"><a href="auscensus-vignette.html#cb30-14" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">selected_years =</span> year,</span>
+<span id="cb30-15"><a href="auscensus-vignette.html#cb30-15" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">geo_structure=</span>geo_structure_x,</span>
+<span id="cb30-16"><a href="auscensus-vignette.html#cb30-16" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">attribute =</span> levels) </span>
+<span id="cb30-17"><a href="auscensus-vignette.html#cb30-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-18"><a href="auscensus-vignette.html#cb30-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-19"><a href="auscensus-vignette.html#cb30-19" aria-hidden="true" tabindex="-1"></a>  citizenship <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(citizenship,citizenship_i)</span>
+<span id="cb30-20"><a href="auscensus-vignette.html#cb30-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-21"><a href="auscensus-vignette.html#cb30-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-22"><a href="auscensus-vignette.html#cb30-22" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb30-23"><a href="auscensus-vignette.html#cb30-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-24"><a href="auscensus-vignette.html#cb30-24" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(citizenship_i,geo_structure_x,levels,citizenship_attributes)</span></code></pre></div>
 <p>To aggregate the data, <strong><a href="https://gh.carlosyanez.id.au/aussiemaps/">aussiemaps::geo_aggregate()</a></strong> can help using area to apportion on non-overalpping cases. Then, this package’s <em>calculate_percentage()</em> will take the totals from the list and calculate percentages.</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="auscensus-vignette.html#cb17-1" aria-hidden="true" tabindex="-1"></a>citizenship_ced<span class="ot">&lt;-</span> <span class="fu">tibble</span>()</span>
-<span id="cb17-2"><a href="auscensus-vignette.html#cb17-2" aria-hidden="true" tabindex="-1"></a>codes <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;CD_CODE_2006&quot;</span>,<span class="st">&quot;SA1_7DIGITCODE_2011&quot;</span>,<span class="st">&quot;SA1_7DIGITCODE_2016&quot;</span>,<span class="st">&quot;SA1_CODE_2021&quot;</span>)</span>
-<span id="cb17-3"><a href="auscensus-vignette.html#cb17-3" aria-hidden="true" tabindex="-1"></a>ceds  <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;CED_NAME_2006&quot;</span>,<span class="st">&quot;CED_NAME_2011&quot;</span>,<span class="st">&quot;CED_NAME_2016&quot;</span>,<span class="st">&quot;CED_NAME_2021&quot;</span>)</span>
-<span id="cb17-4"><a href="auscensus-vignette.html#cb17-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-5"><a href="auscensus-vignette.html#cb17-5" aria-hidden="true" tabindex="-1"></a> <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(census_years)){</span>
-<span id="cb17-6"><a href="auscensus-vignette.html#cb17-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-7"><a href="auscensus-vignette.html#cb17-7" aria-hidden="true" tabindex="-1"></a>   year <span class="ot">&lt;-</span> <span class="fu">as.double</span>(census_years[i])</span>
-<span id="cb17-8"><a href="auscensus-vignette.html#cb17-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-9"><a href="auscensus-vignette.html#cb17-9" aria-hidden="true" tabindex="-1"></a>   value_i <span class="ot">&lt;-</span> citizenship <span class="sc">|&gt;</span> </span>
-<span id="cb17-10"><a href="auscensus-vignette.html#cb17-10" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">filter</span>(Year<span class="sc">==</span>year)     <span class="sc">|&gt;</span></span>
-<span id="cb17-11"><a href="auscensus-vignette.html#cb17-11" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">select</span>(<span class="sc">-</span>Unit)                    <span class="sc">|&gt;</span></span>
-<span id="cb17-12"><a href="auscensus-vignette.html#cb17-12" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">rename</span>(<span class="sc">!!</span>codes[i]<span class="sc">:</span><span class="er">=</span><span class="st">&quot;Census_Code&quot;</span>) <span class="sc">|&gt;</span></span>
-<span id="cb17-13"><a href="auscensus-vignette.html#cb17-13" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">collect</span>() <span class="sc">|&gt;</span></span>
-<span id="cb17-14"><a href="auscensus-vignette.html#cb17-14" aria-hidden="true" tabindex="-1"></a>                  aussiemaps<span class="sc">::</span><span class="fu">geo_aggregate</span>(</span>
-<span id="cb17-15"><a href="auscensus-vignette.html#cb17-15" aria-hidden="true" tabindex="-1"></a>                              <span class="at">values_col=</span><span class="st">&quot;Value&quot;</span>,</span>
-<span id="cb17-16"><a href="auscensus-vignette.html#cb17-16" aria-hidden="true" tabindex="-1"></a>                              <span class="at">original_geo=</span>codes[i],</span>
-<span id="cb17-17"><a href="auscensus-vignette.html#cb17-17" aria-hidden="true" tabindex="-1"></a>                              <span class="at">new_geo=</span>ceds[i],</span>
-<span id="cb17-18"><a href="auscensus-vignette.html#cb17-18" aria-hidden="true" tabindex="-1"></a>                              <span class="at">grouping_col =</span> <span class="fu">c</span>(<span class="st">&quot;Year&quot;</span>,<span class="st">&quot;Attribute&quot;</span>),</span>
-<span id="cb17-19"><a href="auscensus-vignette.html#cb17-19" aria-hidden="true" tabindex="-1"></a>                              <span class="at">year=</span>census_years[i]) <span class="sc">|&gt;</span></span>
-<span id="cb17-20"><a href="auscensus-vignette.html#cb17-20" aria-hidden="true" tabindex="-1"></a>              <span class="fu">rename</span>(<span class="st">&quot;Unit&quot;</span><span class="ot">=</span>ceds[i])  <span class="sc">|&gt;</span></span>
-<span id="cb17-21"><a href="auscensus-vignette.html#cb17-21" aria-hidden="true" tabindex="-1"></a>              <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(Unit))    <span class="sc">|&gt;</span></span>
-<span id="cb17-22"><a href="auscensus-vignette.html#cb17-22" aria-hidden="true" tabindex="-1"></a>              <span class="fu">filter</span>(<span class="fu">str_detect</span>(Unit,<span class="st">&quot;[Ss]hipping&quot;</span>,<span class="cn">TRUE</span>))<span class="sc">|&gt;</span></span>
-<span id="cb17-23"><a href="auscensus-vignette.html#cb17-23" aria-hidden="true" tabindex="-1"></a>              <span class="fu">filter</span>(<span class="fu">str_detect</span>(Unit,<span class="st">&quot;[Uu]sual&quot;</span>,<span class="cn">TRUE</span>))   <span class="sc">|&gt;</span></span>
-<span id="cb17-24"><a href="auscensus-vignette.html#cb17-24" aria-hidden="true" tabindex="-1"></a>              <span class="fu">filter</span>(<span class="fu">str_detect</span>(Unit,<span class="st">&quot;[Aa]pplicable&quot;</span>,<span class="cn">TRUE</span>)) </span>
-<span id="cb17-25"><a href="auscensus-vignette.html#cb17-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-26"><a href="auscensus-vignette.html#cb17-26" aria-hidden="true" tabindex="-1"></a>    value_i <span class="ot">&lt;-</span> value_i  <span class="sc">|&gt;</span> </span>
-<span id="cb17-27"><a href="auscensus-vignette.html#cb17-27" aria-hidden="true" tabindex="-1"></a>               auscensus<span class="sc">::</span><span class="fu">calculate_percentage</span>(<span class="at">key_col =</span> <span class="st">&quot;Attribute&quot;</span>,</span>
-<span id="cb17-28"><a href="auscensus-vignette.html#cb17-28" aria-hidden="true" tabindex="-1"></a>                                                <span class="at">value_col =</span> <span class="st">&quot;Value&quot;</span>,</span>
-<span id="cb17-29"><a href="auscensus-vignette.html#cb17-29" aria-hidden="true" tabindex="-1"></a>                                                <span class="at">key_value =</span> <span class="st">&quot;Total&quot;</span>,</span>
-<span id="cb17-30"><a href="auscensus-vignette.html#cb17-30" aria-hidden="true" tabindex="-1"></a>                                                <span class="at">percentage_scale =</span> <span class="dv">100</span>)</span>
-<span id="cb17-31"><a href="auscensus-vignette.html#cb17-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-32"><a href="auscensus-vignette.html#cb17-32" aria-hidden="true" tabindex="-1"></a>   citizenship_ced <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(citizenship_ced,value_i)</span>
-<span id="cb17-33"><a href="auscensus-vignette.html#cb17-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-34"><a href="auscensus-vignette.html#cb17-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-35"><a href="auscensus-vignette.html#cb17-35" aria-hidden="true" tabindex="-1"></a> }</span>
-<span id="cb17-36"><a href="auscensus-vignette.html#cb17-36" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-37"><a href="auscensus-vignette.html#cb17-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-38"><a href="auscensus-vignette.html#cb17-38" aria-hidden="true" tabindex="-1"></a>citizenship_ced </span></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="auscensus-vignette.html#cb31-1" aria-hidden="true" tabindex="-1"></a>citizenship_ced<span class="ot">&lt;-</span> <span class="fu">tibble</span>()</span>
+<span id="cb31-2"><a href="auscensus-vignette.html#cb31-2" aria-hidden="true" tabindex="-1"></a>codes <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;CD_CODE_2006&quot;</span>,<span class="st">&quot;SA1_7DIGITCODE_2011&quot;</span>,<span class="st">&quot;SA1_7DIGITCODE_2016&quot;</span>,<span class="st">&quot;SA1_CODE_2021&quot;</span>)</span>
+<span id="cb31-3"><a href="auscensus-vignette.html#cb31-3" aria-hidden="true" tabindex="-1"></a>ceds  <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;CED_NAME_2006&quot;</span>,<span class="st">&quot;CED_NAME_2011&quot;</span>,<span class="st">&quot;CED_NAME_2016&quot;</span>,<span class="st">&quot;CED_NAME_2021&quot;</span>)</span>
+<span id="cb31-4"><a href="auscensus-vignette.html#cb31-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-5"><a href="auscensus-vignette.html#cb31-5" aria-hidden="true" tabindex="-1"></a> <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(census_years)){</span>
+<span id="cb31-6"><a href="auscensus-vignette.html#cb31-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-7"><a href="auscensus-vignette.html#cb31-7" aria-hidden="true" tabindex="-1"></a>   year <span class="ot">&lt;-</span> <span class="fu">as.double</span>(census_years[i])</span>
+<span id="cb31-8"><a href="auscensus-vignette.html#cb31-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-9"><a href="auscensus-vignette.html#cb31-9" aria-hidden="true" tabindex="-1"></a>   value_i <span class="ot">&lt;-</span> citizenship <span class="sc">|&gt;</span> </span>
+<span id="cb31-10"><a href="auscensus-vignette.html#cb31-10" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">filter</span>(Year<span class="sc">==</span>year)     <span class="sc">|&gt;</span></span>
+<span id="cb31-11"><a href="auscensus-vignette.html#cb31-11" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">select</span>(<span class="sc">-</span>Unit)                    <span class="sc">|&gt;</span></span>
+<span id="cb31-12"><a href="auscensus-vignette.html#cb31-12" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">rename</span>(<span class="sc">!!</span>codes[i]<span class="sc">:</span><span class="er">=</span><span class="st">&quot;Census_Code&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb31-13"><a href="auscensus-vignette.html#cb31-13" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">collect</span>() <span class="sc">|&gt;</span></span>
+<span id="cb31-14"><a href="auscensus-vignette.html#cb31-14" aria-hidden="true" tabindex="-1"></a>                  aussiemaps<span class="sc">::</span><span class="fu">geo_aggregate</span>(</span>
+<span id="cb31-15"><a href="auscensus-vignette.html#cb31-15" aria-hidden="true" tabindex="-1"></a>                              <span class="at">values_col=</span><span class="st">&quot;Value&quot;</span>,</span>
+<span id="cb31-16"><a href="auscensus-vignette.html#cb31-16" aria-hidden="true" tabindex="-1"></a>                              <span class="at">original_geo=</span>codes[i],</span>
+<span id="cb31-17"><a href="auscensus-vignette.html#cb31-17" aria-hidden="true" tabindex="-1"></a>                              <span class="at">new_geo=</span>ceds[i],</span>
+<span id="cb31-18"><a href="auscensus-vignette.html#cb31-18" aria-hidden="true" tabindex="-1"></a>                              <span class="at">grouping_col =</span> <span class="fu">c</span>(<span class="st">&quot;Year&quot;</span>,<span class="st">&quot;Attribute&quot;</span>),</span>
+<span id="cb31-19"><a href="auscensus-vignette.html#cb31-19" aria-hidden="true" tabindex="-1"></a>                              <span class="at">year=</span>census_years[i]) <span class="sc">|&gt;</span></span>
+<span id="cb31-20"><a href="auscensus-vignette.html#cb31-20" aria-hidden="true" tabindex="-1"></a>              <span class="fu">rename</span>(<span class="st">&quot;Unit&quot;</span><span class="ot">=</span>ceds[i])  <span class="sc">|&gt;</span></span>
+<span id="cb31-21"><a href="auscensus-vignette.html#cb31-21" aria-hidden="true" tabindex="-1"></a>              <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(Unit))    <span class="sc">|&gt;</span></span>
+<span id="cb31-22"><a href="auscensus-vignette.html#cb31-22" aria-hidden="true" tabindex="-1"></a>              <span class="fu">filter</span>(<span class="fu">str_detect</span>(Unit,<span class="st">&quot;[Ss]hipping&quot;</span>,<span class="cn">TRUE</span>))<span class="sc">|&gt;</span></span>
+<span id="cb31-23"><a href="auscensus-vignette.html#cb31-23" aria-hidden="true" tabindex="-1"></a>              <span class="fu">filter</span>(<span class="fu">str_detect</span>(Unit,<span class="st">&quot;[Uu]sual&quot;</span>,<span class="cn">TRUE</span>))   <span class="sc">|&gt;</span></span>
+<span id="cb31-24"><a href="auscensus-vignette.html#cb31-24" aria-hidden="true" tabindex="-1"></a>              <span class="fu">filter</span>(<span class="fu">str_detect</span>(Unit,<span class="st">&quot;[Aa]pplicable&quot;</span>,<span class="cn">TRUE</span>)) </span>
+<span id="cb31-25"><a href="auscensus-vignette.html#cb31-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-26"><a href="auscensus-vignette.html#cb31-26" aria-hidden="true" tabindex="-1"></a>    value_i <span class="ot">&lt;-</span> value_i  <span class="sc">|&gt;</span> </span>
+<span id="cb31-27"><a href="auscensus-vignette.html#cb31-27" aria-hidden="true" tabindex="-1"></a>               auscensus<span class="sc">::</span><span class="fu">calculate_percentage</span>(<span class="at">key_col =</span> <span class="st">&quot;Attribute&quot;</span>,</span>
+<span id="cb31-28"><a href="auscensus-vignette.html#cb31-28" aria-hidden="true" tabindex="-1"></a>                                                <span class="at">value_col =</span> <span class="st">&quot;Value&quot;</span>,</span>
+<span id="cb31-29"><a href="auscensus-vignette.html#cb31-29" aria-hidden="true" tabindex="-1"></a>                                                <span class="at">key_value =</span> <span class="st">&quot;Total&quot;</span>,</span>
+<span id="cb31-30"><a href="auscensus-vignette.html#cb31-30" aria-hidden="true" tabindex="-1"></a>                                                <span class="at">percentage_scale =</span> <span class="dv">100</span>)</span>
+<span id="cb31-31"><a href="auscensus-vignette.html#cb31-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-32"><a href="auscensus-vignette.html#cb31-32" aria-hidden="true" tabindex="-1"></a>   citizenship_ced <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(citizenship_ced,value_i)</span>
+<span id="cb31-33"><a href="auscensus-vignette.html#cb31-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-34"><a href="auscensus-vignette.html#cb31-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-35"><a href="auscensus-vignette.html#cb31-35" aria-hidden="true" tabindex="-1"></a> }</span>
+<span id="cb31-36"><a href="auscensus-vignette.html#cb31-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-37"><a href="auscensus-vignette.html#cb31-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-38"><a href="auscensus-vignette.html#cb31-38" aria-hidden="true" tabindex="-1"></a>citizenship_ced </span></code></pre></div>
+<pre><code>## # A tibble: 601 × 6
+##    Unit       Year Attribute            Value  Total Percentage
+##    &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt;                &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt;
+##  1 Adelaide   2006 Australian Citizens 231816 280302       82.7
+##  2 Aston      2006 Australian Citizens 230020 258926       88.8
+##  3 Ballarat   2006 Australian Citizens 236494 258442       91.5
+##  4 Banks      2006 Australian Citizens 208362 236742       88.0
+##  5 Barker     2006 Australian Citizens 266066 290820       91.5
+##  6 Barton     2006 Australian Citizens 210574 262468       80.2
+##  7 Bass       2006 Australian Citizens 171262 188540       90.8
+##  8 Batman     2006 Australian Citizens 211122 256214       82.4
+##  9 Bendigo    2006 Australian Citizens 243860 263770       92.5
+## 10 Bennelong  2006 Australian Citizens 208946 258680       80.8
+## # ℹ 591 more rows</code></pre>
 
 </div>
             </section>
