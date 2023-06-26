@@ -21,7 +21,7 @@ classoption: openany
 fontsize        : 11pt      # 10pt 11pt (default) 12pt
 lang            : en-AU   
 bibliography: book.bib
-citation_package: none
+citation_package: bibtex
 link-citations: yes
 delete_merged_file: true
 language:

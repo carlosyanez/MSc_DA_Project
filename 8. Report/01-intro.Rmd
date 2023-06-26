@@ -59,7 +59,7 @@ Generally speaking, small parties do obtain some moderate representation in the 
 
 ## Problem statement and research questions {#problem-statement}
 
-As expected, general political knowledge has mapped distinct audiences to each group. According to this working-class people vote Labor, wealthy professionals and business owners are inclined to the Liberal Party, farmers prefer the Nationals and an inner city, young liberal population vote for the Green. Political science also postulates that people become more conservative with age and as they accumulate wealth. However, global and local events in the last 10 years have shifted some of those political narratives. In particular, in Australia both major parties have experienced internal friction when defining their policies towards climate change (an issue resonating with urban electorates and with growing effects in Australia but contentious with some businesses and unions involved in Coal and Gas exporting sector), housing (rising prices due,  partly influenced by policies favouring the real estate market as an investment mechanism). According to the media, political commentary and the same parties, this has shifted traditional voting patterns where:
+As expected, general political knowledge has mapped distinct audiences to each group. According to this working-class people vote Labor, wealthy professionals and business owners are inclined to the Liberal Party, farmers prefer the Nationals and an inner city, young liberal population vote for the Green. Political science also postulates that people become more conservative with age and as they accumulate wealth. However, global and local events in the last 10 years have shifted some of those political narratives. In particular, both major parties have experienced internal friction when defining their policies towards climate change (an issue resonating with urban electorates and with growing effects in Australia but contentious with some businesses and unions involved in Coal and Gas exporting sector), housing (rising prices due,  partly influenced by policies favouring the real estate market as an investment mechanism). According to the media, political commentary and the same parties, this has shifted traditional voting patterns where:
 
 - There is an increasing divide between wealthy inner metropolitan areas, the suburbs, and regional and rural populations. 
 In this divide, inner metropolitan areas seem to favour left-wing parties, and rural areas are conservative, leaving suburbs as the middle ground where economic issues are relevant.
@@ -72,14 +72,14 @@ Another aspect usually considered in political analysis is the influence of ethn
 
 Within this context, this project attempts to study how population make-up may influence how Australian citizens may vote for a particular party. Specifically, the project will look into the following questions:
 
-- Is there a demographic divide between the inner city and suburbia?
+- Is there a demographic divide between the inner city and suburbia? ([@doesthe],[@wehave])
 - What are the main demographic factors influencing political persuasion?
 
 This then will be used to examine some common political narratives against the 2022 election results, such as:
 
-- Was the so-called “Teal Wave” supported by discontent moderate Liberal voters?
-- Are Millenials not becoming more conservative as they Age?
-- Is culturally diverse voting relevant? 
+- Was the so-called “Teal Wave” supported by discontent moderate Liberal voters? ([@wahlquist_teal_2022])
+- Are Millenials not becoming more conservative as they age? ([@votingbygen],[@noauthor_millennials_nodate])
+- Is culturally diverse voting relevant? ([@jakubowicz])
 
 This project does **not** aim to develop a forecast tool. A naive retrospective forecast of the recent 2022 is included in this report, however it is intention is to validate primary voting drivers. On the same line, this project does not consider the problem of forecasting the actual winner of each election, which can be defined as a different topic altogether.
 

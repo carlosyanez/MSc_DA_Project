@@ -221,7 +221,7 @@ demographic_data <- demographic_data |>
 
 ```{r tealdemographics, fig.cap="Selected demographics for teal seats"}
 
-selected_demographics <- c("Age: BabyBoomers"="Age_Baby_Boomers",
+selected_demographics <- c("Age: Baby Boomers"="Age_Baby_Boomers",
                            "Age: Geneneration Y"="Age_Gen_Y",
                            "Income: 2,000 or more"="Income_2000_or_more",
                            "Religion: No Religion/Secular"="Religion_No_Religion_Secular")
@@ -257,7 +257,9 @@ if(eval_html){
 
 ## The Green Wave {#green-wave}
 
-Another feature of the past election was the increase in the number of Green Party MPs. In addition to the division of Melbourne, green candidates also won the seats of Griffith and Ryan in Brisbane. Again, do these victories have a demographic driver? Are there any differences between these electorates and contiguous divisions, and between them and other electorates where the Green have been strong contenders? \@ref(fig:greenvoting) shows the prediction of the latest and historic election results. figure \@ref(fig:green) presents selected demographic attributes for those areas.
+Another feature of the past election was the increase in the number of Green Party MPs. In addition to the division of Melbourne, green candidates also won the seats of Griffith and Ryan in Brisbane. Again, do these victories have a demographic driver? Are there any differences between these electorates and contiguous divisions, and between them and other electorates where the Green have been strong contenders?
+
+Figure \@ref(fig:greenvoting) shows the prediction of the latest and historic election results. Figure \@ref(fig:green) presents selected demographic attributes for those areas.
 
 ```{r greenvoting, fig.cap="Green Voting"}
 
@@ -337,7 +339,7 @@ All four cases show a similar story of continuous growth of the Green vote and p
 
 ## The Changing Face of Suburbia
 
-For a comparison outside inner city areas, let's compare four suburban electorates: Hasluck (Perth), Menzies (Melbourne), Fowler (Sydney) and Kingston (Adelaide). Their respective predictions and results are presented in figure \@ref(fig:suburbia1). A selection of key demographic variables is presented in figure \@ref(fig:suburbia2).
+For a comparison outside inner city areas, four suburban electorates have been chosen: Hasluck (Perth), Menzies (Melbourne), Fowler (Sydney) and Kingston (Adelaide). Their respective predictions and results are presented in figure \@ref(fig:suburbia1). A selection of key demographic variables is presented in figure \@ref(fig:suburbia2).
 
 ```{r suburbia1, fig.cap="Suburban Voting"}
 

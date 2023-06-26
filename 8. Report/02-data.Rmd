@@ -12,9 +12,9 @@ bibliography:
 
 Data used in this project comes from two sources, namely:
 
--   The **Australian Electoral Commission** (AEC, \<<https://www.aec.gov.au/>\> ). The national body overseeing and running federal elections, the AEC contains detailed election result records. All results for federal elections held in the 21st century are available online, through their Tally Room website [@TallyRoom].
+-   The **Australian Electoral Commission** (AEC, <https://www.aec.gov.au/> ). The national body overseeing and running federal elections, the AEC contains detailed election result records. All results for federal elections held in the 21st century are available online, through their Tally Room website [@TallyRoom].
 
--   The **Australian Bureau of Statistics** (ABS, \<<https://www.abs.gov.au/>\>) . The ABS provides a wide number of national statistics and is responsible to conduct a national census of population and housing every 5 years. Comprehensive census data is provided in multiple formats, including CSV files through Census Data Packs [@CensusDataPack], available for censuses from 2006 onwards.
+-   The **Australian Bureau of Statistics** (ABS, <https://www.abs.gov.au/>) . The ABS provides a wide number of national statistics and is responsible to conduct a national census of population and housing every 5 years. Comprehensive census data is provided in multiple formats, including CSV files through Census Data Packs [@CensusDataPack], available for censuses from 2006 onwards.
 
 Both organisations are the authoritative source for electoral and statistical data in Australia, and the data is provided openly. Although there are no quality issues, the way that data is provided presents other challenges:
 
@@ -279,7 +279,7 @@ To obtain a first selection of potentially relevant demographic variables to ext
 
 9.  **Language**: Languages spoken in the community. Similar to religion, a selection of relevant languages have been included to reflect the historic and current migrant communities.
 
-Additionally, each electorate was classified as **metropolitan** if it lies within the boundaries of Australian capital cities or **non-metropolitan**, when it is not the case. Altogether, these variables try to reflect wealth and education (cited by [@biddle2022] as key factors influencing political persuasion), as well as the stage in life and belonging to a particular migrant community (sometimes cited as an influential factor, for instance in [@jakubowicza]).
+Additionally, each electorate was classified as **metropolitan** if it lies within the boundaries of Australian capital cities or **non-metropolitan**, when it is not the case. Altogether, these variables try to reflect wealth and education (cited by [@biddle2022] as key factors influencing political persuasion), as well as the stage in life and belonging to a particular migrant community (sometimes cited as an influential factor, for instance in [@jakubowicz]).
 
 A sample of the resulting dataset is present in table \@ref(tab:datasetsample). A detailed list of all variables is presented in appendix \@ref(appendix-variables).
 
@@ -335,9 +335,9 @@ In total, the resulting dataset is made up of 4 response variables and `r format
 
 As an example, figure \@ref(fig:coalvsboomers) shows a somewhat weak correlation between Coalition primary vote and the percentage of the Baby Boomers. Figure \@ref(fig:corrlanguagereligion) presents the correlation values for religion and language variables, where is possible to see:
 
-\* A positive correlation between monolingual English speakers and membership in Anglican, Presbyterian and Uniting churches. Together, they are likely proxies for Anglo-Celtic population.
+* A positive correlation between monolingual English speakers and membership in Anglican, Presbyterian and Uniting churches. Together, they are likely proxies for Anglo-Celtic population.
 
-\* Similarly, there are somewhat expecting origins that most likely indicate concentrations of linguistically and culturally diverse pockets, e.g. Hinduism and South Asian languages, Catholicism and Italian, and Buddhism and East Asian languages.
+* Similarly, there are somewhat expecting origins that most likely indicate concentrations of linguistically and culturally diverse pockets, e.g. Hinduism and South Asian languages, Catholicism and Italian, and Buddhism and East Asian languages.
 
 ```{r coalvsboomers,fig.cap="Correlation between Coalition vote and Baby boomer population"}
 
@@ -368,7 +368,7 @@ if(eval_html){
 
 ```{r}
 if(eval_html){
-  hm_height <- 400
+  hm_height <- knitr::opts_chunk$get()$fig.height
 }else{
   hm_height <- knitr::opts_chunk$get()$fig.height
 }
@@ -398,16 +398,7 @@ colours_grad <- c("#BB4444", "#EE9988", "#FFFFFF", "#77AADD", "#4477AA")
 
 p <- cor(cor_selection)
 
-if(eval_html){
-   library(heatmaply)
-    heatmaply(p,
-              dendrogram='none',
-              scale_fill_gradient_fun= scale_fill_gradient2(low="#BB4444",mid="#FFFFFF",high="#4477AA"))  |>
-    config(displayModeBar = FALSE) |>
-      layout(title="Correlation between Language and Religion")
-  
-}else{
-     p |>
+p |>
      ggcorrplot::ggcorrplot( hc.order = FALSE, 
                              type = "lower",
                              tl.cex=8,
@@ -417,7 +408,7 @@ if(eval_html){
   guides(fill=guide_legend(title="Correlation")) +
   scale_fill_gradient2(low="#BB4444",mid="#FFFFFF",high="#4477AA")
   
-}
+
   
 ```
 
@@ -516,7 +507,7 @@ Using all demographic variables a clustering algorithm has been applied to ident
 
 -   ignore Census years and pool all records in a single pool.
 -   transform all demographic attributes to represent the difference between each data point and their corresponding national value (in the same year).
--   use of *Hierarchical Density-Based Spatial Clustering of Applications with Noise* (HDBSCAN) [@campello2013], a density-based hierarchical clustering algorithm.
+-   use *Hierarchical Density-Based Spatial Clustering of Applications with Noise* (HDBSCAN) [@campello2013], a density-based hierarchical clustering algorithm.
 
 HDBSCAN is essentially a density-based method to find common density areas, for which then a hierarchical analysis of the results is used to heuristically determine the number of processes. This is an appropriate method in this scenario.
 

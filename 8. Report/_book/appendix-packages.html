@@ -178,7 +178,7 @@ div.csl-indent {
 <li><a href="./">Understanding demographic impact on Primary votes</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Index</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Dedication</a></li>
 <li class="chapter" data-level="" data-path="abstract.html"><a href="abstract.html"><i class="fa fa-check"></i>Abstract</a></li>
 <li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
 <ul>
@@ -225,8 +225,8 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="B" data-path="appendix-packages.html"><a href="appendix-packages.html"><i class="fa fa-check"></i><b>B</b> R Packages</a>
 <ul>
-<li class="chapter" data-level="B.1" data-path="appendix-packages.html"><a href="appendix-packages.html#retrieving-distributing-and-storing-data."><i class="fa fa-check"></i><b>B.1</b> Retrieving, distributing and storing data.</a></li>
-<li class="chapter" data-level="B.2" data-path="appendix-packages.html"><a href="appendix-packages.html#processing-aggregating-and-presenting-results."><i class="fa fa-check"></i><b>B.2</b> Processing, aggregating and presenting results.</a></li>
+<li class="chapter" data-level="B.1" data-path="appendix-packages.html"><a href="appendix-packages.html#retrieving-distributing-and-storing-data"><i class="fa fa-check"></i><b>B.1</b> Retrieving, distributing and storing data</a></li>
+<li class="chapter" data-level="B.2" data-path="appendix-packages.html"><a href="appendix-packages.html#processing-aggregating-and-presenting-results"><i class="fa fa-check"></i><b>B.2</b> Processing, aggregating and presenting results</a></li>
 <li class="chapter" data-level="B.3" data-path="appendix-packages.html"><a href="appendix-packages.html#coding-and-documentation-practices"><i class="fa fa-check"></i><b>B.3</b> Coding and documentation practices</a></li>
 </ul></li>
 <li class="chapter" data-level="C" data-path="auspol-vignette.html"><a href="auspol-vignette.html"><i class="fa fa-check"></i><b>C</b> {auspol} Vignette</a>
@@ -272,11 +272,11 @@ div.csl-indent {
             <section class="normal" id="section-">
 <div id="appendix-packages" class="section level1 hasAnchor" number="8">
 <h1><span class="header-section-number">B</span> R Packages<a href="appendix-packages.html#appendix-packages" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>Although this project is at its core an analytical exercise, the nature of the data sources required significant coding to correctly extract, aggregate and present the datasets that were eventually for modelling. Although the data provided by the ABS and AEC do not have many of the classical issues around sourcing online data <a href="#fn7" class="footnote-ref" id="fnref7"><sup>7</sup></a>, the large volumes involved required the implementation of a consistent framework to find, extract and process. For these reasons, it was deemed appropriate to create software packages to separate this from the proper analytical stage of the work. All the code was organised into 3 R packages, namely:</p>
+<p>Although this project is at its core an analytical exercise, the nature of the data sources meant that significant effort was needed to select, requiring the implementation of a consistent framework to find, extract and process. For this reason, it was deemed appropriate to create software packages to separate this from the proper analytical stage of the work. All the code was organised into 3 R packages, namely:</p>
 <ul>
 <li><strong>{auspol}</strong> Which provides an interface to extract and visualise electoral results for the House of Representatives (<a href="https://carlosyanez.github.io/auspol" class="uri">https://carlosyanez.github.io/auspol</a>).</li>
-<li><strong>{auscensus}</strong>, designed as a “Swiss Army knife” toolset to interact with Census Data Packs (<a href="https://carlosyanez.github.io/auscensus" class="uri">https://carlosyanez.github.io/auscensus</a>).</li>
-<li><strong>{aussiemaps}</strong>, which contains granular maps of Australia and enables geographical aggregation of Census Data.</li>
+<li><strong>{auscensus}</strong>, designed as a “Swiss Army knife” tool set to interact with Census Data Packs (<a href="https://carlosyanez.github.io/auscensus" class="uri">https://carlosyanez.github.io/auscensus</a>).</li>
+<li><strong>{aussiemaps}</strong>, which contains granular maps of Australia and enables geographical aggregation of census data (<a href="https://carlosyanez.github.io/aussiemaps" class="uri">https://carlosyanez.github.io/aussiemaps</a>).</li>
 </ul>
 <p>Although these three packages are slightly different, their basic architecture shares some common concepts:</p>
 <ul>
@@ -284,47 +284,40 @@ div.csl-indent {
 <li>Processing, aggregating and presenting results.</li>
 <li>Coding and documentation practices.</li>
 </ul>
-<div id="retrieving-distributing-and-storing-data." class="section level2 hasAnchor" number="8.1">
-<h2><span class="header-section-number">B.1</span> Retrieving, distributing and storing data.<a href="appendix-packages.html#retrieving-distributing-and-storing-data." class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>In all three cases, there is no programmatic resource to access the relevant data from the ABS or the AEC or it was deemed inadequate due to the large volumes of initial data required in the project. Most of the data is available for manual download. The large amount of data meant it could not be distributed as part of the package. Such a large amount of data cannot be stored directly on a GitHub repository either. After assessing the options, two different strategies were adopted:</p>
+<div id="retrieving-distributing-and-storing-data" class="section level2 hasAnchor" number="8.1">
+<h2><span class="header-section-number">B.1</span> Retrieving, distributing and storing data<a href="appendix-packages.html#retrieving-distributing-and-storing-data" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>For the required data there was no programmatic resource to access the relevant data, or it was deemed inadequate due to the large volumes of initial data required in the project. Most of the data is available for manual download. The large amount of data meant it could not be distributed as part of the package. Such a large amount of data cannot be stored directly on a GitHub repository either. After assessing the options, two different strategies were adopted:</p>
 <ul>
 <li><p>{aussiemaps} and {auspol} data is stored on a GitHub release. Each package contains functions to download data on demand.</p></li>
 <li><p>{auscensus} does not hold any data. Users are required to download Census Data Packs directly from the ABS, either manually or through a built-in function</p></li>
 </ul>
-<p>A persistent cache is set up on the user’s computer in all three cases. This was based on the same mechanism developed for the package <strong>{tigris}</strong> <span class="citation">[22]</span>. Its code was used and adapted with the author’s permission. Each package also contains utilities to manage the amount of space used.</p>
-<p>A common approach was used to store data from each. In all cases, the cache was used to store data as in their respective caches. data saved here is stored as needed only.</p>
-<p>Finally, both {auscensus} and {auspol}’s data required some prior pre–pre-processing. The code to achieve this has been included in their respective <strong>data-raw</strong> folder.</p>
+<p>A persistent cache is set up on the user’s computer in all three cases. This was based on the same mechanism developed for the package <strong>{tigris}</strong> <span class="citation">[25]</span> (<a href="https://github.com/walkerke/tigris" class="uri">https://github.com/walkerke/tigris</a>). Its code was used and adapted with the author’s permission. Each package also contains utilities to manage the amount of space used. A common approach was used in all three cases, where data was download and cache only when needed.</p>
+<p>Finally, both {auscensus} and {auspol}’s data required some prior processing. The code to achieve this has been included in their respective <strong>data-raw</strong> folders.</p>
 </div>
-<div id="processing-aggregating-and-presenting-results." class="section level2 hasAnchor" number="8.2">
-<h2><span class="header-section-number">B.2</span> Processing, aggregating and presenting results.<a href="appendix-packages.html#processing-aggregating-and-presenting-results." class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>In all three cases, the large volumes of data meant that was possible to use standard libraries like <strong>readr</strong> to open and process files. To deal with this, the following strategies were adopted:</p>
+<div id="processing-aggregating-and-presenting-results" class="section level2 hasAnchor" number="8.2">
+<h2><span class="header-section-number">B.2</span> Processing, aggregating and presenting results<a href="appendix-packages.html#processing-aggregating-and-presenting-results" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>In all three cases, the large volumes of data meant that is not practical to libraries like <strong>readr</strong> to open and process files, due to the large amount of memory resources this operation required when dealing with large data sources (e.g. reading from files with more than 500 attributes for tens of thousands statistical areas). To deal with this, the following strategies were adopted:</p>
 <ul>
-<li><p>Using the <strong>Arrow</strong> framework <span class="citation">[23]</span> to read csv files, allowing to perform ‘database-like’ operations when reading, processing and aggregating data. This reduced the amount of data loaded in memory on each operation.</p></li>
+<li><p>Use of <strong>Arrow</strong> framework <span class="citation">[26]</span> to read csv files, allowing to perform ‘database-like’ operations when reading, processing and aggregating data. This reduced the amount of data loaded in memory on each operation.</p></li>
 <li><p>Storing all cached data in <strong>parquet</strong> format. Parquet allows for progressive caching of census data, which then later can be retrieved together.</p></li>
 <li><p>Allowing for the packages to cache intermediate results, for faster retrieval of commonly used datasets.</p></li>
-<li><p>Using the <strong>GeoPackage</strong> format <span class="citation">[24]</span> to store spatial data, which also allows for efficient out-of-memory selection and aggregation.</p></li>
+<li><p>Use of the <strong>GeoPackage</strong> format <span class="citation">[27]</span> to store spatial data, which also allows for efficient out-of-memory selection and aggregation.</p></li>
 </ul>
-<p>Additionally, functions on each package provide an easy way to systematically aggregate and filter data (in. grouping votes from different political parties or providing a partial consolidation of census statistics).</p>
+<p>Additionally, functions on each package provide an easy way to systematically aggregate and filter data, for example grouping votes from different political parties or providing a partial consolidation of census statistics.</p>
 </div>
 <div id="coding-and-documentation-practices" class="section level2 hasAnchor" number="8.3">
 <h2><span class="header-section-number">B.3</span> Coding and documentation practices<a href="appendix-packages.html#coding-and-documentation-practices" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>For all three packages, some best practices around creating R packages were followed, including:</p>
 <ol style="list-style-type: decimal">
 <li>Use functional programming principles when defining functions.</li>
-<li>Use testing tools like <strong>testthat</strong> <span class="citation">[25]</span> to continuously ensure package functionality.</li>
-<li>Provide adequate in-line documentation using <strong>roxygen2</strong><span class="citation">[26]</span>.</li>
+<li>Use testing tools like <strong>testthat</strong> <span class="citation">[28]</span> to continuously ensure package functionality.</li>
+<li>Provide adequate in-line documentation using <strong>roxygen2</strong><span class="citation">[29]</span>.</li>
 <li>Write descriptive vignettes, detailing how each package work (selection of vignettes provided as appendices)</li>
-<li>Provide online documentation, using GitHub Pages to deploy a <strong>pkgdown</strong> <span class="citation">[27]</span> package website.</li>
+<li>Provide online documentation, using GitHub Pages to deploy a <strong>pkgdown</strong> <span class="citation">[30]</span> package website.</li>
 </ol>
 <div style="page-break-after: always;"></div>
 
 </div>
-</div>
-<div class="footnotes">
-<hr />
-<ol start="7">
-<li id="fn7"><p>e.g. trustability, completeness, accuracy, etc.<a href="appendix-packages.html#fnref7" class="footnote-back">↩︎</a></p></li>
-</ol>
 </div>
             </section>
 

@@ -12,7 +12,7 @@ The below tables present all variables eventually used in this project. Please n
 
 ## Identification variables
 
-The below variables constitute identify each data point, i.e. are each record "primary key".
+The below variables constitute identify each data point, i.e. they serve as each record's "primary key".
 
 ```{r}
 tibble::tribble( ~Variable,~Description,
@@ -29,8 +29,7 @@ tibble::tribble( ~Variable,~Description,
   
 ```
 
-
-## Response Variables 
+## Response Variables
 
 The response variables represent primary voting results.
 
@@ -117,7 +116,6 @@ t <-tibble::tribble(~Group, ~Variable,~Description,
 
 ```
 
-
 ```{r cov1}
 t |>
   filter(Group %in% c("Citizenship","Metropolitan area")) |>
@@ -127,7 +125,6 @@ t |>
                  bootstrap_options="responsive",
                  full_width=TRUE)# |>
 ```
-
 
 ```{r cov2}
 t |>
@@ -184,7 +181,6 @@ t |>
 
 ```
 
-
 ```{r cov7}
 t |>
   filter(Group=="Household tenure") |>
@@ -218,8 +214,6 @@ t |>
 
 ```
 
-
 `r if(eval_book){"\\end{landscape}"}`
-
 
 \newpage

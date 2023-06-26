@@ -59,5 +59,22 @@ bookdown::render_book("index.Rmd", "bookdown::pdf_book",params=list(book=TRUE,ht
 
 ```
 
+
 `r if(eval_book)'\\cleardoublepage \\pagenumbering{roman}'`
 
+
+
+
+`r if(eval_html) '# Dedication {-}'`
+
+`r if(eval_book) '\\clearpage \\begin{raggedright} \\thispagestyle{empty} \\vspace*{\\fill}'` `r if(eval_html) '<br><br><center><b><i>'`
+To Lauren. Thanks for you constant, never-ending support, encouragement and patience.
+ 
+To you and Lucas, with whom I have made Australia home. 
+`r if(eval_html) '</center></b></i>'` `r if(eval_book) '\\vspace*{\\fill} \\end{raggedright} \\clearpage'`
+
+\newpage
+
+```{r eval=eval_book}
+uofgdataanalyticsreport::cd_toc()
+```
