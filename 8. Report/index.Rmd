@@ -63,7 +63,7 @@ bookdown::render_book("index.Rmd", "bookdown::pdf_book",params=list(book=TRUE,ht
 `r if(eval_book)'\\cleardoublepage \\pagenumbering{roman}'`
 
 
-
+`r if(eval_html) 'Analysing Australian Election Results: Understanding the impact of demographic factors on primary voting'`
 
 `r if(eval_html) '# Dedication {-}'`
 
