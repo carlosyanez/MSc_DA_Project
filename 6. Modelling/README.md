@@ -1,7 +1,7 @@
+This folder contains
+
 ## Clustering
-
-
-clustering is a intermediate step. See project documentation
+Clustering is an intermediate step. See project documentation
 
 | QMD | Description|
 |----|----|
@@ -11,11 +11,13 @@ clustering is a intermediate step. See project documentation
 | cluster_classifier_redux_2 | Alternative selection of attributes/partitions|
 |cluster_classifier_composite| Alternative approach, using simple formula for cluster 1, then random forest for 0/2 classification|
 
-**cluster_classifier_redux contains the chosen model **
+**cluster_classifier_redux contains the chosen model**
 
 
 ## Regression
 
 | QMD | Description|
 |----|----|
-|| regression_lasso_pas1 | first "naive" run |
+| regression_lasso_pas1 | first "naive" run |
+| regression_cluster_[0-2] | using different models per cluster|
+|
