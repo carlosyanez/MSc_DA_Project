@@ -20,7 +20,15 @@ This repository does not include the packages developed to access and modify dat
 |6. Modelling| Modelling|
 |7. Forecast| Forecast of 2021 Election|
 |8. Report| Project's report|
-|9. Presentation| Viva slides |
+|9. Presentation| Viva slides (**created after submission of Report**) |
 
 Each folder contains its own README.md file.
 Additionally, the file *0_env_setup.R* contains the code to install all required packages.
+
+## IMPORTANT NOTE
+
+Please note that:
+
+- All the code in this repository has been created using relative paths. Please run all code in folder 0-7 in RStudio using the MSc_Project.Rproj project file.
+- The same code was also created in a renv R environment. It can be recreated from scratch using *0_env_setup.R* or restored using *renv.lock*
+- The above does not apply to the 8. Report or 9. Presentation, who have their own R project file.
