@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Section 1 Introduction | Analysing Australian Election Results</title>
-  <meta name="description" content="Section 1 Introduction | Analysing Australian Election Results" />
-  <meta name="generator" content="bookdown 0.32 and GitBook 2.6.7" />
+  <title>Analysing Australian Electoral Results</title>
+  <meta name="description" content="Analysing Australian Electoral Results" />
+  <meta name="generator" content="bookdown 0.34 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Section 1 Introduction | Analysing Australian Election Results" />
+  <meta property="og:title" content="Analysing Australian Electoral Results" />
   <meta property="og:type" content="book" />
   
   
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Section 1 Introduction | Analysing Australian Election Results" />
+  <meta name="twitter:title" content="Analysing Australian Electoral Results" />
   
   
   
@@ -23,13 +23,14 @@
 <meta name="author" content="Carlos Yanez Santibanez" />
 
 
+<meta name="date" content="2023-06-26" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="abstract.html"/>
+
 <link rel="next" href="data.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
@@ -69,7 +70,75 @@
 <script src="libs/leaflet-binding-2.1.1/leaflet.js"></script>
 
 
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
 
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
 <style type="text/css">
 /* Used with Pandoc 2.11+ new --citeproc when CSL is used */
 div.csl-bib-body { }
@@ -109,9 +178,12 @@ div.csl-indent {
 <li><a href="./">Understanding demographic impact on Primary votes</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="" data-path="acknowledgements.html"><a href="acknowledgements.html"><i class="fa fa-check"></i>Acknowledgements</a></li>
-<li class="chapter" data-level="" data-path="abstract.html"><a href="abstract.html"><i class="fa fa-check"></i>Abstract</a></li>
-<li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
+<li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="intro.html"><a href="intro.html#a-brief-introduction-to-australias-political-system"><i class="fa fa-check"></i><b>1.1</b> A brief introduction to Australia’s political system</a></li>
+<li class="chapter" data-level="1.2" data-path="intro.html"><a href="intro.html#australian-political-landscape"><i class="fa fa-check"></i><b>1.2</b> Australian Political landscape</a></li>
+<li class="chapter" data-level="1.3" data-path="intro.html"><a href="intro.html#problem-statement"><i class="fa fa-check"></i><b>1.3</b> Problem statement and research questions</a></li>
+</ul></li>
 <li class="chapter" data-level="2" data-path="data.html"><a href="data.html"><i class="fa fa-check"></i><b>2</b> Data</a>
 <ul>
 <li class="chapter" data-level="2.1" data-path="data.html"><a href="data.html#data-sources"><i class="fa fa-check"></i><b>2.1</b> Data Sources</a></li>
@@ -143,8 +215,38 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="6" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i><b>6</b> Conclusion</a></li>
 <li class="appendix"><span><b>Appendix</b></span></li>
-<li class="chapter" data-level="A" data-path="appendix-variables.html"><a href="appendix-variables.html"><i class="fa fa-check"></i><b>A</b> Detailed list of variables</a></li>
-<li class="chapter" data-level="B" data-path="appendix-packages.html"><a href="appendix-packages.html"><i class="fa fa-check"></i><b>B</b> R Packages</a></li>
+<li class="chapter" data-level="A" data-path="appendix-variables.html"><a href="appendix-variables.html"><i class="fa fa-check"></i><b>A</b> Detailed list of variables</a>
+<ul>
+<li class="chapter" data-level="A.1" data-path="appendix-variables.html"><a href="appendix-variables.html#identification-variables"><i class="fa fa-check"></i><b>A.1</b> Identification variables</a></li>
+<li class="chapter" data-level="A.2" data-path="appendix-variables.html"><a href="appendix-variables.html#response-variables"><i class="fa fa-check"></i><b>A.2</b> Response Variables</a></li>
+<li class="chapter" data-level="A.3" data-path="appendix-variables.html"><a href="appendix-variables.html#covariates"><i class="fa fa-check"></i><b>A.3</b> Covariates</a></li>
+</ul></li>
+<li class="chapter" data-level="B" data-path="appendix-packages.html"><a href="appendix-packages.html"><i class="fa fa-check"></i><b>B</b> R Packages</a>
+<ul>
+<li class="chapter" data-level="B.1" data-path="appendix-packages.html"><a href="appendix-packages.html#retrieving-distributing-and-storing-data."><i class="fa fa-check"></i><b>B.1</b> Retrieving, distributing and storing data.</a></li>
+<li class="chapter" data-level="B.2" data-path="appendix-packages.html"><a href="appendix-packages.html#processing-aggregating-and-presenting-results."><i class="fa fa-check"></i><b>B.2</b> Processing, aggregating and presenting results.</a></li>
+<li class="chapter" data-level="B.3" data-path="appendix-packages.html"><a href="appendix-packages.html#coding-and-documentation-practices"><i class="fa fa-check"></i><b>B.3</b> Coding and documentation practices</a></li>
+</ul></li>
+<li class="chapter" data-level="C" data-path="auspol-vignette.html"><a href="auspol-vignette.html"><i class="fa fa-check"></i><b>C</b> {auspol} Vignette</a>
+<ul>
+<li class="chapter" data-level="C.1" data-path="auspol-vignette.html"><a href="auspol-vignette.html#what-is-this"><i class="fa fa-check"></i><b>C.1</b> What is this?</a></li>
+<li class="chapter" data-level="C.2" data-path="auspol-vignette.html"><a href="auspol-vignette.html#getting-the-data"><i class="fa fa-check"></i><b>C.2</b> Getting the data</a></li>
+<li class="chapter" data-level="C.3" data-path="auspol-vignette.html"><a href="auspol-vignette.html#plotting"><i class="fa fa-check"></i><b>C.3</b> Plotting</a>
+<ul>
+<li class="chapter" data-level="C.3.1" data-path="auspol-vignette.html"><a href="auspol-vignette.html#historic-trends"><i class="fa fa-check"></i><b>C.3.1</b> Historic Trends</a></li>
+</ul></li>
+<li class="chapter" data-level="C.4" data-path="auspol-vignette.html"><a href="auspol-vignette.html#results-for-one-election"><i class="fa fa-check"></i><b>C.4</b> Results for one election</a></li>
+</ul></li>
+<li class="chapter" data-level="D" data-path="auscensus-vignette.html"><a href="auscensus-vignette.html"><i class="fa fa-check"></i><b>D</b> {auscensus} Vignette</a></li>
+<li class="chapter" data-level="E" data-path="aussiemaps-vignette.html"><a href="aussiemaps-vignette.html"><i class="fa fa-check"></i><b>E</b> {aussiemaps} Vignette</a>
+<ul>
+<li class="chapter" data-level="E.1" data-path="aussiemaps-vignette.html"><a href="aussiemaps-vignette.html#aussiemaps---yet-another-maps-package"><i class="fa fa-check"></i><b>E.1</b> {aussiemaps} - Yet another maps package</a></li>
+<li class="chapter" data-level="E.2" data-path="aussiemaps-vignette.html"><a href="aussiemaps-vignette.html#getting-started."><i class="fa fa-check"></i><b>E.2</b> Getting started.</a></li>
+<li class="chapter" data-level="E.3" data-path="aussiemaps-vignette.html"><a href="aussiemaps-vignette.html#filtering-via-regular-expressions"><i class="fa fa-check"></i><b>E.3</b> Filtering via regular expressions</a></li>
+<li class="chapter" data-level="E.4" data-path="aussiemaps-vignette.html"><a href="aussiemaps-vignette.html#even-more-complex-filtering"><i class="fa fa-check"></i><b>E.4</b> Even more complex filtering</a></li>
+<li class="chapter" data-level="E.5" data-path="aussiemaps-vignette.html"><a href="aussiemaps-vignette.html#aggregation"><i class="fa fa-check"></i><b>E.5</b> Aggregation</a></li>
+<li class="chapter" data-level="E.6" data-path="aussiemaps-vignette.html"><a href="aussiemaps-vignette.html#data-aggregation"><i class="fa fa-check"></i><b>E.6</b> Data Aggregation</a></li>
+</ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -158,7 +260,7 @@ div.csl-indent {
       <div class="body-inner">
         <div class="book-header" role="navigation">
           <h1>
-            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Analysing Australian Election Results</a>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Analysing Australian Electoral Results</a>
           </h1>
         </div>
 
@@ -166,17 +268,72 @@ div.csl-indent {
           <div class="page-inner">
 
             <section class="normal" id="section-">
+<div id="header">
+<h1 class="title">Analysing Australian Electoral Results</h1>
+<p class="author"><em>Carlos Yanez Santibanez</em></p>
+<p class="date"><em>26 June 2023</em></p>
+</div>
 <div id="intro" class="section level1 hasAnchor" number="1">
-<h1><span class="header-section-number">Section 1</span> Introduction<a href="intro.html#intro" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<h1><span class="header-section-number">1</span> Introduction<a href="intro.html#intro" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>The start of the 21st century has come with significant disruption across the world. Although it may sound cliché, the end of the post-war order has come with many challenges: the growing effects of climate change, global recessions, and a pandemic. Additionally, improved quality of life has brought both longer life expectancy and decreased birth rates across the world. All these changes have impacted the political systems and conventions of the 20th century. Uncertainty about the future has proven fertile ground for populist movements. Longer lifespans mean that the post-war generation (Baby Boomers) are still active in political life as many of them enter their 8th decade, worrying about keeping the lifestyle as they age. On the other hand ‘young’ Millenials reach their forties with uncertain prospects due to climate change and their apparent inability to reach the same level of wealth as their parents.</p>
+<p>In Australia, the last decade of political life has been marked by these issues, which have been contentious points across both the political divide and within the major parties that have dominated in politics for much of the past century. Political narrative (from the media and politicians) tend to characterise this issues in terms of conflict between different population groups (stoic Baby Boomers vs. Millenials, inner-city “lefties” vs. “real Australia”, southern vs. northern states). As many of these perceived issues can be described in demographic terms, it is of interest to analyse how demographic factors may or may not affect political choices.</p>
+<div id="a-brief-introduction-to-australias-political-system" class="section level2 hasAnchor" number="1.1">
+<h2><span class="header-section-number">1.1</span> A brief introduction to Australia’s political system<a href="intro.html#a-brief-introduction-to-australias-political-system" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The Commonwealth of Australia is a federal, constitutional monarchy. At a federal level, the political system consists of multi-party parliamentary democracy. This system is modelled after the Westminster institutions, with a two-chamber legislature. Like the UK Parliament, the lower chamber (House of Representatives) is composed of elected members, each being the sole representative of one geographical area (a Commonwealth Electoral Division or CED, also referred to as an electorate or a division). The number of and geographical extent of each electorate is determined by the Australian Electoral Commission - an independent body - following constitutional provisions. Although frequent boundary reviews are conducted to guarantee equal representation per citizen, in practice electorate rolls range between 72,345 and 138,836 voters, due to great population densities across the country and to ensure minimum representation for each state/territory, as enshrined in the Constitution.</p>
+<p>Similarly to other Westminster systems, the leader of the party or Coalition with the largest number of elected representatives (Members of Parliament or MPs) gets invited by the Governor General (as representative of the Australian monarch) to form the executive branch (the Government). The second majority is formally designed “The Opposition”, while all remaining MPs are known as “the crossbench”.</p>
+<p>In terms of the electoral system, voting is compulsory for all Australian citizens living in the country. Registration is automatic upon turning 18 years old or becoming a citizen, based on place of residence. Both failing to update enrolment details and failing that vote attract fines - which are enforced. Participation rates usually range above 90%.</p>
+<p>MPs are elected using a preferential voting system. Voters must rank candidates in order of preference (with 1 being the preferred candidate, 2 their second choice and so on). When tallying up the results, the below process is followed:</p>
+<ul>
+<li><p>Votes are tallied based on first preferences - which are known as the <strong>primary vote</strong>.</p></li>
+<li><p>Results are organised by the number of votes. If a candidate obtains an absolute majority (i.e. one vote above half of the valid ballots), they are declared the winner.</p></li>
+<li><p>If no candidate reaches the absolute majority, the ballots from the candidate with the lowest number of votes are taken aside and redistributed to the other candidate based on the second preference.</p></li>
+<li><p>Votes are tallied again, and the process is repeated (based on each ballot’s next preference) until a candidate obtains over 50% of the votes.</p></li>
+</ul>
+<p>A graphical example of preference flows for the Division of Indi is presented in figure <a href="#fig:flow-indi"><strong>??</strong></a>.</p>
+<p><img src="MSc-Project---Carlos-YANEZ-SANTIBANEZ_files/figure-html/flow-indi-1.png" width="672" /></p>
+</div>
+<div id="australian-political-landscape" class="section level2 hasAnchor" number="1.2">
+<h2><span class="header-section-number">1.2</span> Australian Political landscape<a href="intro.html#australian-political-landscape" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Although a multi-party system in theory, Australian politics have operated as a de facto two-party system through most of the Federation’s history - traditionally a labour-aligned and an opposing party. Nowadays the landscape is composed of two major forces (“parties of government”) and a number of smaller groups, namely:</p>
+<ul>
+<li><p>The <strong>Australian Labor Party (ALP)</strong> is the oldest in the system. As its name suggests, the party’s origin is in the labour movement from the late Victorian era. This is a left-of-centre party and it is made up of two official factions: the centrist “Right Faction” (historically associated with some migrant communities and Catholic Social Teachings) and a “Left Faction” (with socialist roots). The party membership is comprised both of individuals and unions.</p></li>
+<li><p>The <strong>Coalition (COAL)</strong> is a grouping of two federal right-of-centre parties(fused in two states). The largest and leading party is the <strong>Liberal Party (LIB/LP)</strong>, founded in the 1940s by Australia’s longest-serving Prime Minister, Sir Robert Menzies. Historically has served as a “big tent” organisation, agglutinating classically liberal and conservative groups. The second party in the coalition is the <strong>National Party (NAT)</strong>, which is a conservative party representing rural constituencies. At a federal level, this a permanent coalition - when elected the Liberal leader becomes the Prime Minister with the National leader serving as deputy.</p></li>
+<li><p>The <strong>Australian Greens (GRN)</strong> is considered the largest of the “minor parties”. One of the oldest green parties in the world, they are described as a left-wing, progressive party with a focus on environmental policies. On the political spectrum, they are perceived as being to the left of Labor.</p></li>
+<li><p><strong>Minor right-wing parties</strong> like One Nation and United Australian Party (UAP), Fishers and Shooters, etc. Most of them are perceived as further right than then then Coalition and mostly without parliamentary representation except One Nation and UAP, which have some support in rural areas, especially in North South Wales and Queensland.</p></li>
+<li><p><strong>Minor left-wing parties</strong>, like Socialist Alternative and Socialist Alliance. None of these parties has ever attained federal political representation.</p></li>
+<li><p><strong>Independents</strong>, which traditionally have not fit into the classical political spectrum. Historically independents didn’t have common positions, which changed in the last election with the arrival to Parliament of centrist “Teal” independents.</p></li>
+</ul>
+</div>
+<div id="problem-statement" class="section level2 hasAnchor" number="1.3">
+<h2><span class="header-section-number">1.3</span> Problem statement and research questions<a href="intro.html#problem-statement" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>As expected, general political knowledge has mapped distinct audiences to each group. According to this working-class people vote Labor, wealthy professionals and business owners are inclined to the Liberal Party, farmers prefer the Nationals and an inner city, young liberal population vote for the Green. Political science also postulates that people become more conservative with age and as they accumulate wealth. However, global and local events in the last 10 years have shifted some of those political narratives. In particular, in Australia both major parties have experienced internal friction when defining their policies towards climate change (an issue resonating with urban electorates and with growing effects in Australia but contentious with some businesses and unions involved in Coal and Gas exporting sector), housing (rising prices due, partly influenced by policies favouring the real estate market as an investment mechanism). According to the media, political commentary and the same parties, this has shifted traditional voting patterns where:</p>
+<p>There is an increasing divide between wealthy inner metropolitan areas, the suburbs, and regional and rural populations.
+In this divide, inner metropolitan areas seem to favour left-wing parties, and rural areas are conservative, leaving suburbs as the middle ground where economic issues are relevant.
+People are not shifting to conservative positions with age. In particular, Millennials are not voting for the Coalition due to climate policies and being locked out of the housing market. According to this, their vote is captured by either Labor or the Greens.
+Voters from historically Liberal (Party) wealthy, and classically liberal (as in liberalism) electorates (so-called “little l Liberals”) are dissatisfied with the Coalition’s perceived conservative turn, especially when it comes to climate change and positions on “moral issues”. In this narrative, these voters have supported the rise of the “Teal” movement (environmentally progressive, socially liberal, economically conservative/moderate).</p>
+<p>Another aspect usually considered in political analysis is the influence of ethnically diverse voters. Being a “migration nation” and with roughly half of the population being a migrant or a child of at least one migrant, culturally diverse communities are perceived as relevant political audiences.</p>
+<p>Within this context, this project attempts to study how population make-up may influence how Australian citizens may vote for a particular party. Specifically, the project will look into the following questions:</p>
+<ul>
+<li>Is there a demographic divide between the inner city and suburbia?</li>
+<li>What are the main demographic factors influencing political persuasion?</li>
+</ul>
+<p>This then will be used to examine some common political narratives against the 2022 election results, such as:</p>
+<ul>
+<li>Was the so-called “Teal Wave” supported by discontent moderate Liberal voters?</li>
+<li>Are Millenials not becoming more conservative as they Age?</li>
+<li>Is culturally diverse voting relevant?</li>
+</ul>
+<p>This project does <strong>not</strong> aim to develop a forecast tool. A naive retrospective forecast of the recent 2022 is included in this report, however it is intention is to validate primary voting drivers. On the same line, this project does not consider the problem of forecasting the actual winner of each election, which can be defined as a different topic altogether.</p>
 
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="abstract.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="data.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+
+<a href="data.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -218,7 +375,7 @@ gitbook.start({
 "link": null,
 "text": null
 },
-"download": ["_main.pdf"],
+"download": null,
 "search": {
 "engine": "fuse",
 "options": null

@@ -22,7 +22,7 @@ Different models were tried, starting with basic tree partitioning. After a coup
 -   Clusters previously obtained with HDBSCAN, used as the response variable.
 -   Since the year has been "discounted", all values will be considered as one pool. An assumption has been made that the period in question is short enough to drastically affect the clustering model. If demographic values change - cluster assignment (for instance because of re-distribution), the effect is similar to being a different electorate.
 
-The initial fitting produces the results presented in tables \@ref(tab:ranger11) and \@ref(tab:ranger12). A variable importance plot is also presented in figure \@ref(fig:vipranger1)
+The initial fitting produces the results presented in tables \@ref(tab:ranger11) and \@ref(tab:ranger12). A variable importance plot is also presented in figure \@ref(fig:vipranger1).
 
 ```{r ranger11}
 clustering_folder <-path(project_path,"6. Modelling","clustering_models")
@@ -341,17 +341,24 @@ It is worth noticing that some of the selected covariates may not be relevant in
 
 When looking at each cluster, it is possible to summarise the different demographic effects as follows:
 
--   In **cluster 0** (mostly inner metropolitan areas) political divides are drawn across wealth, religiosity (i.e. values) and generational lines.
+* In **cluster 0** (mostly inner metropolitan areas) political divides are drawn across wealth, religiosity (i.e. values) and generational lines.
 
-  -   In these areas, coalition vote is associated with higher percentages of followers of Anglican, Uniting and Presbyterian churches, people on higher income and Baby Boomers.
-  -   Labor vote is turn driven by followers of the Catholic Church (partially a reflection of the historic association between the Australian Catholic Church and the labour movement, and Irish and Italian migration) and Millennials. There is some association between less-advantaged populations and social and community housing.
-  -   Green vote is also driven by Millennials, but unlike Labor there is a positive association with higher income groups. Green votes are also related to the irreligiosity o secular population groups.
--   In **cluster 1** (regional areas, including mid-size cities and rural areas), demographic variance is smaller. However, when it happens, it follows a different pattern from the main cities.
-  - In this area, the Coalition vote has also a positive association with religiosity - this is not dissimilar to cluster 1, especially when considering that Anglicanism/Presbyterianism/Unitiarianism are the largest religious groups in the area). However, a key difference with the cities is that in case higher wealth groups have a negative association with Coalition vote.
-  - Labor vote in these areas is driven by a larger proportion of Australian citizens and higher-income voters.
-  - Overall, it seems there are no demographic factors influencing Green votes in these areas.
-  - Interestingly, age does not rank as a variable of importance.
-- As expected, **cluster 2** (metropolitan suburbia), shares some traits with their inner-city counterparts, showing the same associations along religious, age and wealth lines. However, there are a larger number of predictors associated with the multicultural make-up of the electorates. Those covariates tend to have a positive effect on Labor vote and a negative influence on Coalition and Green voting. This difference is interesting, especially considering inner city areas are as multicultural as the suburbs.
+  * In these areas, coalition vote is associated with higher percentages of followers of Anglican, Uniting and Presbyterian churches, people on higher income and Baby Boomers.
+  
+  * Labor vote is turn driven by followers of the Catholic Church (partially a reflection of the historic association between the Australian Catholic Church and the labour movement, and Irish and Italian migration) and Millennials. There is some association between less-advantaged populations and social and community housing.
+
+  * Green vote is also driven by Millennials, but unlike Labor there is a positive association with higher income groups. Green votes are also related to the irreligiosity o secular population groups.
+  
+* In **cluster 1** (regional areas, including mid-size cities and rural areas), demographic variance is smaller. However, when it happens, it follows a different pattern from the main cities.
+
+  * In this area, the Coalition vote has also a positive association with religiosity - this is not dissimilar to cluster 1, especially when considering that Anglicanism/Presbyterianism/Unitiarianism are the largest religious groups in the area). However, a key difference with the cities is that in case higher wealth groups have a negative association with Coalition vote.
+  
+  * Labor vote in these areas is driven by a larger proportion of Australian citizens and higher-income voters.
+  
+  * Overall, it seems there are no demographic factors influencing Green votes in these areas.
+Interestingly, age does not rank as a variable of importance.
+
+* As expected, **cluster 2** (metropolitan suburbia), shares some traits with their inner-city counterparts, showing the same associations along religious, age and wealth lines. However, there are a larger number of predictors associated with the multicultural make-up of the electorates. Those covariates tend to have a positive effect on Labor vote and a negative influence on Coalition and Green voting. This difference is interesting, especially considering inner city areas are as multicultural as the suburbs.
 
 ```{r}
 rm(list=ls()[!(ls() %in% keep_vars)])

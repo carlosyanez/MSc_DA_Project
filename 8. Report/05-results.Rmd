@@ -221,8 +221,11 @@ demographic_data <- demographic_data |>
 
 ```{r tealdemographics, fig.cap="Selected demographics for teal seats"}
 
-selected_demographics <- c("Age_Baby_Boomers","Age_Gen_Y",
-                           "Income_2000_or_more","Religion_No_Religion_Secular")
+selected_demographics <- c("Age: BabyBoomers"="Age_Baby_Boomers",
+                           "Age: Geneneration Y"="Age_Gen_Y",
+                           "Income: 2,000 or more"="Income_2000_or_more",
+                           "Religion: No Religion/Secular"="Religion_No_Religion_Secular")
+
 electorates <- c("Warringah","Wentworth","Goldstein","Kooyong")
 
 p <- list()
@@ -292,11 +295,11 @@ if(eval_html){
 
 ```{r green, fig.cap="Demographics in Green strongholds"}
 
-selected_demographics <- c("Age_Baby_Boomers",
-                           "Religion_Catholic",
-                           "Income_2000_or_more",
-                           "Religion_No_Religion_Secular",
-                           "Religion_Anglican_Uniting_Presbyterian")
+selected_demographics <- c("Age: Baby Boomers","Age_Baby_Boomers",
+                           "Religion: Catholic","Religion_Catholic",
+                           "Income: 2,000 or more","Income_2000_or_more",
+                           "Religion: No Religion/Secular","Religion_No_Religion_Secular",
+                           "Relgigion: Anglican, Uniting and Pressbyterian","Religion_Anglican_Uniting_Presbyterian")
 
 electorates <- c("Griffith","Ryan","Brisbane","Wills")
 
@@ -369,12 +372,13 @@ if(eval_html){
 
 ```{r suburbia2, fig.cap="Demographics in suburban seats"}
 
-selected_demographics <- c("Age_Baby_Boomers",
-                           "Language_South_Asian",
-                           "Religion_Islam",
-                           "Household_Standalone",
-                           "Age_Gen_Y",
-                           "Language_European")
+selected_demographics <- c("Age: Baby Boomers","Age_Baby_Boomers",
+                           "Language: South Asian","Language_South_Asian",
+                           "Religion: Islamn","Religion_Islam",
+                           "Household: Standalone","Household_Standalone",
+                           "Age: Generation Y","Age_Gen_Y",
+                           "Language: European","Language_European")
+
 
 electorates <- c("Hasluck","Menzies","Fowler","Kingston")
 

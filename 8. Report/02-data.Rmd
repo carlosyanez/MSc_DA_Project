@@ -12,9 +12,9 @@ bibliography:
 
 Data used in this project comes from two sources, namely:
 
--   The **Australian Electoral Commission** (AEC) [@AEC] . The national body overseeing and running federal elections, the AEC contains detailed election result records. All results for federal elections held in the 21st century are available online, through their Tally Room website [@TallyRoom].
+-   The **Australian Electoral Commission** (AEC, \<<https://www.aec.gov.au/>\> ). The national body overseeing and running federal elections, the AEC contains detailed election result records. All results for federal elections held in the 21st century are available online, through their Tally Room website [@TallyRoom].
 
--   The **Australian Bureau of Statistics** (ABS) [@ABS]. The ABS provides a wide number of national statistics and is responsible to conduct a national census of population and housing every 5 years. Comprehensive census data is provided in multiple formats, including CSV files through Census Data Packs [@CensusDataPack], available for censuses from 2006 onwards.
+-   The **Australian Bureau of Statistics** (ABS, \<<https://www.abs.gov.au/>\>) . The ABS provides a wide number of national statistics and is responsible to conduct a national census of population and housing every 5 years. Comprehensive census data is provided in multiple formats, including CSV files through Census Data Packs [@CensusDataPack], available for censuses from 2006 onwards.
 
 Both organisations are the authoritative source for electoral and statistical data in Australia, and the data is provided openly. Although there are no quality issues, the way that data is provided presents other challenges:
 
@@ -28,7 +28,7 @@ To assist in dealing with these issues and ensure repeatability, it was necessar
 -   **{auscensus} [@R-auscensus]** <https://carlosyanez.github.io/auscensus/>, which allows to interact with Census Data Packs to extract different statistics across geographical units, and across censuses.
 -   **{aussiemaps} [@R-aussiemaps]** <https://carlosyanez.github.io/aussiemaps/>, which assists with aggregating census data into electoral divisions, by matching and apportioning different geographical structures.
 
-Appendix \@ref(appendix-packages) presents a more detailed view on how they were built.  Additionally appendices {#auspol-vignette},{#auscensus-vignette},and {#aussiemaps-vignette} contains a copy of some of their vignettes explaining their use. With their help, it was possible to build a basic data extraction and transformation pipeline, which is represented by figure \@ref(fig:data-flow2).
+Although this project's scope is data analysis, writing this three packages was a significant task, requiring as large time investment. Appendix \@ref(appendix-packages) presents a more detailed view on their design principles. Additionally appendices \@ref(auspol-vignette), \@ref(auscensus-vignette), and \@ref(aussiemaps-vignette) contain a copy of some of their vignettes explaining their use. With their help, it was possible to build a basic data extraction and transformation pipeline, which is represented by figure \@ref(fig:data-flow2).
 
 ```{r data-flow2, fig.cap="Flow of data from sources to dataset", dev='png',fig.dim = c(10, 3.5)}
 dag_model <- list(variables = c("VA","Aussiemaps","VB","Auscensus","VC","VD","Auspol","VE","VF","VG","VH"),
@@ -112,10 +112,9 @@ In four steps, the extraction process consists of:
 
 Processing sources into a usable dataset represented a particular arduous tasks. Although there were no issues in terms of missing or erroneous data, the previously mentioned challenges meant that intense processing was required. Getting data into the right shape consisted of:
 
-1. Obtaining data at the most granular spatial division available in the Census packs (e.g. Statistical Area 1 (SA1) for the 2011,2016 and 2021 censuses). For reference for the 2021 Census there were 57,523 SA1 areas in Australia.
-2. Mapping SA1 data into Commonwealth Electoral Divisions. For SA1s overlapping more than one electoral, data was apportioned based on overlapping areas.
-3. Converting all values from absolute (e.g. number of votes, number of people in a particular demographic category) to percentages against total number of voters (elections)/ individuals (census) in the respective electorate.
-
+1.  Obtaining data at the most granular spatial division available in the Census packs (e.g. Statistical Area 1 (SA1) for the 2011,2016 and 2021 censuses). For reference for the 2021 Census there were 57,523 SA1 areas in Australia.
+2.  Mapping SA1 data into Commonwealth Electoral Divisions. For SA1s overlapping more than one electoral, data was apportioned based on overlapping areas.
+3.  Converting all values from absolute (e.g. number of votes, number of people in a particular demographic category) to percentages against total number of voters (elections)/ individuals (census) in the respective electorate.
 
 ## Data Selection and Initial Transformation {#data-selection}
 
@@ -158,7 +157,7 @@ vistime::gg_vistime(col.event="Year",
 p  <- gginnards::delete_layers(p,"GeomText")
 p  <- gginnards::append_layers(p,geom_text(aes(label=label),angle=90,color="black",nudge_x = 15000000))
 
-p <- p |> ggh4x::force_panelsizes(rows=3,cols=16)
+p <- p + ggh4x::force_panelsizes(rows=3,cols=16)
   
 if(eval_html){
    p  #no point in making it interactive
@@ -170,7 +169,7 @@ if(eval_html){
 
 ```
 
-Considering the census data available and selecting the elections closer to each census, four sets of events were selected for data extraction. there are presented in table \@ref(tab:selected-pairs).
+Considering the census data available and selecting the elections closer to each census, four sets of events were selected for data extraction. They are presented in table \@ref(tab:selected-pairs).
 
 ```{r selected-pairs}
 
@@ -193,13 +192,13 @@ Please note that this selection will remove half of the election events within t
 In the case of the electoral data. not much processing was required. The source data already contains records of primary voting for each electorate. The only adjustment was to reclassify the vote into four groups (referred to as parties in this document):
 
 -   **ALP** for the Australian Labor Party.
--   **COAL** representing the Coalition, made of the Liberal Party, the National Party, the Liberal National Party of Queensland [^02-data-1] and the Country Liberal Party in the Northern Territory [^02-data-2] .
+-   **COAL** representing the Coalition, made of the Liberal Party, the National Party, the Liberal National Party of Queensland [^1] and the Country Liberal Party in the Northern Territory [^2] .
 -   **GRN** for the Australian Greens.
 -   **Other** to collect votes from any other candidates, including minor parties and independents.
 
-[^02-data-1]: In Queensland and the Northern Territory, the Liberal and National branches have merged. Elected federal MPs and senators sit with Liberals if they come from an urban area, or the Nationals when they represent a regional/rural/remote electorate.
+[^1]: In Queensland and the Northern Territory, the Liberal and National branches have merged. Elected federal MPs and senators sit with Liberals if they come from an urban area, or the Nationals when they represent a regional/rural/remote electorate.
 
-[^02-data-2]: In Queensland and the Northern Territory, the Liberal and National branches have merged. Elected federal MPs and senators sit with Liberals if they come from an urban area, or the Nationals when they represent a regional/rural/remote electorate.
+[^2]: In Queensland and the Northern Territory, the Liberal and National branches have merged. Elected federal MPs and senators sit with Liberals if they come from an urban area, or the Nationals when they represent a regional/rural/remote electorate.
 
 A data sample is presented in table \@ref(tab:canberra2022).
 
@@ -250,15 +249,15 @@ census_cols <- ncol(census_cols)
 
 When it comes to Census data, a number of considerations had to be tackled during extractions, namely:
 
--   **Large volumes of data**. Each census collected a large number of statistics. For instance, the data release for the 2022 Census contains 62 different tables, ranging from 8 [^02-data-3] to 1,590 [^02-data-4] attributes.
+-   **Large volumes of data**. Each census collected a large number of statistics. For instance, the data release for the 2022 Census contains 62 different tables, ranging from 8 [^3] to 1,590 [^4] attributes.
 
 -   **Data aggregated per electorate**. Although the ABS provides statistics for *non ABS* geographical structures, this only includes a subset of all data points collected. Thus, in many cases is necessary to extract data for granular-level ABS units (*SA1* in 2022) and aggregate them into electoral divisions. Without knowing the population density for each SA1, values have been approximately apportioned using areas.
 
 -   **Consistency across time**. Due to the changing nature of a Census (to better serve its purpose), there are some minor variations in how data is collected and aggregated from Census to Census.
 
-[^02-data-3]: *02 -Selected Medians and Averages*
+[^3]: *02 -Selected Medians and Averages*
 
-[^02-data-4]: *09 - Country of Birth of Person by Age by Sex*
+[^4]: *09 - Country of Birth of Person by Age by Sex*
 
 To obtain a first selection of potentially relevant demographic variables to extract, existing literature and journalistic sources were consulted ([@biddle2022], [@votingpatternsbygen], [@jakubowicz]). Since many variables are colinear by definition (e.g. income groups) or they are closely related (e.g age and relationship status), the initial selection was inspected. After iteration, a resulting set of `r census_cols` attributes was chosen, which can be classed into the following categories:
 
@@ -282,7 +281,7 @@ To obtain a first selection of potentially relevant demographic variables to ext
 
 Additionally, each electorate was classified as **metropolitan** if it lies within the boundaries of Australian capital cities or **non-metropolitan**, when it is not the case. Altogether, these variables try to reflect wealth and education (cited by [@biddle2022] as key factors influencing political persuasion), as well as the stage in life and belonging to a particular migrant community (sometimes cited as an influential factor, for instance in [@jakubowicza]).
 
-A sample of the resulting dataset is present in table \@ref(tab:datasetsample).
+A sample of the resulting dataset is present in table \@ref(tab:datasetsample). A detailed list of all variables is presented in appendix \@ref(appendix-variables).
 
 ```{r include=FALSE}
 dataset <- read_csv(fs::path(project_path,"4. Data","consolidated.csv"))
@@ -334,7 +333,11 @@ After obtaining the data, the election results and census statistics for the 202
 
 In total, the resulting dataset is made up of 4 response variables and `r formatC(census_cols,digits=0)` potential predictors, plus identification attributes like division name and election year. As expected the many covariates exhibit moderate to high collinearity. Also, it is possible to observe some loose correlation between some of the covariates and some of the responses. The complete list of variables is presented in appendix \@ref(appendix-variables).
 
-As an example, figure \@ref(fig:coalvsboomers) shows a somewhat weak correlation between Coalition primary vote and the percentage of the Baby Boomers. Figure \@ref(fig:corrlanguagereligion) presents the correlation values for religion and language variables, where is possible to see: \* A positive correlation between monolingual English speakers and membership in Anglican, Presbyterian and Uniting churches. Together, they are likely proxies for Anglo-Celtic population. \* Similarly, there are somewhat expecting origins that most likely indicate concentrations of linguistically and culturally diverse pockets, e.g. Hinduism and South Asian languages, Catholicism and Italian, and Buddhism and East Asian languages.
+As an example, figure \@ref(fig:coalvsboomers) shows a somewhat weak correlation between Coalition primary vote and the percentage of the Baby Boomers. Figure \@ref(fig:corrlanguagereligion) presents the correlation values for religion and language variables, where is possible to see:
+
+\* A positive correlation between monolingual English speakers and membership in Anglican, Presbyterian and Uniting churches. Together, they are likely proxies for Anglo-Celtic population.
+
+\* Similarly, there are somewhat expecting origins that most likely indicate concentrations of linguistically and culturally diverse pockets, e.g. Hinduism and South Asian languages, Catholicism and Italian, and Buddhism and East Asian languages.
 
 ```{r coalvsboomers,fig.cap="Correlation between Coalition vote and Baby boomer population"}
 
@@ -365,14 +368,13 @@ if(eval_html){
 
 ```{r}
 if(eval_html){
-  hm_height <- 800
+  hm_height <- 400
 }else{
   hm_height <- knitr::opts_chunk$get()$fig.height
 }
 ```
 
 `r if(eval_book){"\\newpage"}` `r if(eval_book){"\\begin{landscape}"}`
-
 
 ```{r corrlanguagereligion, echo=FALSE,  out.width="110%", fig.cap="Correlation for selected covariates", fig.height=hm_height}
 
@@ -512,15 +514,11 @@ Normally when characterising votes, Australian politicians and political media m
 
 Using all demographic variables a clustering algorithm has been applied to identify those clusters. Different clustering approaches were, eventually choosing to:
 
--   ignore Census years and pool all records in a single pool.\
+-   ignore Census years and pool all records in a single pool.
 -   transform all demographic attributes to represent the difference between each data point and their corresponding national value (in the same year).
--   use of *Hierarchical Density-Based Spatial Clustering of Applications with Noise* (HDBSCAN) [@campello2013], a density-based hierarchical clustering algorithm. 
+-   use of *Hierarchical Density-Based Spatial Clustering of Applications with Noise* (HDBSCAN) [@campello2013], a density-based hierarchical clustering algorithm.
 
-
-
-
-Instead of pre-setting a target number of clusters, HDBSCAN determines the optimal number of clusters based on its tuning parameters.
-
+HDBSCAN is essentially a density-based method to find common density areas, for which then a hierarchical analysis of the results is used to heuristically determine the number of processes. This is an appropriate method in this scenario.
 
 This results in 3 distinct clusters of electorates. When presented in a map, it is possible to obtain `r if_else(eval_html,"figures \\@ref(fig:clustermap2016) and \\@ref(fig:clustermap2016int)","figure \\@ref(fig:clustermap2016)")` for 2016.
 

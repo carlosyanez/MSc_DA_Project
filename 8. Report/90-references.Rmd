@@ -1,0 +1,6 @@
+`r if(eval_book) '\\clearpage \\begin{center} \\thispagestyle{empty} \\vspace*{\\fill}'`
+`r if(eval_book) '{\\huge Bibliography}'`
+`r if(eval_book) '\\vspace*{\\fill} \\end{center} \\clearpage'`
+`r if (knitr::is_html_output()) '
+# References {-}
+'`

@@ -1,11 +1,10 @@
 `r if(eval_book)'\\newpage'`
 # {auspol} Vignette  {#auspol-vignette}
-*Extracted from https://carlosyanez.github.io/auspol/articles/house_primary_vote.html on Sunday 22 January 2023*
+*Extracted from <https://carlosyanez.github.io/auspol/articles/house_primary_vote.html> on Sunday 22 January 2023*
 ```{r eval=TRUE}
 library(auspol)
 library(tidyverse)
 library(lemon)
-knitr::opts_knit$set(message=FALSE,echo=TRUE,warning=FALSE,cache=FALSE,eval=TRUE)
 knit_print.data.frame <- lemon_print
 ```
 
@@ -29,6 +28,7 @@ For instance, to get the results for Brisbane for 2022:
 ```{r echo=TRUE}
 get_house_primary_vote(division="Brisbane",year=2022)
 ```
+
 
 Both parameters can include more than one value, e.g.
 

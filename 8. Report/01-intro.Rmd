@@ -4,6 +4,8 @@ output:
 ---
 
 `r if(eval_book)'\\cleardoublepage \\pagenumbering{arabic}'`
+`r if(eval_book) '\\allsectionsfont{\\raggedright}'`
+
 
 # Introduction {#intro}
 
@@ -77,3 +79,5 @@ This then will be used to examine some common political narratives against the 2
 - Is culturally diverse voting relevant? 
 
 This project does **not** aim to develop a forecast tool. A naive retrospective forecast of the recent 2022 is included in this report, however it is intention is to validate primary voting drivers. On the same line, this project does not consider the problem of forecasting the actual winner of each election, which can be defined as a different topic altogether.
+
+\newpage

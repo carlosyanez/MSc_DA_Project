@@ -1,0 +1,38 @@
+---
+output:
+  pdf_document: default
+bibliography:
+- book.bib
+- packages.bib
+---
+`r if(eval_book) '\\newpage'`
+# Conclusion {#conclusion}
+
+In summary, this project presents an attempt to understand and explain changes in primary voting through the influence of the demographic composition of Australian federal electorates. Seeking easy interpretability, the approach involved the use of clustering to identify groups of electorates with similar composition, for which simple regularised regression models were developed with the aim of identifying the main demographic drivers of voting.
+
+In general terms, the model presented in this document achieves the goal of identifying key demographic characteristics the affect primary voting for a particular political party. 
+
+Although accuracy was not a key consideration, the model managed to produce moderately accurate results. Nevertheless, reasonable improvements may be achieved by exploring some the following:
+
+* Further refining the segmentation into a recommender-type model, where not only similarity clusters are refined by other factors like State and degree of rurality are considered.
+* Consider the introduction of a longitudinal element to account for the electorate's history and the influence of incumbency.
+* Explore how to address the mismatch between election and census cycles to use the data from all the elections.
+* Explore how federal and state elections influence each other.
+
+Taking aside issues regarding the effectiveness of this model, it is also relevant to raise a note of caution about how to interpret the model correctly. By using demographic data is important to keep in mind that certain attributes must be interpreted as proxies of attitudes and values that have an effect on how voters choose. It is very important to make this distinction and avoid statements such as "Community XYZ votes/don't vote for Party A". This is definitely not an aim behind this exercise and it should not be interpreted this way.
+
+Going back to the problem statement presented in {#problem-statement}, it is worth reminding that this project is focused on primary voting only. Even though primary voting is useful to understand general inclinations and may serve as a good based to guess who will be elected, this project does not extend into any analysis of who is eventually elected into Parliament. A natural extension of this work would be to understand how the make-up of a particular electorate influence how voters of a certain party direct their preferences. This is now especially relevant as the Greens and Independents are becoming competitive challengers in many divisions (becoming three-way contests), and many formerly Labor and Coalition electorates have become marginal.
+
+
+Finally, it is also important to recognise that "all models are wrong but some are useful". Capturing and quantifying human behaviour can be a challenging task, but in this case, having a tool for analysis can prove value for parties, the media and the voters to check the accuracy of political narratives.
+
+
+# (APPENDIX) Appendix {-} 
+`r if(eval_book) '\\clearpage \\begin{center} \\thispagestyle{empty} \\vspace*{\\fill}'`
+`r if(eval_book) '{\\huge Appendix}'`
+`r if(eval_book) '\\vspace*{\\fill} \\end{center} \\clearpage'`
+
+
+
+
+

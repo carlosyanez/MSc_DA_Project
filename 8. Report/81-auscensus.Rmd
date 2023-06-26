@@ -1,11 +1,12 @@
 `r if(eval_book)'\\newpage'`
 # {auscensus} Vignette {#auscensus-vignette}
-*Extracted from https://carlosyanez.github.io/auscensus/articles/complex_case.html on Sunday 22 January 2023*
+*Extracted from <https://carlosyanez.github.io/auscensus/articles/complex_case.html> on Sunday 22 January 2023*
 
 ```{r eval = TRUE}
 library(auscensus)
 library(tidyverse)
-
+library(lemon)
+knit_print.data.frame <- lemon_print
 ```
 
 

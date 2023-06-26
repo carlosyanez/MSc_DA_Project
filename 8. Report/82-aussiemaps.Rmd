@@ -1,9 +1,11 @@
 `r if(eval_book)'\\newpage'`
 # {aussiemaps} Vignette {#aussiemaps-vignette}
-*Extracted from https://carlosyanez.github.io/aussiemaps/articles/aussiemaps.html on Sunday 22 January 2023*
+*Extracted from <https://carlosyanez.github.io/aussiemaps/articles/aussiemaps.html> on Sunday 22 January 2023*
 ```{r eval=TRUE}
 library(aussiemaps)
 library(tidyverse)
+library(lemon)
+knit_print.data.frame <- lemon_print
 ```
 
 

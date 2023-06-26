@@ -8,7 +8,56 @@ bibliography:
 
 # R Packages {#appendix-packages}
 
-lorem ipsum
+Although this project is at its core an analytical exercise, the nature of the data sources required significant coding to correctly extract, aggregate and present the datasets that were eventually for modelling. Although the data provided by the ABS and AEC do not have many of the classical issues around sourcing online data [^note_appendixR], the large volumes involved required the implementation of a consistent framework to find, extract and process. For these reasons, it was deemed appropriate to create software packages to separate this from the proper analytical stage of the work. All the code was organised into 3 R packages, namely:
 
+[^note_appendixR]: e.g. trustability, completeness, accuracy, etc.
+
+-   **{auspol}** Which provides an interface to extract and visualise electoral results for the House of Representatives (<https://carlosyanez.github.io/auspol>).
+-   **{auscensus}**, designed as a "Swiss Army knife" toolset to interact with Census Data Packs (<https://carlosyanez.github.io/auscensus>).
+-   **{aussiemaps}**, which contains granular maps of Australia and enables geographical aggregation of Census Data.
+
+Although these three packages are slightly different, their basic architecture shares some common concepts:
+
+-   Retrieving and storing data.
+-   Processing, aggregating and presenting results.
+-   Coding and documentation practices.
+
+## Retrieving, distributing and storing data.
+
+In all three cases, there is no programmatic resource to access the relevant data from the ABS or the AEC or it was deemed inadequate due to the large volumes of initial data required in the project. Most of the data is available for manual download. The large amount of data meant it could not be distributed as part of the package. Such a large amount of data cannot be stored directly on a GitHub repository either. After assessing the options, two different strategies were adopted:
+
+-   {aussiemaps} and {auspol} data is stored on a GitHub release. Each package contains functions to download data on demand.
+
+-   {auscensus} does not hold any data. Users are required to download Census Data Packs directly from the ABS, either manually or through a built-in function
+
+A persistent cache is set up on the user's computer in all three cases. This was based on the same mechanism developed for the package **{tigris}** [@tigris]. Its code was used and adapted with the author's permission. Each package also contains utilities to manage the amount of space used.
+
+A common approach was used to store data from each. In all cases, the cache was used to store data as in their respective caches. data saved here is stored as needed only.
+
+Finally, both {auscensus} and {auspol}'s data required some prior pre--pre-processing. The code to achieve this has been included in their respective **data-raw** folder.
+
+## Processing, aggregating and presenting results.
+
+In all three cases, the large volumes of data meant that was possible to use standard libraries like **readr** to open and process files. To deal with this, the following strategies were adopted:
+
+-   Using the **Arrow** framework [@arrow] to read csv files, allowing to perform 'database-like' operations when reading, processing and aggregating data. This reduced the amount of data loaded in memory on each operation.
+
+-   Storing all cached data in **parquet** format. Parquet allows for progressive caching of census data, which then later can be retrieved together.
+
+-   Allowing for the packages to cache intermediate results, for faster retrieval of commonly used datasets.
+
+-   Using the **GeoPackage** format [@gpkg] to store spatial data, which also allows for efficient out-of-memory selection and aggregation.
+
+Additionally, functions on each package provide an easy way to systematically aggregate and filter data (in. grouping votes from different political parties or providing a partial consolidation of census statistics).
+
+## Coding and documentation practices
+
+For all three packages, some best practices around creating R packages were followed, including:
+
+1.  Use functional programming principles when defining functions.
+2.  Use testing tools like **testthat** [@testthat] to continuously ensure package functionality.
+3.  Provide adequate in-line documentation using **roxygen2**[@roxygen2].
+4.  Write descriptive vignettes, detailing how each package work (selection of vignettes provided as appendices)
+5.  Provide online documentation, using GitHub Pages to deploy a **pkgdown** [@pkgdown] package website.
 
 \newpage

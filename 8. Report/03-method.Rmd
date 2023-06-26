@@ -49,7 +49,11 @@ $\textrm{where}  \\
       
 It is worth noticing that $i$ represents a particular grouping of electorates,  and for each group predictors can be different - as different attributes may have different impacts.
     
-In terms of choosing an appropriate $f_i$, it would depend on the objective of the model. Given the large number of predictors and requirements on interpretability and accuracy, this could be a complex task. In this particular case, the focus is on understanding the factors that influence voting rather than producing accurate electoral predictions (which is attempted nevertheless), for which the use of **regularised regression** models is an appropriate choice. 
+In terms of choosing an appropriate $f_i$, it would depend on the objective of the model. Given the large number of predictors and requirements on interpretability and accuracy, this could be a complex task. In this particular case, the focus is on understanding the factors that influence voting rather than producing accurate electoral predictions. After examining possible alternatives a model in the **regularised regression** family is deemed as an appropriate choice. The selection is based on the following factors:
+
+* Regularised models are a good fit in cases with a large number of variables. Lasso regression in particular is a good method for variable selection, helping to identify the most relevant parameters.
+* Regularised regression models can also deal with predictors exhibiting a high level of collinearity.
+* The results provide an straightforward interpretation on how each predictor influences the results. In the context of this projects, that is a more important priority than forecasting accuracy.
 
 Consequently,  the task at hand consists in finding the regularised regression coefficients for the set of formulas represented by equation \@ref(eq:equation4)
     
