@@ -270,9 +270,10 @@ interactive_plot <- function(p,annotation_x=0.2,annotation_y=1,set_title=FALSE,.
   #p1 |> layout(title=list(text=title_text,x=0.1,y=1.3),legend = list(title=list(text='')))
   
   p1 |> layout(annotations = list(x =annotation_x , y = annotation_y, text = title_text, showarrow = F, 
-                                  xref='paper', yref='paper'))
+                                  xref='paper', yref='paper'),
+               xaxis = list(fixedrange = TRUE), yaxis = list(fixedrange = TRUE))
   }else{
-    p1
+    p1 |> layout(xaxis = list(fixedrange = TRUE), yaxis = list(fixedrange = TRUE))
   }
 }
 

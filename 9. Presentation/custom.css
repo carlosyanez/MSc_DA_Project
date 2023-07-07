@@ -1,0 +1,31 @@
+.aussiegreen {
+  color: #00843D;
+}
+
+.aussiegold {
+  color: #FFCD00;
+}
+
+.left-text {
+    width: 55%;
+    height: 92%;
+    float: left;
+}
+  
+.right-plot {
+  width: 35%;
+  float: right;
+  padding-left: 1%;
+}
+
+.left-44 {
+    width: 44%;
+    height: 92%;
+    float: left;
+}
+  
+.right-54 {
+  width: 54%;
+  float: right;
+  padding-left: 1%;
+}
