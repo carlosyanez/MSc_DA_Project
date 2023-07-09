@@ -1,9 +1,9 @@
 library(here)
-library(xaringanBuilder)
+library(renderthis)
 
-build_html(here("presentation","presentation.Rmd"),here("presentation","presentation.html"))
+to_html(here("index.Rmd"),here("index.html"))
 #uncomment lines in presentation.Rmd
-build_pdf(here("presentation","presentation.Rmd"),here("presentation","presentation.pdf"))
+to_pdf(here("index.Rmd"),here("Viva - Carlos YANEZ SANTIBANEZ.pdf"),keep_intermediates=FALSE)
 
 
 ?build_pdf
