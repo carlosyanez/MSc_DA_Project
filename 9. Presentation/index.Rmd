@@ -42,7 +42,6 @@ knitr::opts_chunk$set(
 # number formatting 
 knitr::knit_hooks$set(inline = function(x) { if(!is.numeric(x)){ x }else{ customthemes::digits_formatter(x,sig_digits = 3) } })
 
-
 #default theming for plots ####
 
 base_theme <- customthemes::custom_plot_theme_md(google_font = "Roboto",background_colour = "white", 
@@ -51,7 +50,6 @@ base_theme <- customthemes::custom_plot_theme_md(google_font = "Roboto",backgrou
                     plot.subtitle = ggtext::element_markdown()
                     ) 
 
-
 theme_set(base_theme) 
 
 customthemes::set_plot_colours(line_colour ="#0085c7",
@@ -59,12 +57,8 @@ customthemes::set_plot_colours(line_colour ="#0085c7",
                                HVline_colour ="grey90")
 
 
-
 xaringanExtra::use_fit_screen()
 xaringanExtra::use_tachyons()
-xaringanExtra::use_tile_view()
-xaringanExtra::use_panelset()
-
 
 ```
 
@@ -94,10 +88,8 @@ style_duo_accent(
 #  text_font_size = font_size_template
 )
 
-
 sysfonts::font_add_google(text_font, text_font)
 showtext::showtext_auto()
-
 
 ```
 
@@ -107,7 +99,6 @@ project_path <- fs::path(here(),"..")
 source(path(project_path,"8. Report","formatting_defaults.R"))
 
 results <- readRDS(path(project_path,"7. Forecast","results.rds"))
-
 
 ```
 
@@ -128,7 +119,6 @@ nationals <- read_csv(path(project_path,"4. Data","cluster_values.csv")) |>
                     Attribute=str_replace_all(Attribute,"-","_"),
                     Attribute=str_squish(Attribute),
                     Attribute=str_replace_all(Attribute," ","_")) 
-
 
 demographic_data <- dataset |> 
         select(-all_of(party_cols)) |>
@@ -255,9 +245,7 @@ for(i in 1:3){
                 theme(axis.title.y =element_blank())
                 
 
-
 }
-
 
 ```
 
@@ -278,7 +266,7 @@ class: split-20
 .left-text.f4[
 
 Australia is a parliamentary democracy, with a *Westminster-style* system of government. <br><br>
-The lower chamber of parliament - **The House of Representatives** -, is made up of one MP for each **Commonwealth Electoral Division**.
+**The House of Representatives** is made up of one MP for each **Commonwealth Electoral Division**.
 <br>
 MPs are elected using a **preferential voting system**. Voting is compulsory for all 18+ Australian citizens.
 <br>
@@ -300,15 +288,15 @@ class: split-20
 
 .f3[This project attempts to study how population make-up may influence how Australian citizens may vote for a particular party.]
 .f4[
-* Are there distinguishable demographic division lines across different electorates? 
+* Are there distinguishable demographic division lines? 
 
-* What are the main demographic factors influencing political persuasion, expressed through **primary voting** in federal elections? Do they differ in different electorates?
+* What are the main demographic factors influencing **primary voting** in federal elections? Do they differ in across electorates?
 
-* It is possible use a demographic-based model to understand changes in the 2022 election? It is possible to contrast those against prevalent narratives such as:
+* Is it possible to use a demographic-based model to understand changes in the 2022 election? Can this model be contrasted against prevalent narratives such as:
 
- * Was the so-called “Teal Wave” supported by discontent moderate Liberal voters? 
- * Are Millenials not becoming more conservative as they age? 
- * Is culturally diverse voting relevant? 
+ * was the so-called “Teal Wave” supported by discontent moderate Liberal voters? 
+ * are Millennials not becoming more conservative as they age? 
+ * is culturally diverse voting relevant? 
 ]
 
 ---
@@ -316,7 +304,7 @@ class: split-20
 
 # Approach (summarised)
 .f3[
-1. Obtained data from Census and Election Results. Match them by year. 
+1. Obtained data from Census and Election Results (and matched occurrences). 
 
 1. Conducted initial selection of potential demographic covariates. 
 
@@ -324,7 +312,7 @@ class: split-20
 
 1. Trained explainable model (**Primary Voting = f(covariates)**), as analysis tools.
 
-1. *Naively* attempted to forecast 2022 election, to assess usefulness of coefficients.
+1. *Naively* attempted to forecast the 2022 election, to assess the usefulness of model.
 ]
 ---
 class: split-20
@@ -332,13 +320,13 @@ class: split-20
 
 .left-44[
 
-* Data extracted through custom-made packages ({auscensus}, {auspol} and {aussiemaps}).
+* Data extracted through **custom-made packages** ({auscensus}, {auspol} and {aussiemaps}).
 
-* Primary voting data consolidated into *3 groups/parties* of interest (The Coalition, Australian Labor Party, Australian Greens).
+* Primary voting data consolidated into **3 groups/parties** of interest (The Coalition, Australian Labor Party, Australian Greens), plus others.
 
-* Demographic covariates inspected and chosen **55 variables from 9 Groups** (*Income, Education Levels, Age, Relationship Status, Houselhold types, Houselhold tenure, Citizenship, Religion, Language*), plus metropolitan/non-metropolitan flag.
+* Demographic covariates inspected and chosen **55 variables from 9 Groups** (*Income, Education Levels, Age, Relationship Status, Household types, Household tenure, Citizenship, Religion, Language*), plus metropolitan/non-metropolitan flag.
 
-* Covariates showing varying degrees of colinearity.
+* Covariates showing varying degrees of collinearity.
 
 ]
 .right-54[
@@ -367,7 +355,7 @@ class: split-20
 
 .left-44[
 
-* Used **HDBSCAN**, which determines number of clusters.
+* Used **HDBSCAN**, which determines the number of clusters.
 
 * Identified 3 clusters, matching narrative of **inner city**, **suburbia** and **regional areas**.
 
@@ -380,24 +368,21 @@ class: split-20
 ![image](img/clustermap2016-1.png)
 ]
 
-
 ---
 class: split-20
-# Elastic Net Regression 
+# Regression Model
 .left-44[
 
-* Multivariate regression model -  $Y = \beta X$
+* Multivariate regression model -  $Y = \beta X$. $Y$ represents the difference from mean primary voting. $X$ difference against average values.
 
-* Lasso Regression to reduce number of variables for each cluster.
+* Lasso regression to reduce the number of variables for each cluster.
 
-* Elastic net fitted, independently for each cluster
+* One elastic net regression for each cluster.
 
 * Distinct clusters, produced distinct results:
 
-  * In inner-city electorates, **religiosity** (or lack of), **age**, and **income** are the most relevant factors.
-  
+  * In inner-city electorates, **religiosity**, **age**, and **income** are the most relevant factors.
   * In suburban electorates, there are similar dynamics, plus **household tenure**.
-  
   * In regional and rural electorates, **higher incomes** tend to prefer **Labor** vote.
 
 ]
@@ -405,13 +390,15 @@ class: split-20
 
 ```{r out.height='500px'}
 
-  p_regression[[1]] |> 
+  ply <- p_regression[[1]] |> 
   interactive_plot() |>
   layout(title = list(x = -20,font=list(size=12)), legend = list(orientation = 'v',font = list(size=10)))
 
+  htmlwidgets::saveWidget(ply,here("img","reg1.html"),libdir = "lib")
 
 ```
 
+<embed type="text/html" src="img/reg1.html" height="500" width="580">
 ]
 
 ---
@@ -421,11 +408,11 @@ class: split-20
 
 .left-44[
 
-* A naive attempt to retroactively forecast the 2022 was attempted.
+* A naive attempt to retroactively forecast the 2022 election was attempted.
 
-* Forecast using last Newspoll results prior to election.
+* Forecast using the last Newspoll results prior to the election.
 
-* Modest accuracy obtained, however model proved valuable as analysis tool.
+* Modest accuracy was obtained, however, the model proved valuable as an analysis tool.
 
 ]
 .right-54[
@@ -437,11 +424,11 @@ p<-results$prediction_compared |>
   mutate(PartyAb=forcats::fct_relevel(PartyAb,party_cols)) |>
   mutate(label = glue("<b>{DivisionNm}</b><br> Predicted: {round(100*Predicted,3)}% <br> Actual: {round(100*Actual,3)}%")) |>
   ggplot(aes(x=Predicted,y=Actual,colour=cluster,text=label)) +
-  geomtextpath::geom_textabline(slope=1,intercept = 0, label="0%",colour="gray50",linetype = 2,hjust=0.8,alpha=0.4) +
-  geomtextpath::geom_textabline(slope=1,intercept = 0.05, label="5%",colour="orange",linetype = 2,hjust=0.8,alpha=0.4) +
-  geomtextpath::geom_textabline(slope=1,intercept = -0.05, label="-5%",colour="orange",linetype = 2,hjust=0.8,alpha=0.4) +
-  geomtextpath::geom_textabline(slope=1,intercept = 0.1, label="10%",colour="red",linetype = 2,hjust=0.8,alpha=0.4) +
-  geomtextpath::geom_textabline(slope=1,intercept = -0.1, label="-10%",colour="red",linetype = 2,hjust=0.8,alpha=0.4) +
+  geom_abline(slope=1,intercept = 0, label="0%",colour="gray50",linetype = 2,hjust=0.8,alpha=0.4) +
+  geom_abline(slope=1,intercept = 0.05, label="5%",colour="orange",linetype = 2,hjust=0.8,alpha=0.4) +
+  geom_abline(slope=1,intercept = -0.05, label="-5%",colour="orange",linetype = 2,hjust=0.8,alpha=0.4) +
+  geom_abline(slope=1,intercept = 0.1, label="10%",colour="red",linetype = 2,hjust=0.8,alpha=0.4) +
+  geom_abline(slope=1,intercept = -0.1, label="-10%",colour="red",linetype = 2,hjust=0.8,alpha=0.4) +
   geom_point(alpha=0.7) +
   facet_wrap(vars(PartyAb),ncol=2) +
   scale_colour_manual(values=clusters_colours) +
@@ -449,28 +436,26 @@ p<-results$prediction_compared |>
   scale_y_continuous(labels =  scales::label_percent()) +
   labs(title="Election Forecast and Results compared")
 
-
-interactive_plot(p)
+htmlwidgets::saveWidget(interactive_plot(p),here("img","forecast2022.html"),libdir = "lib")
 
 ```
 
-
+<embed type="text/html" src="img/forecast2022.html" height="500" width="600">
 
 ]
-
 
 ---
 class: split-20
 
-# 2022 Election - A Teal Wave?
+# 2022 Election - The Teal Wave
 
 .left-44.f4[
 
-* Centrist independents running on a platform of centre-right economics, plus environmental policies (**Teals**).
+* Centrist independents running on a platform of centre-right economics, plus environmental policies (i.e. blue + green).
 
 * Teal candidates successfully unseated moderate Liberal incumbents across several *safe seats*.
 
-* Perceived shift of *dissatisfied Liberal* does not match model - hinting that Teals were actually elected on Green + Labor vote.
+* Perceived shift of *dissatisfied Liberal* does not correspond with modelling - Teals were likely elected on Green and Labor vote.
 
 ]
 .right-54[
@@ -491,48 +476,47 @@ demo_goldstein <- census_plot(demographic_data,
                     guides(color=guide_legend(nrow=3, byrow=TRUE))  
  
  
-interactive_plot(goldstein) |> layout(showlegend=FALSE,xaxis=list(title=""),title=list(text="Election Results - Goldstein",x=-8))
+ply <-interactive_plot(goldstein) |> layout(showlegend=FALSE,xaxis=list(title=""),title=list(text="Election Results - Goldstein",x=-8))
 
+htmlwidgets::saveWidget(ply,here("img","goldstein1.html"),libdir = "lib")
 ```
 
 ```{r out.height='250px'}
- interactive_plot(demo_goldstein) |> 
+ply<- interactive_plot(demo_goldstein) |> 
   layout(title=list(text="Selected Demographic Attributes - Goldstein",x=-8),
          legend = list(orientation = 'h'), xaxis = list(title="")) 
 
+htmlwidgets::saveWidget(ply,here("img","goldstein2.html"),libdir = "lib")
+
 ```
 
+<embed type="text/html" src="img/goldstein1.html" height="220" width="600"><br>
+<embed type="text/html" src="img/goldstein2.html" height="250" width="600">
 
 ]
-
 
 ---
 class: split-20
 
-# 2022 Election - Green Electorates?
+# 2022 Election - Green Electorates
 
 .left-44.f4[
 
-* In the 2022 election, Greens increased number of MPs from 1 to 4.
+* Greens increased their representation from 1 to 4 MPs.
 
-* Greens primary voting higher in inner cities, driving by a combination of higher income, age (Millenials) and irreligiosity.
+* Greens primary voting higher in inner cities, driven by a combination of higher income, age (Millenials) and irreligiosity.
 
-* In these areas, Green voting as grown alongside Millenial population.
-
+* In these areas, Green voting has grown alongside the Millennial population.
 
 ]
 .right-54[
 
 ```{r out.height='250px'}
 
-
-
-
 selected_demographics <- c("Age: Baby Boomers"="Age_Baby_Boomers",
                            "Age: Geneneration Y"="Age_Gen_Y",
                            "Income: 2,000 or more"="Income_2000_or_more",
                            "Religion: No Religion/Secular"="Religion_No_Religion_Secular")
-
 
 goldstein <- compare_results("Wills",parties=4,results=results)
 
@@ -543,27 +527,31 @@ demo_goldstein <- census_plot(demographic_data,
                     guides(color=guide_legend(nrow=3, byrow=TRUE))  
  
  
-interactive_plot(goldstein) |> layout(showlegend=FALSE,xaxis=list(title=""),title=list(text="Election Results - Wills",x=-8))
+ply <- interactive_plot(goldstein) |> layout(showlegend=FALSE,xaxis=list(title=""),title=list(text="Election Results - Wills",x=-8))
+htmlwidgets::saveWidget(ply,here("img","wills1.html"),libdir = "lib")
 
 ```
 
 ```{r out.height='250px'}
- interactive_plot(demo_goldstein) |>
+ply<- interactive_plot(demo_goldstein) |>
   layout(title=list(text="Selected Demographic Attributes - Wills",x=-8),
          legend = list(orientation = 'h'), xaxis = list(title="")) 
 
+htmlwidgets::saveWidget(ply,here("img","wills2.html"),libdir = "lib")
+
 ```
 
+<embed type="text/html" src="img/wills1.html" height="220" width="600"><br>
+<embed type="text/html" src="img/wills2.html" height="250" width="600">
 
 ]
-
 
 ---
 class: split-20
 
 
 
-# 2022 Election - Surbubia?
+# 2022 Election - City Fringe
 
 .left-44.f3[
 
@@ -571,12 +559,10 @@ class: split-20
 
 * Residential growth and densification can alter results, in addition to generational renewal.
 
-
 ]
 .right-54[
 
 ```{r out.height='250px'}
-
 
 selected_demographics <- c("Age: Baby Boomers","Age_Baby_Boomers",
                            "Language: South Asian","Language_South_Asian",
@@ -594,44 +580,46 @@ demo_goldstein <- census_plot(demographic_data,
                     guides(color=guide_legend(nrow=3, byrow=TRUE))  
  
  
-interactive_plot(goldstein) |> layout(showlegend=FALSE,xaxis=list(title=""),title=list(text="Election Results - Menzies",x=-8))
+ply <- interactive_plot(goldstein) |> layout(showlegend=FALSE,xaxis=list(title=""),title=list(text="Election Results - Menzies",x=-8))
+
+htmlwidgets::saveWidget(ply,here("img","menzies1.html"),libdir = "lib")
 
 ```
 
 ```{r out.height='250px'}
- interactive_plot(demo_goldstein) |> 
-  layout(title=list(text="Selected Demographic Attributes - Menzies",x=-8),
+ply <- interactive_plot(demo_goldstein) |> 
+       layout(title=list(text="Selected Demographic Attributes - Menzies",x=-8),
          legend = list(orientation = 'h'), xaxis = list(title="")) 
+
+htmlwidgets::saveWidget(ply,here("img","menzies2.html"),libdir = "lib")
 
 ```
 
-
+<embed type="text/html" src="img/menzies1.html" height="220" width="600"><br>
+<embed type="text/html" src="img/menzies2.html" height="250" width="600">
 
 ]
-
 
 ---
 class: split-20
 # Conclusion
 
 .f3[
-* Although not effective forecasting elections, the model serves its purpose identifying key factors driving the election.
+* Although not effective in forecasting elections, the model serves its purpose of identifying key factors driving the election.
 
 * Areas to improve include:
 
-  * Refine segmentation model.
+  * Refine the segmentation model.
   * Include longitudinal aspect, to account for electorates' history and incumbent.
   * Improve regression model.
 ]
 ---
 name:thanks
-count: false
 class: inverse center middle
 
 # Thanks
 ---
 name:thanks
-count: false
 class: inverse center middle
 
 # Additional slides
@@ -658,123 +646,94 @@ p <- gginnards::append_layers(p,geom_col(aes(y=Importance,
                                              text=label),
                                          fill="#00843D",colour="#00843D"))
 
-
-p |> interactive_plot()
+ply <- p |> interactive_plot()
+htmlwidgets::saveWidget(ply,here("img","vip.html"),libdir = "lib")
 
 ```
 
-
+<embed type="text/html" src="img/vip.html" height="500" width="1000">
 
 
 
 ---
 class: split-20
-# Elastic Net Regression 
-.left-44[
+# Regression Model 
+.left-44.f5[
 
-* Multivariate regression model -  $Y = \beta X$. $Y$ represents difference from mean primary voting. $X$ difference against average values.
+* Multivariate regression model -  $Y = \beta X$. $Y$ represents the difference from mean primary voting. $X$ difference against average values.
 
-* Lasso Regression to reduce number of variables for each cluster.
+* Lasso Regression to reduce the number of variables for each cluster.
 
-* Elastic net fitted, one model per cluster, producing distinct results:
+* Elastic net fitted, independently for each cluster
 
-  * In inner-city electorates, religiosity (or lack of) and income are the most relevant factors.
-  
-  * In suburban electorates, there are similar dynamics, plus houselhod ternure.
-  
-  * In regional and rural electorates, higer incomes tend to prefere Labor vote.
+* Distinct clusters, produced distinct results:
+
+  * In inner-city electorates, religiosity (or lack of it) and income are the most relevant factors.
+  * In suburban electorates, there are similar dynamics, plus household tenure.
+  * In regional and rural electorates, higher incomes tend to prefer Labor vote.
 
 ]
 .right-54[
 
 ```{r out.height='500px'}
 
-  p_regression[[2]] |> 
+ ply<- p_regression[[2]] |> 
   interactive_plot() |>
   layout(title = list(x = -20,font=list(size=12)), legend = list(orientation = 'v',font = list(size=10)))
 
+  htmlwidgets::saveWidget(ply,here("img","reg2.html"),libdir = "lib")
 
 ```
+
+<embed type="text/html" src="img/reg2.html" height="500" width="600">
 
 ]
 
 ---
 class: split-20
-# Elastic Net Regression 
-.left-44[
+# Regression Model 
+.left-44.f5[
 
-* Multivariate regression model -  $Y = \beta X$
+* Multivariate regression model -  $Y = \beta X$. $Y$ represents the difference from mean primary voting. $X$ difference against average values.
 
-* Lasso Regression to reduce number of variables for each cluster.
+* Lasso Regression to reduce the number of variables for each cluster.
 
 * Elastic net fitted, independently for each cluster
 
 * Distinct clusters, produced distinct results:
 
   * In inner-city electorates, religiosity (or lack of) and income are the most relevant factors.
-  
-  * In suburban electorates, there are similar dynamics, plus houselhod ternure.
-  
-  * In regional and rural electorates, higer incomes tend to prefere Labor vote.
+  * In suburban electorates, there are similar dynamics, plus household tenure.
+  * In regional and rural electorates, higher incomes tend to prefer Labor vote.
 
 ]
 .right-54[
 
 ```{r out.height='500px'}
 
-  p_regression[[3]] |> 
+ ply<- p_regression[[3]] |> 
   interactive_plot() |>
   layout(title = list(x = -20,font=list(size=12)), legend = list(orientation = 'v',font = list(size=10)))
 
+  htmlwidgets::saveWidget(ply,here("img","reg3.html"),libdir = "lib")
 
 ```
+
+<embed type="text/html" src="img/reg3.html" height="500" width="600">
 
 ]
 
 ---
 class: split-20
-# Elastic Net Regression 
-.left-44[
-
-* Multivariate regression model -  $Y = \beta X$
-
-* Lasso Regression to reduce number of variables for each cluster.
-
-* Elastic net fitted, independently for each cluster
-
-* Distinct clusters, produced distinct results:
-
-  * In inner-city electorates, religiosity (or lack of) and income are the most relevant factors.
-  
-  * In suburban electorates, there are similar dynamics, plus houselhod ternure.
-  
-  * In regional and rural electorates, higer incomes tend to prefere Labor vote.
-
-]
-.right-54[
-
-```{r out.height='500px'}
-
-  p_regression[[3]] |> 
-  interactive_plot() |>
-  layout(title = list(x = -20,font=list(size=12)), legend = list(orientation = 'v',font = list(size=10)))
-
-
-```
-
-]
-
----
-class: split-20
-# 2022 Election - A Teal Wave?
+# 2022 Election - Teal Wave
 
 .left-44.f4[
 
-* 2022 election saw centrist independents, running on a platform of centre-right economics, but green-focused polices (**Teals**).
+* 2022 election saw centrist independents, running on a platform of centre-right economics, but green-focused policies (blue + green).
 
 * Teal candidates successfully unseated moderate Liberal incumbents across several *safe seats*.
 
-* Perceived shift of *dissatisfied Liberal* does not match model - hinting that Teals were actually elected on Green + Labor vote.
+* Perceived shift of *dissatisfied Liberal* does not correspond with modelling - Teals were likely elected on Green and Labor vote.
 
 ]
 .right-54[
@@ -795,17 +754,22 @@ demo_goldstein <- census_plot(demographic_data,
                     guides(color=guide_legend(nrow=3, byrow=TRUE))  
  
  
-interactive_plot(goldstein) |> layout(showlegend=FALSE,xaxis=list(title=""),title=list(text="Election Results - Wentworth",x=-8))
+ply <- interactive_plot(goldstein) |> layout(showlegend=FALSE,xaxis=list(title=""),title=list(text="Election Results - Wentworth",x=-8))
+htmlwidgets::saveWidget(ply,here("img","wentworth1.html"),libdir = "lib")
 
 ```
 
 ```{r out.height='250px'}
- interactive_plot(demo_goldstein) |> 
+ply <- interactive_plot(demo_goldstein) |> 
   layout(title=list(text="Selected Demographic Attributes - Wentworth",x=-8),
          legend = list(orientation = 'h'), xaxis = list(title="")) 
 
+htmlwidgets::saveWidget(ply,here("img","wentworth2.html"),libdir = "lib")
+
 ```
 
+<embed type="text/html" src="img/wentworth1.html" height="220" width="600"><br>
+<embed type="text/html" src="img/wentworth2.html" height="250" width="600">
 
 ]
 
@@ -813,19 +777,17 @@ interactive_plot(goldstein) |> layout(showlegend=FALSE,xaxis=list(title=""),titl
 
 
 
-
 ---
 class: split-20
-# 2022 Election - Green Electorates?
+# 2022 Election - Green Electorates
 
 .left-44.f4[
 
-* In the 2022 election, Greens increased number of MPs from 1 to 4.
+* In the 2022 election, Greens increased the number of MPs from 1 to 4.
 
-* Greens primary voting higher in inner cities, driving by a combination of higher income, age (Millenials) and irreligiosity.
+* Greens primary voting higher in inner cities, driven by a combination of higher income, age (Millenials) and irreligiosity.
 
-* In these areas, Green voting as grown alongside Millenial population.
-
+* In these areas, Green voting has grown alongside the Millennial population.
 
 ]
 .right-54[
@@ -837,7 +799,6 @@ selected_demographics <- c("Age: Baby Boomers"="Age_Baby_Boomers",
                            "Income: 2,000 or more"="Income_2000_or_more",
                            "Religion: No Religion/Secular"="Religion_No_Religion_Secular")
 
-
 goldstein <- compare_results("Ryan",parties=4,results=results)
 
 demo_goldstein <- census_plot(demographic_data,
@@ -847,43 +808,44 @@ demo_goldstein <- census_plot(demographic_data,
                     guides(color=guide_legend(nrow=3, byrow=TRUE))  
  
  
-interactive_plot(goldstein) |> layout(showlegend=FALSE,xaxis=list(title=""),title=list(text="Election Results - Ryan",x=-8))
+ply<- interactive_plot(goldstein) |> layout(showlegend=FALSE,xaxis=list(title=""),title=list(text="Election Results - Ryan",x=-8))
+htmlwidgets::saveWidget(ply,here("img","ryan1.html"),libdir = "lib")
 
 ```
 
 ```{r out.height='250px'}
- interactive_plot(demo_goldstein) |>
+ply <- interactive_plot(demo_goldstein) |>
   layout(title=list(text="Selected Demographic Attributes - Ryan",x=-8),
          legend = list(orientation = 'h'), xaxis = list(title="")) 
 
+htmlwidgets::saveWidget(ply,here("img","ryan2.html"),libdir = "lib")
+
 ```
 
-
+<embed type="text/html" src="img/ryan1.html" height="220" width="600"><br>
+<embed type="text/html" src="img/ryan2.html" height="250" width="600">
 ]
 
 
 
 ---
 class: split-20
-# 2022 Election - Newcastle?
+# 2022 Election - Newcastle
 
 .left-44.f3[
 
 * The model does not reflect primary voting in Newcastle.
-
 
 ]
 .right-54[
 
 ```{r out.height='250px'}
 
-
-selected_demographics <- c("Age: Baby Boomers","Age_Baby_Boomers",
-                           "Language: South Asian","Language_South_Asian",
-                           "Religion: Islamn","Religion_Islam",
-                           "Household: Standalone","Household_Standalone",
-                           "Age: Generation Y","Age_Gen_Y",
-                           "Language: European","Language_European")
+selected_demographics <- c("Religion: Secular","Religion_No_Religion_Secular",
+                           "Relationship: Married","Relationship_Married",
+                           "Australian Citizens","Australian_Citizens",
+                           "Education: Not Stated","Education_Not_Stated"
+                       )
 
 goldstein <- compare_results("Newcastle",parties=4,results=results)
 
@@ -894,20 +856,24 @@ demo_goldstein <- census_plot(demographic_data,
                     guides(color=guide_legend(nrow=3, byrow=TRUE))  
  
  
-interactive_plot(goldstein) |> layout(showlegend=FALSE,xaxis=list(title=""),title=list(text="Election Results - Newcastle",x=-8))
+ply <- interactive_plot(goldstein) |> 
+  layout(showlegend=FALSE,xaxis=list(title=""),title=list(text="Election Results - Newcastle",x=-8))
+
+htmlwidgets::saveWidget(ply,here("img","newcastle1.html"),libdir = "lib")
 
 ```
 
 ```{r out.height='250px'}
- interactive_plot(demo_goldstein) |> 
+ ply <- interactive_plot(demo_goldstein) |> 
   layout(title=list(text="Selected Demographic Attributes - Newcastle",x=-8),
          legend = list(orientation = 'h'),
          xaxis = list(title="")) 
   
+htmlwidgets::saveWidget(ply,here("img","newcastle2.html"),libdir = "lib")
 
 ```
 
-
+<embed type="text/html" src="img/newcastle1.html" height="220" width="600"><br>
+<embed type="text/html" src="img/newcastle2.html" height="250" width="600">
 
 ]
-
