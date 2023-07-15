@@ -15,7 +15,7 @@ This vignette shows a more complex use case of auscensus. Let's assume we want t
 An initial exploration shows that this data can be found in table 01 (across all four censuses) - which provided an statistical summary. However, is not published aggregated by electorate across all censuses.
 
 
-```{r echo=TRUE}
+```{r echo=TRUE,eval=TRUE}
 
 census_tables <- list_census_tables() 
 
@@ -51,7 +51,7 @@ list_census_geo_tables(year = tables_summary$Year,geo=c("SA1|CD"),table_number =
 The next step is to figure the attributes for the numbers of Australian citizen and total population, which are presented below:
 
 
-```{r echo=TRUE}
+```{r echo=TRUE,eval=TRUE}
 
 citizenship_attributes <- tibble()
 
@@ -78,7 +78,7 @@ citizenship_attributes |>
 
 ```
 
-```{r echo=TRUE}
+```{r echo=TRUE,eval=TRUE}
 
 citizenship_attributes <- citizenship_attributes   |> 
                        distinct(Attribute,Year) |>
@@ -101,7 +101,7 @@ citizenship_attributes
 
 Using *attribute_tibble_to_list*, this data frame can be converted into the required format.
 
-```{r echo=TRUE}
+```{r echo=TRUE,eval=TRUE}
 
 citizenship_attributes <- citizenship_attributes |>
                           select(Attribute)      |>
@@ -117,7 +117,7 @@ levels <- attribute_tibble_to_list(citizenship_attributes)
 Now,  we can cycle through the four censuses and extract the data. Please note that CDs and SA1s are not equivalent, but they are stored together for convenience:
 
 
-```{r echo=TRUE}
+```{r echo=TRUE,eval=TRUE}
 census_years <- c("2006","2011","2016","2021")
 
 citizenship <- tibble()
@@ -151,7 +151,7 @@ rm(citizenship_i,geo_structure_x,levels,citizenship_attributes)
 To aggregate the data,  **[aussiemaps::geo_aggregate()](https://gh.carlosyanez.id.au/aussiemaps/)** can help using area to apportion on non-overalpping cases. Then, this package's *calculate_percentage()* will take the totals from the list and calculate percentages.
 
 
-```{r echo=TRUE}
+```{r echo=TRUE,eval=TRUE}
 
 citizenship_ced<- tibble()
 codes <- c("CD_CODE_2006","SA1_7DIGITCODE_2011","SA1_7DIGITCODE_2016","SA1_CODE_2021")

@@ -3,3 +3,12 @@ delete_merged_file: true
 language:
   ui:
     chapter_name: ""
+sharing:
+  facebook: yes
+  twitter: yes
+  github: yes
+  linkedin: yes
+toolbar:
+  position: fixed
+  download: [["MSc-Project---Carlos-YANEZ-SANTIBANEZ.pdf", "PDF"]]
+  search: yes

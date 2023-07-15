@@ -1,12 +1,21 @@
 bookdown::gitbook:
   css: style.css
   pandoc_args: ["--listings" ,"--csl", "ieee.csl" ]
+  sharing:
+    facebook: yes
+    twitter: yes
+    github: yes
+    linkedin: yes
+  toolbar:
+    position: fixed
+    download: [["MSc-Project---Carlos-YANEZ-SANTIBANEZ.pdf", "PDF"]]
+    search: yes
   config:
     toc:
       before: |
         <li><a href="./">Analysing Australian Election Results</a></li>
       after: |
-        <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+        <li><a href="https://carlosyanez.github.io" target="blank">Carlos Yanez Santibanez  - 2023</a></li>
 bookdown::pdf_book:
   base_format: uofgdataanalyticsreport::uofgdataanalyticsreport
   pandoc_args: ["--listings" ,"--csl", "ieee.csl"]

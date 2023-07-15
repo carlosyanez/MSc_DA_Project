@@ -1,6 +1,6 @@
 --- 
 title           : "Analysing Australian Electoral Results"
-author          : "Carlos Yanez Santibanez"
+author          : "Carlos Yáñez Santibáñez"
 programme       : "Data Analytics MSc (ODL)"
 subject         : "Project"
 date            : 26 June 2023
@@ -62,8 +62,17 @@ bookdown::render_book("index.Rmd", "bookdown::pdf_book",params=list(book=TRUE,ht
 
 `r if(eval_book)'\\cleardoublepage \\pagenumbering{roman}'`
 
+`r if(eval_html) '# Welcome {-}'`
 
-`r if(eval_html) 'Analysing Australian Election Results: Understanding the impact of demographic factors on primary voting'`
+`r if(eval_html) '<img src="presentation/img/andy-wang-XplGvY2UrfM-unsplash.jpg" alt="Australian House of Representatives" width="80%">'`
+
+`r if(eval_html) 'Photo by <a href="https://unsplash.com/pt-br/@space_launch_system?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Andy Wang</a> on <a href="https://unsplash.com/photos/XplGvY2UrfM?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>'`
+
+
+`r if(eval_html) '# Presentation {-}'`
+`r if(eval_html) xaringanExtra::embed_xaringan('presentation/index.html')`
+`r if(eval_html) 'Presentation [here](presentation/index.html)'`
+
 
 `r if(eval_html) '# Dedication {-}'`
 

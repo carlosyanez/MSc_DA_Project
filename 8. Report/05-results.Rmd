@@ -87,12 +87,31 @@ p <- results$prediction_compared |>
   mutate(across(any_of(c("Predicted","Actual")), ~ .x/100)) |>
   mutate(PartyAb=forcats::fct_relevel(PartyAb,party_cols)) |>
   mutate(label = glue("<b>{DivisionNm}</b><br> Predicted: {round(100*Predicted,3)}% <br> Actual: {round(100*Actual,3)}%")) |>
-  ggplot(aes(x=Predicted,y=Actual,colour=cluster,text=label)) +
+  ggplot(aes(x=Predicted,y=Actual,colour=cluster,text=label)) 
+
+if(eval_html){
+  
+  p <- p +
+  geom_abline(slope=1,intercept = 0, label="0%",colour="gray50",linetype = 2,hjust=0.8,alpha=0.4) +
+  geom_abline(slope=1,intercept = 0.05, label="5%",colour="orange",linetype = 2,hjust=0.8,alpha=0.4) +
+  geom_abline(slope=1,intercept = -0.05, label="-5%",colour="orange",linetype = 2,hjust=0.8,alpha=0.4) +
+  geom_abline(slope=1,intercept = 0.1, label="10%",colour="red",linetype = 2,hjust=0.8,alpha=0.4) +
+  geom_abline(slope=1,intercept = -0.1, label="-10%",colour="red",linetype = 2,hjust=0.8,alpha=0.4) 
+  
+  
+}else{
+  p <- p +
   geomtextpath::geom_textabline(slope=1,intercept = 0, label="0%",colour="gray50",linetype = 2,hjust=0.8,alpha=0.4) +
   geomtextpath::geom_textabline(slope=1,intercept = 0.05, label="5%",colour="orange",linetype = 2,hjust=0.8,alpha=0.4) +
   geomtextpath::geom_textabline(slope=1,intercept = -0.05, label="-5%",colour="orange",linetype = 2,hjust=0.8,alpha=0.4) +
   geomtextpath::geom_textabline(slope=1,intercept = 0.1, label="10%",colour="red",linetype = 2,hjust=0.8,alpha=0.4) +
-  geomtextpath::geom_textabline(slope=1,intercept = -0.1, label="-10%",colour="red",linetype = 2,hjust=0.8,alpha=0.4) +
+  geomtextpath::geom_textabline(slope=1,intercept = -0.1, label="-10%",colour="red",linetype = 2,hjust=0.8,alpha=0.4) 
+  
+}
+  
+  
+  
+  p <- p +
   geom_point(alpha=0.7) +
   facet_wrap(vars(PartyAb),ncol=2) +
   scale_colour_manual(values=clusters_colours) +
@@ -138,8 +157,19 @@ As expected, the results fail to adequately forecast primary voting, especially 
 ## The Teal Wave
 
 A particular phenomenon of the last election consisted in the so-called "Teal Wave", where centrist independents campaigned in traditional Coalition electorates. Most of these electorates are located in inner-city, wealthy areas of Melbourne and Sydney, where voters have consistently voted Coalition since the Australian Federation. Right-leaning voters in these areas are perceived as moderate, socially liberal ("little-l liberals") who were dissatisfied with a perceived conservative turn in Coalition politics. Teal candidates managed to unseat incumbent MPs - did they in effect capture the dissatisfied Coalition base? The results and predictions for 4 cases are presented in figure \@ref(fig:tealsplot).
+```{r}
+chunk_height <- knitr::opts_chunk$get()$out.height
+chunk_width <- knitr::opts_chunk$get()$out.width
 
-```{r tealsplot, fig.cap="Example 1: Teal Wave"}
+if(eval_html) chunk_height <- '700px'
+if(eval_html) chunk_width  <- '800px'
+
+```
+
+
+
+
+```{r tealsplot, fig.cap="Example 1: Teal Wave",out.height=chunk_height,out.width=chunk_width}
 
 warringah <- compare_results("Warringah",parties=4,results=results)
 wentworth <- compare_results("Wentworth",parties=4,results=results)
@@ -160,7 +190,8 @@ if(eval_html){
     }
   }
   
- subplot(p, nrows=2,widths=c(0.45,0.45),heights=c(0.45,0.45))|> layout(title=plot_title)
+ subplot(p, nrows=2,widths=c(0.40,0.40),heights=c(0.40,0.40),margin = 0.07) |>
+    layout(title = list(text=plot_title,font=list(size=14))) 
   
 }else{
 
@@ -219,7 +250,7 @@ demographic_data <- demographic_data |>
 
 ```
 
-```{r tealdemographics, fig.cap="Selected demographics for teal seats"}
+```{r tealdemographics, fig.cap="Selected demographics for teal seats",out.height=chunk_height,out.width=chunk_width}
 
 selected_demographics <- c("Age: Baby Boomers"="Age_Baby_Boomers",
                            "Age: Geneneration Y"="Age_Gen_Y",
@@ -247,7 +278,7 @@ if(eval_html){
     }
   }
   
- subplot(p, nrows=2,widths=c(0.45,0.45),heights=c(0.45,0.45))|> layout(title=plot_title)
+ subplot(p, nrows=2,widths=c(0.40,0.40),heights=c(0.40,0.40),margin = 0.07)|> layout(title = list(text=plot_title,font=list(size=14))) 
   
 }else{
   plot_grid(p,ncol=2,nrow=2,titletext = plot_title)    & theme(legend.position = "bottom")   
@@ -283,7 +314,7 @@ if(eval_html){
     }
   }
   
- subplot(p, nrows=2,widths=c(0.45,0.45),heights=c(0.45,0.45))|> layout(title=plot_title)
+ subplot(p, nrows=2,widths=c(0.40,0.40),heights=c(0.40,0.40),margin = 0.07)|> layout(title = list(text=plot_title,font=list(size=14))) 
   
 }else{
 
@@ -325,7 +356,7 @@ if(eval_html){
     }
   }
   
- subplot(p, nrows=2,widths=c(0.45,0.45),heights=c(0.45,0.45))|> layout(title=plot_title)
+ subplot(p, nrows=2,widths=c(0.40,0.40),heights=c(0.40,0.40),margin = 0.07)|> layout(title = list(text=plot_title,font=list(size=14))) 
   
 }else{
   plot_grid(p,ncol=2,nrow=2,titletext = plot_title)    & theme(legend.position = "bottom")   
@@ -362,7 +393,7 @@ if(eval_html){
     }
   }
   
- subplot(p, nrows=2,widths=c(0.45,0.45),heights=c(0.45,0.45))|> layout(title=plot_title)
+ subplot(p, nrows=2,widths=c(0.40,0.40),heights=c(0.40,0.40),margin = 0.07)|> layout(title = list(text=plot_title,font=list(size=14))) 
   
 }else{
 (hasluck + menzies) / (fowler + kingston) +  
@@ -405,7 +436,7 @@ if(eval_html){
     }
   }
   
-  subplot(p, nrows=2,widths=c(0.45,0.45),heights=c(0.45,0.45)) |> layout(title=plot_title)
+  subplot(p, nrows=2,widths=c(0.40,0.40),heights=c(0.40,0.40),margin = 0.07) |> layout(title = list(text=plot_title,font=list(size=14))) 
   
 }else{
   plot_grid(p,ncol=2,nrow=2,titletext = plot_title)    & theme(legend.position = "bottom")   
