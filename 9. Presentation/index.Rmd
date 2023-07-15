@@ -394,11 +394,11 @@ class: split-20
   interactive_plot() |>
   layout(title = list(x = -20,font=list(size=12)), legend = list(orientation = 'v',font = list(size=10)))
 
-  htmlwidgets::saveWidget(ply,here("img","reg1.html"),libdir = "lib")
+  htmlwidgets::saveWidget(ply,here("reg1.html"),libdir = "lib")
 
 ```
 
-<embed type="text/html" src="img/reg1.html" height="500" width="580">
+<embed type="text/html" src="reg1.html" height="500" width="580">
 ]
 
 ---
@@ -436,11 +436,11 @@ p<-results$prediction_compared |>
   scale_y_continuous(labels =  scales::label_percent()) +
   labs(title="Election Forecast and Results compared")
 
-htmlwidgets::saveWidget(interactive_plot(p),here("img","forecast2022.html"),libdir = "lib")
+htmlwidgets::saveWidget(interactive_plot(p),here("forecast2022.html"),libdir = "lib")
 
 ```
 
-<embed type="text/html" src="img/forecast2022.html" height="500" width="600">
+<embed type="text/html" src="forecast2022.html" height="500" width="600">
 
 ]
 
@@ -478,7 +478,7 @@ demo_goldstein <- census_plot(demographic_data,
  
 ply <-interactive_plot(goldstein) |> layout(showlegend=FALSE,xaxis=list(title=""),title=list(text="Election Results - Goldstein",x=-8))
 
-htmlwidgets::saveWidget(ply,here("img","goldstein1.html"),libdir = "lib")
+htmlwidgets::saveWidget(ply,here("goldstein1.html"),libdir = "lib")
 ```
 
 ```{r out.height='250px'}
@@ -486,12 +486,12 @@ ply<- interactive_plot(demo_goldstein) |>
   layout(title=list(text="Selected Demographic Attributes - Goldstein",x=-8),
          legend = list(orientation = 'h'), xaxis = list(title="")) 
 
-htmlwidgets::saveWidget(ply,here("img","goldstein2.html"),libdir = "lib")
+htmlwidgets::saveWidget(ply,here("goldstein2.html"),libdir = "lib")
 
 ```
 
-<embed type="text/html" src="img/goldstein1.html" height="220" width="600"><br>
-<embed type="text/html" src="img/goldstein2.html" height="250" width="600">
+<embed type="text/html" src="goldstein1.html" height="220" width="600"><br>
+<embed type="text/html" src="goldstein2.html" height="250" width="600">
 
 ]
 
@@ -528,7 +528,7 @@ demo_goldstein <- census_plot(demographic_data,
  
  
 ply <- interactive_plot(goldstein) |> layout(showlegend=FALSE,xaxis=list(title=""),title=list(text="Election Results - Wills",x=-8))
-htmlwidgets::saveWidget(ply,here("img","wills1.html"),libdir = "lib")
+htmlwidgets::saveWidget(ply,here("wills1.html"),libdir = "lib")
 
 ```
 
@@ -537,12 +537,12 @@ ply<- interactive_plot(demo_goldstein) |>
   layout(title=list(text="Selected Demographic Attributes - Wills",x=-8),
          legend = list(orientation = 'h'), xaxis = list(title="")) 
 
-htmlwidgets::saveWidget(ply,here("img","wills2.html"),libdir = "lib")
+htmlwidgets::saveWidget(ply,here("wills2.html"),libdir = "lib")
 
 ```
 
-<embed type="text/html" src="img/wills1.html" height="220" width="600"><br>
-<embed type="text/html" src="img/wills2.html" height="250" width="600">
+<embed type="text/html" src="wills1.html" height="220" width="600"><br>
+<embed type="text/html" src="wills2.html" height="250" width="600">
 
 ]
 
@@ -582,7 +582,7 @@ demo_goldstein <- census_plot(demographic_data,
  
 ply <- interactive_plot(goldstein) |> layout(showlegend=FALSE,xaxis=list(title=""),title=list(text="Election Results - Menzies",x=-8))
 
-htmlwidgets::saveWidget(ply,here("img","menzies1.html"),libdir = "lib")
+htmlwidgets::saveWidget(ply,here("menzies1.html"),libdir = "lib")
 
 ```
 
@@ -591,12 +591,12 @@ ply <- interactive_plot(demo_goldstein) |>
        layout(title=list(text="Selected Demographic Attributes - Menzies",x=-8),
          legend = list(orientation = 'h'), xaxis = list(title="")) 
 
-htmlwidgets::saveWidget(ply,here("img","menzies2.html"),libdir = "lib")
+htmlwidgets::saveWidget(ply,here("menzies2.html"),libdir = "lib")
 
 ```
 
-<embed type="text/html" src="img/menzies1.html" height="220" width="600"><br>
-<embed type="text/html" src="img/menzies2.html" height="250" width="600">
+<embed type="text/html" src="menzies1.html" height="220" width="600"><br>
+<embed type="text/html" src="menzies2.html" height="250" width="600">
 
 ]
 
@@ -647,11 +647,11 @@ p <- gginnards::append_layers(p,geom_col(aes(y=Importance,
                                          fill="#00843D",colour="#00843D"))
 
 ply <- p |> interactive_plot()
-htmlwidgets::saveWidget(ply,here("img","vip.html"),libdir = "lib")
+htmlwidgets::saveWidget(ply,here("vip.html"),libdir = "lib")
 
 ```
 
-<embed type="text/html" src="img/vip.html" height="500" width="1000">
+<embed type="text/html" src="vip.html" height="500" width="1000">
 
 
 
@@ -681,11 +681,11 @@ class: split-20
   interactive_plot() |>
   layout(title = list(x = -20,font=list(size=12)), legend = list(orientation = 'v',font = list(size=10)))
 
-  htmlwidgets::saveWidget(ply,here("img","reg2.html"),libdir = "lib")
+  htmlwidgets::saveWidget(ply,here("reg2.html"),libdir = "lib")
 
 ```
 
-<embed type="text/html" src="img/reg2.html" height="500" width="600">
+<embed type="text/html" src="reg2.html" height="500" width="600">
 
 ]
 
@@ -715,11 +715,11 @@ class: split-20
   interactive_plot() |>
   layout(title = list(x = -20,font=list(size=12)), legend = list(orientation = 'v',font = list(size=10)))
 
-  htmlwidgets::saveWidget(ply,here("img","reg3.html"),libdir = "lib")
+  htmlwidgets::saveWidget(ply,here("reg3.html"),libdir = "lib")
 
 ```
 
-<embed type="text/html" src="img/reg3.html" height="500" width="600">
+<embed type="text/html" src="reg3.html" height="500" width="600">
 
 ]
 
@@ -755,7 +755,7 @@ demo_goldstein <- census_plot(demographic_data,
  
  
 ply <- interactive_plot(goldstein) |> layout(showlegend=FALSE,xaxis=list(title=""),title=list(text="Election Results - Wentworth",x=-8))
-htmlwidgets::saveWidget(ply,here("img","wentworth1.html"),libdir = "lib")
+htmlwidgets::saveWidget(ply,here("wentworth1.html"),libdir = "lib")
 
 ```
 
@@ -764,12 +764,12 @@ ply <- interactive_plot(demo_goldstein) |>
   layout(title=list(text="Selected Demographic Attributes - Wentworth",x=-8),
          legend = list(orientation = 'h'), xaxis = list(title="")) 
 
-htmlwidgets::saveWidget(ply,here("img","wentworth2.html"),libdir = "lib")
+htmlwidgets::saveWidget(ply,here("wentworth2.html"),libdir = "lib")
 
 ```
 
-<embed type="text/html" src="img/wentworth1.html" height="220" width="600"><br>
-<embed type="text/html" src="img/wentworth2.html" height="250" width="600">
+<embed type="text/html" src="wentworth1.html" height="220" width="600"><br>
+<embed type="text/html" src="wentworth2.html" height="250" width="600">
 
 ]
 
@@ -809,7 +809,7 @@ demo_goldstein <- census_plot(demographic_data,
  
  
 ply<- interactive_plot(goldstein) |> layout(showlegend=FALSE,xaxis=list(title=""),title=list(text="Election Results - Ryan",x=-8))
-htmlwidgets::saveWidget(ply,here("img","ryan1.html"),libdir = "lib")
+htmlwidgets::saveWidget(ply,here("ryan1.html"),libdir = "lib")
 
 ```
 
@@ -818,12 +818,12 @@ ply <- interactive_plot(demo_goldstein) |>
   layout(title=list(text="Selected Demographic Attributes - Ryan",x=-8),
          legend = list(orientation = 'h'), xaxis = list(title="")) 
 
-htmlwidgets::saveWidget(ply,here("img","ryan2.html"),libdir = "lib")
+htmlwidgets::saveWidget(ply,here("ryan2.html"),libdir = "lib")
 
 ```
 
-<embed type="text/html" src="img/ryan1.html" height="220" width="600"><br>
-<embed type="text/html" src="img/ryan2.html" height="250" width="600">
+<embed type="text/html" src="ryan1.html" height="220" width="600"><br>
+<embed type="text/html" src="ryan2.html" height="250" width="600">
 ]
 
 
@@ -859,7 +859,7 @@ demo_goldstein <- census_plot(demographic_data,
 ply <- interactive_plot(goldstein) |> 
   layout(showlegend=FALSE,xaxis=list(title=""),title=list(text="Election Results - Newcastle",x=-8))
 
-htmlwidgets::saveWidget(ply,here("img","newcastle1.html"),libdir = "lib")
+htmlwidgets::saveWidget(ply,here("newcastle1.html"),libdir = "lib")
 
 ```
 
@@ -869,11 +869,11 @@ htmlwidgets::saveWidget(ply,here("img","newcastle1.html"),libdir = "lib")
          legend = list(orientation = 'h'),
          xaxis = list(title="")) 
   
-htmlwidgets::saveWidget(ply,here("img","newcastle2.html"),libdir = "lib")
+htmlwidgets::saveWidget(ply,here("newcastle2.html"),libdir = "lib")
 
 ```
 
-<embed type="text/html" src="img/newcastle1.html" height="220" width="600"><br>
-<embed type="text/html" src="img/newcastle2.html" height="250" width="600">
+<embed type="text/html" src="newcastle1.html" height="220" width="600"><br>
+<embed type="text/html" src="newcastle2.html" height="250" width="600">
 
 ]

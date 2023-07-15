@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>.aussiegold[Analysing Australian Election Results]</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Carlos Yanez Santibanez" />
+    <meta name="date" content="2023-07-12" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/remark-css/ninjutsu.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra_fit-screen/fit-screen.js"></script>
+    <link href="libs/tachyons/tachyons.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+    <link rel="stylesheet" href="custom.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# .aussiegold[Analysing Australian Election Results]
+]
+.subtitle[
+## .aussiegold[How demographic factors <br> influence primary voting]
+]
+.author[
+### Carlos Yanez Santibanez
+]
+.date[
+### 12 July 2023
+]
+
+---
+
+class: split-20
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.row[.split-15[
+.column[.content[ ]]
+.column[.content[]]
+]]
+.row[.content.center[
+&lt;br&gt; &lt;br&gt; &lt;br&gt;
+# .aussiegreen[Acknowledgement of Country]
+]]
+
+---
+class: split-20
+
+# Introduction
+ 
+.left-text.f4[
+
+Australia is a parliamentary democracy, with a *Westminster-style* system of government. &lt;br&gt;&lt;br&gt;
+**The House of Representatives** is made up of one MP for each **Commonwealth Electoral Division**.
+&lt;br&gt;
+MPs are elected using a **preferential voting system**. Voting is compulsory for all 18+ Australian citizens.
+&lt;br&gt;
+
+Historically a *bipartisan system*, recent elections have brought in new political actors, seemingly challenging pre-conceptions about political persuasions.
+
+]
+
+.right-plot[
+![](img/andy-wang-XplGvY2UrfM-unsplash.jpg)
+Photo by &lt;a href="https://unsplash.com/pt-br/@space_launch_system?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText"&gt;Andy Wang&lt;/a&gt; on &lt;a href="https://unsplash.com/photos/XplGvY2UrfM?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText"&gt;Unsplash&lt;/a&gt;
+  
+]
+
+---
+class: split-20
+
+# Questions
+
+.f3[This project attempts to study how population make-up may influence how Australian citizens may vote for a particular party.]
+.f4[
+* Are there distinguishable demographic division lines? 
+
+* What are the main demographic factors influencing **primary voting** in federal elections? Do they differ in across electorates?
+
+* Is it possible to use a demographic-based model to understand changes in the 2022 election? Can this model be contrasted against prevalent narratives such as:
+
+ * was the so-called “Teal Wave” supported by discontent moderate Liberal voters? 
+ * are Millennials not becoming more conservative as they age? 
+ * is culturally diverse voting relevant? 
+]
+
+---
+class: split-20
+
+# Approach (summarised)
+.f3[
+1. Obtained data from Census and Election Results (and matched occurrences). 
+
+1. Conducted initial selection of potential demographic covariates. 
+
+1. Clustered similar electorates, then trained a classification model.
+
+1. Trained explainable model (**Primary Voting = f(covariates)**), as analysis tools.
+
+1. *Naively* attempted to forecast the 2022 election, to assess the usefulness of model.
+]
+---
+class: split-20
+# Data Selection
+
+.left-44[
+
+* Data extracted through **custom-made packages** ({auscensus}, {auspol} and {aussiemaps}).
+
+* Primary voting data consolidated into **3 groups/parties** of interest (The Coalition, Australian Labor Party, Australian Greens), plus others.
+
+* Demographic covariates inspected and chosen **55 variables from 9 Groups** (*Income, Education Levels, Age, Relationship Status, Household types, Household tenure, Citizenship, Religion, Language*), plus metropolitan/non-metropolitan flag.
+
+* Covariates showing varying degrees of collinearity.
+
+]
+.right-54[
+
+
+
+![image](img/corrlanguagereligion-1.png)
+]
+
+---
+class: split-20
+# Clustering
+
+.left-44[
+
+* Used **HDBSCAN**, which determines the number of clusters.
+
+* Identified 3 clusters, matching narrative of **inner city**, **suburbia** and **regional areas**.
+
+* Used **random forests** for classification of new electorates.
+
+* Key factors in cluster selection :  **metropolitan location**, percentage of **flats**, **Chinese speakers**, **monolingual speakers (English)**, **mortgaged households**.
+
+]
+.right-54[
+![image](img/clustermap2016-1.png)
+]
+
+---
+class: split-20
+# Regression Model
+.left-44[
+
+* Multivariate regression model -  `\(Y = \beta X\)`. `\(Y\)` represents the difference from mean primary voting. `\(X\)` difference against average values.
+
+* Lasso regression to reduce the number of variables for each cluster.
+
+* One elastic net regression for each cluster.
+
+* Distinct clusters, produced distinct results:
+
+  * In inner-city electorates, **religiosity**, **age**, and **income** are the most relevant factors.
+  * In suburban electorates, there are similar dynamics, plus **household tenure**.
+  * In regional and rural electorates, **higher incomes** tend to prefer **Labor** vote.
+
+]
+.right-54[
+
+
+
+&lt;embed type="text/html" src="reg1.html" height="500" width="580"&gt;
+]
+
+---
+class: split-20
+
+# 2022 Election 
+
+.left-44[
+
+* A naive attempt to retroactively forecast the 2022 election was attempted.
+
+* Forecast using the last Newspoll results prior to the election.
+
+* Modest accuracy was obtained, however, the model proved valuable as an analysis tool.
+
+]
+.right-54[
+
+
+
+&lt;embed type="text/html" src="forecast2022.html" height="500" width="600"&gt;
+
+]
+
+---
+class: split-20
+
+# 2022 Election - The Teal Wave
+
+.left-44.f4[
+
+* Centrist independents running on a platform of centre-right economics, plus environmental policies (i.e. blue + green).
+
+* Teal candidates successfully unseated moderate Liberal incumbents across several *safe seats*.
+
+* Perceived shift of *dissatisfied Liberal* does not correspond with modelling - Teals were likely elected on Green and Labor vote.
+
+]
+.right-54[
+
+
+
+
+
+&lt;embed type="text/html" src="goldstein1.html" height="220" width="600"&gt;&lt;br&gt;
+&lt;embed type="text/html" src="goldstein2.html" height="250" width="600"&gt;
+
+]
+
+---
+class: split-20
+
+# 2022 Election - Green Electorates
+
+.left-44.f4[
+
+* Greens increased their representation from 1 to 4 MPs.
+
+* Greens primary voting higher in inner cities, driven by a combination of higher income, age (Millenials) and irreligiosity.
+
+* In these areas, Green voting has grown alongside the Millennial population.
+
+]
+.right-54[
+
+
+
+
+
+&lt;embed type="text/html" src="wills1.html" height="220" width="600"&gt;&lt;br&gt;
+&lt;embed type="text/html" src="wills2.html" height="250" width="600"&gt;
+
+]
+
+---
+class: split-20
+
+
+
+# 2022 Election - City Fringe
+
+.left-44.f3[
+
+* Outer suburban electorates can be diverse.
+
+* Residential growth and densification can alter results, in addition to generational renewal.
+
+]
+.right-54[
+
+
+
+
+
+&lt;embed type="text/html" src="menzies1.html" height="220" width="600"&gt;&lt;br&gt;
+&lt;embed type="text/html" src="menzies2.html" height="250" width="600"&gt;
+
+]
+
+---
+class: split-20
+# Conclusion
+
+.f3[
+* Although not effective in forecasting elections, the model serves its purpose of identifying key factors driving the election.
+
+* Areas to improve include:
+
+  * Refine the segmentation model.
+  * Include longitudinal aspect, to account for electorates' history and incumbent.
+  * Improve regression model.
+]
+---
+name:thanks
+class: inverse center middle
+
+# Thanks
+---
+name:thanks
+class: inverse center middle
+
+# Additional slides
+
+---
+# Random forests Importance plot
+
+
+
+&lt;embed type="text/html" src="vip.html" height="500" width="1000"&gt;
+
+
+
+---
+class: split-20
+# Regression Model 
+.left-44.f5[
+
+* Multivariate regression model -  `\(Y = \beta X\)`. `\(Y\)` represents the difference from mean primary voting. `\(X\)` difference against average values.
+
+* Lasso Regression to reduce the number of variables for each cluster.
+
+* Elastic net fitted, independently for each cluster
+
+* Distinct clusters, produced distinct results:
+
+  * In inner-city electorates, religiosity (or lack of it) and income are the most relevant factors.
+  * In suburban electorates, there are similar dynamics, plus household tenure.
+  * In regional and rural electorates, higher incomes tend to prefer Labor vote.
+
+]
+.right-54[
+
+
+
+&lt;embed type="text/html" src="reg2.html" height="500" width="600"&gt;
+
+]
+
+---
+class: split-20
+# Regression Model 
+.left-44.f5[
+
+* Multivariate regression model -  `\(Y = \beta X\)`. `\(Y\)` represents the difference from mean primary voting. `\(X\)` difference against average values.
+
+* Lasso Regression to reduce the number of variables for each cluster.
+
+* Elastic net fitted, independently for each cluster
+
+* Distinct clusters, produced distinct results:
+
+  * In inner-city electorates, religiosity (or lack of) and income are the most relevant factors.
+  * In suburban electorates, there are similar dynamics, plus household tenure.
+  * In regional and rural electorates, higher incomes tend to prefer Labor vote.
+
+]
+.right-54[
+
+
+
+&lt;embed type="text/html" src="reg3.html" height="500" width="600"&gt;
+
+]
+
+---
+class: split-20
+# 2022 Election - Teal Wave
+
+.left-44.f4[
+
+* 2022 election saw centrist independents, running on a platform of centre-right economics, but green-focused policies (blue + green).
+
+* Teal candidates successfully unseated moderate Liberal incumbents across several *safe seats*.
+
+* Perceived shift of *dissatisfied Liberal* does not correspond with modelling - Teals were likely elected on Green and Labor vote.
+
+]
+.right-54[
+
+
+
+
+
+&lt;embed type="text/html" src="wentworth1.html" height="220" width="600"&gt;&lt;br&gt;
+&lt;embed type="text/html" src="wentworth2.html" height="250" width="600"&gt;
+
+]
+
+
+
+
+
+---
+class: split-20
+# 2022 Election - Green Electorates
+
+.left-44.f4[
+
+* In the 2022 election, Greens increased the number of MPs from 1 to 4.
+
+* Greens primary voting higher in inner cities, driven by a combination of higher income, age (Millenials) and irreligiosity.
+
+* In these areas, Green voting has grown alongside the Millennial population.
+
+]
+.right-54[
+
+
+
+
+
+&lt;embed type="text/html" src="ryan1.html" height="220" width="600"&gt;&lt;br&gt;
+&lt;embed type="text/html" src="ryan2.html" height="250" width="600"&gt;
+]
+
+
+
+---
+class: split-20
+# 2022 Election - Newcastle
+
+.left-44.f3[
+
+* The model does not reflect primary voting in Newcastle.
+
+]
+.right-54[
+
+
+
+
+
+&lt;embed type="text/html" src="newcastle1.html" height="220" width="600"&gt;&lt;br&gt;
+&lt;embed type="text/html" src="newcastle2.html" height="250" width="600"&gt;
+
+]
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"ratio": "16:9",
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
