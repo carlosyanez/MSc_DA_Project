@@ -575,7 +575,7 @@ p <- dataset |>
                            "Education_Bachelor",
                            "Education_Diploma_or_Certificate",
                            "Relationship_Married"))) |>
-  pivot_longer(-c(DivisionNm,cluster),names_to = "Attribute",values_to="Value") |>
+  pivot_longer(cols=-c(DivisionNm,cluster),names_to = "Attribute",values_to="Value") |>
   mutate(label=glue("<b>{DivisionNm}</b> (cluster {cluster}) <br> {Attribute}: {round(Value,2)} %")) |>
   ggplot(aes(y=Attribute,colour=cluster,x=Value,text=label),alpha=0.4) +
   ggbeeswarm::geom_quasirandom(size=2) +

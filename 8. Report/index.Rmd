@@ -6,8 +6,8 @@ subject         : "Project"
 date            : 26 June 2023
 output: pdf_document
 params:
-  book: FALSE
-  html: TRUE
+  book: TRUE
+  html: FALSE
 ---
 
 ```{r setup, message=FALSE, warning=FALSE, include=FALSE}

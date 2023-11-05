@@ -24,7 +24,7 @@ census_tables <- census_tables |>
 
 tables_summary <- census_tables |>
                   select(-contains("Table")) |>
-                  pivot_longer(-Number, names_to="Year",values_to = "Value") |>
+                  pivot_longer(cols=-Number, names_to="Year",values_to = "Value") |>
                   filter(!is.na(Value)) |>
                   select(-Value)
 
@@ -61,7 +61,7 @@ for(i in 1:nrow(tables_summary)){
   year_i  <- tables_summary[i,]$Year
 
   attr_i <- list_census_attributes(table_i) |> 
-             pivot_longer(-c(Table,Attribute),
+             pivot_longer(cols=-c(Table,Attribute),
                            names_to="Year",values_to = "Value") |>
               filter(Year==year_i) |>
               filter(!is.na(Value)) |>
@@ -118,17 +118,13 @@ Now,  we can cycle through the four censuses and extract the data. Please note t
 
 
 ```{r echo=TRUE,eval=TRUE}
-census_years <- c("2006","2011","2016","2021")
+census_years <- c("2011","2016","2021")
 
 citizenship <- tibble()
 
 for(year in census_years){
 
-  if(year=="2006"){
-    geo_structure_x <- "CD"
-  } else{
     geo_structure_x <- "SA1"
-  }
 
   citizenship_i <- get_census_summary(census_table = census_tables,
                                    selected_years = year,
@@ -154,8 +150,8 @@ To aggregate the data,  **[aussiemaps::geo_aggregate()](https://gh.carlosyanez.i
 ```{r echo=TRUE,eval=TRUE}
 
 citizenship_ced<- tibble()
-codes <- c("CD_CODE_2006","SA1_7DIGITCODE_2011","SA1_7DIGITCODE_2016","SA1_CODE_2021")
-ceds  <- c("CED_NAME_2006","CED_NAME_2011","CED_NAME_2016","CED_NAME_2021")
+codes <- c("SA1_7DIGITCODE_2011","SA1_7DIGITCODE_2016","SA1_CODE_2021")
+ceds  <- c("CED_NAME_2011","CED_NAME_2016","CED_NAME_2021")
 
  for(i in 1:length(census_years)){
 

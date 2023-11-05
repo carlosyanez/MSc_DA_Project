@@ -5,9 +5,11 @@ options(repos = c(
   carlos="https://carlosyanez.r-universe.dev"
 ))
 
+
 install.packages("just.install", repos ="https://carlosyanez.r-universe.dev")
 install.packages("remotes")
-install.packages("tidyverse")
+utils::install.packages("tidyverse")
+
 
 packages_to_install <- tibble::tribble(
   ~package,            ~source,      ~url,

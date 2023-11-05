@@ -217,7 +217,7 @@ dataset <- dataset |>
 rm(clusters)
 
 nationals <- read_csv(path(project_path,"4. Data","cluster_values.csv")) |>
-             pivot_longer(-c(Year,cluster),
+             pivot_longer(cols=-c(Year,cluster),
                           names_to = "Attribute",values_to="National") |>
              mutate(Attribute=str_replace_all(Attribute," - ","_"),
                     Attribute=str_replace_all(Attribute,"-","_"),
@@ -229,7 +229,7 @@ demographic_data <- dataset |>
         select(-all_of(party_cols)) |>
         select(-Metro_Area) |>
         select(-Metro,-StateAb,-election_year) |>
-         pivot_longer(-c(DivisionNm,Year,cluster),
+         pivot_longer(cols=-c(DivisionNm,Year,cluster),
                names_to = "Attribute",values_to = "CED") |>
          mutate(Year=as.numeric(Year))                   |>
          left_join(nationals,
@@ -449,9 +449,8 @@ From both figures, there are perhaps four different stories in these electorates
 
 -   In **Hasluck** (WA) [@hasluckresults], the changes have the top maybe be driven by generational renewal. The "Other" vote increase includes progressive independents and localist parties, which may have influenced the lower-than-predicted results for the Greens.
 -   In **Menzies** (VIC) [@menziesresults], Coalition numbers decline influenced by generational change and a large decrease in the percentage of standalone houses. This abrupt change took place as an effect of the 2021 redistribution, where semi-rural areas moved into another electorate [@vicredist]. This a good example where the existing model was able to effectively predict the primary vote based on those demographic changes.
--   In **Fowler** (NSW) [@fowlerresults], an independent candidate altered Labor's trend. In these cases, a community-based candidate captured the multicultural vote from a "parachuted" Labor nominee - which is a variable not considered in the model. [@https://www.abc.net.au/news/catherine-hanrahan/79018522022]
--   In the case of **Kingston (SA) [@kingstonresults]**, it seems difficult to explain the results by effect of demographic changes - even when 
-
+-   In **Fowler** (NSW) [@fowlerresults], an independent candidate altered Labor's trend. In this case, a community-based candidate captured the multicultural vote from a "parachuted" Labor nominee - which is a variable not considered in the model. [@https://www.abc.net.au/news/catherine-hanrahan/79018522022]
+-   In the case of **Kingston (SA) [@kingstonresults]**, it seems more difficult to explain the results by effect of demographic changes.
 
 ```{r}
 rm(list=ls()[!(ls() %in% keep_vars)])

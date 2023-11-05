@@ -10,5 +10,5 @@ sharing:
   linkedin: yes
 toolbar:
   position: fixed
-  download: [["MSc-Project---Carlos-YANEZ-SANTIBANEZ.pdf", "PDF"]]
+  download: ["MSc-Project---Carlos-YANEZ-SANTIBANEZ.pdf"]
   search: yes

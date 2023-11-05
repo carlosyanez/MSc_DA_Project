@@ -205,7 +205,7 @@ census_plot <- function(demographic_data,ced_name,attributes){
     filter(DivisionNm==ced_name) |>
     select(any_of(c("DivisionNm","Year",attributes)))                     |>
     #rename(attributes)                                                    |>
-    pivot_longer(-c(DivisionNm,Year),names_to = "Attribute",values_to="Percentage") |>
+    pivot_longer(cols=-c(DivisionNm,Year),names_to = "Attribute",values_to="Percentage") |>
     mutate(text_label = glue("<b>{DivisionNm}</b><br>{Attribute}: {round(Percentage,3)}%")) |>
     ggplot(aes(x=Year, y=Percentage,
                colour=Attribute,
